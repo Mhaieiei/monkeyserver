@@ -1,0 +1,44 @@
+<br><br><br>
+<center> <h1><strong>Template Workflow List</strong></h1></center>
+
+<br><br><br>
+
+<table width ="900" border = "0" align = "center">
+	<tr>
+		<td>
+			
+			<table  class="table table-bordered" >
+				<tr>
+					<th> Name </th>
+					<th> Description </th>
+					<th> Executable</th>
+				</tr>
+				{{#each workflows}}
+				<tr>
+					<td width = "300"> 
+						<div style ="font-size: 19px">{{this.name}}</div>
+					</td>
+					<td width = "300">
+						<div>{{this.description}}</div>
+					</td>
+					<td width = "200">
+						<div><a href="/workflow/{{this._id}}/profile" class="btn-sm btn-primary">Execute</a>
+					</td>
+				</tr>
+				{{/each}}
+			  
+			</table>
+		
+		</td>
+	</tr>
+</table>
+<!--
+<div class="text-center">
+
+	{{#each workflows}}
+    <div style="font-size: 24px">{{this.name}}</div>
+    <div>{{this.description}}</div>
+    <div><a href="/workflow/{{this._id}}/profile" class="btn-sm btn-primary">Execute</a>
+
+	{{/each}}
+</div> -->

@@ -1,0 +1,124 @@
+
+<!-- {{#each faculty}}				
+	{{program_name}}
+	bb
+	mhai_eiei
+{{/each}} 
+
+{{#each year}}	
+	aa	
+	year {{@index}}		
+	{{this}}
+{{/each}}  
+
+{{year}} -->
+<script>
+
+
+// $(document).ready(function() {
+// 	$( "#head_programs" ).change(function() {
+// 		console.log("Mhai_eiei2");
+//     if ($(this).val() == "Software Engineering"){
+//         $("#sub_programs").val("mhai_eiei");
+//         console.log("Mhai_eiei3");
+//     }
+//     if ($(this).val() == "aaa"){
+//         $("#sub_programs").val("bb");
+//         console.log("Mhai_eiei4");
+//     }
+//     // if ($(this).val() == "Marketing"){
+//     //     $("#occupetion").val("Marketing");
+//     // }
+// 	});
+// });
+$(document).ready(function() {
+	$("#head_programs").change(function() { 
+	if($(this).data('options') == undefined){
+	    /*Taking an array of all options-2 and kind of embedding it on the select1*/
+	    $(this).data('options',$('#sub_programs option').clone());
+	    } 
+	var id = $(this).val();
+	var options = $(this).data('options').filter('[id=' + id + ']');
+	$('#sub_programs').html(options);
+	});
+});
+
+
+// $(document).ready(function() {
+// 	$("#select1").change(function() { 
+// 	if($(this).data('options') == undefined){
+// 	    /*Taking an array of all options-2 and kind of embedding it on the select1*/
+// 	    $(this).data('options',$('#select2 option').clone());
+// 	    } 
+// 	var id = $(this).val();
+// 	var options = $(this).data('options').filter('[value=' + id + ']');
+// 	$('#select2').html(options);
+// 	});
+// });
+
+</script>
+
+
+<!-- 
+{{#each faculty}}
+	
+	{{#each program }}
+		{{set @index}}
+		{{#each sub_program}}
+			{{get}}
+			{{@index}}
+			{{this}}				
+  		{{/each}}
+ 	{{/each}}
+{{/each}} -->
+
+
+
+	<h3>Select program </h3>
+           
+                <form action="/subjects" method="post" >
+                    <br>
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Program : </label>
+                              <div class="col-md-4">
+                                <select class="form-control" style="width:200px" id="head_programs" name="head_programs">
+                                <option value='a'>--Select program--</option>
+								{{#each faculty}}									
+										<option value="{{ @index}}">{{ programname }}</option>										
+								{{/each}} 
+                                </select>
+                              </div>
+                              
+                            </div>
+                            <label for="inputType" class="col-md-2 control-label">Program track : </label>
+                              <div class="col-md-4">
+                                  <select class="form-control" style="width:200px" id="sub_programs" name="sub_programs">
+                                    <option id='a'>-------</option>
+									{{#each faculty}}	
+										 {{set @index}}
+											{{#each sub_program}}
+												<option id = "{{get}}" value="{{this}}">{{this}}</option>					
+									  		{{/each}}										 
+									{{/each}}
+                                </select>
+                              </div>
+                              <label for="inputType" class="col-md-2 control-label">Academic year: </label>
+                              <div class="col-md-4">
+                                  <select class="form-control" style="width:100px" name="years">
+                                   	{{#each year}}
+									  	<option value = "{{this}}">{{this}}</option>
+									{{/each}}
+                                </select>
+                              </div>
+                            
+                            
+                           
+
+                           <button type="submit" class="btn btn-primary">Search</button></p>
+                        </form>
+                       
+ 		
+			
+
+

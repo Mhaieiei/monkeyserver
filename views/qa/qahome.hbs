@@ -1,0 +1,555 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+    	var program = document.getElementById('program').value;
+    	var year = document.getElementById('year').value;
+        var acid = document.getElementById('acid').value;
+        var data = [{
+            id: 'tqf_head',
+            name: 'TQF',
+            type: 'dir',
+            children: [
+                {
+                    id: 'tqf1',
+                    name: 'Program faculty members',
+                    type: 'hbs',
+                    url: '/tqf21?program='+program+'&year='+year
+                },{
+                    id: 'tqf2',
+                    name: 'Lecturer and Instructors',
+                    type: 'hbs',
+                    url: '/tqf22?program='+program+'&year='+year+'&acid='+acid
+                    
+                },{
+                    id: 'tqf3',
+                    name: 'Thesis Advisors and Thesis     Examination Committees',
+                    type: 'hbs',
+                    url: '/tqf23?acid='+acid
+                    
+                },{
+                    id: 'tqf4',
+                    name: 'Publications',
+                    type: 'hbs',
+                    url: '/tqf24?acid='+acid
+                    
+                },{
+                    id: 'tqf5',
+                    name: 'Program management',
+                    type: 'hbs',
+                    url: 'qa-tqf5.hbs'
+                    
+                }
+            ]
+
+
+        },{
+            id: 'cupt_head',
+            name: 'CUPT-QA',
+            type: 'dir',
+            children: [
+                {
+                    id: 'aun1',
+                    name: 'AUN 1',
+                    type: 'dir', 
+                    children: [
+                    {
+                        id: 'aun1.1',
+                        name: 'AUN 1.1',
+                        type: 'hbs',
+                        url: 'aun11.hbs'
+                    },{
+                        id: 'aun1.2',
+                        name: 'AUN 1.2',
+                        type: 'hbs',
+                        url: 'aun12.hbs'
+                    },{
+                        id: 'aun1.3',
+                        name: 'AUN 1.3',
+                        type: 'hbs',
+                        url: 'aun13.hbs'
+                    },{
+                        id: 'aun1.4',
+                        name: 'AUN 1.4',
+                        type: 'hbs',
+                        url: 'aun14.hbs'
+                    }
+
+                    ]
+                },{
+                    id: 'aun2',
+                    name: 'AUN 2',
+                    type: 'dir',
+                    children: [
+                    {
+                        id: 'aun2.1',
+                        name: 'AUN 2.1',
+                        type: 'hbs',
+                        url: '/aun2-1?program='+program+'&year='+year+'&acid='+acid
+                    },{
+                        id: 'aun2.2',
+                        name: 'AUN 2.2',
+                        type: 'hbs',
+                        url: 'aun22.hbs'
+                    },{
+                        id: 'aun2.3',
+                        name: 'AUN 2.3',
+                        type: 'hbs',
+                        url: 'aun23.hbs'
+                    },
+
+                    ]
+                    //url: 'http://www.jqueryscript.net/other/Nice-File-Tree-View-Plugin-with-jQuery-Bootstrap-File-Tree.html'
+                },{
+                    id: 'aun3',
+                    name: 'AUN 3',
+                    type: 'dir',
+                    children: [
+                    {
+                        id: 'aun3.1',
+                        name: 'AUN 3.1',
+                        type: 'hbs',
+                        url: 'aun31.hbs'
+                    },{
+                        id: 'aun3.2',
+                        name: 'AUN 3.2',
+                        type: 'hbs',
+                        url: 'aun32.hbs'
+                    },{
+                        id: 'aun3.3',
+                        name: 'AUN 3.3',
+                        type: 'hbs',
+                        url: '/aun3-3?program='+program+'&year='+year+'&acid='+acid
+                    },{
+                        id: 'aun3.4',
+                        name: 'AUN 3.4',
+                        type: 'hbs',
+                        url: 'aun34.hbs'
+                    },{
+                        id: 'aun3.5',
+                        name: 'AUN 3.5',
+                        type: 'hbs',
+                        url: 'aun35.hbs'
+                    },{
+                        id: 'aun3.6',
+                        name: 'AUN 3.6',
+                        type: 'hbs',
+                        url: 'aun36.hbs'
+                    },{
+                        id: 'aun3.7',
+                        name: 'AUN 3.7',
+                        type: 'hbs',
+                        url: 'aun37.hbs'
+                    }
+
+
+                    ]
+                    //url: 'http://www.jqueryscript.net/other/Nice-File-Tree-View-Plugin-with-jQuery-Bootstrap-File-Tree.html'
+                },{
+                    id: 'aun4',
+                    name: 'AUN 4',
+                    type: 'dir',
+                    children: [
+                    {
+                        id: 'aun4.1',
+                        name: 'AUN 4.1',
+                        type: 'hbs',
+                        url: 'aun41.hbs'
+                    },{
+                        id: 'aun4.2',
+                        name: 'AUN 4.2',
+                        type: 'hbs',
+                        url: 'aun32.hbs'
+                    },{
+                        id: 'aun4.3',
+                        name: 'AUN 4.3',
+                        type: 'hbs',
+                        url: 'aun33.hbs'
+                    },{
+                        id: 'aun4.4',
+                        name: 'AUN 4.4',
+                        type: 'hbs',
+                        url: 'aun44.hbs'
+                    }
+                    ]
+                    //url: 'http://www.jqueryscript.net/other/Nice-File-Tree-View-Plugin-with-jQuery-Bootstrap-File-Tree.html'
+                },{
+                    id: 'aun5',
+                    name: 'AUN 5',
+                    type: 'dir',
+                    children: [
+                    {
+                        id: 'aun5.1',
+                        name: 'AUN 5.1',
+                        type: 'hbs',
+                        url: 'aun31.hbs'
+                    },{
+                        id: 'aun5.2',
+                        name: 'AUN 5.2',
+                        type: 'hbs',
+                        url: 'aun52.hbs'
+                    },{
+                        id: 'aun5.3',
+                        name: 'AUN 5.3',
+                        type: 'hbs',
+                        url: '/aun5-3?program='+program+'&year='+year+'&acid='+acid
+                    },{
+                        id: 'aun5.4',
+                        name: 'AUN 5.4',
+                        type: 'hbs',
+                        url: 'aun54.hbs'
+                    },{
+                        id: 'aun5.5',
+                        name: 'AUN 5.5',
+                        type: 'hbs',
+                        url: 'aun55.hbs'
+                    },{
+                        id: 'aun5.6',
+                        name: 'AUN 5.6',
+                        type: 'hbs',
+                        url: 'aun56.hbs'
+                    },{
+                        id: 'aun5.7',
+                        name: 'AUN 5.7',
+                        type: 'hbs',
+                        url: 'aun57.hbs'
+                    }
+                    ]
+                    //url: 'http://www.jqueryscript.net/other/Nice-File-Tree-View-Plugin-with-jQuery-Bootstrap-File-Tree.html'
+                },{ 
+                    id: 'aun6',
+                    name: 'AUN 6',
+                    type: 'dir',
+                    children: [
+                    {
+                        id: 'aun6.1',
+                        name: 'AUN 6.1',
+                        type: 'hbs',
+                        url: 'aun61.hbs'
+                    },{
+                        id: 'aun6.2',
+                        name: 'AUN 6.2',
+                        type: 'hbs',
+                        url: 'aun62.hbs'
+                    },{
+                        id: 'aun6.3',
+                        name: 'AUN 6.3',
+                        type: 'hbs',
+                        url: 'aun63.hbs'
+                    },{
+                        id: 'aun6.4',
+                        name: 'AUN 6.4',
+                        type: 'hbs',
+                        url: 'aun64.hbs'
+                    },{
+                        id: 'aun6.5',
+                        name: 'AUN 6.5',
+                        type: 'hbs',
+                        url: 'aun65.hbs'
+                    },{
+                        id: 'aun6.6',
+                        name: 'AUN 6.6',
+                        type: 'hbs',
+                        url: 'aun66.hbs'
+                    },{
+                        id: 'aun6.7',
+                        name: 'AUN 6.7',
+                        type: 'hbs',
+                        url: 'aun67.hbs'
+                    },{
+                        id: 'aun6.8',
+                        name: 'AUN 6.8',
+                        type: 'hbs',
+                        url: 'aun68.hbs'
+                    },{
+                        id: 'aun6.9',
+                        name: 'AUN 6.9',
+                        type: 'hbs',
+                        url: 'aun69.hbs'
+                    }
+                    ]
+                    //url: 'http://www.jqueryscript.net/other/Nice-File-Tree-View-Plugin-with-jQuery-Bootstrap-File-Tree.html'
+                },{ 
+                    id: 'aun7',
+                    name: 'AUN 7',
+                    type: 'dir',
+                    children: [
+                    {
+                        id: 'aun7.1',
+                        name: 'AUN 7.1',
+                        type: 'hbs',
+                        url: '/aun7?program='+program+'&year='+year+'&acid='+acid
+                    },{
+                        id: 'aun7.2',
+                        name: 'AUN 7.2',
+                        type: 'hbs',
+                        url: 'aun72.hbs'
+                    },{
+                        id: 'aun7.3',
+                        name: 'AUN 7.3',
+                        type: 'hbs',
+                        url: 'aun73.hbs'
+                    },{
+                        id: 'aun7.4',
+                        name: 'AUN 7.4',
+                        type: 'hbs',
+                        url: 'aun74.hbs'
+                    }
+                    ]
+
+                    //url: 'http://www.jqueryscript.net/other/Nice-File-Tree-View-Plugin-with-jQuery-Bootstrap-File-Tree.html'
+                },{ 
+                    id: 'aun8',
+                    name: 'AUN 8',
+                    type: 'dir',
+                    children: [
+                    {
+                        id: 'aun8.1',
+                        name: 'AUN 8.1',
+                        type: 'hbs',
+                        url: 'aun81.hbs'
+                    },{
+                        id: 'aun8.2',
+                        name: 'AUN 8.2',
+                        type: 'hbs',
+                        url: 'aun82.hbs'
+                    },{
+                        id: 'aun8.3',
+                        name: 'AUN 8.3',
+                        type: 'hbs',
+                        url: 'aun83.hbs'
+                    }
+                    ]
+                    //url: 'http://www.jqueryscript.net/other/Nice-File-Tree-View-Plugin-with-jQuery-Bootstrap-File-Tree.html'
+                },{ 
+                    id: 'aun9',
+                    name: 'AUN 9',
+                    type: 'dir',
+                    children: [
+                    {
+                        id: 'aun9.1',
+                        name: 'AUN 9.1',
+                        type: 'hbs',
+                        url: 'aun91.hbs'
+                    },{
+                        id: 'aun9.2',
+                        name: 'AUN 9.2',
+                        type: 'hbs',
+                        url: 'aun92.hbs'
+                    },{
+                        id: 'aun9.3',
+                        name: 'AUN 9.3',
+                        type: 'hbs',
+                        url: 'aun93.hbs'
+                    },{
+                        id: 'aun9.4',
+                        name: 'AUN 9.4',
+                        type: 'hbs',
+                        url: 'aun94.hbs'
+                    }
+                    ]
+                    //url: 'http://www.jqueryscript.net/other/Nice-File-Tree-View-Plugin-with-jQuery-Bootstrap-File-Tree.html'
+                },{ 
+                    id: 'aun10',
+                    name: 'AUN 10',
+                    type: 'dir',
+                    children: [
+                    {
+                        id: 'aun10.1',
+                        name: 'AUN 10.1',
+                        type: 'hbs',
+                        url: '/aun10-1?program='+program+'&year='+year+'&acid='+acid
+                    },{
+                        id: 'aun10.2',
+                        name: 'AUN 10.2',
+                        type: 'hbs',
+                        url: 'aun102.hbs'
+                    },{
+                        id: 'aun10.3',
+                        name: 'AUN 10.3',
+                        type: 'hbs',
+                        url: 'aun103.hbs'
+                    },{
+                        id: 'aun10.4',
+                        name: 'AUN 10.4',
+                        type: 'hbs',
+                        url: 'aun104.hbs'
+                    },{
+                        id: 'aun10.5',
+                        name: 'AUN 10.5',
+                        type: 'hbs',
+                        url: 'aun105.hbs'
+                    }
+                    ]
+                    //url: 'http://www.jqueryscript.net/other/Nice-File-Tree-View-Plugin-with-jQuery-Bootstrap-File-Tree.html'
+                },{ 
+                    id: 'aun11',
+                    name: 'AUN 11',
+                    type: 'dir',
+                    children: [
+                    {
+                        id: 'aun11.1',
+                        name: 'AUN 11.1',
+                        type: 'hbs',
+                        url: '/aun11-1?program='+program+'&year='+year+'&acid='+acid
+                    },{
+                        id: 'aun11.2',
+                        name: 'AUN 11.2',
+                        type: 'hbs',
+                        url: 'aun112.hbs'
+                    },{
+                        id: 'aun11.3',
+                        name: 'AUN 11.3',
+                        type: 'hbs',
+                        url: 'aun113.hbs'
+                    },{
+                        id: 'aun11.4',
+                        name: 'AUN 11.4',
+                        type: 'hbs',
+                        url: '/aun11-4?program='+program+'&year='+year+'&acid='+acid
+                    },{
+                        id: 'aun11.5',
+                        name: 'AUN 11.5',
+                        type: 'hbs',
+                        url: 'aun115.hbs'
+                    },{
+                        id: 'aun11.6',
+                        name: 'AUN 11.6',
+                        type: 'hbs',
+                        url: 'aun116.hbs'
+                    },{
+                        id: 'aun11.7',
+                        name: 'AUN 11.7',
+                        type: 'hbs',
+                        url: 'aun117.hbs'
+                    }
+                    ]
+                    //url: 'http://www.jqueryscript.net/other/Nice-File-Tree-View-Plugin-with-jQuery-Bootstrap-File-Tree.html'
+                },{ 
+                    id: 'aun12',
+                    name: 'AUN 12',
+                    type: 'dir',
+                    children: [
+                    {
+                        id: 'aun12.1',
+                        name: 'AUN 12.1',
+                        type: 'hbs',
+                        url: '/aun12-1?program='+program+'&year='+year+'&acid='+acid
+                    },{
+                        id: 'aun12.2',
+                        name: 'AUN 12.2',
+                        type: 'hbs',
+                        url: 'aun122.hbs'
+                    }
+                    ]
+                    //url: 'http://www.jqueryscript.net/other/Nice-File-Tree-View-Plugin-with-jQuery-Bootstrap-File-Tree.html'
+                },{ 
+                    id: 'aun13',
+                    name: 'AUN 13',
+                    type: 'dir',
+                    children: [
+                    {
+                        id: 'aun13.1',
+                        name: 'AUN 13.1',
+                        type: 'hbs',
+                        url: 'aun131.hbs'
+                    },{
+                        id: 'aun13.2',
+                        name: 'AUN 13.2',
+                        type: 'hbs',
+                        url: 'aun132.hbs'
+                    },{
+                        id: 'aun13.3',
+                        name: 'AUN 13.3',
+                        type: 'hbs',
+                        url: 'aun133.hbs'
+                    }
+                    ]
+                    //url: 'http://www.jqueryscript.net/other/Nice-File-Tree-View-Plugin-with-jQuery-Bootstrap-File-Tree.html'
+                },{ 
+                    id: 'aun14',
+                    name: 'AUN 14',
+                    type: 'dir',
+                    children: [
+                    {
+                        id: 'aun14.1',
+                        name: 'AUN 14.1',
+                        type: 'hbs',
+                        url: 'aun141.hbs'
+                    },{
+                        id: 'aun14.2',
+                        name: 'AUN 14.2',
+                        type: 'hbs',
+                        url: 'aun142.hbs'
+                    },{
+                        id: 'aun14.1',
+                        name: 'AUN 14.1',
+                        type: 'hbs',
+                        url: 'aun141.hbs'
+                    },{
+                        id: 'aun14.2',
+                        name: 'AUN 14.2',
+                        type: 'hbs',
+                        url: 'aun142.hbs'
+                    }
+                    ]
+                    //url: 'http://www.jqueryscript.net/other/Nice-File-Tree-View-Plugin-with-jQuery-Bootstrap-File-Tree.html'
+                },{ 
+                    id: 'aun15',
+                    name: 'AUN 15',
+                    type: 'dir',
+                    children: [
+                    {
+                        id: 'aun15.1',
+                        name: 'AUN 15.1',
+                        type: 'hbs',
+                        url: 'aun151.hbs'
+                    }
+                    ]
+
+                    //url: 'http://www.jqueryscript.net/other/Nice-File-Tree-View-Plugin-with-jQuery-Bootstrap-File-Tree.html'
+                }
+
+            ]
+
+
+        }];
+        $('#fixed-tree').fileTree({
+            data: data
+        });
+
+        var sortableTree = $('#sortable-tree').fileTree({
+            data: data,
+            sortable: true
+        });
+
+        var selectableTree = $('#selectable-tree').fileTree({
+            data: data,
+            selectable: true
+        });
+
+        selectableTree.bind('itemSelected', function(e, el){
+            var output = 'Selected item:' + "\n";
+            output += 'ID: ' + $(el).data('id') + "\n";
+            output += 'Name: ' + $(el).data('name') + "\n";
+            output += 'Type: ' + $(el).data('type');
+            $('#selectable-tree-output').val(output);
+        });
+
+        $('#sortable-tree-toObject').bind('click', function(){
+            $('#sortable-tree-output').val('Inspect the object in your browser console.');
+            console.log(sortableTree.fileTree('toObject'));
+        });
+
+        $('#sortable-tree-toJson').bind('click', function(){
+            var output = sortableTree.fileTree('toJson');
+            $('#sortable-tree-output').val(output);
+            console.log(output);
+        });
+
+    });
+</script>
+
+<p hidden> 	
+  <input type="text" tabindex="1"  name="program" id="program" value={{programname}} readonly=""><br>
+  <input type="text" tabindex="1" name="year" id="year" value="{{year}}"><br>
+  <input type="text" tabindex="1" name="acid" id="acid" value="{{acid}}"><br>
+</p>	

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Monkey Office</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="dist/css/bootstrap-submenu.min.css">
+
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+    <link href="css/file-tree.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/jquery-latest.js"></script> 
+    <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
+
+    <script type="text/javascript">
+    $(function() {
+        // add new widget called repeatHeaders
+        $.tablesorter.addWidget({
+            // give the widget a id
+            id: "repeatHeaders",
+            // format is called when the on init and when a sorting has finished
+            format: function(table) {
+                // cache and collect all TH headers
+                if(!this.headers) {
+                    var h = this.headers = []; 
+                    $("thead th",table).each(function() {
+                        h.push(
+                            "<th>" + $(this).text() + "</th>"
+                        );
+                        
+                    });
+                }
+                
+                // remove appended headers by classname.
+                $("tr.repated-header",table).remove();
+                
+                // loop all tr elements and insert a copy of the "headers"  
+                for(var i=0; i < table.tBodies[0].rows.length; i++) {
+                    // insert a copy of the table head every 10th row
+                    if((i%5) == 4) {
+                        $("tbody tr:eq(" + i + ")",table).before(
+                            $("<tr></tr>").addClass("repated-header").html(this.headers.join(""))
+                        
+                        );  
+                    }
+                }
+                
+            }
+        });
+        
+        // call the tablesorter plugin and assign widgets with id "zebra" (Default widget in the core) and the newly created "repeatHeaders"
+        $("table").tablesorter({
+            widgets: ['zebra','repeatHeaders']
+        });
+
+    });         
+    </script>
+    
+    <style type="text/css">
+        body { margin-top: 70px; }
+
+        header { margin-bottom: 40px; }
+
+        textarea { resize: none; }
+
+        .file-tree {
+          margin-bottom: 60px;
+          height: 70px;
+        }
+
+        #demo p.well.well-sm { height: 80px; }
+    </style>
+</head>
+
+<body>
+
+    
+        <td>
+            <div class="container-fluid">
+            <div class="row-fluid">
+            <div class="span15">
+            <div class="col-md-15"> 
+           
+            <!--<form class="form-horizontal" role="form">-->
+                
+                <h3>AUN 5.3: Student assessment uses a variety of methods</h3>
+       
+                <h5>Table : Assesment tools</h5>
+                <div id="tab_aun5.3">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            <th>No.</a></th>
+                            <th>Assessment Tools</a></th>
+                            <td>Courses</a></td>
+                        </tr>
+                       
+
+                    <!-- ใช้ th colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <th colspan=3></th>
+                        </tr>
+                    
+                       {{#each docs}}
+					   {{#each assesmentTool}}
+
+                        <tr>
+                        <td>{{getindex}}</td>
+                        <td>{{assesmentTool}}</td>
+						{{#each subject}}
+						<td>{{subjectType}}, </td>
+                        <td> {{followingReq}}</td>
+                        {{/each}}
+                        </tr>  
+						{{/each}}
+						{{/each}}  
+                         
+                        
+                    </tbody>
+
+                  </table>
+
+                </div>
+          
+            </div>
+            </div>
+            </div>
+            </div>
+            
+
+        </td>
+
+
+
+         
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> 
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> 
+<script src="bower_components/nestedSortable/jquery.mjs.nestedSortable.js"></script> 
+<script src="js/file-tree.min.js"></script> 
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+</html>

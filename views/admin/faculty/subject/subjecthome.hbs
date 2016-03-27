@@ -1,0 +1,69 @@
+
+<!-- {{#each teachsemes}}
+    {{#each subject}}
+        {{sub_code}}
+        {{sub_name}}
+        {{#each sub_lecter}}
+            {{this}}
+        {{/each}}
+    {{/each}}
+
+{{/each}} -->
+
+
+<div class="btn-group">
+    <button id="tab_2_submit" class="btn btn-mini" type="button"><a href = "/addsubjects">ADD Subjects</button><br/></a>
+</div>
+<br><br>
+
+    <label for="inputType" class="col-md-2 control-label">Subject</label>
+   
+    <table class="table muffin table-striped table-hover margin-bottom0">
+        <thead>
+            <tr>
+            <th><a href="javascript:table_sort('tab_2',1)">Subject code</a></th>
+            <th><a href="javascript:table_sort('tab_2',2)">Subject name</a></th>
+            <th><a href="javascript:table_sort('tab_2',2)">Subject credit</a></th>
+            <th><a href="javascript:table_sort('tab_2',3)">Lecturer</a></th>
+            <th><a href="javascript:table_sort('tab_2',3)">Enroll</a></th>
+            </tr>
+        </thead>
+         <tbody>
+           {{#each teachsemes}}
+                {{setac ac_id}}
+                {{setsemes semester}}
+                {{setyear Year}}
+                {{#each subject}}
+                <tr>
+                    <td><a href='/edit?user={{local.username}}'>{{subcode.sub_code}}</a></td>
+                    <td>{{subcode.sub_name}}</td>
+                    <td>{{subcode.sub_credit}}</td>
+                    <td>
+                        {{#each subcode.sub_lecter}}
+                            {{local.title}}
+                            {{local.name}}<br>
+                            
+                        {{/each}}
+                    </td>    
+                    <td><a href='/enroll?acid={{getac}}&sub_id={{subcode._id}}&year={{getyear}}&semes={{getsemes}}'>Enroll</a></td>            
+                </tr>
+                {{/each}}            
+            {{/each}}          
+
+           </tbody>
+         </table>
+    
+<!-- {{#each teachsemes}}
+    {{#each subject}}
+        {{sub_code}}
+        {{sub_name}}
+        {{#each sub_lecter}}
+            {{this}}
+        {{/each}}
+    {{/each}}
+
+{{/each}} -->
+
+
+
+    

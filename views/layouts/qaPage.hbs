@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Monkey Office</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+    <!-- Bootstrap Core CSS -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <!-- <link rel="stylesheet" href="dist/css/bootstrap-submenu.min.css">
+ -->
+
+    <!-- Custom CSS -->
+    <link href="/stylesheets/modern-business.css" rel="stylesheet">
+    <link href="/stylesheets/file-tree.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+   
+    
+    <style type="text/css">
+        body { margin-top: 70px; }
+
+        header { margin-bottom: 40px; }
+
+        textarea { resize: none; }
+
+        .file-tree {
+          margin-bottom: 60px;
+          height: 70px;
+        }
+
+        #demo p.well.well-sm { height: 80px; }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/home">Monkey Office</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+               <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <a href="#">Workflow</a>
+                    </li>
+                    <li>
+                        <a href="/qapage">QASS</a>
+                    </li>
+                     <li>
+                        <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="full-width.html"> Create Workflow</a>
+                                </li>
+                                <li>
+                                   <a class="trigger right-caret">Settings</a>
+                                    <ul class="dropdown-menu sub-menu">
+                                        <li><a href="/user">Users</a></li>
+                                        <li><a href="/programs">Programs</a></li>
+                                        <li><a href="/subjects">Subjects</a></li>
+                                        
+                                    </ul>
+                                </li>
+                                
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        </ul>
+                       
+                    </li>
+                    
+                </ul>
+                   
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Username <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/profile_inf" class= "glyphicon glyphicon-user"> Profile</a>
+                            </li>
+                            <li>
+                                <a href="#" class= "glyphicon glyphicon-bell"> Notifications</a>
+                            </li>
+                            <li>
+                                <a href="edit_user-staff_profile.hbs" class = "glyphicon glyphicon-wrench"> Settings </a>
+                            </li>
+                            <li>
+                                <a href="#" class = "glyphicon glyphicon-log-out"> Logout </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+        <div id="qass-search" class="container">
+          <header><h2>QASS</h2></header>
+          <table width="100%" border="0">
+                 <tr valign="top">
+                    <td width="30%">
+                      <div class="container-fluid">
+                          <div class="row-fluid">
+                              <div class="span10">
+                                  <div class="col-md-10">           
+                                      <div id="sortable-tree"></div>
+                                  </div>
+                              </div><!--/span-->
+                          </div><!--row-->
+                      </div><!--fluid-->
+                    </td>
+                </tr>  
+                
+          
+      
+</body>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> 
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> 
+<!-- <script src="bower_components/nestedSortable/jquery.mjs.nestedSortable.js"></script>  -->
+<script src="/javascripts/file-tree.min.js"></script> 
+{{{body}}}
+
+<script type="text/javascript">
+$('.carousel').carousel({
+        interval: 5000 //changes the speed
+    })
+
+    $(function(){
+        $(".dropdown-menu > li > a.trigger").on("click",function(e){
+            var current=$(this).next();
+            var grandparent=$(this).parent().parent();
+            if($(this).hasClass('left-caret')||$(this).hasClass('right-caret'))
+                $(this).toggleClass('right-caret left-caret');
+            grandparent.find('.left-caret').not(this).toggleClass('right-caret left-caret');
+            grandparent.find(".sub-menu:visible").not(current).hide();
+            current.toggle();
+            e.stopPropagation();
+        });
+        $(".dropdown-menu > li > a:not(.trigger)").on("click",function(){
+            var root=$(this).closest('.dropdown');
+            root.find('.left-caret').toggleClass('right-caret left-caret');
+            root.find('.sub-menu:visible').hide();
+        });
+    });
+$(document).on('click', '.browse', function(){
+  var file = $(this).parent().parent().parent().find('.file');
+  file.trigger('click');
+});
+$(document).on('change', '.file', function(){
+  $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+});
+$(function(){
+        $(".dropdown-menu > li > a.trigger").on("click",function(e){
+            var current=$(this).next();
+            var grandparent=$(this).parent().parent();
+            if($(this).hasClass('left-caret')||$(this).hasClass('right-caret'))
+                $(this).toggleClass('right-caret left-caret');
+            grandparent.find('.left-caret').not(this).toggleClass('right-caret left-caret');
+            grandparent.find(".sub-menu:visible").not(current).hide();
+            current.toggle();
+            e.stopPropagation();
+        });
+        $(".dropdown-menu > li > a:not(.trigger)").on("click",function(){
+            var root=$(this).closest('.dropdown');
+            root.find('.left-caret').toggleClass('right-caret left-caret');
+            root.find('.sub-menu:visible').hide();
+        });
+    });
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+</html>

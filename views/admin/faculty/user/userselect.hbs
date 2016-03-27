@@ -1,0 +1,66 @@
+ <script>
+
+$(document).ready(function() {
+  $("#program").change(function() { 
+  if($(this).data('options') == undefined){
+      /*Taking an array of all options-2 and kind of embedding it on the select1*/
+      $(this).data('options',$('#sub_programs option').clone());
+      } 
+  var id = $(this).val();
+  var options = $(this).data('options').filter('[id=' + id + ']');
+  $('#sub_programs').html(options);
+  });
+});
+</script>
+
+
+ <h3>Select program & User type</h3>
+           
+                </form>
+                    <br>
+                        <form class="form-horizontal" role="form" action"/user" method="post">
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Program : </label>
+                              <div class="col-md-4">
+                                  <select class="form-control"  name="program" id="program">
+                                    <option value='a'>----Select Program--</option>
+                                    {{#each faculty}}
+                                      <option value="{{ @index}}">{{ programname }}</option>
+                                     
+                                    {{/each}} 
+                                    <option value='other'>Other</option>        
+                                    
+                                </select>
+                                   
+                              </div>
+                            <label for="inputType" class="col-md-2 control-label">Program track : </label>
+                              <div class="col-md-4">
+                                  <select class="form-control"  id="sub_programs" name="sub_programs">
+                                    <option id='a'>-------</option>
+                                        {{#each faculty}} 
+                                          {{set @index}}
+                                            {{#each sub_program}}
+                                              <option id = "{{get}}" value="{{this}}">{{this}}</option>         
+                                              {{/each}}
+                                        {{/each}}
+                                    <option id='other'>-------</option>
+                                </select>
+                              </div>
+
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">User role : </label>
+                            
+                               <div class="col-md-4">
+                                  <select class="form-control" style="width:100px" name="userrole">
+                                    <option value="all">ALL</option>
+                                    <option value="student">student</option>
+                                    <option value="staff">staff</option>
+                                </select>
+                                </div>
+                              
+                            </div>
+                            
+                           
+
+                            <p align = "right"><button type="submit" class="btn btn-primary">Search</button></p>
+                        </form>

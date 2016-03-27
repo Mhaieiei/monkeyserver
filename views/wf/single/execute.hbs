@@ -1,0 +1,13 @@
+<h2 class="text-center">Configure</h2>
+
+<form action="/workflow/{{id}}/execute" method="post">
+{{#each tasks}}
+<div style="margin: 0 auto; width: 600px; height: 120px; background: #F4F4F4; margin-top: 30px">
+	<h3>{{this.name}} - [{{this.type}}]</h3>
+
+</div>
+{{/each}}
+<div class="text-center">
+	<input type="submit" value="Execute">
+</div>
+</form>

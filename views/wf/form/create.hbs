@@ -1,0 +1,112 @@
+<div class="content" style="margin-top: 100px">
+	<h1>Form Creator</h1>
+
+	<button type="button" id="preview-button" class="btn btn-success" data-toggle="modal" data-target="#previewFormPopup">Preview form</button>
+      <!-- Modal -->
+      <div id="previewFormPopup" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-sm">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Preview Form</h4>
+            </div>
+            <div class="modal-body">
+            	<div id="preview-form-body"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="ddone-add-element-btn" class="btn btn-default" data-dismiss="modal">Add</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+	 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addVariablePopup">Add element</button>
+      <!-- Modal -->
+      <div id="addVariablePopup" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-sm">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Add new element</h4>
+            </div>
+            <div class="modal-body">
+            	<div>
+            		<b>Type:</b><br>
+            		<select class="btn btn-success select-element" id="element-type">
+						<option value="textbox">Textbox</option>
+						<option value="label">Label</option>
+					</select>	
+			</div>
+              <div><b>Name</b><br><input type="text" id="element-name"></div>
+              <div><b>Initial Value</b><br><input type="text" id="element-value"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="done-add-element-btn" class="btn btn-default" data-dismiss="modal">Add</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    
+	<form action="/form/create" method="post">
+		<div class="form-body" style="margin-top: 30px; margin-bottom: 20px">
+			<div id="type-column" class="myfont" style="margin-left: 100px; width: 200px; position: absolute">Type</div>
+			<div id="name-column" class="myfont" style="margin-left: 300px; width: 200px; position: absolute">Name</div>
+			<div id="value-column" class="myfont" style="margin-left: 500px; width: 200px; position: absolute">Value</div>
+		</div>
+	<button class="btn btn-warning save-button">Save</button>
+	</form>
+	
+</div>
+
+<script>
+	var elementList = [];
+
+	var inputText = '<div class="element"><input type="text"></div>';
+	var label = '<div class="element"><label></label></div>'
+
+	$(document).ready(function(){
+		$("#done-add-element-btn").click(function(){
+			elementList.push( {
+				name: $("#element-name").val(),
+				type: $("#element-type").val(),
+				value: $("#element-value").val()
+			});
+			var currentElement = elementList[ elementList.length - 1 ];
+			$("#type-column").append( '<p class="small-font">' + currentElement.type + '</p>' );
+			$("#name-column").append( '<p class="small-font">' + currentElement.name + '</p>' );
+			$("#value-column").append( '<p class="small-font">' +  currentElement.value + '</p>' );
+
+			$("#element-name").val("");
+			$("#element-value").val("");
+		});
+
+		$("#preview-button").click(function(){
+			var htmlForm = "";
+
+			for(var i = 0; i < elementList.length; i++){
+
+				if( elementList[i].type === "textbox"){
+					htmlForm += '<div class="element"><input type="text" name="' + elementList[i].name + '" value="' + elementList[i].value + '"></div>';
+				} 
+				if( elementList[i].type === "label"){
+					htmlForm += '<div class="element"><label>' + elementList[i].value + "</label></div>";
+				}
+
+			}
+
+			$("#preview-form-body").html( htmlForm );
+	
+		});
+	
+	});
+</script>
+

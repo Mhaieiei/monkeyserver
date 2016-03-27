@@ -1,0 +1,312 @@
+<%- include ../header_table.ejs %>
+
+<!--<script src="http://code.jquery.com/jquery-latest.js"></script>-->
+<script>
+	var array = [];
+	var test ="mhai";
+	var i=0;
+</script>
+<script>
+function addCourse() {
+	console.log("mhai eiei");
+	var subcode,subname,subsemes,sublecter,subcredit;
+	subcode = document.getElementById("sub_code").value;
+	subname = document.getElementById("sub_name").value;
+	subsemes = document.getElementById("sub_semes").value;
+	sublecter = document.getElementById("sub_lecter").value;
+	subcredit = document.getElementById("sub_credit").value;
+    //document.getElementById("demo").innerHTML = "Hello World";
+	//text += '{"subject": ['+
+	  // '{ "sub_name" : '+subname+',"sub_semes" : '+number+',"sub_lecter": '+sublecter+',"sub_credit":'+subcredit+' }]';
+	var text = {  "sub_code" : subcode, "sub_name"  : subname, "sub_semes" : subsemes,"sub_lecter":sublecter,"sub_credit":subcredit }; 
+	array.push(text);
+	//console.log(array.value);
+	console.log(text);
+	console.log(JSON.stringify(array));
+	console.log(array[0]);
+	
+	//Create array
+	/*if(i !=0)
+		document.getElementById("id").value = "";
+	i++;*/
+	var arrid = 'array'+i;
+	console.log(i);
+	var element = document.createElement('input');
+	element.type = 'hidden';
+	element.name = 'array';
+	element.id = arrid;
+	element.value = JSON.stringify(text);
+	console.log(element);	
+	document.getElementById("myForm").appendChild(element);
+	i++;
+	/*var element = document.createElement('input');
+	element.type = 'hidden';
+	element.name = 'array'+i;
+	element.value = [subcode,subname,subsemes,sublecter,subcredit];
+	console.log(element);	
+	document.getElementById("myForm").appendChild(element);
+	i++;	*/
+	console.log(i);	
+	console.log("sub_name:"+subname);
+	console.log("TEXT:"+text.sub_name);
+	console.log("ARRAY"+array[0].sub_name);
+	console.log(array.length);
+	/*for(i = 0;i< array.length;i++){	
+			var element = document.createElement('input');
+			element.type = 'hidden';
+			element.name = 'array'+i;
+			element.value = [subcode,subname,subsemes,sublecter,subcredit];
+			console.log(element);	
+			document.getElementById("myForm").appendChild(element);
+            document.writeln("<td>");
+            document.writeln("<table border = '1' width = 100 >");
+            document.writeln("<tr><td><b>Name</b></td><td width = 50>" + array[i].subject.sub_name+"</td></tr>");
+            document.writeln("<tr><td><b>Semester</b></td><td width = 50>" + array[i].subject.sub_semes+"</td></tr>");
+			document.writeln("<tr><td><b>Lecter</b></td><td width = 50>" + array[i].subject.sub_lecter +"</td></tr>");
+			document.writeln("<tr><td><b>Semester</b></td><td width = 50>" + array[i].subject.sub_credit +"</td></tr>");
+            document.writeln("</table>");
+            document.writeln("</td>");
+			console.log(array[i].sub_name);
+			console.log(array[i].sub_semes);
+			console.log(array[i].sub_lecter);			
+     }*/
+	//var obj = JSON.parse(text);
+	//console.log("OBJ"+obj);
+	//add List
+	/*var node = document.createElement("LI");
+    var textnode = document.createTextNode(text.subject.sub_name);
+    node.appendChild(textnode); 
+    document.getElementById("myList").appendChild(node);*/
+	
+	//test text adding
+	
+	var textsign = document.createElement("TR");
+		
+	var textsubcode =  document.createElement("TD");
+	var textsubname =  document.createElement("TD");
+	var textsubsemes =  document.createElement("TD");
+	var textsublecter =  document.createElement("TD");
+	var textsubcredit =  document.createElement("TD");
+	var textsubedit =  document.createElement("TD");
+	var textsubdelete =  document.createElement("TD");
+	
+	
+	textsubcode.appendChild(document.createTextNode(subcode));
+	textsubname.appendChild(document.createTextNode(subname));
+	textsubsemes.appendChild(document.createTextNode(subsemes));
+	textsublecter.appendChild(document.createTextNode(sublecter));
+	textsubcredit.appendChild(document.createTextNode(subcredit));
+
+	var subedit = document.createElement("input");
+		subedit.type = "button";
+		subedit.name = "edit";
+		subedit.value = "edit";
+	var subdelete = document.createElement("input");
+		subdelete.type = "button";
+		subdelete.name = "delete";
+		subdelete.value = "delete";
+
+	var butsubmit = document.createElement("input");
+		butsubmit.type = "button";
+		butsubmit.name = "butsubmit";
+		butsubmit.value = "submit";
+		butsubmit.id = "butsubmit";
+		
+	textsubedit.appendChild(subedit);
+	textsubdelete.appendChild(subdelete);
+	
+	
+	textsign.appendChild(textsubcode);
+	textsign.appendChild(textsubname);
+	textsign.appendChild(textsubsemes);
+	textsign.appendChild(textsublecter);
+	textsign.appendChild(textsubcredit);
+	textsign.appendChild(textsubedit);	
+	textsign.appendChild(textsubdelete);		
+	
+	document.getElementById("body").appendChild(textsign);
+	console.log(subdelete.parentElement.parentElement);
+	subedit.onclick = function(){
+		document.getElementById("sub_code").value = subcode;
+		document.getElementById("sub_name").value = subname;
+		document.getElementById("sub_semes").value = subsemes;
+		document.getElementById("sub_lecter").value = sublecter;
+		document.getElementById("sub_credit").value = subcredit;
+		//create button submit
+		document.getElementById("myForm").appendChild(butsubmit);
+		butsubmit.onclick = function(){
+			var row = subedit.parentElement.parentElement.rowIndex;
+				subcode = document.getElementById("sub_code").value;
+				subname = document.getElementById("sub_name").value;
+				subsemes = document.getElementById("sub_semes").value;
+				sublecter = document.getElementById("sub_lecter").value;
+				subcredit = document.getElementById("sub_credit").value;
+			var myTable = document.getElementById("addTable");
+				myTable.rows[row].cells[0].innerHTML = subcode;
+				myTable.rows[row].cells[1].innerHTML = subname;
+				myTable.rows[row].cells[2].innerHTML = subsemes;
+				myTable.rows[row].cells[3].innerHTML = sublecter;
+				myTable.rows[row].cells[4].innerHTML = subcredit;
+			var text = {  "sub_code" : subcode, "sub_name"  : subname, "sub_semes" : subsemes,"sub_lecter":sublecter,"sub_credit":subcredit };
+			var editelement = document.getElementById(arrid);
+				document.getElementById(arrid).value = JSON.stringify(text);
+			//destroy button
+			document.getElementById("butsubmit").parentNode.removeChild(butsubmit);
+			//reset label
+			document.getElementById("sub_code").value = "";
+			document.getElementById("sub_name").value = "";
+			//document.getElementById("sub_semes").value = "";
+			document.getElementById("sub_lecter").value = "";
+			document.getElementById("sub_credit").value = "";
+		}
+	}
+	subdelete.onclick = function(){
+			var row = subdelete.parentElement.parentElement.rowIndex;
+			console.log(row);
+			document.getElementById("addTable").deleteRow(row)
+			var delelement = document.getElementById(arrid);
+				delelement.parentNode.removeChild(delelement);
+			//reset label
+			document.getElementById("sub_code").value = "";
+			document.getElementById("sub_name").value = "";
+			//document.getElementById("sub_semes").value = "";
+			document.getElementById("sub_lecter").value = "";
+			document.getElementById("sub_credit").value = "";
+		}	
+
+	
+	//reset label
+	document.getElementById("sub_code").value = "";
+	document.getElementById("sub_name").value = "";
+	//document.getElementById("sub_semes").value = "";
+	document.getElementById("sub_lecter").value = "";
+	document.getElementById("sub_credit").value = "";
+	
+	return false;
+}
+	
+	/*$.ajax({
+            url: '/addprogram',
+            type: 'POST',
+            data: {
+                arr: array
+            },
+            success: function(data){
+                console.log(data);
+            }
+        });*/
+</script>
+<table style="width:100%" border="0">
+	<tr style="height:50px">
+		<td>
+		</td>
+	</tr>
+	
+
+	</table>
+	<table style="width:90%" border="0">
+		<tr>
+			<td style="width:20%">
+				<div class="text_column1position">
+					<a href = "/profile_inf"><button type="button" class="btn btn-primary" style="width:180px">Profile</button><br><br>
+					<a href = "/work_inf"><button type="button" class="btn btn-primary" style="width:180px">Performance</button></a><br><br>
+					<a href = "/course_inf"><button type="button" class="btn btn-primary" style="width:180px">Subject</button><br><br>
+					<a href = "/education_inf"><button type="button" class="btn btn-primary" style="width:180px">Education</button><br><br>
+					
+					<%if(user.local.email == "admin"){%>
+						<a href = "/fachome"><button type="button" class="btn btn-primary" style="width:180px">Program</button>
+						
+					<%}%>
+				</div>
+			</td>
+			
+			<td>
+				<form action="/addprogram" method="post" id = "myForm" >	
+		
+					<!--<label>Email</label>
+					  <input type="text" tabindex="1" placeholder="Enter Your Email Address" name="email" value ="<%= user.local.email %>" readonly><br>
+					<label>Array</label>
+					  <input type="text" tabindex="1" placeholder="Test Array" name="arraytest" value ="<%={a:1,b:2,c:3}%>" readonly><br>-->
+					<label>Program name:</label>
+					  <input type="text" tabindex="1" placeholder="Enter program name" name="name"    required><br>
+					<label>Program year:</label>
+					  <input type="text" tabindex="1" placeholder="Enter program year" name="year" required><br>
+					<!--<label>Academic year:</label>
+					  <input type="text" tabindex="1" placeholder="Enter program year" name="acyear" required><br>-->
+					<!--<label>Academic year:</label>
+					  <input type="text" tabindex="1" placeholder="Enter academic year" name="acyear" required><br>-->
+					<label>Subject:</label><br>
+							<!--table here-->
+						<div class="datagrid">
+							<table id = "addTable">
+								<thead>
+									<tr>
+										<th>Subject code</th>
+										<th>Subject name</th>
+										<th>Subject semester</th>
+										<th>Subject lecturer</th>
+										<th>Subject credits</th>
+										<th>Edit</th>
+										<th>Delete</th>							
+									</tr>
+								</thead>
+								<!--<tfoot>
+									<tr><td colspan="4">
+									<div id="paging">
+										<ul><li>
+											<a href="#"><span>Previous</span></a></li>
+											<li><a href="#" class="active"><span>1</span></a></li>
+											<li><a href="#"><span>2</span></a></li>
+											<li><a href="#"><span>3</span></a></li>
+											<li><a href="#"><span>4</span></a></li>
+											<li><a href="#"><span>5</span></a></li>
+											<li><a href="#"><span>Next</span></a></li>
+										</ul>
+									</div></tr>
+								</tfoot>-->
+								<tbody id ="body">
+
+									<!--{% if trackresults %}-->
+										
+										<!--{% endfor %}-->
+								</tbody>
+							</table>
+						</div>
+						<br>			
+							<label>subject Code:</label>
+								<input type="text" tabindex="1" placeholder="Enter subject code"  id ="sub_code" ><br>
+							<label>subject name:</label>
+								<input type="text" tabindex="1" placeholder="Enter subject name"  id ="sub_name" ><br>
+							<label>subject semester:</label>
+								<!--<input type="text" tabindex="1" placeholder="Enter subject semester"  id="sub_semes" ><br>-->
+								<select name="semes" id= "sub_semes">
+								  <option value="1">1</option>
+								  <option value="2">2</option>
+								</select>
+								<br>
+							<label>subject lecturer:</label>
+								<input type="text" tabindex="1" placeholder="Enter subject lecturer"  id="sub_lecter" ><br>
+							<label>subject credit:</label>
+								<input type="text" tabindex="1" placeholder="Enter subject credit" id="sub_credit" ><br>	
+							
+
+					
+						<!--<button class="btn btn-default"><a href = "/addprogram">Submit</button><br/></a>-->
+				
+						
+					
+					
+					  <input type="submit" class="btnLogin" value="Submit" tabindex="1">
+					  
+				</form>
+					  <button onclick="addCourse()">Add subject</button><br>
+
+			</td>
+			
+		</tr>
+	</table>				
+	
+	
+	
+
+<%- include ../footer.ejs %>

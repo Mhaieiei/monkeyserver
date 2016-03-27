@@ -1,0 +1,232 @@
+<script>
+  
+  var advisee = 1;
+  var advisor = 1;
+  var examine = 1;
+  function deleteRow(row,idtab)
+  {
+      var i=row.parentNode.parentNode.rowIndex;
+      document.getElementById(idtab).deleteRow(i);
+      if(idtab == 'adviseeTab'){
+        advisee--;
+        console.log(advisee);
+        document.getElementById('adviseelen').value = advisee;
+        console.log("advisee="+document.getElementById('adviseelen').value);
+      }
+      else if(lectab == 'examinerTable'){
+        examine++;
+        console.log(examine);
+        document.getElementById('examinerlen').value = examine;
+      }
+      else{
+        advisor--;
+        document.getElementById('advisorlen').value = advisor;
+        console.log("advisor="+document.getElementById('advisorlen').value);        
+      }
+     
+  }
+
+
+  function insRow(idtab,idbody)
+  {
+    
+      console.log( 'hi');
+      console.log(idtab);
+      var x=document.getElementById(idtab);
+      var y=document.getElementById(idbody);
+      var new_row = x.rows[1].cloneNode(true);
+      var len = x.rows.length;
+
+      // var lec = document.getElementById("lecTable").rows[len-1].cells[1].firstChild.value;
+      // console.log("mhai_eiei"+lec);
+      // array.push(lec);
+      new_row.cells[0].innerHTML = len;
+      
+      var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+      inp1.id += len;
+      inp1.value = '';
+      y.appendChild( new_row );
+      if(idtab == 'adviseeTab'){
+        advisee++;
+        console.log(advisee);
+        document.getElementById('adviseelen').value = advisee;
+        
+      }
+      else if(lectab == 'examinerTable'){
+        examine++;
+        console.log(examine);
+        document.getElementById('examinerlen').value = examine;
+      }
+      else{
+        advisor++;
+        document.getElementById('advisorlen').value = advisor; 
+        console.log("advisor="+document.getElementById('advisorlen').value);        
+      }
+   }
+</script>
+
+
+ <body>
+ <form class="form-horizontal" role="form" action="/addthesis" method="post">
+
+
+            <h3>Add new Thesis</h3>
+
+            <br>
+            <div class="form-group">
+                <p hidden>
+                  <input type="text" tabindex="1"  name="adviseelen" id="adviseelen" value='1' readonly=""><br>
+                  <input type="text" tabindex="1"  name="advisorlen" id="advisorlen" value='1' readonly=""><br>
+                  <input type="text" tabindex="1"  name="examinerlen" id="examinerlen" value='1' readonly=""><br>
+                  <input type="text" class="form-control" name="username" id="inputType" value={{username}}>
+                </p>
+                <label for="inputType" class="col-md-2 control-label">Name : </label>
+                <div class="col-md-4">
+                      <input type="text" class="form-control" name="name" id="inputType">
+                </div>
+             
+                <div class="col-md-4"> 
+                   
+                     <label for="inputType">Advisee : </label>
+                     <div id="tab_2">
+                     <table class="table muffin table-striped table-hover margin-bottom0" id="adviseeTab">
+                        <thead>
+                            <tr>
+                            <th width="40"><a href="javascript:table_sort('tab_2',0)">Index</a></th>
+                            <th><a href="javascript:table_sort('tab_2',1)" >Advisee name</a></th>
+                            <th><a href="javascript:table_sort('tab_2',3)">Delete</a></th>
+                            </tr>
+                        </thead>
+                        <tbody id="advbody">
+                          <tr>
+                            <td>1</td>
+                            <td><input  type="text" name="advisee" id="latbox"/></td>
+                              <td>
+                                  <button class="btn btn-xs btn-warning" id="delPOIbutton" value="Delete" onclick="deleteRow(this,'adviseeTab')">
+                                  
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                  </button>
+                              </td>     
+                          </tr>          
+                        </tbody>
+                      </table>
+                      </div>
+                      <!-- end: table full -->
+                      <div class="table-foot muffin"> 
+                          <div class="pull-right">
+                             <div class="btn-group">
+                                <button id="tab_2_submit" class="btn btn-mini" type="button" onclick="insRow('adviseeTab','advbody')">Insert</button>
+                             </div>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+           
+
+             <div class="form-group"> 
+                      <label for="inputType" class="col-md-2 control-label">Advisor : </label>
+                      <div class="col-md-4">
+                         <input type="text" class="form-control" id="inputType" name="advisor">
+                      </div>
+                      <label for="inputType" class="col-md-2 control-label">Program : </label>
+                     <div class="col-md-4">
+                         <input type="text" class="form-control" id="inputType" name="program">
+                      </div>
+                      <label for="inputType" class="col-md-2 control-label">Acedamic Year : </label>
+                      <div class="col-md-4">
+                     
+                        <select class="form-control" style="width:100px" name="acyear">
+                                    <option value="2012">2012</option>
+                                    <option value="2013">2013</option>
+                                    <option value="2014">2014</option>
+                                    <option value="2015">2015</option>
+                                    <option value="2016">2016</option>
+                        </select> 
+                      </div>
+             </div>
+                         
+            <div class="form-group">   
+                   
+                    <label for="inputType" class="col-md-2 control-label">Co-Advisor : </label>
+                     <div id="tab_2">
+                     <div class="col-md-4">
+                       <table class="table muffin table-striped table-hover margin-bottom0" id="lecTable">
+                        <thead>
+                            <tr>
+                            <th width="40"><a href="javascript:table_sort('tab_2',0)">Index</a></th>
+                            <th><a href="javascript:table_sort('tab_2',1)" >Lecturer name</a></th>
+                            <th><a href="javascript:table_sort('tab_2',3)">Delete</a></th>
+                            </tr>
+                        </thead>
+                        <tbody id="lecbody">
+                          <tr>
+                            <td>1</td>
+                            <td><input  type="text" name="co_name" id="latbox"/></td>
+                             <td>
+                                        <button class="btn btn-xs btn-warning" id="delPOIbutton" value="Delete" onclick="deleteRow(this,'lecTable')">
+                                        
+                                          <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                     </td>     
+                          </tr> 
+                        </tbody>
+                       </table>
+                     
+                    <!-- end: table full -->
+                      <div class="table-foot muffin"> 
+                          <div class="pull-right">
+                             <div class="btn-group">
+                                <button id="tab_2_submit" class="btn btn-mini" type="button" onclick="insRow('lecTable','lecbody')">Insert</button>
+                             </div>
+                          </div>
+                      </div>
+                      </div>    
+                      </div>  
+
+            </div>
+
+             <div class="form-group">   
+                   
+                    <label for="inputType" class="col-md-2 control-label">Examiner : </label>
+                     <div id="tab_2">
+                     <div class="col-md-4">
+                       <table class="table muffin table-striped table-hover margin-bottom0" id="examinerTable">
+                        <thead>
+                            <tr>
+                            <th width="40"><a href="javascript:table_sort('tab_2',0)">Index</a></th>
+                            <th><a href="javascript:table_sort('tab_2',1)" >Examiner ID</a></th>
+                            <th><a href="javascript:table_sort('tab_2',3)">Delete</a></th>
+                            </tr>
+                        </thead>
+                        <tbody id="exbody">
+                          <tr>
+                            <td>1</td>
+                            <td><input  type="text" name="examiner" id="latbox"/></td>
+                             <td>
+                                        <button class="btn btn-xs btn-warning" id="delPOIbutton" value="Delete" onclick="deleteRow(this,'examinerTable')">
+                                        
+                                          <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                     </td>     
+                          </tr> 
+                        </tbody>
+                       </table>
+                     
+                    <!-- end: table full -->
+                      <div class="table-foot muffin"> 
+                          <div class="pull-right">
+                             <div class="btn-group">
+                                <button id="tab_2_submit" class="btn btn-mini" type="button" onclick="insRow('examinerTable','exbody')">Insert</button>
+                             </div>
+                          </div>
+                      </div>
+                      </div>    
+                      </div>  
+
+            </div>
+                <p align = "right"><button type="submit"class="btn btn-primary">Submit</button></p>
+
+
+
+    </form>
+</body>

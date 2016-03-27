@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Monkey Office</title>
+
+        <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="dist/css/bootstrap-submenu.min.css">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css" id="" media="print, projection, screen" />
+    <script type="text/javascript" src="js/jquery-latest.js"></script> 
+    <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+    <link href="css/file-tree.min.css" rel="stylesheet"
+    <script type="text/javascript" src="../jquery-latest.js"></script>
+    <script type="text/javascript" src="../jquery.tablesorter.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        $("table").tablesorter({debug: true});
+    });
+    </script>
+</head>
+<body>
+
+    
+        <td>
+            <div class="container-fluid">
+            <div class="row-fluid">
+            <div class="span15">
+            <div class="col-md-15"> 
+           
+            <!--<form class="form-horizontal" role="form">-->
+                
+                <h3>AUN 11.4: The curriculum is regurly evaluated at reasonable time periods</h3>
+       
+                <h5>Table : Program evaluation methods and frequencies</h5>
+                <div id="tab_aun11.4">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                            <th>No.</a></th>
+                            <th>Stakeholders</a></th>
+                            <th>Methods/Tools</a></th>
+                            <th>Frequency</a></th>
+                        </tr>
+                             
+
+                    <!-- ใช้ td colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
+                    </thead>
+					{{#each docs}}
+					{{#each evaluation}}
+                    <tbody>
+                        <tr>
+                        <td></td>
+
+                        <td>{{stakeholder.title}}</td>
+						{{#each EvaluationMethod}}
+                        <td>{{methodName}}</td>
+                        <td>{{frequency}}</td>
+                        {{/each}}
+                        </tr>  
+                        
+                    </tbody>
+					{{/each}}
+					{{/each}}   
+                  </table>
+
+                </div>
+          
+            </div>
+            </div>
+            </div>
+            </div>
+            
+
+        </td>
+
+
+
+         
+</body>
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> 
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> 
+<script src="bower_components/nestedSortable/jquery.mjs.nestedSortable.js"></script> 
+<script src="js/file-tree.min.js"></script> 
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>-->
+
+
+</html>

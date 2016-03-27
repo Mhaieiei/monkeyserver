@@ -1,0 +1,18 @@
+.my-navi{
+	background:#eeeeee;
+}
+.text_column1position{
+	padding-left: 20px;
+	padding-top: 0px;
+}
+.text_column2position{
+	position: static;
+	text-align: center;
+		
+}
+.footer{
+	position: fixed; 
+	bottom: 0px;
+	margin-right: auto;
+	margin-left: auto;
+}

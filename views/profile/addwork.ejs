@@ -1,0 +1,18 @@
+<%- include ../header.ejs %>
+	
+	<%= user._id %>
+	<form action="/addwork?email=<%= user.local.email %>" method="post" >	
+		
+		<label>name of work:</label>
+		  <input type="text" tabindex="1" placeholder="Enter name of work" name="namework"  required><br>
+		<label>Details :</label>
+		  <input type="text" tabindex="1" placeholder="Enter Details" name="details" required><br>
+		
+		    
+		<footer>
+		  <input type="submit" class="btnLogin" value="Add" tabindex="1">
+		</footer>
+	</form>
+
+
+<%- include ../footer.ejs %>

@@ -1,0 +1,85 @@
+<script>
+	console.log(year);
+	function deleteRow(row)
+	{
+	    var i=row.parentNode.parentNode.rowIndex;
+	    document.getElementById('programTable').deleteRow(i);
+	}
+
+
+	function insRow()
+	{
+		console.log({{year}});
+	    console.log( 'hi');
+	    var x=document.getElementById('programTable');
+	    var y= document.getElementById('programbody');
+	    var new_row = x.rows[1].cloneNode(true);
+	    var len = x.rows.length;
+	    new_row.cells[0].innerHTML = len;
+	    
+	    var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+	    inp1.id += len;
+	    inp1.value = '';
+	    var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
+	    
+	    y.appendChild( new_row );
+	}
+
+</script>
+
+
+
+
+<form action="/addprogram" method="post" id = "myForm" >	
+
+	<div class="row content"> 
+                <form class="form-horizontal" role="form">
+                    </div>
+
+                     <div class="form-group">
+                      <label for="inputType" class="col-md-2 control-label">Program name :</label>
+                      <div class="col-md-4">
+                          <input type="text" class="form-control" id="inputType" placeholder="Enter program name" name="program_head_name" required>
+                      </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button id="tab_2_submit" class="btn btn-mini" type="button" onclick="insRow()">Insert</button>
+                    </div>
+
+                    <p hidden>		
+					  <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>
+					  <input type="text" tabindex="1" name="program" id="program" value="{{program}}"><br>
+					</p>
+			                   
+    				
+                    <div id="tab_2"><table id="programTable" class="table muffin table-striped table-hover margin-bottom0">
+	                    <thead>
+	                        <tr>
+								<th>Index</th>
+								<th>Program</th>
+								<th>Delete</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody id = "programbody">
+	                         <tr>
+					            <td>1</td>
+					            <td><input  type="text" name="sub_program" id="latbox"/></td>
+					            <td>
+					            	<button class="btn btn-xs btn-warning" id="delPOIbutton" value="Delete" onclick="deleteRow(this)">
+					            	
+							          <span class="glyphicon glyphicon-trash"></span>
+							        </button>
+					            </td>	            
+					        </tr>                    
+	                    </tbody>
+                    </table>
+                    </div>
+                     <div class="btn-group">
+                            <button id="tab_2_submit" class="btn btn-mini" type="submit">Submit</button>
+                      </div>
+
+
+
+	  
+</form>

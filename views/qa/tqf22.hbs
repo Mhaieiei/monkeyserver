@@ -1,0 +1,120 @@
+<body>
+        
+        <td>
+            <div class="container-fluid">
+            <div class="row-fluid">
+            <div class="span15">
+            <div class="col-md-15">
+			
+				<h3>Lectures and Instructors</h3>
+                
+
+				<h5>Table : List of lectures and instructors in charge /Academic Year: {{year}}</h5> 
+        
+        {{#each program}}
+                <h5>Year: {{Year}} Semester: {{semester}}</h5>
+                <div id="tab_tqf2"><table class="table muffin">
+                <thead align="center">
+                    <tr>
+                        <th width="40"><a href="javascript:table_sort('tab_2',0)">Code</a></th>
+                        <th><a href="javascript:table_sort('tab_tqf2',1)">Subject</a></th>
+                        <th><a href="javascript:table_sort('tab_tqf2',2)">Credits</a></th>
+                        <th><a href="javascript:table_sort('tab_tqf2',3)">Lectures</a></th>
+                        <th colspan=4><a href="javascript:table_sort('tab_tqf2',4)">Registered year of students</a></th>
+                    </tr>
+                    <tr>
+                      <th colspan=1></th>
+                      <th colspan=1></th>
+                      <th colspan=1></th>
+                      <th colspan=1></th>
+                      <th>{{getyear 0}}</th>
+                      <th>{{getyear 1}}</th>
+                      <th>{{getyear 2}}</th>
+                      <th>{{getyear 3}}</th>
+                     
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each subject}}
+                    <tr>
+                    <th colspan=1> {{subcode.sub_code}}</th>
+                    <th colspan=1> {{subcode.sub_name}}</th>
+                    <th colspan=1> {{subcode.sub_credit}}</th>
+                    <th colspan=1>
+                      {{#each subcode.sub_lecter}}
+                        {{local.title}}
+                        {{local.name}} {{local.surname}}<br>
+                        
+                      {{/each}}
+                     </th>
+                     <th>{{enroll_num.year1}} </th>
+                      <th>{{enroll_num.year2}}</th>
+                      <th>{{enroll_num.year3}}</th>
+                      <th>{{enroll_num.year4}}</th>
+                   
+                    </tr>
+                    <tr>
+                   {{/each}}
+                </tbody>
+                </table>
+              </div>
+
+        {{/each}}
+
+        <br>
+        <br>
+        <br>
+			  <h5>Table : Qualifications of instructors in CiES program, 2014</h5>
+
+       
+			  <div id="tab_tqf2"><table class="table muffin">
+                <thead align="center">
+                    <tr>
+                        <th width="40"><a href="javascript:table_sort('tab_2',0)">No.</a></th>
+                        <th><a href="javascript:table_sort('tab_tqf2',1)">Title</a></th>
+                        <th><a href="javascript:table_sort('tab_tqf2',2)">Name-Surname</a></th>
+                        <th colspan=2><a href="javascript:table_sort('tab_tqf2',3)">Education</a></th>
+                        <th colspan=4><a href="javascript:table_sort('tab_tqf2',4)">Teaching Experiences</a></th>
+                    </tr>
+                    <tr>
+                      <th colspan=1></th>
+                      <th colspan=1></th>
+                      <th colspan=1></th>
+                      <th>Degree</th>
+                      <th>University</th>
+					   <th colspan=1></th>
+                      
+                    </tr>
+                    </thead>
+                    <tbody>
+             {{#each program}}
+                
+					       {{#each subject}}
+                  
+                   {{#each subcode.sub_lecter}}
+				          	<tr>
+                      <th colspan=1>{{getindex }}</th>
+                      <th colspan=1>{{local.title}}</th>
+                      <th colspan=1>{{local.name}} {{local.surname}}</th>
+                      {{#each education}}
+                      <th>
+                        {{degree}}
+                      </th>
+                      <th> {{university}}</th>
+                      {{/each}}
+                      <th>{{local.teachingExperience}}</th>                     
+                    </tr>
+                    {{/each}}
+                  {{/each}}
+              {{/each}}    
+                </tbody>
+                </table>
+              </div>
+
+          </div>
+        </td>
+       
+
+
+
+</body>

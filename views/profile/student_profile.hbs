@@ -1,0 +1,121 @@
+ <!-- Edit Personal infomationRow -->
+          <div class="well">
+            <h3> Personal infomation</h3>
+            <div class="row content">
+                <br>
+
+                <table width="100%" border="0">
+                 <tr valign="top">
+                    <td width="30%">
+                      <div class="container-fluid">
+                          <div class="row-fluid">
+                              <div class="span6">
+                                <div class="col-md-6">
+                                    <img data-src="http://rihappy.vteximg.com.br/arquivos/ids/294059-800-800/100105944-5035397-64081-boneco-buzz-lightyear-falante-toyng.jpg" class="img-circle" alt="200x200" style="width: 200px; height: 200px;" data-holder-rendered="true">
+                                </div>
+                                
+                              </div><!--/span-->
+                          </dir><!--row-->
+                      </dir>
+                    </td>
+                    <td>
+                        
+
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">University ID :</label>
+                              <div class="col-md-4">
+                                  <h6>{{user.local.username}}</h6>
+                              </div>
+                            </div>
+                             <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">ID : </label>
+                              <div class="col-md-4">
+                                  <h6>{{user.local.ID}}</h6>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Title : </label>
+                              <div class="col-md-3">
+                                  <h6>{{user.local.title}}</h6>
+                              </div>
+
+                              
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Name : </label>
+                              <div class="col-md-3">
+                                 <h6>{{user.local.name}}</h6>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Surname : </label>
+                              <div class="col-md-3">
+                                  <h6>{{user.local.surname}}</h6>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Gender : </label>
+                              <div class="col-md-3">
+                                 <h6>{{user.local.gender}}</h6>
+                              </div>
+                              <label for="inputType" class="col-md-2 control-label">Date of Birth : </label>
+                              <div class='col-md-4'>
+                                  <h6>{{user.local.dateOfBirth}}</h6>
+                              </div>   
+                              
+                                             
+                            </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Year attend : </label>
+                              <div class="col-md-3">
+                                   <h6>{{user.local.yearattend}}</h6>
+                              </div>
+
+                              <label for="inputType" class="col-md-2 control-label">Year graduate : </label>
+                              <div class="col-md-3">
+                                   <h6>{{user.local.yeargrade}}</h6>
+                              </div>
+                            </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Status : </label>
+                              <div class="col-md-5">
+                                   <h6>{{user.local.status}}</h6>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Faculty : </label>
+                              <div class="col-md-5">
+                                   <h6>{{user.local.faculty}}</h6>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Program : </label>
+                              <div class="col-md-5">
+                                   <h6>{{user.local.program}}</h6>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Bank Account : </label>
+                              <div class="col-md-5">
+                                   <h6>{{user.local.bankAccount}}</h6>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Email : </label>
+                              <div class="col-md-5">
+                                   <h6>{{user.local.email}}</h6>
+                              </div>
+                            </div>
+
+
+                            <p align = "right"><a href="/edit?user={{user.local.username}}"><button type="button" class="btn btn-primary">Edit</button></p>
+                        </form>
+
+                    </td>
+                </tr>
+            </table>
+            </div>
+        </div>

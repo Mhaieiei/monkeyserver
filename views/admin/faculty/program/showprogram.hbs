@@ -1,0 +1,49 @@
+
+
+
+
+
+<div class="btn-group">
+    <button id="tab_2_submit" class="btn btn-mini" type="button"><a href = "/addsubprogram?acid={{acid}}">ADD Program Subjects</button><br/></a>
+</div>
+<br><br>
+{{#each teachsemes}}
+	<label for="inputType" class="col-md-2 control-label">Year: {{Year}} Semester:{{semester}}</label>
+	<div class="btn-group">
+   		 <button id="tab_2_submit" class="btn btn-mini" type="button"><a href = "/editsubprogram?id={{ac_id}}&year={{Year}}&semes={{semester}}">Edit</button><br/></a>
+	</div>
+	<div class="btn-group">
+   		 <button id="tab_2_submit" class="btn btn-mini" type="button"><a href = "/delsubprogram?id={{_id}}&acid={{ac_id}}">Delete</button><br/></a>
+	</div>
+	<table class="table muffin table-striped table-hover margin-bottom0">
+	    <thead>
+	        <tr>
+	        <th><a href="javascript:table_sort('tab_2',1)">Subject code</a></th>
+	        <th><a href="javascript:table_sort('tab_2',2)">Subject name</a></th>
+	        <th><a href="javascript:table_sort('tab_2',2)">Subject credit</a></th>
+	        <th><a href="javascript:table_sort('tab_2',3)">Lecturer</a></th>
+	        </tr>
+	    </thead>
+		 <tbody>
+		   
+		      {{#each subject}}
+		      	
+		        <tr>
+			        <td><a href='/edit?user={{local.username}}'>{{subcode.sub_code}}</a></td>
+			        <td>{{subcode.sub_name}}</td>
+			        <td>{{subcode.sub_credit}}</td>
+			        <td>
+			        	{{#each subcode.sub_lecter}}
+			        		{{local.title}}
+			        		{{local.name}}<br>
+			        		
+			        	{{/each}}
+			        </td>		       
+		        </tr>
+		      
+		      {{/each}}
+		    
+		   </tbody>
+		 </table>
+{{/each}}		   
+	

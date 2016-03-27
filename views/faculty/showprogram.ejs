@@ -1,0 +1,103 @@
+<%- include ../header_table.ejs %>
+	<table style="width:100%" border="0">
+	<tr style="height:50px">
+		<td>
+		</td>
+	</tr>
+	
+
+	</table>
+	<table style="width:90%" border="0">
+		<tr>
+			<td style="width:20%">
+				<div class="text_column1position">
+					<a href = "/profile_inf"><button type="button" class="btn btn-primary" style="width:180px">Profile</button><br><br>
+					<a href = "/work_inf"><button type="button" class="btn btn-primary" style="width:180px">Performance</button></a><br><br>
+					<a href = "/course_inf"><button type="button" class="btn btn-primary" style="width:180px">Subject</button><br><br>
+					<a href = "/education_inf"><button type="button" class="btn btn-primary" style="width:180px">Education</button><br><br>
+					
+					<%if(user.local.email == "admin"){%>
+						<a href = "/fachome"><button type="button" class="btn btn-primary" style="width:180px">Program</button>
+						
+					<%}%>
+				</div>
+			</td>
+			<td>
+				<% if(program != null){%>
+				<div class="datagrid">
+					<strong>Semester 1/Academic Year</strong>: <%= program.academic_year %><br>
+						<table name ="semes1">
+							<thead>
+								<tr>
+									<th>Code</th>
+									<th>Subject</th>
+									<th>Credits</th>
+									<th>Lecturers</th>
+								</tr>
+							</thead>
+							<tbody>
+							<!--{% if trackresults %}-->
+							     <% var i,j;
+									for(i=0;i< program.subject.length;i++){%>								
+										<tr>								   
+										   <% if(program.subject[i].sub_semes==1) {%>
+										   <td><%= program.subject[i].sub_code %></td>
+										   <td><%= program.subject[i].sub_name %></td>
+										   <td><%= program.subject[i].sub_credit %></td>
+										   <td><%= program.subject[i].sub_lecter %></td>
+										   <%}%>
+										</tr>
+									<%}%>
+									
+								<!--{% endfor %}-->
+							</tbody>
+						</table>
+						<strong>Semester 2/Academic Year</strong>: <%= program.academic_year %><br>
+						<table name ="semes2">
+								<thead>
+									<tr>
+										<th>Code</th>
+										<th>Subject</th>
+										<th>Credits</th>
+										<th>Lecturers</th>
+									</tr>
+								</thead>
+								<tbody>
+								<!--{% if trackresults %}-->
+								     <% var i,j;
+										for(i=0;i< program.subject.length;i++){%>								
+											<tr>								   
+											   <% if(program.subject[i].sub_semes==2) {%>
+											   <td><%= program.subject[i].sub_code %></td>
+											   <td><%= program.subject[i].sub_name %></td>
+											   <td><%= program.subject[i].sub_credit %></td>
+											   <td><%= program.subject[i].sub_lecter %></td>
+											   <%}%>
+											</tr>
+										<%}%>
+									
+									<!--{% endfor %}-->
+								</tbody>
+							</table>
+						
+					</div>
+			<%}else{%>
+				<strong>No program</strong> 
+			<%} %>			
+
+			</td>
+			<!--<td>
+				<div class = "text_column2position">
+					<center>
+						<a href ="/workflowExecution" >Execute workflow</a> 
+					</center>
+					<br>
+					<center>
+						<a href ="/workflowCreation">Create workflow</a>
+					</center>
+				</div>
+			</td>-->
+		</tr>
+	</table>				
+	
+<%- include ../footer.ejs %>

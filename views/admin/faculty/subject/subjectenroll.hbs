@@ -1,0 +1,42 @@
+<div class="btn-group">
+    <button id="tab_2_submit" class="btn btn-mini" type="button"><a href = "/addenrollstd?subid={{subid}}&acid={{acid}}&year={{year}}&semes={{semes}}">ADD Student</button><br/></a>
+</div>
+<!-- {{enroll}}
+
+
+
+{{#each enroll}}
+	{{_id}}
+	{{#each students}}
+		{{userid}}
+	{{/each}}
+
+{{/each}}
+ -->
+
+   {{#each enroll}}
+   		<br><br><label for="inputType" class="col-md-2 control-label">Year: {{_id}}</label>
+   		<label for="inputType" class="col-md-2 control-label">Total : {{count}}</label>
+    <table class="table muffin table-striped table-hover margin-bottom0">
+        <thead>
+            <tr>
+            <th><a href="javascript:table_sort('tab_2',1)">Student ID</a></th>
+            <th><a href="javascript:table_sort('tab_2',2)">Grade</a></th>
+            <th><a href="javascript:table_sort('tab_2',3)">Delete</a></th>
+            </tr>
+        </thead>
+         <tbody>
+           
+                {{#each students}}
+                <tr>
+                    <td><a href='/edit?user={{local.username}}'>{{userid}}</a></td>
+                    <td>{{grade}}</td>
+                    <td><a href='/enroll?acid={{getac}}&sub_id={{_id}}&year={{getyear}}&semes={{getsemes}}'>Delete</a></td>            
+                </tr>
+                {{/each}}            
+                  
+
+           </tbody>
+         </table>
+         
+     {{/each}}   

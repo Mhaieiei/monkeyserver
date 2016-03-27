@@ -1,0 +1,148 @@
+<!-- {{user}}
+{{user.local.username}}
+{{user.local.role}}
+{{user.local.status}}
+ -->
+        <!-- Edit Personal infomationRow -->
+          <div class="well">
+            <h3>Edit Personal infomation</h3>
+            <div class="row content">
+                <br>
+
+                <table width="100%" border="0">
+                 <tr valign="top">
+                    <td width="30%">
+                      <div class="container-fluid">
+                          <div class="row-fluid">
+                              <div class="span6">
+                                <div class="col-md-6">
+                                    <img data-src="http://rihappy.vteximg.com.br/arquivos/ids/294059-800-800/100105944-5035397-64081-boneco-buzz-lightyear-falante-toyng.jpg" class="img-circle" alt="200x200" style="width: 200px; height: 200px;" data-holder-rendered="true">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <input type="file" name="img[]" class="file">
+                                    <div class="input-group input-group-sm" style="width: 80%">
+                                      <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+                                      <input type="text" class="form-control input-lg" disabled placeholder="Upload Image">
+                                      <span class="input-group-btn">
+                                        <button class="browse btn btn-primary input-lg" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+                                      </span>
+                                    </div>
+                                </div>
+        
+                              </div><!--/span-->
+                          </dir><!--row-->
+                      </dir>
+                    </td>
+                    <td>
+                        
+
+                        <form class="form-horizontal" role="form" action="/edit" method="post">
+                            <p hidden>    
+                              <input type="text" tabindex="1"  name="role" value='{{user.local.role}}' ><br>
+                            </p>
+
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">University ID :</label>
+                              <div class="col-md-4">
+                                  <input type="text" class="form-control" name="username" value="{{ user.local.username}}" id="inputType">
+                              </div>
+                            </div>
+                             <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">ID : </label>
+                              <div class="col-md-4">
+                                  <input type="text" class="form-control" name="ID" value="{{user.local.ID}}" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Title : </label>
+                              <div class="col-md-3">
+                                  <input type="text" class="form-control"name="title" value ="{{ user.local.title }}" id="inputType">
+                              </div>
+
+                              
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Name : </label>
+                              <div class="col-md-3">
+                                  <input type="text" class="form-control" name="name" value ="{{ user.local.name}}" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Surname : </label>
+                              <div class="col-md-3">
+                                  <input type="text" class="form-control" name="surname" value="{{user.local.surname}}" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Gender : </label>
+                              <div class="col-md-3">
+                                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Gender
+                                  <span class="caret"></span></button>
+                                  <ul class="dropdown-menu">
+                                    <li><a href="#">Male</a></li>
+                                    <li><a href="#">Female</a></li>
+                                  
+                                  </ul>
+                              </div>
+                            </div>
+                  
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Date of Birth : </label>
+                              <div class='col-md-3'>
+                                  <input type="text" class="form-control" name="datebirth" value="{{user.local.dateOfBirth}}" id="inputType" placeholder="mm/dd/yyyy">
+                              </div>
+                           
+                            </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Year attend : </label>
+                              <div class="col-md-3">
+                                  <input type="text" class="form-control" name="yearattend" value="{{user.local.yearattend}}" id="inputType">
+                              </div>
+
+                              <label for="inputType" class="col-md-2 control-label">Year graduate : </label>
+                              <div class="col-md-3">
+                                  <input type="text" class="form-control" name="yeargrade" value= "{{user.local.yeargrade}}" id="inputType">
+                              </div>
+                            </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Status : </label>
+                              <div class="col-md-5">
+                                  <input type="text" class="form-control" name="status" value="{{user.local.status}}" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Faculty : </label>
+                              <div class="col-md-5">
+                                  <input type="text" class="form-control" name="faculty" value="{{user.local.faculty}}" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Program : </label>
+                              <div class="col-md-5">
+                                  <input type="text" class="form-control" name="program" value="{{user.local.program}}" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Bank Account : </label>
+                              <div class="col-md-5">
+                                  <input type="text" class="form-control" name="bankAccount" value="{{user.local.bankAccount}}" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Email : </label>
+                              <div class="col-md-5">
+                                  <input type="text" class="form-control" name="email" value="{{user.local.email}}" id="inputType">
+                              </div>
+                            </div>
+
+                            <p align = "right"> <button type="submit"  class="btn btn-primary">Save</button></p>
+                        </form>
+
+                    </td>
+                </tr>
+            </table>
+            </div>
+        </div>

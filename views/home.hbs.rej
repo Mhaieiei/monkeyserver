@@ -1,0 +1,21 @@
+diff a/webnew/views/home.hbs b/webnew/views/home.hbs	(rejected hunks)
+@@ -1,17 +1,16 @@
+ 
+ 
+-                                    
+     <div class="container">
+         <form class="form-horizontal" role="form"  action="/home" method="post">
+                     <h3>Search</h3>
+                     <div class="form-group">
+                             <label for="doc_name" class="col-md-2 control-label">Search by name: </label>
+                             <div class="col-md-4">
+-                                  <input type="text" class="form-control" id="doc_name" name="doc_name" placeholder="Document name(more than 3 characters)">
++                                  <input type="text" class="form-control" id="doc_name" name="doc_name" placeholder="Document name(more than 3 characters)" value="{{docName}}">
+                             </div>
+                             <label for="doc_author" class="col-md-2 control-label">Search by author: </label>
+                             <div class="col-md-4">
+-                                  <input type="text" class="form-control" id="doc_author" name="doc_author"  placeholder="Author name(more than 3 characters)">
++                                  <input type="text" class="form-control" id="doc_author" name="doc_author"  placeholder="Author name(more than 3 characters)" value="{{docAuthor}}">
+                             </div>
+ 
+                     </div>

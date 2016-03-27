@@ -1,0 +1,57 @@
+
+<script>
+$(document).ready(function() {
+  $("#head_programs").change(function() { 
+  if($(this).data('options') == undefined){
+      /*Taking an array of all options-2 and kind of embedding it on the select1*/
+      $(this).data('options',$('#sub_programs option').clone());
+      } 
+  var id = $(this).val();
+  var options = $(this).data('options').filter('[id=' + id + ']');
+  $('#sub_programs').html(options);
+  });
+});
+</script>
+
+<form action="/qahome" method="post" >
+            <br>
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                      <label for="inputType" class="col-md-2 control-label">Program : </label>
+                      <div class="col-md-4">
+                        <select class="form-control" style="width:200px" id="head_programs" name="head_programs">
+                        <option value='a'>--Select program--</option>
+				{{#each faculty}}									
+						<option value="{{ @index}}">{{ programname }}</option>										
+				{{/each}} 
+                        </select>
+                      </div>
+                      
+                    </div>
+                    <label for="inputType" class="col-md-2 control-label">Program track : </label>
+                      <div class="col-md-4">
+                          <select class="form-control" style="width:200px" id="sub_programs" name="sub_programs">
+                            <option id='a'>-------</option>
+                					{{#each faculty}}	
+                						 {{set @index}}
+                							{{#each sub_program}}
+                								<option id = "{{get}}" value="{{this}}">{{this}}</option>					
+                					  		{{/each}}										 
+                					{{/each}}
+                        </select>
+                      </div>
+                      <label for="inputType" class="col-md-2 control-label">Academic year: </label>
+                      <div class="col-md-4">
+                          <select class="form-control" style="width:100px" name="years">
+                           	{{#each year}}
+                					  	<option value = "{{this}}">{{this}}</option>
+                					{{/each}}
+                        </select>
+                      </div>
+                    
+                    
+                   
+
+                   <button type="submit" class="btn btn-primary">Search</button></p>
+                </form>
+

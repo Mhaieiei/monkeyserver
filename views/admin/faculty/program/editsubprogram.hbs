@@ -1,0 +1,153 @@
+<script>
+   
+
+    function deleteRow(row)
+    {
+
+        var i=row.parentNode.parentNode.rowIndex;
+        document.getElementById('subjecttable').deleteRow(i);
+        var rowind = i-1;
+        console.log(rowind);
+        document.getElementById('arrlen').value = rowind;
+        console.log("value="+document.getElementById('arrlen').value);
+    }
+
+
+    function insRow()
+    {
+        
+        console.log( 'hi');
+        var x=document.getElementById('subjecttable');
+        var y=document.getElementById('subjectbody');
+        var new_row = x.rows[1].cloneNode(true);
+        console.log(new_row);
+        var len = x.rows.length;
+        new_row.cells[0].innerHTML = len;
+        console.log(len);
+        var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+        inp1.id += len;
+        inp1.value = '';
+        inp1.removeAttribute("readonly");
+        var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
+        inp2.id += len;
+        inp2.value = '';
+        inp2.removeAttribute("readonly");
+        var inp3 = new_row.cells[3].getElementsByTagName('input')[0];
+        inp3.id += len;
+        inp3.value = '';
+        inp3.removeAttribute("readonly");
+        var inp4 = new_row.cells[4].getElementsByTagName('input')[0];
+        inp4.id += len;
+        inp4.value = '';
+        inp4.removeAttribute("readonly");
+        y.appendChild( new_row );
+        
+        document.getElementById('arrlen').value = len;
+        console.log("value="+document.getElementById('arrlen').value);
+    }
+    
+
+
+</script>
+         <!-- Page Heading -->
+        
+
+
+            <h3>Select program </h3>
+           
+                
+                    <br>
+                        <form class="form-horizontal" role="form" action="/addsubprogram" method="post">
+                            <p hidden> 
+                            <input type="text" tabindex="1"  name="arrlen" id="arrlen" value={{len}} readonly=""><br>    
+                            <input type="text" tabindex="1"  name="acid" value ="{{acid}}" readonly=""><br>
+                            <input type="text" tabindex="1"  name="year" value="{{subprogram.Year}}" readonly="">
+                            <input type="text" tabindex="1"  name="semes" value= "{{subprogram.semester}}" readonly="">
+                            </p>
+
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label" >Year Level : {{subprogram.Year}}</label>
+                              
+
+                              
+                              
+                            </div>
+                            <label for="inputType" class="col-md-2 control-label" >Semester : {{subprogram.semester}} </label>
+                            
+                              
+                           
+                     <div class="btn-group">
+                        <button id="tab_2_submit" class="btn btn-mini" type="button" onclick="insRow()">Insert</button>
+                    </div>
+                  <div class="row content">       
+                        <div id="tab_2"><table class="table muffin table-striped table-hover margin-bottom0" id="subjecttable">
+                        <thead>
+                            <tr>
+                            <th >Index</th>
+                            <th><a href="javascript:table_sort('tab_2',1)">Subject code</a></th>
+                            <th><a href="javascript:table_sort('tab_2',2)">Subject name</a></th>
+                            <th><a href="javascript:table_sort('tab_2',3)">Subject Lecturer</a></th>
+                            <th><a href="javascript:table_sort('tab_2',4)">Subject Credits</a></th>
+                            <th><a href="javascript:table_sort('tab_2',4)">Delete</a></th>                            
+                            </tr>
+                        </thead>
+                        <tbody id="subjectbody">
+                        	{{#each subprogram.subject}}
+	                            <tr>
+	                            <td>{{inc @index}}</td>
+	                            <td><input type="text" id="subject_code" name="subject_code" value={{_id}} readonly></td>
+	                            <td><input type="text" name="subject_name" value={{sub_name}} readonly></td>
+	                            <td>
+                                {{#each sub_lecter}}
+                                    <input type="text" name="subject_lec" value='{{local.title}}{{local.name}}' readonly><br>
+                                {{/each}}
+                                </td>
+
+	                            <td><input type="text" name="subject_credit" value={{sub_credit}} readonly > </td>
+	                            <td>
+	                                <button class="btn btn-xs btn-warning" id="delPOIbutton" value="Delete" onclick="deleteRow(this)">
+	                                
+	                                  <span class="glyphicon glyphicon-trash"></span>
+	                                </button>
+	                            </td>
+	                            </tr>
+                            {{/each}}
+                            
+                        </tbody>
+                        </table>
+                        </div>
+
+                        
+                        
+                        <!-- end: table full -->
+                    <div class="table-foot muffin"> 
+                        
+                        <div class="pull-right">
+                        <div class="btn-group">
+                            <button id="tab_2_unselect" class="btn btn-mini" type="button"><i class="glyphicon glyphicon-remove"></i></button>
+                            <button id="tab_2_selectall" class="btn btn-mini" type="button">All</button>
+                        </div>
+                        
+                        <div class="btn-group">
+                            <button id="tab_2_submit" class="btn btn-mini" type="button">Import</button>
+                        </div>
+                        <div class="btn-group">
+                            <button id="tab_2_submit" class="btn btn-mini" type="button">Export</button>
+                        </div>
+                                    
+                        </div>
+                        <div class="btn-group">
+                            <button id="tab_2_submit" class="btn btn-mini" type="submit">Submit</button>
+                        </div>
+                            
+                        
+                    </div>
+                            <br>
+                            <br>
+                            
+
+                        </td>
+                    </tr>
+                
+                </div>
+        </form>

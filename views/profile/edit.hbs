@@ -1,0 +1,24 @@
+<form action="/edit" method="post" <!--enctype="multipart/form-data"--> >
+	 <label>Image</label><img src="/image.png"  name="userimage" id="userimage"  />
+	<input type="file" name="file"><br>
+	<label>Title</label>
+	  <input type="text" tabindex="1" placeholder="{{ user.local.title }}" name="title" value ="{{ user.local.title }}" required>
+	<label>Name</label>
+	  <input type="text" tabindex="1" placeholder="Enter Your Name" name="nameuser" value ="{{ user.local.name}}"   required><br>
+	  <label>Position</label>
+	  <input type="text" tabindex="1" placeholder="Enter Your position" name="position" value ="{{ user.local.position}}"   required><br>
+	<label>Gender</label>
+	  <input type="text" tabindex="1" placeholder="Enter Your gender" name="gender" value ="{{ user.local.gender }}" required>
+	<label>Email</label>
+	  <input type="text" tabindex="1" placeholder="Enter Your Email Address" name="email" value ="{{ user.local.email }}" readonly><br>
+	 <label>Salary</label>
+	  <input type="text" tabindex="1" placeholder="Enter Your salary" name="salary" value ="{{ user.local.salary }}" required><br>
+	 <label>Year Attended</label>
+	  <input type="text" tabindex="1" placeholder="Enter Your Year Attended" name="year" value ="{{ user.local.yearattend }}" required><br>
+	 <label>Faculty</label>
+	  <input type="text" tabindex="1" placeholder="Enter Your Faculty" name="faculty" value ="{{ user.local.faculty }}" required>
+
+	<footer>
+	  <input type="submit" class="btnLogin" value="Update" tabindex="1">
+	</footer>
+</form>

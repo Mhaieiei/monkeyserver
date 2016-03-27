@@ -1,0 +1,111 @@
+<%- include ../../header.ejs %>
+
+<% if(Userinfo.advisingProject.length >0){ %>
+<%
+	var i,j;
+	var advisor = [];
+	var advisee = [];
+	var coadvisor =[];
+	var examin =[];
+	var object;
+	for(i=0;i< Userinfo.advisingProject.length;i++){
+		for(j=0; j< Userinfo.advisingProject[i].user.length; j++){
+            advisee.push([]);
+            coadvisor.push([]);
+            examin.push([]);
+			object = {
+					'name': Userinfo.advisingProject[i].user[j].iduser.local.name,
+					'surname' : Userinfo.advisingProject[i].user[j].iduser.local.surname,
+					'title' : Userinfo.advisingProject[i].user[j].iduser.local.title,
+				}
+			if(Userinfo.advisingProject[i].user[j].typeuser == 'advisor'){
+				advisor[i] = object;
+			}
+			else if(Userinfo.advisingProject[i].user[j].typeuser == 'advisee'){
+				advisee[i].push(object);
+			}
+			else if(Userinfo.advisingProject[i].user[j].typeuser == 'coadvisor'){
+				coadvisor[i].push(object);
+			}
+			else{
+				examin[i].push(object);
+			}
+		}	
+	}
+	
+%>				
+			<!-- <%= Userinfo.advisingProject[0].user[0].typeuser %>
+				<%= Userinfo.advisingProject[0].user[0].iduser.local.username %>
+				<%= advisee[0][0].name %>
+				<%= advisor[0].name %> -->
+				
+                <h3>Thesis Information </h3>
+                <form class="form-horizontal" role="form">
+                    </div>
+
+                    <div id="tab_2"><table class="table muffin table-striped table-hover margin-bottom0">
+                    <thead>
+                        <tr>                        
+                        <th><a href="javascript:table_sort('tab_2',1)">Name</a></th>
+                        <th><a href="javascript:table_sort('tab_2',3)">Advisee</a></th>
+                        <th><a href="javascript:table_sort('tab_2',3)">Advisor</a></th>
+                        <th><a href="javascript:table_sort('tab_2',4)">Co-advisor</a></th>
+                        <th><a href="javascript:table_sort('tab_2',6)">Delete</a></th>
+                        </tr>
+                    </thead>
+                   	<tbody>
+                   		
+                    	<% for(i=0;i< Userinfo.advisingProject.length;i++){%>
+                    	<tr>
+                    		<td><%= Userinfo.advisingProject[i].nametitle %></td>
+                    		<td>
+	                    		<% for(j=0;j< advisee[i].length; j++){%>
+	                    			- <%= advisee[i][j].title %> <%= advisee[i][j].name %> <%= advisee[i][j].surname %><br>
+	                    		<%}%>
+                    		</td>
+                    		<td><%= advisor[i].title %> <%= advisor[i].name %> <%= advisor[i].surname %></td>	
+                    		<td>
+                    			<% if(coadvisor != []){
+                    				for(j=0;j< coadvisor[i].length;j++){%>
+                    					- <%= coadvisor[i][j].title %> <%= coadvisor[i][j].name %> <%= coadvisor[i][j].surname %> <br>
+                    				<%}
+                    			}%>
+                    		</td>
+                    		<td><a href='/delthesis?'>delete</a></td>
+                    	</tr>
+                    	<%}%>
+                        
+ <%}%> 
+                  </tbody>
+                    </table>
+                    </div>
+                    
+                    
+                    <!-- end: table full -->
+                    <div class="table-foot muffin"> 
+                        
+                        <div class="pull-right">
+                        <div class="btn-group">
+                            <button id="tab_2_unselect" class="btn btn-mini" type="button"><i class="glyphicon glyphicon-remove"></i></button>
+                            <button id="tab_2_selectall" class="btn btn-mini" type="button">All</button>
+                        </div>
+                        
+                        <div class="btn-group">
+                            <a href = "/addthesis?user=<%=user%>"><button id="tab_2_add" class="btn btn-mini" type="button">Add</button></a>
+                        </div>
+                        
+                                    
+                        </div>
+                        
+                        
+                        
+                    </div>
+
+                </form>
+                
+
+        
+
+
+
+<%- include ../../footer.ejs %>

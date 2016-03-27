@@ -1,0 +1,178 @@
+ <div class="well">
+            <h3>Edit Personal infomation</h3>
+            <div class="row content">
+                <br>
+
+                <table width="100%" border="0">
+                 <tr valign="top">
+                    <td bgcolor="#fff" width="20%">
+                      <div class="container-fluid">
+                          <div class="row-fluid">
+                              <div class="span6">
+                                <div class="col-md-6">
+                                    <img data-src="http://rihappy.vteximg.com.br/arquivos/ids/294059-800-800/100105944-5035397-64081-boneco-buzz-lightyear-falante-toyng.jpg" class="img-circle" alt="200x200" style="width: 200px; height: 200px;" data-holder-rendered="true">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <input type="file" name="img[]" class="file">
+                                    <div class="input-group input-group-sm" style="width: 70%">
+                                      <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+                                      <input type="text" class="form-control input-lg" disabled placeholder="Upload Image">
+                                      <span class="input-group-btn">
+                                        <button class="browse btn btn-primary input-lg" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+                                      </span>
+                                    </div>
+                                </div>
+        
+                              </div><!--/span-->
+                          </div><!--row-->
+                      </div>
+                    </td>
+                    <td>
+                        
+
+                        <form action="/edit" method="post" class="form-horizontal" role="form">
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Username ID :</label>
+                              <div class="col-md-4">
+                                  <input type="text" class="form-control" name="username" value ="{{ user.local.username }}" id="inputType">
+                              </div>
+                            </div>
+                             <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">ID : </label>
+                              <div class="col-md-4">
+                                  <input type="text" class="form-control" name="ID" value="{{user.local.ID}}" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label" >Title : </label>
+                              <div class="col-md-3">
+                                  <input type="text" class="form-control" name="title" value ="{{ user.local.title }}" id="inputType">
+                              </div>
+
+                              
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Name : </label>
+                              <div class="col-md-3">
+                                  <input type="text" class="form-control"  name="nameuser" value ="{{ user.local.name}}" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Surname : </label>
+                              <div class="col-md-3">
+                                  <input type="text" class="form-control"name="surname" value="{{user.local.surname}}" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Gender : </label>
+                              <div class="col-md-3">
+                                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Gender
+                                  <span class="caret"></span></button>
+                                  <ul class="dropdown-menu" name="gender">
+                                    <li><a href="#">Male</a></li>
+                                    <li><a href="#">Female</a></li>
+                                  
+                                  </ul>
+                              </div>
+                              <label for="inputType" class="col-md-2 control-label">Date of Birth : </label>
+                              <div class='col-md-4'>
+                                  <div class="form-group">
+                                          <div class='input-group date' id='datetimepicker2'>
+                                              <input type='text' class="form-control" />
+                                              <span class="input-group-addon">
+                                                  <span class="glyphicon glyphicon-calendar"></span>
+                                              </span>
+                                          </div>
+                                  </div>
+                              </div>
+                                  <script type="text/javascript">
+                                      $(function () {
+                                          $('#datetimepicker2').datetimepicker({
+                                              locale: 'ru'
+                                          });
+                                      });
+                                  </script>
+                              </div>
+                            </div>
+
+                            </div>
+
+
+                  
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Academic Position : </label>
+                              <div class="col-md-3">
+                                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Academic Position
+                                  <span class="caret"></span></button>
+                                  <ul class="dropdown-menu">
+                                    <li><a href="#">None</a></li>
+                                    <li><a href="#">Professor</a></li>
+                                    <li><a href="#">Associate professor</a></li>
+                                    <li><a href="#">Assistant professor</a></li>
+                                    <li><a href="#">Adjunct professor</a></li>
+                                    <li><a href="#">Visting professor</a></li>
+                                    <li><a href="#">Postdoctoral appointment</a></li>
+                                  </ul>
+                              </div>
+                              <label for="inputType" class="col-md-2 control-label">Administration position : </label>
+                              <div class="col-md-3">
+                                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Administration position
+                                  <span class="caret"></span></button>
+                                  <ul class="dropdown-menu">
+                                    <li><a href="#">None</a></li>
+                                    <li><a href="#">Dean</a></li>
+                                    <li><a href="#">Associate Dean</a></li>
+                                    <li><a href="#">Associate Dean for Administration</a></li>
+                                    <li><a href="#">Associate Dean for Finance and Procurement</a></li>
+                                    <li><a href="#">Assistant Dean for Administration</a></li>
+                                    <li><a href="#">Chief Executive</a></li>
+                                  </ul>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Salary : </label>
+                              <div class="col-md-4">
+                                  <input type="text" class="form-control" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Year attend : </label>
+                              <div class="col-md-4">
+                                  <input type="text" class="form-control" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Faculty : </label>
+                              <div class="col-md-5">
+                                  <input type="text" class="form-control" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Program : </label>
+                              <div class="col-md-5">
+                                  <input type="text" class="form-control" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Bank Account : </label>
+                              <div class="col-md-5">
+                                  <input type="text" class="form-control" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Email : </label>
+                              <div class="col-md-5">
+                                  <input type="text" class="form-control" id="inputType">
+                              </div>
+                            </div>
+
+                            <p align = "right"><button type="button" class="btn btn-primary">Edit</button>
+                             <button type="submit" class="btn btn-primary">Save</button></p>
+                        </form>
+
+                    </td>
+                </tr>
+            </table>
+            </div>
+        </div>
