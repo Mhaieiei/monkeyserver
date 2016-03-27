@@ -2269,39 +2269,7 @@ module.exports = function(app, passport) {
       
 	 
 	});
-	// app.get( '/tqf23',isLoggedIn, function( req, res ) {
-	// 	console.log( "Get TQF23");
-	// 	console.log(req.query.acid);
-	// 	console.log(req.query.program);
-		
-	// 	var index = 1, idof = 0;
-	// 	// User.find({''})//find user that advising project != null
-	// 	Work.Project
-	// 	.find({'acyear': req.query.acid})
-	// 	.populate({
-	// 		path:'advisee advisor coadvisor examiner',
-	// 		model : 'User'
-	// 	}).exec(function(err, works) {
-	// 	    if(err) console.log("find teach err"+err);
-	// 	   	  // This object should now be populated accordingly.
-	// 	    	console.log(works);
-	// 	    	console.log(works[0].nametitle);
- //    			res.render('qa/tqf23.hbs', {
- //    			  layout: "qaPage",
-	// 			  user : req.user,
-	//               Thesis: works,		             
-	//               year: req.query.year,
-	//               helpers: {
- //            		inc: function (value) { return parseInt(value) + 1; },
- //            		getindex:function() {return index++;},
- //            		setid:function(value) {idof =  parseInt(value) + 1;},
- //            		getid:function() {return idof;}
-
- //            		}
-
-	//             });	
-	// 	});   
-	// });
+	
 
 	app.get('/tqf23',isLoggedIn,function(req,res){
 		console.log("tqf23");
@@ -2365,67 +2333,62 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/tqf24',isLoggedIn,function(req,res){
-		console.log("tqf24 publications of advisors");
-		console.log(req.query.acid);
-		//console.log(req.query.program);
-		//var id = mongoose.Types.ObjectId('56d14d1c8393baa816709274');
-		Work.Project.aggregate([
+    console.log("tqf24 publications of advisors");
+    console.log(req.query.acid);
+    //console.log(req.query.program);
+    //var id = mongoose.Types.ObjectId('56d14d1c8393baa816709274');
+    Work.Project.aggregate([
         {
             $match: { $and: [
-	            { 'acyear' : req.query.acid },
-	            { '_type' : 'publicResearch' }
-	         ]}            
+              { 'acyear' : req.query.acid },
+              { '_type' : 'publicResearch' }
+           ]}            
         },
        { 
-       		$unwind: "$user"
+          $unwind: "$user"
        },
        {
-       		 $group: {
-   				 _id: "$user.iduser",
-   				 works: { $addToSet: { workid: '$_id',roleuser:"$user.typeuser"} }
- 		 }
+           $group: {
+           _id: "$user.iduser",
+           works: { $addToSet: { workid: '$_id',roleuser:"$user.typeuser"} }
+     }
 
-	   }], function( e, result ) {
-	  		console.log(result);
-	  		console.log(result[0].works);
-	  		console.log(result[1].works);
-	  		Work.Project.populate(result,[{path:'_id',model:'User'},{path:'works.workid',model:'Work'}],function(err,userwork){
-	  			if(err){console.log("first populate is err"+err);}
-	  			console.log(userwork);
-	  			console.log(userwork[0].works[0].roleuser);
-	  			Work.Project
-				.find({'acyear': req.query.acid})
-				.populate({
-					path:'user.iduser',
-					model : 'User'
-				}).exec(function(err, works) {
-				    if(err) console.log("find teach err"+err);
-				   	  // This object should now be populated accordingly.
-				    	console.log(works);
-				    	console.log(works[0].nametitle);
-				    	console.log(works[0].user[0].iduser.local.username);
-		    			res.render('qa/tqf24', {
-		    			  layout: "qaPage",
-						  user : req.user,
-						  examiner : userwork,
-			              Thesis: works,		             
-			             //  helpers: {
-		            		// inc: function (value) { return parseInt(value) + 1; },
-		            		// getindex:function() {return index++;},
-		            		// setid:function(value) {idof =  parseInt(value) + 1;},
-		            		// getid:function() {return idof;}
+     }], function( e, result ) {
+        console.log(result);
+        //console.log(result[0].works);
+        //console.log(result[1].works);
+        Work.Public.populate(result,[{path:'_id',model:'User'},{path:'works.workid',model:'Public'}],function(err,userwork){
+          if(err){console.log("first populate is err"+err);}
+          console.log("Userwork is"+userwork);
+          //console.log(userwork[0]._id.local.name);
+          //console.log(userwork[0].works[0]);
+          //console.log(userwork[0].works[0].workid.acyear);
+          //console.log(userwork[0].works[0].workid.namepublic);
+          //console.log(userwork[0].works[0].workid);
+          Work.Project
+        .find({'acyear': req.query.acid})
+        .populate({
+          path:'user.iduser',
+          model : 'User'
+        }).exec(function(err, works) {
+            if(err) console.log("find teach err"+err);
+              // This object should now be populated accordingly.
+              //console.log(works);
+              //console.log(works[0].nametitle);
+              //console.log(works[0].user[0].iduser.local.username);
+              res.render('qa/tqf24.ejs', {
+              user : req.user,
+              examiner : userwork,
+              Thesis: works,                
+                  }); 
+        });   
 
-		            		// }
+        });
+        
+           
+      });
 
-			            });	
-				});   
-
-	  		});
-	  		
-		  	   
-			});
-
-	});
+  });
 
 	app.get('/aun10-1', isLoggedIn, function (req, res) {
 	    console.log("FacilityAndInfrastrutureSchema");
