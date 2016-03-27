@@ -1,3 +1,4 @@
+var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
@@ -13,4 +14,4 @@ var schema = new mongoose.Schema({
 	elements: mongoose.Schema.Types.Mixed
 }, {strict: false});
 
-module.exports = mongoose.model('TemplateWorkflow', schema);
+module.exports = db.model('TemplateWorkflow', schema);

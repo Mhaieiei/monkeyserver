@@ -1,5 +1,6 @@
 // app/models/works.js
 // load the things we need
+var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
 //var extend = require('mongoose-schema-extend');
 var bcrypt   = require('bcrypt-nodejs');
@@ -61,34 +62,10 @@ var careerDevelopmentSchema = mongoose.Schema({
     academicYear: String
 });
 
-// var Work = mongoose.model('Work', workSchema, 'works');
-// var exports = module.exports = Work;
-// Work.Project = mongoose.model('Project', projectSchema, 'works');
+var works = db.model('Work', workSchema, 'works');
+works.Project = db.model('Project', projectSchema, 'works');
+works.Public = db.model('Public', publicResearchSchema, 'works');
+works.Training = db.model('training', trainingSchema, 'works');
+works.CareerDevelopment = db.model('careerDevelopment', careerDevelopmentSchema, 'works');
 
-module.exports = {
-    Work: workSchema,
-    Project: projectSchema,
-    Public: publicResearchSchema,
-    Training: trainingSchema,
-    CareerDevelopment: careerDevelopmentSchema,
-};
-
-
-//module.exports = workSchema;
-// create the model for users and expose it to our app
-//module.exports = mongoose.model('Work', workSchema);
-//module.exports = mongoose.model('Thesis', thesisSchema);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+module.exports = works;

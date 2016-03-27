@@ -1,3 +1,4 @@
+var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 
@@ -20,12 +21,7 @@ var detailSchema = mongoose.Schema({
 
 });
 
+var referenceCurriculum = db.model('referenceCurriculum', referenceCurriculumSchema, 'referenceCurriculumSchema');
+referenceCurriculum.detail = db.model('detail', detailSchema, 'referenceCurriculumSchema');
 
-//var referenceCurriculum = mongoose.model('referenceCurriculum', referenceCurriculumSchema, 'referenceCurriculumSchema');
-//module.exports = referenceCurriculum;
-//referenceCurriculum.detail = mongoose.model('detail', detailSchema, 'referenceCurriculumSchema');
-module.exports = {
-    ReferenceCurriculum: referenceCurriculumSchema,
-
-    Detail:detailSchema
-}
+module.exports = referenceCurriculum;

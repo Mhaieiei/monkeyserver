@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Monkey Office</title>
+
+        <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="dist/css/bootstrap-submenu.min.css">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css" id="" media="print, projection, screen" />
+    <script type="text/javascript" src="js/jquery-latest.js"></script> 
+    <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+    <link href="css/file-tree.min.css" rel="stylesheet"
+    <script type="text/javascript" src="../jquery-latest.js"></script>
+    <script type="text/javascript" src="../jquery.tablesorter.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        $("table").tablesorter({debug: true});
+    });
+    </script>
+</head>
+
+<body>
+
+    
+        <td>
+            <div class="container-fluid">
+            <div class="row-fluid">
+            <div class="span15">
+            <div class="col-md-15"> 
+           
+            <!--<form class="form-horizontal" role="form">-->
+                
+                <h2>AUN 7: Support Staff Quality</h2>
+       
+                <h5>Table : List of support staffs of International College</h5>
+                <div id="tab_aun7">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                            <th>No.</a></th>
+                            <th>Title</a></th>
+                            <th>Name-Surname</a></th>
+                            <th>Position</a></th>
+                            <th>Education</a></th>
+                            <th>Job Description</a></th>
+                            
+                            
+
+                        </tr>
+                       
+
+                    <!-- ใช้ th colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
+                    </thead>
+					{{#each docs}}
+                    <tbody>
+					{{#each user}}
+                        <tr>
+                        <td>{{getindex}}</td>
+                        <td>{{local.title}}</td>
+                        <td>{{local.name}} {{local.surname}}</td>
+                        <td>{{local.position}}</td>
+                        <td></td>
+                        <td>{{local.jobDescription}}</td>
+                        </tr>  
+                        {{/each}}
+                    </tbody>
+					{{/each}}
+                  </table>
+
+                </div>
+
+                <h5>Table : Termination and retirement information of support staffs</h5>
+                <div id="tab_aun6.9">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                            <th>No.</a></th>
+                            <th>Title</a></th>
+                            <th>Name-Surname</a></th>
+                            <th>Age</a></th>
+                            <td colspan=2>Termination</a></td>
+                            <td colspan=2>Retirement</a></td>
+                        </tr>
+                        <tr>
+                            <td colspan=1></td>
+                            <td colspan=1></td>
+                            <td colspan=1></td>
+                            <td colspan=1></td>
+                            <th> Remaining Times (years)</th>
+                            <th> Academic Years</th>
+                            <th> Remaining Times (years)</th>
+                            <th> Academic Years</th>
+
+                        </tr>
+                       
+
+                    <!-- ใช้ td colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <td colspan=8></td>
+                        </tr>
+                      
+                       
+                        <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>  
+                        
+                    </tbody>
+
+                  </table>
+
+                </div>
+          
+            </div>
+            </div>
+            </div>
+            </div>
+            
+
+        </td>
+
+
+
+         
+</body>
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> 
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> 
+<script src="bower_components/nestedSortable/jquery.mjs.nestedSortable.js"></script> 
+<script src="js/file-tree.min.js"></script> 
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>-->
+
+
+</html>

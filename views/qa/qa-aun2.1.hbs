@@ -53,116 +53,102 @@
                             <th>University</a></th>
                             <th>Country</a></th>
                             <th>Websites</a></th>
-                            
 
                         </tr>
-      {{#each docs}}
-
-
-	{{#each detail}}
-		{{country}}
-
-	{{/each}}
-
-
-{{/each}}
+      
                     </thead>
-					{{#each docs}}
-					{{#each detail}}
+					 {{#each docs}}
                     <tbody>
+					{{#each referenceCurriculum}}
+					{{#each detail}}
                         <tr>
-                        <td> {{getindex}}</td>
-                        <td>{{refProgramName}} </td>
-                        <td> {{degree}}</td>
-                        <td>{{university}} </td>
+                        <td>{{getindex}} </td>
+                        <td> {{refProgramName}}</td>
+                        <td>{{degree}} </td>
+                        <td> {{university}}</td>
                         <td> {{country}}</td>
                         <td>{{website}} </td>
                         
                         </tr>
-                       
-                        
+                       {{/each}}
+                        {{/each}}
                     </tbody>
-					{{/each}}
-					{{/each}}
+					{{/each}} 
                   </table>
                 </div>
 
-                <h5>Table : Structure of the curriculum</h5>
+
+				{{#each docs}}
+				{{#each structureOfCurriculum}}
+                <h5>Table : Structure of the curriculum (Plan {{plan}})</h5>
                 <div id="tab_structure">
                   <table class="tablesorter">
                     <thead align="center">
                         <tr>
                             <th>Knowledge Block</a></th>
-                            <td colspan=2 >Plan A1</a></td>
-                            <td colspan=2 >Plan A2</a></td>
-                            
-                            
-
+                            <td colspan=2 >{{plan}}</a></td>
                         </tr>
                         <tr>
                             <td colspan=1></td>
                             <td colspan=1></td>
                             <th>Credit Required</th>
                             <th>Percentage</th>
-                            <th>Credit Required</th>
-                            <th>Percentage</th>
+                           
                         </tr>
       
                     </thead>
+					{{#each knowledgeBlock}}
                     <tbody>
                         <tr>
+                        <td> {{subjectType}}</td>
                         <td> </td>
-                        <td> </td>
+                        <td>{{creditRequired}} </td>
                         <td> </td>
                         
                         </tr>
                        
                         
                     </tbody>
-
+					{{/each}}
                   </table>
                 </div>
+				{{/each}}
+                {{/each}}
 
                 <h5>Table : Distribution of the curriculum</h5>
                 <div id="tab_dis">
                   <table class="tablesorter">
                     <thead align="center">
+					{{#each subs}}
                         <tr>
-                            
-                            <td colspan=3 >Semester1</a></td>
-                            <td colspan=3 >Semester2</a></td>
-                            
-                            
-
+                            <td colspan=3 >Semester {{semester}}</a></td>
                         </tr>
                         <tr>
-                            
                             <td>Code</td>
                             <td>Subject</td>
                             <td>Credit</td>
-                            <td>Code</td>
-                            <td>Subject</td>
-                            <td>Credit</td>
-                            
                         </tr>
-
                     <!-- ใช้ th colspan กับ Plan ใช้ td กับข้อมูลปกติ -->
                     </thead>
                     <tbody>
                         <tr>
-                        <th colspan=6></th>
-                        </tr>
+						<td colspan=3>{{plan.plan}} : Year {{Year}}</td>
+						</tr>
+						{{#each subject}}
+						{{#each subcode}}
                         <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        </tr>    
-                        
-                    </tbody>
+						
 
+						
+                        <td>{{sub_code}}</td>
+                        <td>{{sub_name}}</td>
+                        <td>{{sub_credit}}</td>
+						
+                        </tr>    
+                       {{/each}}
+					   {{/each}} 
+                    </tbody>
+					{{/each}}
                   </table>
                 </div>
           

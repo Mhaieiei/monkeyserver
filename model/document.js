@@ -1,7 +1,10 @@
-var Schema = require('mongoose').Schema;
+var db = require('../lib/dbclient').db();
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var docSchema = new Schema({
-	personReceive: {
+
+	owner: {
 		type: String,
 		ref: 'user'
 	},
@@ -19,6 +22,11 @@ var docSchema = new Schema({
 		default: 'create'
 	},
 	
+	_assignees: [{
+		type: Schema.Types.ObjectId,
+		ref: 'user'
+	}],
+
 	relate2docs: [{
 		type: Schema.Types.ObjectId,
 		ref: 'document'
@@ -33,11 +41,7 @@ var docSchema = new Schema({
 });
 
 docSchema.statics.findByUser = function(user) {
-	return this.find({'personReceive': user});
-};
-
-docSchema.statics.findByAuthor = function(author, resultCallbackFunction) {
-	return this.find({'author': author}, resultCallbackFunction);
+	return this.find({'owner': user});
 };
 
 docSchema.methods.created = function() {
@@ -54,10 +58,10 @@ docSchema.methods.getStatus = function() {
 	return this.status;
 };
 
-docSchema.methods.personResponsible = function() {
-	return this.personReceive;
+docSchema.methods.assignees = function() {
+	return this._assignees;
 };
 
-module.exports = docSchema;
+module.exports = db.model('Document', docSchema);
 
 

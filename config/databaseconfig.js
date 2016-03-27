@@ -7,18 +7,16 @@ To use this file, please make sure to
 	3. Please fill in information in required parameters
 */
 
-//'mongodb://localhost:27017/nodewebapp'
-
-
+//mongodb://<dbuser>:<dbpassword>@ds025409.mlab.com:25409/monkeynode
 
 /* Required parameters */
-var host = 'ds031203.mlab.com';
-var port = '31203';
-var database = 'monkeyoffice';
+var host = 'ds025409.mlab.com';
+var port = '25409';
+var database = 'monkeynode';
 
 /* Optional parameters */
 var username = 'monkeyadmin';
-var password = 'AdminOffice123';
+var password = 'monkeyoffice';
 
 /* -------------------------- */
 exports.host = host;

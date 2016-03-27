@@ -59,12 +59,24 @@
 					{{#each evaluation}}
                     <tbody>
                         <tr>
-                        <td></td>
+                        <td>{{getindex}}</td>
 
                         <td>{{stakeholder.title}}</td>
 						{{#each EvaluationMethod}}
-                        <td>{{methodName}}</td>
-                        <td>{{frequency}}</td>
+                        
+
+						{{#if @first}} 
+                <td>{{methodName}}</td>
+                <td>{{frequency}}</td>
+                </tr>
+			 	
+				{{else}}
+                <tr>
+                <th></th>
+				<th></th>
+                <td>{{methodName}}</td>
+                <td>{{frequency}}</td>
+				{{/if}}
                         {{/each}}
                         </tr>  
                         

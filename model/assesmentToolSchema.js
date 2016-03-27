@@ -1,3 +1,4 @@
+var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 
@@ -17,4 +18,4 @@ var assesmentToolSchema = mongoose.Schema({
 
 });
 
-module.exports = assesmentToolSchema// JavaScript source code
+module.exports = db.model('assesmentToolSchema', assesmentToolSchema);

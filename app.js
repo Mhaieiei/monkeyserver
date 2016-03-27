@@ -4,7 +4,7 @@ module.exports = function(database) {
 
   var express = require('express');
   var path = require('path'); //path 
-  var fs = require('fs'); //file
+  var	fs = require('fs'); //file
   var busboy = require('connect-busboy');
   //var favicon = require('serve-favicon');
   var logger = require('morgan');
@@ -18,9 +18,10 @@ module.exports = function(database) {
   var session = require('express-session');
   var exphbs = require('express3-handlebars');  //handle bars
 
-  var compiledSchemas = require('./utility/schemaLoader')(database);
+  var db = require('lib/dbclient');
+  db.set(database);
 
-  require('./config/passport')(passport, compiledSchemas); // pass passport for configuration
+  require('./config/passport')(passport); // pass passport for configuration
   //var routes = require('./routes/index');
   //var users = require('./routes/users');
 
@@ -42,7 +43,7 @@ module.exports = function(database) {
   app.use(morgan('dev')); // log every request to the console
   app.use(cookieParser()); // read cookies (needed for auth)
 
-  app.use(bodyParser());
+  
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
 
@@ -58,8 +59,8 @@ module.exports = function(database) {
   app.use(passport.session()); // persistent login sessions
   app.use(flash()); // use connect-flash for flash messages stored in session
 
-  require('./routes/direct.js')(app, passport, compiledSchemas);
-  //app.use('/download', require('./routes/download/download'));
+  app.use('/download', require('./routes/download/download'));
+  require('./routes/direct.js')(app, passport);
   //app.use('/', routes);
   //app.use('/users', users);
 
@@ -96,7 +97,7 @@ module.exports = function(database) {
     });
   });
 
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', process.env.PORT || 5000);
 
   return app;
 }
