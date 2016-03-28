@@ -1,3 +1,4 @@
 restart server
 restart server1
 restart server2
+restart server3
