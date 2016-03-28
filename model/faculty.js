@@ -18,10 +18,19 @@ var facSchema = mongoose.Schema({
 	assesmentTool: [{ type: mongoose.Schema.Types.ObjectId, ref: 'assesmentToolSchema' }],
 	structureOfCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'structure' }],
 	referenceCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'referenceCurriculum' }],
-	Responsibility: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Responsibility' }]
+	Responsibility: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Responsibility' }],
+	noOfStaff: [{ type: mongoose.Schema.Types.ObjectId, ref: 'noOfStaff' }]
 
 
 
+});
+
+var noOfStaffSchema = mongoose.Schema({
+
+    staff: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    academicYear: String,
+    program: String,
+    type:String //academic staff, support staff
 });
 
 var EvaluationMethodSchema = mongoose.Schema({
@@ -78,5 +87,6 @@ var faculty = db.model('Faculty', facSchema, 'faculty');
 faculty.Evaluation = db.model('EvaluationMethod', EvaluationMethodSchema, 'faculty');
 faculty.Stakeholder = db.model('stakeholder', StakeholderSchema, 'faculty');
 faculty.ProgramManagement = db.model('ProgramManagement', ProgramManagement, 'faculty');
+faculty.noOfStaff = db.model('noOfStaff', noOfStaffSchema, 'faculty');
 
 module.exports = faculty;
