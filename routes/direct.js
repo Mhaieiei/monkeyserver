@@ -2297,7 +2297,7 @@ module.exports = function(app, passport) {
 	  		Work.Project.populate(result,{path:'_id',model:'User'},function(err,userwork){
 	  			if(err){console.log("first populate is err"+err);}
 	  			console.log(userwork);
-	  			console.log(userwork[0].works[0].roleuser);
+	  			//console.log(userwork[0].works[0].roleuser);
 	  			Work.Project
 				.find({'acyear': req.query.acid})
 				.populate({
