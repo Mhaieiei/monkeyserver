@@ -3599,7 +3599,7 @@ module.exports = function(app, passport) {
 
 	});
 
-	app.get('/create', function(req, res){
+	app.get('/workflow/create', function(req, res){
 		res.render('wf/create.hbs',
 			{layout:"workflowMain"});
 	});
