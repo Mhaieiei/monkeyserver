@@ -964,7 +964,7 @@ module.exports = function(app, passport) {
 		console.log('Admin Get Program');
 		console.log(years);
 		console.log(years[0]);
-		return Fac.find( function( err, faculty ) {
+		return Fac.find({ 'programname': { $exists: true } }, function( err, faculty ) {
         if( !err ) {
 			console.log(faculty);
             res.render("admin/faculty/program/program.hbs", {
@@ -1506,7 +1506,7 @@ module.exports = function(app, passport) {
 	//subject section======================================================================================================================
 	app.get('/subjects',isLoggedIn,function(req,res){
 		console.log('Admin Get Subject select');
-		return Fac.find( function( err, faculty ) {
+		return Fac.find({ 'programname': { $exists: true } }, function( err, faculty ) {
         if( !err ) {
 			console.log(faculty);
             res.render("admin/faculty/subject/subjectselect.hbs", {
@@ -2130,7 +2130,7 @@ module.exports = function(app, passport) {
 		console.log('Get QA Info(select program)');
 		console.log(years);
 		console.log(years[0]);
-		return Fac.find( function( err, faculty ) {
+		return Fac.find( { 'programname': { $exists: true } },function( err, faculty ) {
         if( !err ) {
 			console.log(faculty);
             res.render("qa/qa.hbs", {
