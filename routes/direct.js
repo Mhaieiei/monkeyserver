@@ -2292,12 +2292,12 @@ module.exports = function(app, passport) {
 
 	   }], function( e, result ) {
 	  		console.log(result);
-	  		console.log(result[0].works);
-	  		console.log(result[1].works);
+	  		//console.log(result[0].works);
+	  		//console.log(result[1].works);
 	  		Work.Project.populate(result,{path:'_id',model:'User'},function(err,userwork){
 	  			if(err){console.log("first populate is err"+err);}
 	  			console.log(userwork);
-	  			console.log(userwork[0].works[0].roleuser);
+	  			//console.log(userwork[0].works[0].roleuser);
 	  			Work.Project
 				.find({'acyear': req.query.acid})
 				.populate({
@@ -2307,8 +2307,8 @@ module.exports = function(app, passport) {
 				    if(err) console.log("find teach err"+err);
 				   	  // This object should now be populated accordingly.
 				    	console.log(works);
-				    	console.log(works[0].nametitle);
-				    	console.log(works[0].user[0].iduser.local.username);
+				    	//console.log(works[0].nametitle);
+				    	//console.log(works[0].user[0].iduser.local.username);
 		    			res.render('qa/tqf23_test.ejs', {
 		    			  //layout: "qaPage",
 						  user : req.user,
@@ -4064,7 +4064,7 @@ module.exports = function(app, passport) {
 
 	});
 
-	app.get('/create', function(req, res){
+	app.get('/workflow/create', function(req, res){
 		res.render('wf/create.hbs',
 			{layout:"workflowMain"});
 	});

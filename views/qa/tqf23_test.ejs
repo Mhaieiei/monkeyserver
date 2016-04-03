@@ -2,12 +2,7 @@
 
 <%- include ../header.ejs %>
 
-<!-- <%= Thesis %> -->
-
-<!-- <%= examiner[1].works[0].workid %>
-<%= examiner[1].works[0].roleuser %>
-<%= Thesis[0].user[0].iduser.local.username %>
-<%= Thesis[0].user[0].typeuser %> -->
+<%if(Thesis.length >0){ %>
 <%
 	var i,j,k;
 	var advisor = [];
@@ -271,7 +266,7 @@
             </div>
       </div>
     </div>
-
+<%}%>
 
 
 	
