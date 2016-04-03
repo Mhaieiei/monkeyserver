@@ -43,9 +43,9 @@ module.exports = function(database) {
   app.use(morgan('dev')); // log every request to the console
   app.use(cookieParser()); // read cookies (needed for auth)
 
-  
-  app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+  
 
   app.use(busboy());
   // uncomment after placing your favicon in /public

@@ -555,7 +555,7 @@ module.exports = function(app, passport) {
 			});
 			
 			
-  		});
+  	});
 	//=====================================
     // Get Education Info. ==============================
     // =====================================
@@ -4156,7 +4156,38 @@ module.exports = function(app, passport) {
 				layout: "homePage"
 			});
 	});
+  //===========================API=================================================================
+    app.get('/api/user/:id',function(req,res){
+      console.log("get api user id");
+      var id = req.params.id;
+      console.log(id);
+      User.findById(id, function(err, result){
+        if(err){console.log("api err"+err);}
+        res.json(result);
+      }); 
 
+    });
+
+    // app.put('/api/user/:id',isLoggedIn, function (req, res){
+    //   console.log( "Update userprofile");
+    //   console.log(req.body.username);
+    //   var leavestatic = req.query.leave; //localhost:5000/api/user/admin?leave=1
+    
+    // User.findById(id, function(err, user) {
+    //       if (err){ 
+    //         console.log("Upload Failed!");
+    //         return done(err);}
+          
+    //       if (user){
+    //           console.log(user);
+    //           console.log("eiei");
+    //           user.updateLeave(leavestatic,req, res)              
+    //       }
+
+    //   });
+      
+      
+    // });
 	
 
 };

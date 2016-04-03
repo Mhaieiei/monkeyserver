@@ -55,6 +55,13 @@ userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
 
+// userSchema.methods.updateLeace = function(leave,request,response){
+// 	console.log("user update leaveday");
+// 	this.local.
+// }
+
+
+
 userSchema.methods.updateUser = function(request, response){
 	console.log("User Update user");
 	console.log(request.user);
