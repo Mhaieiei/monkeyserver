@@ -8,38 +8,29 @@
     <meta name="author" content="">
 
     <title>Monkey Office</title>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+    
     <!-- Bootstrap Core CSS -->
+	
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
-    <!-- <link rel="stylesheet" href="dist/css/bootstrap-submenu.min.css">
- -->
+    <!-- <link rel="stylesheet" href="/stylesheets/bootstrap-submenu.min.css">-->
+	
 
     <!-- Custom CSS -->
     <link href="/stylesheets/modern-business.css" rel="stylesheet">
     <link href="/stylesheets/file-tree.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/style.css" type="text/css" id="" media="print, projection, screen" />
+	<script type="text/javascript" src="/javascripts/jquery-latest.js"></script> 
+    <script type="text/javascript" src="/javascripts/jquery.tablesorter.js"></script>
 
     <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-   
-    
-    <style type="text/css">
-        body { margin-top: 70px; }
-
-        header { margin-bottom: 40px; }
-
-        textarea { resize: none; }
-
-        .file-tree {
-          margin-bottom: 60px;
-          height: 70px;
-        }
-
-        #demo p.well.well-sm { height: 80px; }
-    </style>
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript">
+    $(function() {
+        $("table").tablesorter({debug: true});
+    });
+    </script>
 </head>
 
 <body>
@@ -139,73 +130,13 @@
           
       
 </body>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> 
 <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> 
-<!-- <script src="bower_components/nestedSortable/jquery.mjs.nestedSortable.js"></script>  -->
 <script src="/javascripts/file-tree.min.js"></script> 
 {{{body}}}
 
-<script type="text/javascript">
-$('.carousel').carousel({
-        interval: 5000 //changes the speed
-    })
 
-    $(function(){
-        $(".dropdown-menu > li > a.trigger").on("click",function(e){
-            var current=$(this).next();
-            var grandparent=$(this).parent().parent();
-            if($(this).hasClass('left-caret')||$(this).hasClass('right-caret'))
-                $(this).toggleClass('right-caret left-caret');
-            grandparent.find('.left-caret').not(this).toggleClass('right-caret left-caret');
-            grandparent.find(".sub-menu:visible").not(current).hide();
-            current.toggle();
-            e.stopPropagation();
-        });
-        $(".dropdown-menu > li > a:not(.trigger)").on("click",function(){
-            var root=$(this).closest('.dropdown');
-            root.find('.left-caret').toggleClass('right-caret left-caret');
-            root.find('.sub-menu:visible').hide();
-        });
-    });
-$(document).on('click', '.browse', function(){
-  var file = $(this).parent().parent().parent().find('.file');
-  file.trigger('click');
-});
-$(document).on('change', '.file', function(){
-  $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
-});
-$(function(){
-        $(".dropdown-menu > li > a.trigger").on("click",function(e){
-            var current=$(this).next();
-            var grandparent=$(this).parent().parent();
-            if($(this).hasClass('left-caret')||$(this).hasClass('right-caret'))
-                $(this).toggleClass('right-caret left-caret');
-            grandparent.find('.left-caret').not(this).toggleClass('right-caret left-caret');
-            grandparent.find(".sub-menu:visible").not(current).hide();
-            current.toggle();
-            e.stopPropagation();
-        });
-        $(".dropdown-menu > li > a:not(.trigger)").on("click",function(){
-            var root=$(this).closest('.dropdown');
-            root.find('.left-caret').toggleClass('right-caret left-caret');
-            root.find('.sub-menu:visible').hide();
-        });
-    });
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-36251023-1']);
-  _gaq.push(['_setDomainName', 'jqueryscript.net']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
 
 
 </html>
