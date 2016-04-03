@@ -2266,7 +2266,7 @@ th {
 .table {
   width: 100%;
   max-width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .table > thead > tr > th,
 .table > tbody > tr > th,
@@ -6799,4 +6799,20 @@ input[readonly] {
   user-select: none;
   cursor:pointer;
 }
+
+
+th {text-align:center}
+//sel
+body {
+    padding:50px;
+}
+select {
+    background: yellow !important;
+    color:#000;
+    text-shadow:0 1px 0 rgba(0, 0, 0, 0.4);
+}
+option:not(:checked) {
+    background-color: #FFF;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */

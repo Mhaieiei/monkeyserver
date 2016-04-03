@@ -20,41 +20,45 @@ $(document).ready(function() {
                     <br>
                         <form class="form-horizontal" role="form" action"/user" method="post">
                             <div class="form-group">
-                              <label for="inputType" class="col-md-2 control-label">Program : </label>
-                              <div class="col-md-4">
-                                  <select class="form-control"  name="program" id="program">
-                                    <option value='a'>----Select Program--</option>
-                                    {{#each faculty}}
-                                      <option value="{{ @index}}">{{ programname }}</option>
+                                <label for="inputType" class="col-md-2 control-label">Program : </label>
+                                <div class="col-md-4">
+                                  
+                                  <select class="btn btn-primary dropdown-toggle" class="caret" name="program" id="program">
+                                      <option value='a'>----Select Program--</option>
+                                      {{#each faculty}}
+                                        <option value="{{ @index}}">{{ programname }}</option>
+                                       
+                                      {{/each}} 
+                                      <option value='other'>Other</option>        
+                                      
+                                  </select>
                                      
-                                    {{/each}} 
-                                    <option value='other'>Other</option>        
-                                    
-                                </select>
-                                   
-                              </div>
-                            <label for="inputType" class="col-md-2 control-label">Program track : </label>
-                              <div class="col-md-4">
-                                  <select class="form-control"  id="sub_programs" name="sub_programs">
-                                    <option id='a'>-------</option>
-                                        {{#each faculty}} 
-                                          {{set @index}}
-                                            {{#each sub_program}}
-                                              <option id = "{{get}}" value="{{this}}">{{this}}</option>         
-                                              {{/each}}
-                                        {{/each}}
-                                    <option id='other'>-------</option>
-                                </select>
-                              </div>
+                                </div>
+
+                              <label for="inputType" class="col-md-2 control-label">Program track : </label>
+                                <div class="col-md-4">
+                                    <select class="btn btn-primary dropdown-toggle" class="caret" name="sub_programs" id="sub_programs">
+                                      <option id='a'>-------</option>
+                                          {{#each faculty}} 
+                                            {{set @index}}
+                                              {{#each sub_program}}
+                                                <option id = "{{get}}" value="{{this}}">{{this}}</option>         
+                                                {{/each}}
+                                          {{/each}}
+                                      <option id='other'>-------</option>
+                                  </select>
+                                </div>
+                            </div>
 
                             <div class="form-group">
+
                               <label for="inputType" class="col-md-2 control-label">User role : </label>
                             
                                <div class="col-md-4">
-                                  <select class="form-control" style="width:100px" name="userrole">
-                                    <option value="all">ALL</option>
-                                    <option value="student">student</option>
-                                    <option value="staff">staff</option>
+                                <select class="btn btn-primary dropdown-toggle" class="caret" name="userrole" id="userrole">
+                                    <option value="all">All</option>
+                                    <option value="student">Student</option>
+                                    <option value="staff">Staff</option>
                                 </select>
                                 </div>
                               
