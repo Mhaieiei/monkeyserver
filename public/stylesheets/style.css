@@ -290,4 +290,51 @@ background-color: #8dbdd8;
     color: #fff!important;
 }
 
+footer, .page div { padding: 0px; }
 
+header {
+  background: #fff;  
+  padding: 0px;
+}
+
+footer {
+  background: #fff;  
+}
+
+.main { position: relative; }
+
+aside {
+  background: #fff; 
+  bottom: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100px;
+  padding: 0px;
+}
+
+.content { 
+    margin-left: 250px; 
+    margin-right: 150px
+    left: 200;
+    width: 1000px;
+    padding: 10px; 
+}
+
+/*--------------
+     Header
+---------------*/
+
+.ui.menu .header.item,
+.ui.vertical.menu .header.item {
+  margin: 0em;
+  background: '';
+  text-transform: normal;
+  font-weight: bold;
+}
+
+.ui.vertical.menu .item > .header:not(.ui) {
+  margin: 0em 0em 0.5em;
+  font-size: 1em;
+  font-weight: bold;
+}
