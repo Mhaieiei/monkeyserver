@@ -149,10 +149,11 @@
 
             </div>
         </div>
+
         <div id="passive_order_categories" class="tab-pane">
             <div class="panel-body">
             	<form class="form-horizontal" role="form">
-	               
+	              
 					
 					<table class="tablesorter">
 					    <thead>
@@ -167,14 +168,14 @@
 						 <tbody>
 						   
 						     
-						      	
+						      	{{#each meetings}}
 						        <tr>
-							        <td></td>
-							        <td></td>
-							        <td></td>
-							        <td></td>		       
+							        <td>{{inc @index}}</td>
+							        <td>{{meetingDate}}</td>
+							        <td>{{noOfParticipation}}</td>
+							        <td>{{percentageOfParticipation}}</td>		       
 						        </tr>
-						      
+						      	{{/each}}
 						   
 						    
 						   </tbody>

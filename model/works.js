@@ -61,11 +61,19 @@ var careerDevelopmentSchema = mongoose.Schema({
     hour: Number,
     academicYear: String
 });
+var meetingOfProgramManagement = mongoose.Schema({
+    _type : {type: String, default: 'meetingOfProgram'},
+    acyear : String,
+    meetingDate: String,
+    noOfParticipation: Number,
+    percentageOfParticipation:Number   
+});
 
 var works = db.model('Work', workSchema, 'works');
 works.Project = db.model('Project', projectSchema, 'works');
 works.Public = db.model('Public', publicResearchSchema, 'works');
 works.Training = db.model('training', trainingSchema, 'works');
 works.CareerDevelopment = db.model('careerDevelopment', careerDevelopmentSchema, 'works');
+works.Meeting = db.model('meetingProgram', meetingOfProgramManagement, 'works');
 
 module.exports = works;
