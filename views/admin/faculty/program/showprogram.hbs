@@ -129,9 +129,7 @@
 						<!-- end: table full--> 
 						<div class="table-foot"> 
 				        	<div class="pull-right">
-				                <div class="btn-group">
-								    <a href = "/addsubprogram?acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add Program Subjects</button></a>
-								</div>
+				               
 				           
 							    <div class="btn-group">
 							   		 <a href = "/editsubprogram?id={{ac_id}}&year={{Year}}&semes={{semester}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>
@@ -143,7 +141,9 @@
 				 		</div>
 				 	<br><br>		 
 				 	{{/each}}  
-
+				 	 <div class="btn-group">
+					    <a href = "/addsubprogram?acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add Program Subjects</button></a>
+					</div>
 	            </form>
 	           <br><br>   
 
@@ -183,7 +183,7 @@
 						<div class="table-foot"> 
 				        	<div class="pull-right">
 				                <div class="btn-group">
-								    <a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Add new meeting</button></a>
+								    <a href = "/addmeeting?acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add new meeting</button></a>
 								</div>
 							    <div class="btn-group">
 							   		 <a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>

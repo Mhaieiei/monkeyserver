@@ -605,24 +605,6 @@ module.exports = function(app, passport) {
 		var id = req.body.level+req.body.year;
 		console.log(id);
 
-		/*User.findOne({ 'local.email' : req.body.email }, function(err, user) {
-				if (err){ 
-					console.log("Upload Failed!");
-					return done(err);}
-				
-				if (user!=null){
-					console.log(user.education[0]);
-					if(user.education[0] != null)
-						console.log(req.body.level);
-						console.log(req.body.degree);
-						console.log(user);
-						console.log("eiei");
-						user.addEducation(req, res)
-						
-				}
-
-		});*/
-
 		User.update({ 'local.username' : req.body.username },
 		{
 
@@ -641,21 +623,22 @@ module.exports = function(app, passport) {
 			    else console.log(user);
 		});
 		res.redirect('/education_inf?name='+req.body.username);
-		
-		
+				
 	});
+
 	//edit education information.
 	app.get('/editeducation',isLoggedIn,function(req,res){
 		var index =req.query.id;
 		console.log("Get Edit education");
 		console.log(req.query.id);
 		res.render('profile/editedu.hbs', {
-			layout: "profileMain",
-            user : req.user, // get the user out of session and pass to template
+			layout: "profileAdmin",
+      user : req.user, // get the user out of session and pass to template
 			index : req.query.id,
 			education : req.user.education[index]
         });
 	});
+
 	app.post('/editedu',isLoggedIn,function(req,res){
 		console.log("Edit education");
 		console.log(req.query.id);
@@ -981,8 +964,7 @@ module.exports = function(app, passport) {
         } else {
             return console.log( err+"mhaieiei" );
 	        }
-	    });
-		
+	    });		
 		
 	});
 	app.post('/programs',isLoggedIn,function(req,res){
@@ -1235,31 +1217,6 @@ module.exports = function(app, passport) {
 	    var array = [];	   
 	    var arrsub = [];
 	    var year_1,year_2,year_3= "";
-		// var str = req.body.subject_lec;
-		// var arr = str.split(",");
-
-		//FIND YEAR
-		//
-  //        Acyear.findById(req.body.acid , function(err, ac) {        
-  //       if (err){
-		// 	console.log("Error ...1");
-		// }
-  //       else {
-  //          console.log("Find year from this");
-	 //       var acyear_1 = ac.academic_year;
-	 //       var acyear_2 = acyear_1-1;
-	 //        year_1 = acyear_1.toString();
-	 //        year_2 = acyear_2.toString();
-	 //        year_3 = "<"+year_2;
-	 //       console.log("year1"+year_1+"year2"+year_2+"year3"+year_3);
-	   	  
-  //      	 }
-  //      	});
-  
-       
-       
-
-		
 		console.log(lenn);
 
 
@@ -1498,11 +1455,21 @@ module.exports = function(app, passport) {
 		 	    else console.log(results);
 		      }
 		   );
-		res.redirect('/showprogram?id='+req.query.acid);
+		res.redirect('/showprogram?id='+req.query.acid);	
 
-		
-		
 	});
+
+  app.get('/addmeeting',isLoggedIn,function(req,res){
+    console.log('Admin add new Meetings to program');
+    console.log(req.query.acid);
+    console.log(yearlevel);
+    res.render("admin/faculty/program/meeting.hbs",{
+      layout : "adminPage",
+      user : req.user,
+      acid : req.query.acid,
+      yearlevel : yearlevel
+    });
+  }); 
 	//subject section======================================================================================================================
 	app.get('/subjects',isLoggedIn,function(req,res){
 		console.log('Admin Get Subject select');
