@@ -1045,11 +1045,11 @@ module.exports = function(app, passport) {
 
 
     
-    app.get('/showprogram',isLoggedIn,function(req,res){
+  app.get('/showprogram',isLoggedIn,function(req,res){
     	console.log("Admin get showprogram");
     	console.log(req.query.id);
 
-    	Teach
+    Teach
 		.find({'ac_id': req.query.id})
 		.populate('subject.subcode')
 		.exec(function(err, docs) {
@@ -1062,15 +1062,25 @@ module.exports = function(app, passport) {
 		    if(err) console.log(err);
 		   	  // This object should now be populated accordingly.
 		    console.log(subs);
-
+        Work.Meeting.find( { 
+          $and: [
+                     { '_type' :  'meetingOfProgram' },
+                     {  'acyear' : req.query.id}
+               ]      
+        }, function (err, meeting) {
+          if(err) console.log("query meetings err"+err);
+          console.log(meeting);
     			res.render("admin/faculty/program/showprogram.hbs", {
             	layout: "adminPage",
             	user : req.user,
             	teachsemes: subs,
+              meetings : meeting,
             	year : years,
             	acid : req.query.id,
-           
+              helpers: {
+              inc: function (value) { return parseInt(value) + 1; } } 
              });
+        });
 		  });
 		});
 
@@ -1460,7 +1470,7 @@ module.exports = function(app, passport) {
 	});
 
   app.get('/addmeeting',isLoggedIn,function(req,res){
-    console.log('Admin add new Meetings to program');
+    console.log('Admin get add new Meetings to program');
     console.log(req.query.acid);
     console.log(yearlevel);
     res.render("admin/faculty/program/meeting.hbs",{
@@ -1469,6 +1479,54 @@ module.exports = function(app, passport) {
       acid : req.query.acid,
       yearlevel : yearlevel
     });
+  }); 
+
+   app.post('/addmeeting',isLoggedIn,function(req,res){
+    console.log('Admin post add new Meetings to program');
+    console.log(req.body.fromDate);
+    console.log(req.body.acyear);
+    console.log(req.body.participation);
+    console.log(req.body.percentpart);
+    Work.findOne( { 
+      $and: [
+                 { '_type' :  'meetingOfProgram' },
+                 {  'Date' : req.body.fromDate }
+           ]      
+    }, function (err, rows) {
+            if(err){
+              console.log("Find meeting err"+err);
+            }
+            if(rows != null){
+              console.log("This work have already");
+              console.log(rows);
+              //if user have already, set ref of id user to subject           
+            }
+            else{
+          //if there is no user 
+              // create the work
+              var workobj = { 
+              'meetingDate': req.body.fromDate,
+              '_type' : 'meetingOfProgram',            
+              'acyear' :  req.body.acyear,
+              'noOfParticipation' :  req.body.participation,
+              'percentageOfParticipation' :  req.body.percentpart           
+            }
+          //also add subject code to user
+              var newmeeting       = new Work.Meeting(workobj);                    
+              // save the user
+              newmeeting.save(function(err,meeting) {
+                  if (err){console.log('new Meeting save'+err);}
+                  else {
+                    console.log("Save new meeting already"+meeting); 
+                    res.redirect('/showprogram?id='+req.body.acyear);                    
+                    }
+              });
+              
+              
+            }
+            
+          });  
+   
   }); 
 	//subject section======================================================================================================================
 	app.get('/subjects',isLoggedIn,function(req,res){
@@ -3652,7 +3710,7 @@ module.exports = function(app, passport) {
         if (ac!= null) {
 			console.log("There have table(s) to show");
 			console.log(ac);
-			Work.findOne( { 
+		Work.findOne( { 
 			$and: [
 		             { '_type' :  'advisingProject' },
 		             { 'nametitle' : req.body.name }
