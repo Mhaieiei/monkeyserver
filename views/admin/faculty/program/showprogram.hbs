@@ -1,44 +1,206 @@
-<div class="btn-group">
-    <button id="tab_2_submit" class="btn btn-mini" type="button"><a href = "/addsubprogram?acid={{acid}}">ADD Program Subjects</button><br/></a>
-</div>
+<!--<br><br>
+<div class="tabs">
+    <ul class="tab-links">
+        <li class="active"><a href="#tab1" >Subject</a></li>
+        <li><a href="#tab2">To Do</a></li>
+        
+    </ul>
+    <div class="tab-content">
+        <div id="tab1" class="tab active">
+            <form class="form-horizontal" role="form">
+                {{#each teachsemes}}
+				<label for="inputType" class="col-md-2 control-label">Year: {{Year}} Semester:{{semester}}</label>
+				<table class="tablesorter">
+				    <thead>
+				        <tr>
+				        <th><a href="javascript:table_sort('tab_2',1)">Subject code</a></th>
+				        <th><a href="javascript:table_sort('tab_2',2)">Subject name</a></th>
+				        <th><a href="javascript:table_sort('tab_2',2)">Subject credit</a></th>
+				        <th><a href="javascript:table_sort('tab_2',3)">Lecturer</a></th>
+				        </tr>
+				    </thead>
+					 <tbody>
+					   
+					      {{#each subject}}
+					      	
+					        <tr>
+						        <td><a href='/edit?user={{local.username}}'>{{subcode.sub_code}}</a></td>
+						        <td>{{subcode.sub_name}}</td>
+						        <td>{{subcode.sub_credit}}</td>
+						        <td>
+						        	{{#each subcode.sub_lecter}}
+						        		{{local.title}}
+						        		{{local.name}}<br>
+						        		
+						        	{{/each}}
+						        </td>		       
+					        </tr>
+					      
+					      {{/each}}
+					    
+					   </tbody>
+					 </table>
+					<!-- end: table full 
+					<div class="table-foot"> 
+			        	<div class="pull-right">
+			                <div class="btn-group">
+							    <a href = "/addsubprogram?acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">ADD Program Subjects</button></a>
+							</div>
+			           
+						    <div class="btn-group">
+						   		 <a href = "/editsubprogram?id={{ac_id}}&year={{Year}}&semes={{semester}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>
+							</div>
+							<div class="btn-group">
+						   		 <a href = "/delsubprogram?id={{_id}}&acid={{ac_id}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a>
+							</div>
+			 			</div>
+			 		</div>
+			 	<br><br>		 
+			 	{{/each}}  
+
+            </form>
+         <br><br>   
+        </div>
+
+ 
+        <div id="tab2" class="tab">
+            <p>Tab #2 content goes here!</p>
+            <p>Donec pulvinar neque sed semper lacinia. Curabitur lacinia ullamcorper nibh; quis imperdiet velit eleifend ac. Donec blandit mauris eget aliquet lacinia! Donec pulvinar massa interdum ri.</p>
+        </div>
+ 
+
+    </div>
+</div>-->
+<script> 
+    $('button').click(function() {
+    // Find the target tab li (or anchor) that links to the content you want to show.
+    $('a[href="#passive_order_categories"]').tab('show');
+    //$('ul.nav-tabs li:eq(1)').tab('show');
+    });
+    </script>
+<script type="text/javascript" src="//code.jquery.com/jquery-2.1.0.js"></script>
+<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
 <br><br>
-{{#each teachsemes}}
-	<label for="inputType" class="col-md-2 control-label">Year: {{Year}} Semester:{{semester}}</label>
-	<div class="btn-group">
-   		 <button id="tab_2_submit" class="btn btn-mini" type="button"><a href = "/editsubprogram?id={{ac_id}}&year={{Year}}&semes={{semester}}">Edit</button><br/></a>
-	</div>
-	<div class="btn-group">
-   		 <button id="tab_2_submit" class="btn btn-mini" type="button"><a href = "/delsubprogram?id={{_id}}&acid={{ac_id}}">Delete</button><br/></a>
-	</div>
-	<table class="tablesorter">
-	    <thead>
-	        <tr>
-	        <th><a href="javascript:table_sort('tab_2',1)">Subject code</a></th>
-	        <th><a href="javascript:table_sort('tab_2',2)">Subject name</a></th>
-	        <th><a href="javascript:table_sort('tab_2',2)">Subject credit</a></th>
-	        <th><a href="javascript:table_sort('tab_2',3)">Lecturer</a></th>
-	        </tr>
-	    </thead>
-		 <tbody>
-		   
-		      {{#each subject}}
-		      	
-		        <tr>
-			        <td><a href='/edit?user={{local.username}}'>{{subcode.sub_code}}</a></td>
-			        <td>{{subcode.sub_name}}</td>
-			        <td>{{subcode.sub_credit}}</td>
-			        <td>
-			        	{{#each subcode.sub_lecter}}
-			        		{{local.title}}
-			        		{{local.name}}<br>
-			        		
-			        	{{/each}}
-			        </td>		       
-		        </tr>
-		      
-		      {{/each}}
-		    
-		   </tbody>
-		 </table>
-{{/each}}		   
-	
+<div class="tabs-container">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#active_order_categories" aria-expanded="true">Subjects</a>
+        </li>
+        <li class=""><a data-toggle="tab" href="#passive_order_categories" aria-expanded="false">Meetings</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div id="active_order_categories" class="tab-pane active">
+            <div class="panel-body">
+	            	<form class="form-horizontal" role="form">
+	                {{#each teachsemes}}
+					<label for="inputType" class="col-md-2 control-label">Year: {{Year}} Semester:{{semester}}</label>
+					<table class="tablesorter">
+					    <thead>
+					        <tr>
+					        <th><a href="javascript:table_sort('tab_2',1)">Subject code</a></th>
+					        <th><a href="javascript:table_sort('tab_2',2)">Subject name</a></th>
+					        <th><a href="javascript:table_sort('tab_2',2)">Subject credit</a></th>
+					        <th><a href="javascript:table_sort('tab_2',3)">Lecturer</a></th>
+					        </tr>
+					    </thead>
+						 <tbody>
+						   
+						      {{#each subject}}
+						      	
+						        <tr>
+							        <td><a href='/edit?user={{local.username}}'>{{subcode.sub_code}}</a></td>
+							        <td>{{subcode.sub_name}}</td>
+							        <td>{{subcode.sub_credit}}</td>
+							        <td>
+							        	{{#each subcode.sub_lecter}}
+							        		{{local.title}}
+							        		{{local.name}}<br>
+							        		
+							        	{{/each}}
+							        </td>		       
+						        </tr>
+						      
+						      {{/each}}
+						    
+						   </tbody>
+						 </table>
+						<!-- end: table full--> 
+						<div class="table-foot"> 
+				        	<div class="pull-right">
+				                <div class="btn-group">
+								    <a href = "/addsubprogram?acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add Program Subjects</button></a>
+								</div>
+				           
+							    <div class="btn-group">
+							   		 <a href = "/editsubprogram?id={{ac_id}}&year={{Year}}&semes={{semester}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>
+								</div>
+								<div class="btn-group">
+							   		 <a href = "/delsubprogram?id={{_id}}&acid={{ac_id}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a>
+								</div>
+				 			</div>
+				 		</div>
+				 	<br><br>		 
+				 	{{/each}}  
+
+	            </form>
+	           <br><br>   
+
+            </div>
+        </div>
+        <div id="passive_order_categories" class="tab-pane">
+            <div class="panel-body">
+            	<form class="form-horizontal" role="form">
+	               
+					
+					<table class="tablesorter">
+					    <thead>
+					        <tr>
+					        <th><a>Meeting No.</a></th>
+					        <th><a>Meeting Date</a></th>
+					        <th><a>No. of Participation</a></th>
+					        <th><a>Percentage of Participation</a></th>
+					        
+					        </tr>
+					    </thead>
+						 <tbody>
+						   
+						     
+						      	
+						        <tr>
+							        <td></td>
+							        <td></td>
+							        <td></td>
+							        <td></td>		       
+						        </tr>
+						      
+						   
+						    
+						   </tbody>
+						 </table>
+						<!-- end: table full--> 
+						<div class="table-foot"> 
+				        	<div class="pull-right">
+				                <div class="btn-group">
+								    <a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Add new meeting</button></a>
+								</div>
+							    <div class="btn-group">
+							   		 <a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>
+								</div>
+								<div class="btn-group">
+							   		 <a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a>
+								</div>
+				 			</div>
+				 		</div>
+				 	<br><br>		 
+
+
+	            </form>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
