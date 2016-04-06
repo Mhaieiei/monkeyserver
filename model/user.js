@@ -20,15 +20,26 @@ var userSchema = new mongoose.Schema({
         yearattend : Number,
         bankAccount : String,
         email: String,
-        role: String,
+        role: String,   //staff,student,external
+        careerOrHigherStudying: String, //for external user
+        graduatedIn: Number,            //for external user
         program: String,
         faculty: String,
         status: String,
         yeargrade : String,
         salary: Number,
-        jobDescription: [String],
-        nationality:String //for student - thai, national
+        yearOfTeaching:Number,
+        //jobDescription: [String],
+        nationality: String, //for student - thai, national,
+        age: Number,
+        terminationYear:Number //academicYear of termination //only for some staff who want to terminate herself
        },
+       detail:[{
+
+       	status : String,  //drop out, on-time graduation, carry on, delayed graduaion
+       	academicYear:String
+
+       }],
 	roleOfProgram: [String],
 	roleOfStaff: [String],
     subjects : [{type: mongoose.Schema.Types.ObjectId,ref:'Subject'}],
@@ -36,7 +47,8 @@ var userSchema = new mongoose.Schema({
     advisingProject : [{type: mongoose.Schema.Types.ObjectId,ref:'Project'}],
     publicResearch: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Public' }],
     training: [{ type: mongoose.Schema.Types.ObjectId, ref: 'training' }],
-    careerDevelopment: [{ type: mongoose.Schema.Types.ObjectId, ref: 'careerDevelopment' }]
+    careerDevelopment: [{ type: mongoose.Schema.Types.ObjectId, ref: 'careerDevelopment' }],
+    specialTitle: [{ type: mongoose.Schema.Types.ObjectId, ref: 'specialTitle' }]
     
 
 },{strict : false});
@@ -54,13 +66,6 @@ userSchema.methods.generateHash = function(password) {
 userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
-
-// userSchema.methods.updateLeace = function(leave,request,response){
-// 	console.log("user update leaveday");
-// 	this.local.
-// }
-
-
 
 userSchema.methods.updateUser = function(request, response){
 	console.log("User Update user");
