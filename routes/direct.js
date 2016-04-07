@@ -1169,16 +1169,17 @@ module.exports = function(app, passport) {
 	    }).populate('subject.subcode')
 		.exec(function(err, docs) {
 		  if(err) return callback(err);
+      console.log(docs.subject[0].subcode);
 		  Teach.populate(docs, {
-		    path: 'subcode.sub_lecter',
+		    path: 'subject.subcode.sub_lecter',
 		    model: 'User'
 		  },function(err, subs) {
 		    if(err) return callback(err);
 		   	  // This object should now be populated accordingly.
 		    console.log(subs);
 		    console.log(subs.subject.length);
-        console.log(subs.subject[0].subcode.sub_code);
-        console.log(subs.subject[0].subcode.sub_lecter[0]);
+        //console.log(subs.subject[0].subcode.sub_code);
+        //console.log(subs.subject[0].subcode.sub_lecter[0]);
     			res.render("admin/faculty/program/editsubprogram.hbs", {
             	layout: "adminPage",
             	user : req.user,
