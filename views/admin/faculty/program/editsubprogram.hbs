@@ -95,15 +95,15 @@
                         	{{#each subprogram.subject}}
 	                            <tr>
 	                            <td>{{inc @index}}</td>
-	                            <td><input type="text" id="subject_code" name="subject_code" value={{_id}} readonly></td>
-	                            <td><input type="text" name="subject_name" value={{sub_name}} readonly></td>
+	                            <td><input type="text" id="subject_code" name="subject_code" value={{subcode.sub_code}} ></td>
+	                            <td><input type="text" name="subject_name" value={{subcode.sub_name}} readonly></td>
 	                            <td>
-                                {{#each sub_lecter}}
+                                {{#each subcode.sub_lecter}}
                                     <input type="text" name="subject_lec" value='{{local.title}}{{local.name}}' readonly><br>
                                 {{/each}}
                                 </td>
 
-	                            <td><input type="text" name="subject_credit" value={{sub_credit}} readonly > </td>
+	                            <td><input type="text" name="subject_credit" value={{subcode.sub_credit}} readonly > </td>
 	                            <td>
 	                                <button class="btn btn-xs btn-warning" id="delPOIbutton" value="Delete" onclick="deleteRow(this)">
 	                                

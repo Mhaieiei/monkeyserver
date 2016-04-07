@@ -928,18 +928,7 @@ module.exports = function(app, passport) {
 		 	    else console.log(results);
 		      }
 		   );
-		res.redirect('/showuser?program='+req.query.program);
-
-		// Subject.update({ 'sub_code' : req.query.id },
-		// {
-		//  "$unset" : {"sub_code": req.query.id},				  
-		// 	},{safe:true},
-		// 	  function (err, user) {
-		// 		if (err){console.log('mhaiiiiiii');}
-		// 	    else console.log(user);
-		// });
-		// res.redirect('/subjects');
-		
+		res.redirect('/showuser?program='+req.query.program);			
 		
 	});
  		//program section======================================================================================================================
@@ -1188,6 +1177,8 @@ module.exports = function(app, passport) {
 		   	  // This object should now be populated accordingly.
 		    console.log(subs);
 		    console.log(subs.subject.length);
+        console.log(subs.subject[0].subcode.sub_code);
+        console.log(subs.subject[0].subcode.sub_lecter[0]);
     			res.render("admin/faculty/program/editsubprogram.hbs", {
             	layout: "adminPage",
             	user : req.user,
@@ -1576,7 +1567,20 @@ module.exports = function(app, passport) {
       }); 
   });
   
-
+  app.get('/delmeeting',isLoggedIn,function(req,res){
+    console.log("Delete Meeting");
+    console.log(req.query.id);
+    console.log(req.query.acid);
+    Work.remove(
+          { '_id' : req.query.id },
+          function(err, results) {
+            if (err){console.log('delete meeting err'+err);}
+          else console.log("delete already");
+          }
+       );
+    res.redirect('/showprogram?id='+req.query.acid);    
+    
+  });
 
 	//subject section======================================================================================================================
 	app.get('/subjects',isLoggedIn,function(req,res){
@@ -1865,15 +1869,6 @@ module.exports = function(app, passport) {
 		   );
 		res.redirect('/subjects');
 
-		// Subject.update({ 'sub_code' : req.query.id },
-		// {
-		//  "$unset" : {"sub_code": req.query.id},				  
-		// 	},{safe:true},
-		// 	  function (err, user) {
-		// 		if (err){console.log('mhaiiiiiii');}
-		// 	    else console.log(user);
-		// });
-		// res.redirect('/subjects');
 		
 		
 	});

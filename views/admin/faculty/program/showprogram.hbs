@@ -168,8 +168,7 @@
 					        </tr>
 					    </thead>
 						 <tbody>
-						   {{getacid}}
-						     
+						   
 						      	{{#each meetings}}
 						        <tr>
 							        <td>{{inc @index}}</td>
@@ -177,7 +176,7 @@
 							        <td>{{noOfParticipation}}</td>
 							        <td>{{percentageOfParticipation}}</td>	
 							        <td><a href = "/editmeeting?id={{_id}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a></td>
-							        <td><a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a></td>	       
+							        <td><a href = "/delmeeting?id={{_id}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a></td>	       
 						        </tr>
 						      	{{/each}}
 						   
