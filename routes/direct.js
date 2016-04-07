@@ -1048,7 +1048,7 @@ module.exports = function(app, passport) {
   app.get('/showprogram',isLoggedIn,function(req,res){
     	console.log("Admin get showprogram");
     	console.log(req.query.id);
-
+      var acayear = req.query.id;
     Teach
 		.find({'ac_id': req.query.id})
 		.populate('subject.subcode')
@@ -1078,7 +1078,9 @@ module.exports = function(app, passport) {
             	year : years,
             	acid : req.query.id,
               helpers: {
-              inc: function (value) { return parseInt(value) + 1; } } 
+              inc: function (value) { return parseInt(value) + 1; },
+              getacid: function () { return acayear; }
+            } 
              });
         });
 		  });
@@ -1168,7 +1170,7 @@ module.exports = function(app, passport) {
  		console.log(req.query.id);
  		console.log(req.query.year);
  		console.log(req.query.semes)
- 		
+ 		//var acayear = req.query.id;
  		Teach
 		.findOne({ $and: [
 	     		 { 'ac_id' : req.query.id },
@@ -1194,7 +1196,8 @@ module.exports = function(app, passport) {
             	acid : req.query.id,
             	year : years,
             	helpers: {
-            	inc: function (value) { return parseInt(value) + 1; } } 
+            	inc: function (value) { return parseInt(value) + 1; }              
+              } 
            
              });
 		  });
@@ -1528,6 +1531,53 @@ module.exports = function(app, passport) {
           });  
    
   }); 
+   app.get('/editmeeting',isLoggedIn,function(req,res){
+    var index =req.query.id;
+    console.log("[Get]Admin Edit Meeting");
+    console.log(req.query.id);
+    console.log(req.query.acid);
+
+    return Work.Meeting.findById(index, function( err, meeting ) {
+        if( !err ) {
+        console.log(meeting);
+            res.render('admin/faculty/program/editmeeting.hbs', {
+              layout: "adminPage",
+              meeting: meeting ,
+              acid: req.query.acid           
+            });
+        } else {
+            return console.log( "query meeting err"+err );
+          }
+      }); 
+  });
+  app.post('/editmeeting',isLoggedIn,function(req,res){
+    console.log("[Post]Admin Edit Meeting");
+    console.log(req.body.acyear);
+    console.log(req.body.workid);
+
+    return Work.Meeting.findById(req.body.workid, function( err, meeting ) {
+        if( !err ) {
+        console.log(meeting);
+          meeting.meetingDate = req.body.fromDate;
+          meeting.noOfParticipation = req.body.participation;
+          meeting.percentageOfParticipation = req.body.percentpart;
+          // save the acyear
+          meeting.save(function(err,meet) {
+              if (err){console.log('cant save meeting'+err);}
+                else{
+                 console.log("Update meeting already"+ meet); 
+                 res.redirect('/showprogram?id='+req.body.acyear);                     
+                }
+            });
+
+        } else {
+            return console.log( "query meeting err"+err );
+          }
+      }); 
+  });
+  
+
+
 	//subject section======================================================================================================================
 	app.get('/subjects',isLoggedIn,function(req,res){
 		console.log('Admin Get Subject select');

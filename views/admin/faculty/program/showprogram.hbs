@@ -93,6 +93,7 @@
     <div class="tab-content">
         <div id="active_order_categories" class="tab-pane active">
             <div class="panel-body">
+            	
 	            	<form class="form-horizontal" role="form">
 	                {{#each teachsemes}}
 					<label for="inputType" class="col-md-2 control-label">Year: {{Year}} Semester:{{semester}}</label>
@@ -162,18 +163,21 @@
 					        <th><a>Meeting Date</a></th>
 					        <th><a>No. of Participation</a></th>
 					        <th><a>Percentage of Participation</a></th>
-					        
+					        <th><a>Edit</a></th>
+					        <th><a>Delete</a></th>
 					        </tr>
 					    </thead>
 						 <tbody>
-						   
+						   {{getacid}}
 						     
 						      	{{#each meetings}}
 						        <tr>
 							        <td>{{inc @index}}</td>
 							        <td>{{meetingDate}}</td>
 							        <td>{{noOfParticipation}}</td>
-							        <td>{{percentageOfParticipation}}</td>		       
+							        <td>{{percentageOfParticipation}}</td>	
+							        <td><a href = "/editmeeting?id={{_id}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a></td>
+							        <td><a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a></td>	       
 						        </tr>
 						      	{{/each}}
 						   
@@ -186,12 +190,7 @@
 				                <div class="btn-group">
 								    <a href = "/addmeeting?acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add new meeting</button></a>
 								</div>
-							    <div class="btn-group">
-							   		 <a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>
-								</div>
-								<div class="btn-group">
-							   		 <a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a>
-								</div>
+							    
 				 			</div>
 				 		</div>
 				 	<br><br>		 
