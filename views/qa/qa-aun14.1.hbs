@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Monkey Office</title>
+
+        <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="dist/css/bootstrap-submenu.min.css">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css" id="" media="print, projection, screen" />
+    <script type="text/javascript" src="js/jquery-latest.js"></script> 
+    <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+    <link href="css/file-tree.min.css" rel="stylesheet"
+    <script type="text/javascript" src="../jquery-latest.js"></script>
+    <script type="text/javascript" src="../jquery.tablesorter.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        $("table").tablesorter({debug: true});
+    });
+    </script>
+</head>
+
+<body>
+
+    
+        <td>
+            <div class="container-fluid">
+            <div class="row-fluid">
+            <div class="span15">
+            <div class="col-md-15"> 
+           
+            <!--<form class="form-horizontal" role="form">-->
+                
+                <h3>AUN 14.1: The pass rate is satisfactory and dropout rate is of acceptable level</h3>
+                <h5>Table : Continuity in studying and graduation</h5>
+                <div id="tab_aun14.1.1">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                            <th>Academic Year</a></th>
+                            <th>No. of Students</a></th>
+                            <td colspan=2>Student Status</a></td>
+                            
+                            
+                            
+                           
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <th>Type</th>
+                            <th>Qty</th>
+                           
+                            
+                        </tr>
+                       
+                       
+
+                   
+                    </thead>
+                    <tbody>
+                    {{#if @first}} 
+                <td>{{subjectType}}</td>
+                <td>{{followingReq}}</td>
+                </tr>
+                
+                {{else}}
+                <tr>
+                <th></th>
+                <th></th>
+                <td>{{subjectType}}</td>
+                <td>{{followingReq}}</td>
+                {{/if}}
+
+
+                        {{#each docs}}
+                        <tr>
+                        
+                        <td>{{_id}}</td>
+                        <td>{{sumOfYear}}</td>
+                        {{#each root}}
+                        {{#if @first}} 
+                        <td>{{_id.studentDetail}}</td>
+                        <td>{{count}}</td>
+                        </tr>
+                
+                        {{else}}
+                        <tr>
+                        <th></th>
+                        <th></th>
+                        <td>{{_id.studentDetail}}</td>
+                        <td>{{count}}</td>
+                        {{/if}}
+                        {{/each}}
+                        
+                        
+                        </tr>  
+                        {{/each}}
+                    </tbody>
+
+                  </table>
+
+                </div>
+
+                
+
+
+       
+            </div>
+            </div>
+            </div>
+            </div>
+            
+
+        </td>
+
+
+
+         
+</body>
+
+
+
+</html>

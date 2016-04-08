@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Monkey Office</title>
+
+        <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="dist/css/bootstrap-submenu.min.css">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css" id="" media="print, projection, screen" />
+    <script type="text/javascript" src="js/jquery-latest.js"></script> 
+    <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+    <link href="css/file-tree.min.css" rel="stylesheet"
+    <script type="text/javascript" src="../jquery-latest.js"></script>
+    <script type="text/javascript" src="../jquery.tablesorter.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        $("table").tablesorter({debug: true});
+    });
+    </script>
+</head>
+
+<body>
+
+    
+        <td>
+            <div class="container-fluid">
+            <div class="row-fluid">
+            <div class="span15">
+            <div class="col-md-15"> 
+           
+            <!--<form class="form-horizontal" role="form">-->
+                
+                <h3>AUN 6.2: The staff are sufficient to deliver the curriculum adequately</h3>
+       
+                <h5>Table : Academic ranking categorization of the staffs in academic year </h5>
+                <div id="tab_aun6.2">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                            <th>Category</a></th>
+                            
+                            <th>Male</a></th>
+                            <th>Female</a></th>
+                            <th>Total</a></th>
+                            
+                            
+
+                        </tr>
+                       
+
+                    <!-- ใช้ th colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
+                    </thead>
+                    <tbody>
+                    <% countMale = 0%>
+                    <% countFemale = 0%>
+                    <% KeepSubCountMale = 0%>
+                    <% KeepSubCountFemale = 0%>
+                    <% KeepTotalCountMale = 0%>
+                    <% KeepTotalCountFemale = 0%>
+                    <% KeepTotal = 0%>
+            
+                    <% for(i=0;i< docs.length;i++){%>
+                        <tr>
+                        <th colspan=4><%= docs[i]._id %></th>
+                        </tr>
+                      <% KeepSubCountMale = 0%>
+                    <% KeepSubCountFemale = 0%>
+                       <% for(j=0;j< docs[i].groupOftype.length;j++){%>
+                        <tr>
+                        <td><%=docs[i].groupOftype[j]._id.type%></td>
+                        
+                        <% countMale = 0%>
+                    <% countFemale = 0%>
+                        <% for(k=0;k< docs[i].groupOftype[j].user.length;k++){%>
+                        
+                       <% if(docs[i].groupOftype[j].user[k].user.local.gender == "Male"){ %>
+                                                <% countMale++%>
+
+                        <%}else{%>
+                            <% countFemale++%>
+                        <%}%>
+                         <%}%>
+                         <% KeepSubCountMale+=countMale%>
+                        <% KeepSubCountFemale+=countFemale%>
+                        <td><%= countMale%></td>
+
+                        <td><%= countFemale%></td>
+                        <td><%=docs[i].groupOftype[j].count%></td>
+                        <%}%>
+                        
+                        
+                        </tr> 
+                        <tr>
+                        <td>Subtotal</td>
+                        <td><%= KeepSubCountMale %></td>
+                        <td><%= KeepSubCountFemale %></td>
+                        <td><%= docs[i].sunOfYear %></td>
+                        </tr> 
+                        <% KeepTotalCountMale += KeepSubCountMale%>
+                    <% KeepTotalCountFemale += KeepSubCountFemale%>
+                    <% KeepTotal +=docs[i].sunOfYear%>
+                        <%}%>
+                        <tr>
+                        <td>Total</td>
+                        <td><%= KeepTotalCountMale %></td>
+                        <td><%= KeepTotalCountFemale %></td>
+                        <td><%= KeepTotal %></td>
+                        </tr> 
+                    </tbody>
+
+                  </table>
+
+                </div>
+
+
+
+                <h5>Table : Lecturers in academic year </h5>
+                <div id="tab_aun6.2">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                            <th>Academic Year</a></th>
+                            
+                            <th>Role of user</a></th>
+                            <th>Number of each role</a></th>
+                        </tr>
+                       
+                    <!-- ใช้ th colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
+                    </thead>
+                    <tbody>
+                    <%count = 0%>
+                    <%FTE = 0%>
+                    <%keepFTE = []%>
+                        <% for(i=0;i< roleOfuser.length;i++){%>
+                        <tr>
+                        <th><%= roleOfuser[i]._id %></th>
+                        
+                      <%count = 0%>
+                      <%FTE = 0%>
+                       <% for(j=0;j< roleOfuser[i].groupOftype.length;j++){%>
+                        
+                        <% if(count == 0){ %>
+                        <td><%=roleOfuser[i].groupOftype[j]._id.type%></td>
+                        <td><%=roleOfuser[i].groupOftype[j].count%></td>
+                        </tr>
+                        <%}else{%>
+                        <tr>
+                        
+                        <th></th>
+                        <td><%=roleOfuser[i].groupOftype[j]._id.type%></td>
+                        <td><%=roleOfuser[i].groupOftype[j].count%></td>
+
+
+        
+                        <%}%>
+                        <% if(roleOfuser[i].groupOftype[j]._id.type == "Visiting Member"){ %>
+
+                        <% FTE += (roleOfuser[i].groupOftype[j].count * 0.1)%>
+
+
+                        <%}else{%>
+
+                        <% FTE += roleOfuser[i].groupOftype[j].count %>
+
+                        <%}%>
+                        <%count++%>
+                        <%}%>
+                        
+                        
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>Total FTEs</td>
+                            <td><%= FTE%></td>
+                            <%keepFTE += {"academicYear":roleOfuser[i]._id,"FTE": FTE}%>
+                        </tr>
+                        <%}%>
+
+
+                        
+                    </tbody>
+
+                  </table>
+
+                </div>
+
+                <h5>Table : Students in academic year </h5>
+                <div id="tab_aun6.2">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                            <th>Academic Year</a></th>
+                            
+                            <th>Role of user</a></th>
+                            <th>Number of each role</a></th>
+                        </tr>
+                       
+                    <!-- ใช้ th colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
+                    </thead>
+                    <tbody>
+
+                        <%count = 0%>
+                        <%FTE = 0%>
+                        <%keepStudent = 0%>
+                        <%keepGraduate = 0%>
+                        <% for(i=0;i< student.length;i++){%>
+                        <tr>
+                        <th><%= student[i]._id %></th>
+                        <%FTE = 0%>
+                      <%count = 0%>
+                       <% for(j=0;j< student[i].groupOftype.length;j++){%>
+                        
+                        <% if(count == 0){ %>
+                        <% if(student[i].groupOftype[j]._id.type == 'Graduate'){ %>
+
+                           
+                        <%}%>
+                        <td><%=student[i].groupOftype[j]._id.type%></td>
+                        <td><%=student[i].groupOftype[j].count%></td>
+                        </tr>
+                        <%}else{%>
+                        <tr>
+                        
+                        <th></th>
+                        <td><%=student[i].groupOftype[j]._id.type%></td>
+                        <td><%=student[i].groupOftype[j].count%></td>
+        
+                        <%}%>
+                        
+                        <%count++%>
+                        <%}%>
+                        
+                        
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>Total students</td>
+                            <td><%=student[i].sunOfYear%></td>
+
+                        </tr>
+                        <tr>
+                            <th>TEST LENGTH FTES</th>
+                            
+
+
+                                
+                                <%count = 0%>
+                    <%FTE = 0%>
+                    <%keepFTE = []%>
+                        <% for(i=0;i< roleOfuser.length;i++){%>
+                        <th><%= roleOfuser[i]._id %></th>
+                      <%FTE = 0%>
+                       <% for(j=0;j< roleOfuser[i].groupOftype.length;j++){%>
+                        
+                        
+                        <% if(roleOfuser[i].groupOftype[j]._id.type == "Visiting Member"){ %>
+
+                            <% FTE += (roleOfuser[i].groupOftype[j].count * 0.1)%>
+                        <%}else{%>
+                            <% FTE += roleOfuser[i].groupOftype[j].count %>
+                        <%}%>
+                    <%}%>
+                        
+                        
+                        
+                            
+                            <td><%=student[i].sunOfYear /FTE%></td>
+                            
+                        </tr>
+                        <%}%>
+
+
+
+
+                        </tr>
+                        <%}%>
+                        
+                    </tbody>
+
+                  </table>
+
+                </div>
+          
+            </div>
+            </div>
+            </div>
+            </div>
+            
+
+        </td>
+
+
+
+         
+</body>
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> 
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> 
+<script src="bower_components/nestedSortable/jquery.mjs.nestedSortable.js"></script> 
+<script src="js/file-tree.min.js"></script> 
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>-->
+
+
+</html>
