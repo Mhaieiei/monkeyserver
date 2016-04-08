@@ -46,15 +46,18 @@
                 </tr>
             </thead>
             <tbody>
+           
+                {{#each meetings}}
                 <tr>
-                <td> </td>
-                <td> </td>
-                <td> </td>
-                <td> </td>
+                    <td>{{inc @index}}/{{getyear}}</td>
+                    <td>{{meetingDate}}</td>
+                    <td>{{noOfParticipation}}</td>
+                    <td>{{percentageOfParticipation}}</td>                             
                 </tr>
-                <tr>
-                
-            </tbody>
+                {{/each}}
+           
+            
+           </tbody>
             </table>
             <h5>Table : Meetings of program management committee</h5>
             

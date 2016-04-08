@@ -2452,6 +2452,7 @@ module.exports = function(app, passport) {
   app.get('/tqf25',isLoggedIn,function(req,res){
     console.log("tqf25 Program Management");
     console.log(req.query.acid);
+    var acyear =  req.query.year;
    Work.Meeting.find( { 
           $and: [
                      { '_type' :  'meetingOfProgram' },
@@ -2463,10 +2464,9 @@ module.exports = function(app, passport) {
           res.render("qa/tqf25.hbs", {
               layout: "qaPage",
               meetings : meeting,
-              year : req.query.year,
               helpers: {
               inc: function (value) { return parseInt(value) + 1; },
-              getacid: function () { return acayear; }
+              getyear: function () { return acyear; }
              } 
            });
         });
