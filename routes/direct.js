@@ -2350,7 +2350,10 @@ module.exports = function(app, passport) {
 		//var id = mongoose.Types.ObjectId('56d14d1c8393baa816709274');
 		Work.Project.aggregate([
         {
-            $match: { 'acyear' : req.query.acid }           
+            $match:  { $and: [
+              { 'acyear' : req.query.acid },
+              { '_type' : 'advisingProject' }
+           ]}                   
         },
        { 
        		$unwind: "$user"
@@ -2362,7 +2365,7 @@ module.exports = function(app, passport) {
  		 }
 
 	   }], function( e, result ) {
-	  		console.log(result);
+	  		console.log("The result after aggregate is "+result);
 	  		//console.log(result[0].works);
 	  		//console.log(result[1].works);
 	  		Work.Project.populate(result,{path:'_id',model:'User'},function(err,userwork){
@@ -2370,19 +2373,23 @@ module.exports = function(app, passport) {
 	  			console.log(userwork);
 	  			//console.log(userwork[0].works[0].roleuser);
 	  			Work.Project
-				.find({'acyear': req.query.acid})
+				.find({ $and: [
+              { 'acyear' : req.query.acid  },
+              { '_type' : 'advisingProject' }
+        ]})
 				.populate({
 					path:'user.iduser',
 					model : 'User'
 				}).exec(function(err, works) {
 				    if(err) console.log("find teach err"+err);
 				   	  // This object should now be populated accordingly.
-				    	console.log(works);
+				    	console.log("The lastest result"+works);
 				    	
 		    			res.render('qa/tqf23.ejs', {
 		    			  //layout: "qaPage",
 						  user : req.user,
 						  examiner : userwork,
+              acyear : req.query.year,
 			       Thesis: works,		             
 			            
 
@@ -3654,7 +3661,7 @@ module.exports = function(app, passport) {
 		   	  // This object should now be populated accordingly.
 		    console.log(works);
 
-    			res.render("profile/works/thesisinfo_test.ejs", {
+    			res.render("profile/works/thesisinfo.ejs", {
             	//layout: "profileAdstudent",
             	user : req.query.name,
             	Userinfo: works,
@@ -3670,7 +3677,7 @@ module.exports = function(app, passport) {
 	app.get('/addthesis',isLoggedIn,function(req,res){
 		console.log("Add Thesis");
 		console.log(req.query.user);
-		res.render('profile/works/addthesis_test.hbs', {
+		res.render('profile/works/addthesis.hbs', {
 			layout: "profilestudent",
             username : req.query.user // get the user out of session and pass to template			
         });

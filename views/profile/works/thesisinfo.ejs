@@ -6,13 +6,13 @@
 	var advisor = [];
 	var advisee = [];
 	var coadvisor =[];
-	var examin =[];
+	
 	var object;
 	for(i=0;i< Userinfo.advisingProject.length;i++){
 		for(j=0; j< Userinfo.advisingProject[i].user.length; j++){
             advisee.push([]);
             coadvisor.push([]);
-            examin.push([]);
+            
 			object = {
 					'name': Userinfo.advisingProject[i].user[j].iduser.local.name,
 					'surname' : Userinfo.advisingProject[i].user[j].iduser.local.surname,
@@ -26,10 +26,7 @@
 			}
 			else if(Userinfo.advisingProject[i].user[j].typeuser == 'coadvisor'){
 				coadvisor[i].push(object);
-			}
-			else{
-				examin[i].push(object);
-			}
+			}			
 		}	
 	}
 	
