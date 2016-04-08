@@ -39,53 +39,9 @@
            
             <!--<form class="form-horizontal" role="form">-->
                 
-                <h2>AUN 7: Support Staff Quality</h2>
+                <h3>AUN 6.9: Termination and retirement are planned and well implemented</h3>
        
-                <h5>Table : List of support staffs of International College</h5>
-                <div id="tab_aun7">
-                  <table class="tablesorter">
-                    <thead align="center">
-                        <tr>
-                            
-                            <th>No.</a></th>
-                            <th>Title</a></th>
-                            <th>Name-Surname</a></th>
-                            
-                            <th>Education</a></th>
-                            <th>Position</a></th>
-                            <th>Job Description</a></th>
-                            
-                            
-
-                        </tr>
-                       
-
-                    <!-- ใช้ th colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
-                    </thead>
-					{{#each docs}}
-                    <tbody>
-					{{#each user}}
-                        <tr>
-                        <td>{{getindex}}</td>
-                        <td>{{local.title}}</td>
-                        <td>{{local.name}} {{local.surname}}</td>
-                        
-                        {{#each education}}
-                        <td>{{level}}</td>
-                        {{/each}}
-                        {{/each}}
-                        <td>{{position}}</td>
-                        <td>{{jobDescription}}</td>
-                        </tr>  
-                        
-                       
-                    </tbody>
-					{{/each}}
-                  </table>
-
-                </div>
-
-                <h5>Table : Termination and retirement information of support staffs</h5>
+                <h5>Table : Termination and retirement information of lecturer in program</h5>
                 <div id="tab_aun6.9">
                   <table class="tablesorter">
                     <thead align="center">
@@ -113,17 +69,17 @@
 
                     <!-- ใช้ td colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
                     </thead>
-					
                     <tbody>
-					
                         <tr>
                         <td colspan=8></td>
                         </tr>
                       {{#each docs}}
+                       
                        {{#each user}}
                         <tr>
-                        <td>{{getcount}}</td>
+                        <td>{{getindex}}</td>
                         <td>{{local.title}}</td>
+
                         <td>{{local.name}} {{local.surname}}</td>
                         <td>{{local.age}}</td>
                         <td>{{getTerminate local.terminationYear}}</td>
@@ -134,9 +90,63 @@
                         {{/each}}
                         {{/each}}
                     </tbody>
-					
+
                   </table>
-				  
+
+                </div>
+
+                <h5>Table : Termination and retirement information of visiting lecturer in program</h5>
+                <div id="tab_aun6.9">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                            <th>No.</a></th>
+                            <th>Title</a></th>
+                            <th>Name-Surname</a></th>
+                            <th>Age</a></th>
+                            <td colspan=2>Termination</a></td>
+                            <td colspan=2>Retirement</a></td>
+                        </tr>
+                        <tr>
+                            <td colspan=1></td>
+                            <td colspan=1></td>
+                            <td colspan=1></td>
+                            <td colspan=1></td>
+                            <th> Remaining Times (years)</th>
+                            <th> Academic Years</th>
+                            <th> Remaining Times (years)</th>
+                            <th> Academic Years</th>
+
+                        </tr>
+                       
+
+                    <!-- ใช้ td colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <td colspan=8></td>
+                        </tr>
+                      {{#each visiting}}
+                       
+                       {{#each user}}
+                        <tr>
+                        <td>{{getindex}}</td>
+                        <td>{{local.title}}</td>
+
+                        <td>{{local.name}} {{local.surname}}</td>
+                        <td>{{local.age}}</td>
+                        <td>{{getTerminate local.terminationYear}}</td>
+                        <td>{{local.terminationYear}}</td>
+                        <td>{{getRetired local.age}}</td>
+                        <td>{{getAcYearOfRetired local.age}}</td>
+                        </tr>  
+                        {{/each}}
+                        {{/each}}
+                    </tbody>
+
+                  </table>
+
                 </div>
           
             </div>
@@ -151,25 +161,7 @@
 
          
 </body>
-<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> 
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> 
-<script src="bower_components/nestedSortable/jquery.mjs.nestedSortable.js"></script> 
-<script src="js/file-tree.min.js"></script> 
-<script type="text/javascript">
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-36251023-1']);
-  _gaq.push(['_setDomainName', 'jqueryscript.net']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>-->
 
 
 </html>
