@@ -928,18 +928,7 @@ module.exports = function(app, passport) {
 		 	    else console.log(results);
 		      }
 		   );
-		res.redirect('/showuser?program='+req.query.program);
-
-		// Subject.update({ 'sub_code' : req.query.id },
-		// {
-		//  "$unset" : {"sub_code": req.query.id},				  
-		// 	},{safe:true},
-		// 	  function (err, user) {
-		// 		if (err){console.log('mhaiiiiiii');}
-		// 	    else console.log(user);
-		// });
-		// res.redirect('/subjects');
-		
+		res.redirect('/showuser?program='+req.query.program);			
 		
 	});
  		//program section======================================================================================================================
@@ -1048,7 +1037,7 @@ module.exports = function(app, passport) {
   app.get('/showprogram',isLoggedIn,function(req,res){
     	console.log("Admin get showprogram");
     	console.log(req.query.id);
-
+      var acayear = req.query.id;
     Teach
 		.find({'ac_id': req.query.id})
 		.populate('subject.subcode')
@@ -1078,7 +1067,9 @@ module.exports = function(app, passport) {
             	year : years,
             	acid : req.query.id,
               helpers: {
-              inc: function (value) { return parseInt(value) + 1; } } 
+              inc: function (value) { return parseInt(value) + 1; },
+              getacid: function () { return acayear; }
+            } 
              });
         });
 		  });
@@ -1168,7 +1159,7 @@ module.exports = function(app, passport) {
  		console.log(req.query.id);
  		console.log(req.query.year);
  		console.log(req.query.semes)
- 		
+ 		//var acayear = req.query.id;
  		Teach
 		.findOne({ $and: [
 	     		 { 'ac_id' : req.query.id },
@@ -1178,14 +1169,17 @@ module.exports = function(app, passport) {
 	    }).populate('subject.subcode')
 		.exec(function(err, docs) {
 		  if(err) return callback(err);
+      console.log(docs.subject[0].subcode);
 		  Teach.populate(docs, {
-		    path: 'subcode.sub_lecter',
+		    path: 'subject.subcode.sub_lecter',
 		    model: 'User'
 		  },function(err, subs) {
 		    if(err) return callback(err);
 		   	  // This object should now be populated accordingly.
 		    console.log(subs);
 		    console.log(subs.subject.length);
+        //console.log(subs.subject[0].subcode.sub_code);
+        //console.log(subs.subject[0].subcode.sub_lecter[0]);
     			res.render("admin/faculty/program/editsubprogram.hbs", {
             	layout: "adminPage",
             	user : req.user,
@@ -1194,7 +1188,8 @@ module.exports = function(app, passport) {
             	acid : req.query.id,
             	year : years,
             	helpers: {
-            	inc: function (value) { return parseInt(value) + 1; } } 
+            	inc: function (value) { return parseInt(value) + 1; }              
+              } 
            
              });
 		  });
@@ -1528,6 +1523,66 @@ module.exports = function(app, passport) {
           });  
    
   }); 
+   app.get('/editmeeting',isLoggedIn,function(req,res){
+    var index =req.query.id;
+    console.log("[Get]Admin Edit Meeting");
+    console.log(req.query.id);
+    console.log(req.query.acid);
+
+    return Work.Meeting.findById(index, function( err, meeting ) {
+        if( !err ) {
+        console.log(meeting);
+            res.render('admin/faculty/program/editmeeting.hbs', {
+              layout: "adminPage",
+              meeting: meeting ,
+              acid: req.query.acid           
+            });
+        } else {
+            return console.log( "query meeting err"+err );
+          }
+      }); 
+  });
+  app.post('/editmeeting',isLoggedIn,function(req,res){
+    console.log("[Post]Admin Edit Meeting");
+    console.log(req.body.acyear);
+    console.log(req.body.workid);
+
+    return Work.Meeting.findById(req.body.workid, function( err, meeting ) {
+        if( !err ) {
+        console.log(meeting);
+          meeting.meetingDate = req.body.fromDate;
+          meeting.noOfParticipation = req.body.participation;
+          meeting.percentageOfParticipation = req.body.percentpart;
+          // save the acyear
+          meeting.save(function(err,meet) {
+              if (err){console.log('cant save meeting'+err);}
+                else{
+                 console.log("Update meeting already"+ meet); 
+                 res.redirect('/showprogram?id='+req.body.acyear);                     
+                }
+            });
+
+        } else {
+            return console.log( "query meeting err"+err );
+          }
+      }); 
+  });
+  
+  app.get('/delmeeting',isLoggedIn,function(req,res){
+    console.log("Delete Meeting");
+    console.log(req.query.id);
+    console.log(req.query.acid);
+    Work.remove(
+          { '_id' : req.query.id },
+          function(err, results) {
+            if (err){console.log('delete meeting err'+err);}
+          else console.log("delete already");
+          }
+       );
+    res.redirect('/showprogram?id='+req.query.acid);    
+    
+  });
+
 	//subject section======================================================================================================================
 	app.get('/subjects',isLoggedIn,function(req,res){
 		console.log('Admin Get Subject select');
@@ -1815,15 +1870,6 @@ module.exports = function(app, passport) {
 		   );
 		res.redirect('/subjects');
 
-		// Subject.update({ 'sub_code' : req.query.id },
-		// {
-		//  "$unset" : {"sub_code": req.query.id},				  
-		// 	},{safe:true},
-		// 	  function (err, user) {
-		// 		if (err){console.log('mhaiiiiiii');}
-		// 	    else console.log(user);
-		// });
-		// res.redirect('/subjects');
 		
 		
 	});
@@ -2332,20 +2378,13 @@ module.exports = function(app, passport) {
 				    if(err) console.log("find teach err"+err);
 				   	  // This object should now be populated accordingly.
 				    	console.log(works);
-				    	//console.log(works[0].nametitle);
-				    	//console.log(works[0].user[0].iduser.local.username);
-		    			res.render('qa/tqf23_test.ejs', {
+				    	
+		    			res.render('qa/tqf23.ejs', {
 		    			  //layout: "qaPage",
 						  user : req.user,
 						  examiner : userwork,
-			              Thesis: works,		             
-			             //  helpers: {
-		            		// inc: function (value) { return parseInt(value) + 1; },
-		            		// getindex:function() {return index++;},
-		            		// setid:function(value) {idof =  parseInt(value) + 1;},
-		            		// getid:function() {return idof;}
-
-		            		// }
+			       Thesis: works,		             
+			            
 
 			            });	
 				});   
@@ -2385,12 +2424,7 @@ module.exports = function(app, passport) {
         Work.Public.populate(result,[{path:'_id',model:'User'},{path:'works.workid',model:'Public'}],function(err,userwork){
           if(err){console.log("first populate is err"+err);}
           console.log("Userwork is"+userwork);
-          //console.log(userwork[0]._id.local.name);
-          //console.log(userwork[0].works[0]);
-          //console.log(userwork[0].works[0].workid.acyear);
-          //console.log(userwork[0].works[0].workid.namepublic);
-          //console.log(userwork[0].works[0].workid);
-          Work.Project
+           Work.Project
         .find({'acyear': req.query.acid})
         .populate({
           path:'user.iduser',
@@ -2413,6 +2447,29 @@ module.exports = function(app, passport) {
            
       });
 
+  });
+
+  app.get('/tqf25',isLoggedIn,function(req,res){
+    console.log("tqf25 Program Management");
+    console.log(req.query.acid);
+    var acyear =  req.query.year;
+   Work.Meeting.find( { 
+          $and: [
+                     { '_type' :  'meetingOfProgram' },
+                     {  'acyear' : req.query.acid}
+               ]      
+        }, function (err, meeting) {
+          if(err) console.log("query meetings err"+err);
+          console.log(meeting);
+          res.render("qa/tqf25.hbs", {
+              layout: "qaPage",
+              meetings : meeting,
+              helpers: {
+              inc: function (value) { return parseInt(value) + 1; },
+              getyear: function () { return acyear; }
+             } 
+           });
+        });
   });
 
 	app.get('/aun10-1', isLoggedIn, function (req, res) {

@@ -1,0 +1,68 @@
+<body>
+   
+    <td>
+        <div class="container-fluid">
+        <div class="row-fluid">
+        <div class="span12">
+        <div class="col-md-12"> 
+       
+        <!--<form class="form-horizontal" role="form">-->
+            <h3>Program Management</h3>
+            <br>
+            <div id="tab_tqf5"><table class="table muffin">
+            <thead align="center">
+                <tr>
+                    <th><a href="javascript:table_sort('tab_tqf5',0)">Indicators</a></th>
+                    <th><a href="javascript:table_sort('tab_tqf5',1)">Target</a></th>
+                    <th><a href="javascript:table_sort('tab_tqf5',2)">Actions</a></th>
+                    <th><a href="javascript:table_sort('tab_tqf5',3)">Results</a></th>
+                </tr>
+                
+            </thead>
+            <tbody>
+                <tr>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                </tr>
+                <tr>
+                
+            </tbody>
+            </table>
+            <h5>Table : Program management results</h5>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div id="tab_tqf5-2"><table class="table muffin">
+            <thead align="center">
+                <tr>
+                    <th><a href="javascript:table_sort('tab_tqf5-2',0)">Meeting No.</a></th>
+                    <th><a href="javascript:table_sort('tab_tqf5-2',1)">Meeting Date</a></th>
+                    <th><a href="javascript:table_sort('tab_tqf5-2',2)">No. of Participation</a></th>
+                    <th><a href="javascript:table_sort('tab_tqf5-2',3)">Percentage of Participation</a></th>
+                </tr>
+            </thead>
+            <tbody>
+           
+                {{#each meetings}}
+                <tr>
+                    <td>{{inc @index}}/{{getyear}}</td>
+                    <td>{{meetingDate}}</td>
+                    <td>{{noOfParticipation}}</td>
+                    <td>{{percentageOfParticipation}}</td>                             
+                </tr>
+                {{/each}}
+           
+            
+           </tbody>
+            </table>
+            <h5>Table : Meetings of program management committee</h5>
+            
+            </div>
+        </form>
+        </div>
+    </td>     
+</body>

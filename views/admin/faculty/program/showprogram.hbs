@@ -1,76 +1,4 @@
-<!--<br><br>
-<div class="tabs">
-    <ul class="tab-links">
-        <li class="active"><a href="#tab1" >Subject</a></li>
-        <li><a href="#tab2">To Do</a></li>
-        
-    </ul>
-    <div class="tab-content">
-        <div id="tab1" class="tab active">
-            <form class="form-horizontal" role="form">
-                {{#each teachsemes}}
-				<label for="inputType" class="col-md-2 control-label">Year: {{Year}} Semester:{{semester}}</label>
-				<table class="tablesorter">
-				    <thead>
-				        <tr>
-				        <th><a href="javascript:table_sort('tab_2',1)">Subject code</a></th>
-				        <th><a href="javascript:table_sort('tab_2',2)">Subject name</a></th>
-				        <th><a href="javascript:table_sort('tab_2',2)">Subject credit</a></th>
-				        <th><a href="javascript:table_sort('tab_2',3)">Lecturer</a></th>
-				        </tr>
-				    </thead>
-					 <tbody>
-					   
-					      {{#each subject}}
-					      	
-					        <tr>
-						        <td><a href='/edit?user={{local.username}}'>{{subcode.sub_code}}</a></td>
-						        <td>{{subcode.sub_name}}</td>
-						        <td>{{subcode.sub_credit}}</td>
-						        <td>
-						        	{{#each subcode.sub_lecter}}
-						        		{{local.title}}
-						        		{{local.name}}<br>
-						        		
-						        	{{/each}}
-						        </td>		       
-					        </tr>
-					      
-					      {{/each}}
-					    
-					   </tbody>
-					 </table>
-					<!-- end: table full 
-					<div class="table-foot"> 
-			        	<div class="pull-right">
-			                <div class="btn-group">
-							    <a href = "/addsubprogram?acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">ADD Program Subjects</button></a>
-							</div>
-			           
-						    <div class="btn-group">
-						   		 <a href = "/editsubprogram?id={{ac_id}}&year={{Year}}&semes={{semester}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>
-							</div>
-							<div class="btn-group">
-						   		 <a href = "/delsubprogram?id={{_id}}&acid={{ac_id}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a>
-							</div>
-			 			</div>
-			 		</div>
-			 	<br><br>		 
-			 	{{/each}}  
 
-            </form>
-         <br><br>   
-        </div>
-
- 
-        <div id="tab2" class="tab">
-            <p>Tab #2 content goes here!</p>
-            <p>Donec pulvinar neque sed semper lacinia. Curabitur lacinia ullamcorper nibh; quis imperdiet velit eleifend ac. Donec blandit mauris eget aliquet lacinia! Donec pulvinar massa interdum ri.</p>
-        </div>
- 
-
-    </div>
-</div>-->
 <script> 
     $('button').click(function() {
     // Find the target tab li (or anchor) that links to the content you want to show.
@@ -93,6 +21,7 @@
     <div class="tab-content">
         <div id="active_order_categories" class="tab-pane active">
             <div class="panel-body">
+            	
 	            	<form class="form-horizontal" role="form">
 	                {{#each teachsemes}}
 					<label for="inputType" class="col-md-2 control-label">Year: {{Year}} Semester:{{semester}}</label>
@@ -162,18 +91,20 @@
 					        <th><a>Meeting Date</a></th>
 					        <th><a>No. of Participation</a></th>
 					        <th><a>Percentage of Participation</a></th>
-					        
+					        <th><a>Edit</a></th>
+					        <th><a>Delete</a></th>
 					        </tr>
 					    </thead>
 						 <tbody>
 						   
-						     
 						      	{{#each meetings}}
 						        <tr>
 							        <td>{{inc @index}}</td>
 							        <td>{{meetingDate}}</td>
 							        <td>{{noOfParticipation}}</td>
-							        <td>{{percentageOfParticipation}}</td>		       
+							        <td>{{percentageOfParticipation}}</td>	
+							        <td><a href = "/editmeeting?id={{_id}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a></td>
+							        <td><a href = "/delmeeting?id={{_id}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a></td>	       
 						        </tr>
 						      	{{/each}}
 						   
@@ -186,12 +117,7 @@
 				                <div class="btn-group">
 								    <a href = "/addmeeting?acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add new meeting</button></a>
 								</div>
-							    <div class="btn-group">
-							   		 <a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>
-								</div>
-								<div class="btn-group">
-							   		 <a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a>
-								</div>
+							    
 				 			</div>
 				 		</div>
 				 	<br><br>		 
