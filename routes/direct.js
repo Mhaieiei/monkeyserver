@@ -2378,20 +2378,13 @@ module.exports = function(app, passport) {
 				    if(err) console.log("find teach err"+err);
 				   	  // This object should now be populated accordingly.
 				    	console.log(works);
-				    	//console.log(works[0].nametitle);
-				    	//console.log(works[0].user[0].iduser.local.username);
-		    			res.render('qa/tqf23_test.ejs', {
+				    	
+		    			res.render('qa/tqf23.ejs', {
 		    			  //layout: "qaPage",
 						  user : req.user,
 						  examiner : userwork,
-			              Thesis: works,		             
-			             //  helpers: {
-		            		// inc: function (value) { return parseInt(value) + 1; },
-		            		// getindex:function() {return index++;},
-		            		// setid:function(value) {idof =  parseInt(value) + 1;},
-		            		// getid:function() {return idof;}
-
-		            		// }
+			       Thesis: works,		             
+			            
 
 			            });	
 				});   
@@ -2431,12 +2424,7 @@ module.exports = function(app, passport) {
         Work.Public.populate(result,[{path:'_id',model:'User'},{path:'works.workid',model:'Public'}],function(err,userwork){
           if(err){console.log("first populate is err"+err);}
           console.log("Userwork is"+userwork);
-          //console.log(userwork[0]._id.local.name);
-          //console.log(userwork[0].works[0]);
-          //console.log(userwork[0].works[0].workid.acyear);
-          //console.log(userwork[0].works[0].workid.namepublic);
-          //console.log(userwork[0].works[0].workid);
-          Work.Project
+           Work.Project
         .find({'acyear': req.query.acid})
         .populate({
           path:'user.iduser',
@@ -2459,6 +2447,29 @@ module.exports = function(app, passport) {
            
       });
 
+  });
+
+  app.get('/tqf25',isLoggedIn,function(req,res){
+    console.log("tqf25 Program Management");
+    console.log(req.query.acid);
+   Work.Meeting.find( { 
+          $and: [
+                     { '_type' :  'meetingOfProgram' },
+                     {  'acyear' : req.query.acid}
+               ]      
+        }, function (err, meeting) {
+          if(err) console.log("query meetings err"+err);
+          console.log(meeting);
+          res.render("qa/tqf25.hbs", {
+              layout: "qaPage",
+              meetings : meeting,
+              year : req.query.year,
+              helpers: {
+              inc: function (value) { return parseInt(value) + 1; },
+              getacid: function () { return acayear; }
+             } 
+           });
+        });
   });
 
 	app.get('/aun10-1', isLoggedIn, function (req, res) {
