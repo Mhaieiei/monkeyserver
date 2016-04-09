@@ -2198,10 +2198,10 @@ module.exports = function(app, passport) {
     // Get QA Info. ==============================
     // =====================================
     app.get('/qapage',function(req,res){
-		console.log('Get QA Info(select program)');
-		console.log(years);
-		console.log(years[0]);
-		return Fac.find( { 'programname': { $exists: true } },function( err, faculty ) {
+  		console.log('Get QA Info(select program)');
+  		console.log(years);
+  		console.log(years[0]);
+  		return Fac.find( { 'programname': { $exists: true } },function( err, faculty ) {
         if( !err ) {
 			console.log(faculty);
             res.render("qa/qa.hbs", {
@@ -2224,10 +2224,10 @@ module.exports = function(app, passport) {
 	});  
 
 	app.post('/qahome',function(req,res){
-	console.log('Get QA home(select Topic)');
-	console.log(req.body.sub_programs);
-	console.log(req.body.years);
-	return Acyear.findOne({
+  	console.log('Get QA home(select Topic)');
+  	console.log(req.body.sub_programs);
+  	console.log(req.body.years);
+  	return Acyear.findOne({
 	     $and: [
 	            { 'program_name' : req.body.sub_programs },
 	            { 'academic_year' : req.body.years }
@@ -2247,13 +2247,13 @@ module.exports = function(app, passport) {
 	});
 });
     app.get('/tqf21',function(req,res){
-		console.log('Get TQF21');
-		console.log(req.query.program);
-		console.log(req.query.year);
-		var a=1;
-		var b=0;
-		var fact=true;
-		return User.find({ $and: [
+  		console.log('Get TQF21');
+  		console.log(req.query.program);
+  		console.log(req.query.year);
+  		var a=1;
+  		var b=0;
+  		var fact=true;
+  		return User.find({ $and: [
 	            { 'local.program' : req.query.program },
 	            { 'local.role' : 'staff' }
 	          ]}, function( err, clients ){
@@ -2479,6 +2479,8 @@ module.exports = function(app, passport) {
         });
   });
 
+
+
 	app.get('/aun10-1', isLoggedIn, function (req, res) {
       console.log("FacilityAndInfrastrutureSchema");
       console.log("program :"+req.query.program);
@@ -2565,12 +2567,6 @@ module.exports = function(app, passport) {
               return console.log(err + "mhaieiei");
           }
       });
-
-
-
-
-
-
   });
 
   app.get('/aun5-3', isLoggedIn, function (req, res) {
@@ -2614,13 +2610,7 @@ module.exports = function(app, passport) {
 
                  });
       });
-                 //, function (err, docs) {
-
-
-
-            
-
-
+                
   });
 
   
@@ -3520,7 +3510,7 @@ module.exports = function(app, passport) {
 
       //referenceCurriculumSchema.find();
         
-      User.aggregate(
+       User.aggregate(
 
             [
                     {
@@ -3926,6 +3916,18 @@ User.aggregate(
         });
 
   });
+  //---------------------------Edit QA information ----------------------------
+
+  app.get('/edittqf25',isLoggedIn,function(req,res){
+    console.log("Edit TQF 25 Program management results");
+    res.render('qa/editqa/tqf25edit.hbs', {
+            layout: "qaPage",
+            
+        });
+  });
+ 
+
+
 	
 	//=====================================
     // Get Work Info.(Student) ==============================

@@ -1,0 +1,45 @@
+
+ <div class="container">
+  <form class="form-horizontal" role="form"  action="/addmeeting" method="post" id = "myForm" >	
+    <br><br>
+               
+           <div class="form-group">
+              <label for="fromDate" class="col-md-2 control-label">Indicators :</label>
+              <div class="col-md-4">
+                   <input type="text" class="form-control" id="indicators" name="indicators" value="">
+              </div>
+              <label for="inputType" class="col-md-2 control-label">Target :</label>
+              <div class="col-md-4">
+                  <input type="text" width="100px" height="200px" class="form-control" id="target"  name="target">
+              </div>
+              
+              <label for="inputType" class="col-md-2 control-label">Actions :</label>
+              <div class="col-md-4">
+                  <input type="text" class="form-control" id="actions"  name="actions" >
+              </div>
+              <label for="inputType" class="col-md-2 control-label">Results :</label>
+              <div class="col-md-4">
+                  <input type="text" class="form-control" id="results"  name="results" required>
+              </div>
+          </div>
+           
+          
+                      
+
+          <p hidden>		
+			  <input type="text" tabindex="1" name="acyear" id="acyear" value="{{acid}}"><br>
+  			</p>
+  			                   
+      				
+                      
+          <div class="pull-right">
+               <div class="btn-group">
+                      <button id="tab_2_submit" class="btn btn-mini" type="submit">Submit</button>
+               </div>
+          </div>
+
+
+
+  	  
+  </form>
+</div>
