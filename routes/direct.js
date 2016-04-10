@@ -2795,7 +2795,8 @@ module.exports = function(app, passport) {
                   $and:[{
 
                       "type": "Supporting Staff"},
-                        { "academicYear": programs._id}
+                        { "academicYear": req.query.year },
+                                        { "program": req.query.program }
                   ]
               })
                 .populate('user')
@@ -2948,7 +2949,8 @@ module.exports = function(app, passport) {
                                                  $and: [
                                                      { "type": "Academic Staff" },
                                                     {"position": "Faculty Member"},
-                                                     { 'academicYear': programs.id }
+                                                     { "academicYear": req.query.year },
+                                        { "program": req.query.program }
                                                     
 
                                                  ]
@@ -3109,7 +3111,8 @@ module.exports = function(app, passport) {
                                                  $and: [
                                                      { "type": "Supporting Staff" },
                                                     
-                                                     { 'academicYear': programs.id }
+                                                     { "academicYear": req.query.year },
+                                        { "program": req.query.program }
 
                                                  ]
 
@@ -3257,7 +3260,8 @@ module.exports = function(app, passport) {
                         $match: {
                             $and: [
                                 { "type": "Academic Staff" },
-                                { "academicYear": programs.id }
+                                { "academicYear": req.query.year },
+                                        { "program": req.query.program }
 
                             ]
 
@@ -3639,7 +3643,8 @@ User.aggregate(
               Role.roleOfStaff.find({
                   $and: [
                         { "position": "Faculty Member" },
-                        { "academicYear": programs._id }
+                        { "academicYear": req.query.year },
+                                        { "program": req.query.program }
                   ]
               })
                 .populate('user')
@@ -3650,7 +3655,8 @@ User.aggregate(
                     Role.roleOfStaff.find({
                         $and: [
                             { "position": "Visiting Member" },
-                            { "academicYear": programs._id }
+                            { "academicYear": req.query.year },
+                                        { "program": req.query.program }
                         ]
                     })
                 .populate('user')
@@ -3841,9 +3847,9 @@ User.aggregate(
                                   
                                   $or: [
                                   {"type": "Academic Staff"},
-                              {"type": "Student"}
+                              {"position": "Graduate"}
                               ]},
-                              {"academicYear": programs.id}
+                              
 
                               ]
 
@@ -3855,20 +3861,21 @@ User.aggregate(
                       },
                       { 
                         $group : { 
-                          _id : {type:"$type", position:"$position"} ,
+                           _id : {academicYear:"$academicYear",type:"$type", position:"$position"} ,
+
                           user: { $push: "$user" },
                           count:{$sum:1}
                         }
 
-                    }
-                      // {
-                      //     $group: {
-                      //         _id: "$_id.academicYear",
-                      //         root: { $push: "$$ROOT" },
-                      //         sumOfYear: { $sum: "$count" }
+                    },
+                      {
+                          $group: {
+                              _id: "$_id.academicYear",
+                              root: { $push: "$$ROOT" },
+                              // sumOfYear: { $sum: "$count" }
 
-                      //     }
-                      // }
+                          }
+                      }
 
               ]
           , function (err, staffAndPublication) {
@@ -3877,29 +3884,31 @@ User.aggregate(
               //referenceCurriculumSchema.find();
 
               User.populate(staffAndPublication, {
-                 path: 'user',    
+                 path: 'root.user',    
              model: 'User'   
         },function(err, user) {
 
 
           User.populate(user, {
-                 path: 'user.publicResearch',   
+                 path: 'root.user.publicResearch',   
              model: 'Public'   
         },function(err, public) {
 
           User.populate(public, {
-                 path: 'user.publicResearch.acyear',    
+                 path: 'root.user.publicResearch.acyear',    
              model: 'Acyear'   
         },function(err, academicYear) {
 
 
               console.log("REFFFF--academic staff publication in 2014-->>>", academicYear);
 
-              res.render('qa/qa-aunAcademicStaffPublic2014.hbs', {
+              res.render('qa/qa-aun14.4.ejs', {
                  //    user: req.user,      
                  layout: "qaPage",
 
                  docs: staffAndPublication,
+                 academicYear:req.query.year,
+
                  helpers: {
                      inc: function (value) { return parseInt(value) + 1; },
                      getyear: function (value) { return yearac[value]; },
