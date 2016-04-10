@@ -25,6 +25,7 @@
     "kerberos": "0.0.18",
     "method-override": "~1.0.0",
     "mongoose": "4.3.7",
+    "mongoose-auto-increment": "^5.0.1",
     "morgan": "~1.6.1",
     "nodemon": "^1.8.1",
     "npm": "^3.7.3",

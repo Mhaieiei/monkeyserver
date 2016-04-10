@@ -2,6 +2,8 @@ var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var options = {discriminatorKey: 'department'}
+
 var docSchema = new Schema({
 
 	owner: {
@@ -9,7 +11,6 @@ var docSchema = new Schema({
 		ref: 'user'
 	},
 
-	type: String,
 	dateCreate: {
 		type: Date,
 		default: Date.now
@@ -38,7 +39,7 @@ var docSchema = new Schema({
 	}],
 
 	filepath: String
-});
+}, options);
 
 docSchema.statics.findByUser = function(user) {
 	return this.find({'owner': user});

@@ -25,3 +25,17 @@ exports.password = password;
 
 var databaseOperationTimeoutMillisecs = 10 * 1000;
 exports.dbTimeout = databaseOperationTimeoutMillisecs;
+
+var dbConn;
+exports.createClient = function() {
+	dbConn = require('mongoose').createConnection(host, database, port);
+	return dbConn;
+}
+
+exports.dropDb = function(done) {
+	dbConn.db.dropDatabase(function (err, result) {
+		done();
+	});
+}
+
+exports.dbConnection = dbConn;
