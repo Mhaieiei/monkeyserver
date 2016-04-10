@@ -23,6 +23,10 @@ describe('Database Collections Entity Testing', function() {
 			}
 		});
 	});
+
+	after(function(done) {
+		dbMock.dropDb(done);
+	})
 })
 
 function makeSuite(name, tests) {
