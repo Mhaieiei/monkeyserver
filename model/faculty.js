@@ -19,7 +19,8 @@ var facSchema = mongoose.Schema({
 	structureOfCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'structure' }],
 	referenceCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'referenceCurriculum' }],
 	Responsibility: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Responsibility' }],
-	noOfStaff: [{ type: mongoose.Schema.Types.ObjectId, ref: 'noOfStaff' }]
+	noOfStaff: [{ type: mongoose.Schema.Types.ObjectId, ref: 'noOfStaff' }],
+    Programmanagement : [{ type: mongoose.Schema.Types.ObjectId, ref: 'ProgramManagement' }]
 
 
 
@@ -50,20 +51,10 @@ var StakeholderSchema = mongoose.Schema({
 
 var ProgramManagement = mongoose.Schema({
 
-    result: [{
-        indicator: String,
-        target: String,
-        action: String,
-        result:String
-    
-    }],
-    meetingOfProgramManagementCommittee: [{
-        meetingDate: Date,
-        noOfParticipation: Number,
-        percentageOfParticipation:Number
-
-
-    }]
+    indicators: String,
+    target: String,
+    actions: String,
+    results:String  
 });
 
 

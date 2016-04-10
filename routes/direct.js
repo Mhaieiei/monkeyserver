@@ -3935,6 +3935,41 @@ User.aggregate(
         });
   });
  
+   app.post('/edittqf25',isLoggedIn,function(req,res){
+    console.log("[POST] Edit TQF 25 Program management results");
+    var obj = {
+      'indicators' : req.body.indicators,
+      'target' : req.body.target,
+      'actions' : req.body.actions,
+      'results' : req.body.results
+      } 
+      Fac.findOne({},function(err,fac){
+        if(err) console.log("query tq25 err"+err);
+        if(fac != null){
+          //update new programmanagement
+          console.log(fac);
+          fac.indicators = req.body.indicators;
+          fac.target = req.body.target;
+          fac.actions = req.body.actions;
+          fac.results = req.body.results;
+          fac.save(function(err,manage) {
+              if (err){console.log('Cant saveprogrammanagement '+err);}
+              else {
+                console.log("update progrmmanagement already");
+                }
+          });
+        }else{
+          var programmanage = new Fac(obj);
+          programmanage.save(function(err,manage) {
+              if (err){console.log('Cant save new programmanagement '+err);}
+              else {
+                console.log("Insert new progrmmanagement already");
+                }
+          });
+        }
+      });
+    });
+   
 
 
 	
