@@ -2471,17 +2471,22 @@ module.exports = function(app, passport) {
         }, function (err, meeting) {
           if(err) console.log("query meetings err"+err);
           console.log(meeting);
-          res.render("qa/tqf25.hbs", {
-              layout: "qaPage",
-              meetings : meeting,
-              acid : req.query.acid,
-              program: req.query.program,
-              helpers: {
-              inc: function (value) { return parseInt(value) + 1; },
-              getyear: function () { return acyear; }
-             } 
-           });
+          Fac.ProgramManagement.findOne({ 'programtrack' :  req.query.program  }, function(err, manage) {        
+              if (err){ console.log("Cant find factory management"+err); } 
+               res.render("qa/tqf25.hbs", {
+                  layout: "qaPage",
+                  meetings : meeting,
+                  acid : req.query.acid,
+                  program: req.query.program,
+                  manage : manage,
+                  helpers: {
+                  inc: function (value) { return parseInt(value) + 1; },
+                  getyear: function () { return acyear; }
+                 } 
+               });
+            });              
         });
+         
   });
 
 
@@ -3937,12 +3942,29 @@ User.aggregate(
     console.log(req.query.acid);
     console.log(req.query.year);
     console.log(req.query.program);
-    res.render('qa/editqa/tqf25edit.hbs', {
-        layout: "qaPage",
-        acid : req.query.acid,
-        year : req.query.year,
-        program : req.query.program          
-        });
+    Fac.ProgramManagement.findOne({ 'programtrack' :  req.query.program  }, function(err, manage) {        
+        if (err){ console.log("Cant find factory management"+err); }        
+        if (manage != null) {
+          console.log("Edit"+manage);
+          res.render('qa/editqa/tqf25edit.hbs', {
+            layout: "qaPage",
+            acid : req.query.acid,
+            year : req.query.year,
+            program : req.query.program,
+            manage : manage          
+            });
+
+        } else {
+            console.log("Insert new");
+            res.render('qa/editqa/tqf25new.hbs', {
+            layout: "qaPage",
+            acid : req.query.acid,
+            year : req.query.year,
+            program : req.query.program          
+            });            
+        }
+    });
+    
   });
   app.post('/edittqf25',isLoggedIn,function(req,res){
     console.log("[POST] Edit tqf 25");
@@ -3962,14 +3984,14 @@ User.aggregate(
     for(var i=0;i< strlen;i++){
       if(strlen == 1){
          var obj = {
-          'indicatiors' : req.body.indicators,
+          'indicators' : req.body.indicators,
           'target' : req.body.target,
           'actions' : req.body.actions,
           'results' : req.body.results
         }       
       }else{
          var obj = {
-          'indicatiors' : req.body.indicators[i],
+          'indicators' : req.body.indicators[i],
           'target' : req.body.target[i],
           'actions' : req.body.actions[i],
           'results' : req.body.results[i]
@@ -3978,10 +4000,10 @@ User.aggregate(
               
         array.push(obj);
      }       
-    Fac.findOne({ 'programtrack' :  req.body.program  }, function(err, fac) {        
+    Fac.ProgramManagement.findOne({ 'programtrack' :  req.body.program  }, function(err, fac) {        
         if (err){ console.log("Cant find factoery management"+err); }        
         if (fac != null) {
-          console.log(ac);
+          console.log(fac);
           fac.programtrack = req.body.program;
           fac.management = array;
           fac.save(function(err,manage) {
@@ -3989,7 +4011,7 @@ User.aggregate(
             else{
               console.log(manage);
               console.log("Update new program management succesful");  
-              res.redirect('/tqf25?acid='+req.body.acid+'&year'+req.body.year+'&program'+req.body.program);                          
+              res.redirect('/tqf25?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
             }                         
          });  
 
@@ -4002,7 +4024,7 @@ User.aggregate(
             else{
               console.log(manage);
               console.log("Insert new program management succesful");  
-              res.redirect('/tqf25?acid='+req.body.acid+'&year'+req.body.year+'&program'+req.body.program);                          
+              res.redirect('/tqf25?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
             }                         
          });  
 

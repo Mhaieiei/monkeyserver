@@ -21,13 +21,14 @@
                 
             </thead>
             <tbody>
+                {{#each manage.management}}
                 <tr>
-                <td> </td>
-                <td> </td>
-                <td> </td>
-                <td> </td>
+                    <td>{{inc @index}}. {{indicators}} </td>
+                    <td>{{target}} </td>
+                    <td>{{actions}} </td>
+                    <td>{{results}} </td>
                 </tr>
-                <tr>
+               {{/each}}
                 
             </tbody>
             </table>
