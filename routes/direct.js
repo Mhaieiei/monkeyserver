@@ -2200,7 +2200,7 @@ module.exports = function(app, passport) {
     app.get('/qapage',function(req,res){
   		console.log('Get QA Info(select program)');
   		console.log(years);
-  		console.log(years[0]);
+  		//console.log(years[0]);
   		return Fac.find( { 'programname': { $exists: true } },function( err, faculty ) {
         if( !err ) {
 			console.log(faculty);
@@ -2227,6 +2227,7 @@ module.exports = function(app, passport) {
   	console.log('Get QA home(select Topic)');
   	console.log(req.body.sub_programs);
   	console.log(req.body.years);
+
   	return Acyear.findOne({
 	     $and: [
 	            { 'program_name' : req.body.sub_programs },
@@ -2241,7 +2242,8 @@ module.exports = function(app, passport) {
 			user: req.user,
 			programname: req.body.sub_programs,
 			year: req.body.years,
-			acid : programs._id
+			acid : programs._id,
+     
 		 	});
 		}	
 	});
@@ -2459,8 +2461,9 @@ module.exports = function(app, passport) {
   app.get('/tqf25',isLoggedIn,function(req,res){
     console.log("tqf25 Program Management");
     console.log(req.query.acid);
+    console.log(req.query.program);
     var acyear =  req.query.year;
-   Work.Meeting.find( { 
+    Work.Meeting.find( { 
           $and: [
                      { '_type' :  'meetingOfProgram' },
                      {  'acyear' : req.query.acid}
@@ -2471,6 +2474,8 @@ module.exports = function(app, passport) {
           res.render("qa/tqf25.hbs", {
               layout: "qaPage",
               meetings : meeting,
+              acid : req.query.acid,
+              program: req.query.program,
               helpers: {
               inc: function (value) { return parseInt(value) + 1; },
               getyear: function () { return acyear; }
@@ -3641,13 +3646,64 @@ module.exports = function(app, passport) {
 	});
   //-------------------------------------------------edit tqf 25-------------------------------------------------------
   app.get('/edittqf25',isLoggedIn,function(req,res){
-    console.log("Edit tqf 25");
+    console.log("[GET]Edit tqf 25");
     console.log(req.query.name);
+    console.log(req.query.acid);
+    console.log(req.query.year);
+    console.log(req.query.program);
     res.render('qa/editqa/tqf25edit.hbs', {
         layout: "qaPage",
-          
+        acid : req.query.acid,
+        year : req.query.year,
+        program : req.query.program          
         });
   });
+  app.post('/edittqf25',isLoggedIn,function(req,res){
+    console.log("[POST] Edit tqf 25");
+    console.log(req.body.indicatiors);
+    console.log(req.body.target);
+    console.log(req.body.actions);
+    console.log(req.body.results);
+    console.log(req.body.program);
+    console.log(req.body.acid);
+    console.log(req.body.year);
+    console.log(req.body.arrlen);
+        
+    var strlen = req.body.arrlen; 
+    var userarr = [];
+    var array = [];    
+    //advisee
+    for(var i=0;i< strlen;i++){
+        var obj = {
+          'indicatiors' : req.body.indicatiors,
+          'target' : req.body.target,
+          'actions' : req.body.actions,
+          'results' : req.body.results
+        }              
+        array.push(obj);
+      }       
+    Fac.findOne({ 'program_name' :  req.body.program  }, function(err, fac) {        
+        if (err){ console.log("Cant find factoery"+err); }
+        
+        if (fac != null) {
+          console.log(ac);
+          fac.Programmanagement = array;
+          fac.save(function(err,manage) {
+            if (err){console.log('cant edit new program Management'+err);}  
+            else{
+              console.log(manage);
+              console.log("Update new program management succesful");  
+              res.redirect('/thesisinf?acid='+req.body.acid+'year'+req.body.year);                          
+            }                         
+         });  
+
+          } else {
+             console.log("No this faculty");
+             
+          }
+        });
+    
+     });       
 
 
 

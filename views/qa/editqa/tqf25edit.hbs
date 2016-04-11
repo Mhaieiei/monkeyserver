@@ -1,43 +1,61 @@
+<script>
+  var array = [];
+  var rowind = 1;
+  function deleteRow(row)
+  {
+      var i=row.parentNode.parentNode.rowIndex;
+      document.getElementById('tab_tqf25').deleteRow(i);
+      rowind--;
+      document.getElementById('arrlen').value = rowind;
+      console.log("value="+document.getElementById('arrlen').value);
+  }
+
+
+  function insRow()
+  {
+    
+      console.log( 'hi');
+      var x=document.getElementById('tab_tqf25');
+      var y =document.getElementById('body_tqf25');
+      var new_row = x.rows[1].cloneNode(true);
+      var len = x.rows.length;
+      
+      new_row.cells[0].innerHTML = len;
+      
+      var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+      //inp1.value = '';
+      var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
+      var inp3 = new_row.cells[3].getElementsByTagName('input')[0];
+       var inp3 = new_row.cells[4].getElementsByTagName('input')[0];
+      // inp3.value = '';
+      // var inp4 = new_row.cells[4].getElementsByTagName('input')[0];
+      // inp4.value = '';
+      console.log(new_row);
+      y.appendChild( new_row );
+      rowind++;
+      console.log(rowind);
+      document.getElementById('arrlen').value = rowind;
+      console.log("value="+document.getElementById('arrlen').value);
+   
+  }
+  
+  
+  
+  
+</script>
+ 
 
  <div class="container">
   <form class="form-horizontal" role="form"  action="/addmeeting" method="post" id = "myForm" >	
-    <br><br>
-               
-           <!--<div class="form-group">
-              <label for="fromDate" class="col-md-2 control-label">Indicators :</label>
-              <div class="col-md-4">
-                   <input type="text" class="form-control" id="indicators" name="indicators" value="">
-              </div>
-              <label for="inputType" class="col-md-2 control-label">Target :</label>
-              <div class="col-md-4">
-                  <input type="text" width="100px" height="200px" class="form-control" id="target"  name="target">
-              </div>
-              
-              <label for="inputType" class="col-md-2 control-label">Actions :</label>
-              <div class="col-md-4">
-                  <input type="text" class="form-control" id="actions"  name="actions" >
-              </div>
-              <label for="inputType" class="col-md-2 control-label">Results :</label>
-              <div class="col-md-4">
-                  <input type="text" class="form-control" id="results"  name="results" required>
-              </div>
-          </div>
-           
+    <br><br>    
+      <p hidden>    
+            <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>
+            <input type="text" tabindex="1"  name="acid" id="acid" value='1' value="{{acid}}"><br>
+            <input type="text" tabindex="1"  name="year" id="year" value='1' value="{{year}}"><br>
+            <input type="text" tabindex="1"  name="program" id="program" value='1' value="{{program}}"><br>
           
-                      
-
-          <p hidden>		
-			  <input type="text" tabindex="1" name="acyear" id="acyear" value="{{acid}}"><br>
-  			</p>
-  			                   
-      				
-                      
-          <div class="pull-right">
-               <div class="btn-group">
-                      <button id="tab_2_submit" class="btn btn-mini" type="submit">Submit</button>
-               </div>
-          </div>-->
-
+     </p>           
+           
       <td>
         <div class="container-fluid">
         <div class="row-fluid">
@@ -47,10 +65,11 @@
         <!--<form class="form-horizontal" role="form">-->
             <h3>Program Management</h3>
             <br>
-            <div id="tab_tqf5">
-                <table class="tablesorter">
+            <div >
+                <table id="tab_tqf25" class="tablesorter">
                     <thead align="center">
                         <tr>
+                            <th><a>Index</a></th>
                             <th><a>Indicators</a></th>
                             <th><a>Target</a></th>
                             <th><a>Actions</a></th>
@@ -58,21 +77,22 @@
                         </tr>
                         
                     </thead>
-                    <tbody>
+                    <tbody id="body_tqf25">
                         <tr>
-                        <td> <input type="text" class="form-control" id="indicator"></td>
-                        <td> <textarea class="form-control" rows="5" id="target"></textarea></td>
-                        <td> <textarea class="form-control" rows="5" id="actions"></textarea></td>
-                        <td> <input type="text" class="form-control" id="results"></td>
+                          <td> 1</td>
+                          <td> <input type="text" class="form-control" name="indicators" id="indicators"></td>
+                          <td> <textarea class="form-control" rows="5" name="target" id="target"></textarea></td>
+                          <td> <textarea class="form-control" rows="5" name="actions" id="actions"></textarea></td>
+                          <td> <input type="text" class="form-control" name="results" id="results"></td>
                         </tr>
-                        <tr>
+                        
                         
                     </tbody>
                 </table>
             <div class="table-foot"> 
                 <div class="pull-right">
                     <div class="btn-group">
-                        <a href = ""><button id="btnedit" class="btn btn-mini" type="button">Edit</button></a>
+                        <button id="btnedit" class="btn btn-mini" type="button" onclick="insRow()">Insert Row</button>
                         <a href = ""><button id="btnsubmit" class="btn btn-mini" type="button">Submit</button></a>
                     </div>
                 </div>
