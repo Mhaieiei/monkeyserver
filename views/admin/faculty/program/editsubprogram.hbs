@@ -96,7 +96,6 @@
 	                            <td><input type="text" id="subject_code" name="subject_code" value={{subcode.sub_code}} readonly></td>
 	                            <td><input width="300" type="text" name="subject_name" value="{{subcode.sub_name}}" readonly></td>
 	                            <td>
-                                {{subcode.sub_lecter.local.name}}
                                 {{#each subcode.sub_lecter}}
                                     <input type="text" name="subject_lec" placeholder="{{local.title}}{{local.name}}" value='{{_id}}' readonly>,
                                 {{/each}}

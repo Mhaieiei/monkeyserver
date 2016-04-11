@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Monkey Office</title>
+
+        <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="dist/css/bootstrap-submenu.min.css">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css" id="" media="print, projection, screen" />
+    <script type="text/javascript" src="js/jquery-latest.js"></script> 
+    <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+    <link href="css/file-tree.min.css" rel="stylesheet"
+    <script type="text/javascript" src="../jquery-latest.js"></script>
+    <script type="text/javascript" src="../jquery.tablesorter.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        $("table").tablesorter({debug: true});
+    });
+    </script>
+</head>
+
+<body>
+
+    
+        <td>
+            <div class="container-fluid">
+            <div class="row-fluid">
+            <div class="span15">
+            <div class="col-md-15"> 
+           
+            <!--<form class="form-horizontal" role="form">-->
+                
+                <h3>AUN 14.4: The level of research activies by academic staff and students is satisfactory</h3>
+       
+                <h5>Table : Publications of academic staff and students in academic year <%= academicYear%></h5>
+                <div id="tab_aun8.3.1">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                            <th>Position</a></th>
+                            <th>No.</a></th>
+                            <th>Title</a></th>
+                            <th>Name-Surname</a></th>
+                            <td colspan=6>Publications</a></td>
+                            
+
+                        </tr>
+                        <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <th>A</th>
+                        <th>B</th>
+                        <th>C</th>
+                        <th>D</th>
+                        <th>E</th>
+                        <th>F</th>
+                        
+                        </tr>
+                       
+
+                    <!-- ใช้ th colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
+                    </thead>
+
+                    <tbody>
+                    <% nationalCon = 0%>
+                    <% internationalCon = 0%>
+                    <% nationalJour = 0%>
+                    <% internationalJour = 0%>
+                    <% book = 0%>
+                    <% patent = 0%>
+                    <%count = 0%>
+                    <% for(i=0;i< docs.length;i++){%>
+                    
+                    <%if(docs[i]._id == academicYear){%>
+                    <% for(p=0;p< docs[i].root.length;p++){%>
+                    <%count = 0%>
+                        <tr>
+                        <td><%= docs[i].root[p]._id.position%></td>
+                        <% for(j=0;j< docs[i].root[p].user.length;j++){%>
+                        
+
+                        <% if(count == 0){ %>
+
+                        <td><%= j+1%></td>
+                        <td><%= docs[i].root[p].user[j].local.title%></td>
+                        <td><%= docs[i].root[p].user[j].local.name%> <%= docs[i].root[p].user[j].local.surname%></td>
+
+                        <% for(k=0;k< docs[i].root[p].user[j].publicResearch.length;k++){%>
+                        <%if(docs[i].root[p].user[j].publicResearch[k].acyear.academic_year == academicYear){%>
+                       
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'national conference'){%>
+
+                            <% nationalCon++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'international conference'){%>
+
+                            <% internationalCon++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'national journal'){%>
+
+                            <% nationalJour++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'international journal'){%>
+
+                            <% internationalJour++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'book/proceeding'){%>
+
+                            <% book++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'patent'){%>
+
+                            <% patent++%>
+
+                            <%}%>
+                        <%}%>
+                        
+                        <%}%>
+                        
+                        <td><%= nationalCon%></td>
+                        <td><%= internationalCon%></td>
+                        <td><%= nationalJour%></td>
+                        <td><%= internationalJour%></td>
+                        <td><%= book %></td>
+                        <td><%= patent %></td>
+                        
+                        <% nationalCon = 0%>
+                    <% internationalCon = 0%>
+                    <% nationalJour = 0%>
+                    <% internationalJour = 0%>
+                    <% book = 0%>
+                    <% patent = 0%>
+                        </tr>
+                        <%}else{%>
+                        <tr>
+                        <td></td>
+                        <td><%= j+1%></td>
+                        <td><%= docs[i].root[p].user[j].local.title%></td>
+                        <td><%= docs[i].root[p].user[j].local.name%> <%= docs[i].root[p].user[j].local.surname%></td>
+
+                        <% for(k=0;k< docs[i].root[p].user[j].publicResearch.length;k++){%>
+                        <%if(docs[i].root[p].user[j].publicResearch[k].acyear.academic_year == academicYear){%>
+                       
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'national conference'){%>
+
+                            <% nationalCon++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'international conference'){%>
+
+                            <% internationalCon++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'national journal'){%>
+
+                            <% nationalJour++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'international journal'){%>
+
+                            <% internationalJour++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'book/proceeding'){%>
+
+                            <% book++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'patent'){%>
+
+                            <% patent++%>
+
+                            <%}%>
+                        <%}%>
+                        
+                        <%}%>
+                        
+                        <td><%= nationalCon%></td>
+                        <td><%= internationalCon%></td>
+                        <td><%= nationalJour%></td>
+                        <td><%= internationalJour%></td>
+                        <td><%= book %></td>
+                        <td><%= patent %></td>
+                        
+                       <% nationalCon = 0%>
+                    <% internationalCon = 0%>
+                    <% nationalJour = 0%>
+                    <% internationalJour = 0%>
+                    <% book = 0%>
+                    <% patent = 0%>
+                        <%}%>
+                        <%count++%>
+
+                        <%}%>
+                        <%}%>
+                        </tr>   
+                        <%}%>
+                       <%}%>   
+                    </tbody>
+
+
+
+                  </table>
+                  <h5>Remark : A(National Conference), B(International Conference), C(National Journal),</h5>
+                  <h5>Remark : D(International Journal), E(Book/Proceeding), F(Patents)</h5>
+
+                </div>
+
+
+
+
+                <h5>Table : Publications activity of academic staff and student</h5>
+                <div id="tab_aun8.3.1">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            <th>Academic year</a></th>
+                            
+                            <th>Position</a></th>
+                            <th>Total staff</a></th>
+                            
+                            
+                            <td colspan=6>Publications</a></td>
+                            
+
+                        </tr>
+                        <tr>
+                        
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <th>A</th>
+                        <th>B</th>
+                        <th>C</th>
+                        <th>D</th>
+                        <th>E</th>
+                        <th>F</th>
+                        
+                        </tr>
+                       
+
+                    <!-- ใช้ th colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
+                    </thead>
+
+                    <tbody>
+                    <% nationalCon = 0%>
+                    <% internationalCon = 0%>
+                    <% nationalJour = 0%>
+                    <% internationalJour = 0%>
+                    <% book = 0%>
+                    <% patent = 0%>
+
+                    <% KeepnationalCon = 0%>
+                    <% KeepinternationalCon = 0%>
+                    <% KeepnationalJour = 0%>
+                    <% KeepinternationalJour = 0%>
+                    <% Keepbook = 0%>
+                    <% Keeppatent = 0%>
+
+                    <%count = 0%>
+                    <% for(i=0;i< docs.length;i++){%>
+                    
+                        <tr>
+                        <td><%= docs[i]._id%></td>
+                        <%count = 0%>
+                    <% for(p=0;p< docs[i].root.length;p++){%>
+                    
+                    <% if(count == 0){ %>
+                        
+                        <td><%= docs[i].root[p]._id.position%></td>
+                        <td><%= docs[i].root[p].count%></td>
+                        <% for(j=0;j< docs[i].root[p].user.length;j++){%>
+                        
+                        
+                        <% for(k=0;k< docs[i].root[p].user[j].publicResearch.length;k++){%>
+                        <%if(docs[i].root[p].user[j].publicResearch[k].acyear.academic_year == docs[i]._id){%>
+                       
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'national conference'){%>
+
+                            <% nationalCon++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'international conference'){%>
+
+                            <% internationalCon++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'national journal'){%>
+
+                            <% nationalJour++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'international journal'){%>
+
+                            <% internationalJour++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'book/proceeding'){%>
+
+                            <% book++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'patent'){%>
+
+                            <% patent++%>
+
+                            <%}%>
+                        <%}%>
+                        
+                        <%}%>
+                        
+                        <% KeepnationalCon+=nationalCon %>
+                        <% KeepinternationalCon+=internationalCon %> 
+                        <% KeepnationalJour+=nationalJour %> 
+                        <% KeepinternationalJour+=internationalJour %> 
+                        <% Keepbook+=book %> 
+                        <% Keeppatent+=patent %> 
+
+                        <% nationalCon = 0%>
+                    <% internationalCon = 0%>
+                    <% nationalJour = 0%>
+                    <% internationalJour = 0%>
+                    <% book = 0%>
+                    <% patent = 0%>
+                        
+
+                        <%}%>
+                        <td><%= KeepnationalCon%></td>
+                        <td><%= KeepinternationalCon%></td>
+                        <td><%= KeepnationalJour%></td>
+                        <td><%= KeepinternationalJour%></td>
+                        <td><%= Keepbook %></td>
+                        <td><%= Keeppatent %></td>
+                        
+                        <% KeepnationalCon = 0%>
+                    <% KeepinternationalCon = 0%>
+                    <% KeepnationalJour = 0%>
+                    <% KeepinternationalJour = 0%>
+                    <% Keepbook = 0%>
+                    <% Keeppatent = 0%>
+
+                    </tr>
+
+                    <%}else{%>
+                    <tr>
+                    <td></td>
+                    <td><%= docs[i].root[p]._id.position%></td>
+                    <td><%= docs[i].root[p].count%></td>
+                        <% for(j=0;j< docs[i].root[p].user.length;j++){%>
+                        
+                        
+                        <% for(k=0;k< docs[i].root[p].user[j].publicResearch.length;k++){%>
+                        <%if(docs[i].root[p].user[j].publicResearch[k].acyear.academic_year == docs[i]._id){%>
+                       
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'national conference'){%>
+
+                            <% nationalCon++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'international conference'){%>
+
+                            <% internationalCon++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'national journal'){%>
+
+                            <% nationalJour++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'international journal'){%>
+
+                            <% internationalJour++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'book/proceeding'){%>
+
+                            <% book++%>
+
+                            <%}%>
+
+                            <%if(docs[i].root[p].user[j].publicResearch[k].typepublic == 'patent'){%>
+
+                            <% patent++%>
+
+                            <%}%>
+                        <%}%>
+                        
+                        <%}%>
+                        
+                        <% KeepnationalCon+=nationalCon %>
+                        <% KeepinternationalCon+=internationalCon %> 
+                        <% KeepnationalJour+=nationalJour %> 
+                        <% KeepinternationalJour+=internationalJour %> 
+                        <% Keepbook+=book %> 
+                        <% Keeppatent+=patent %> 
+
+                        <% nationalCon = 0%>
+                    <% internationalCon = 0%>
+                    <% nationalJour = 0%>
+                    <% internationalJour = 0%>
+                    <% book = 0%>
+                    <% patent = 0%>
+                        
+
+                        <%}%>
+                        
+                        <td><%= KeepnationalCon%></td>
+                        <td><%= KeepinternationalCon%></td>
+                        <td><%= KeepnationalJour%></td>
+                        <td><%= KeepinternationalJour%></td>
+                        <td><%= Keepbook %></td>
+                        <td><%= Keeppatent %></td>
+                        
+                        <% KeepnationalCon = 0%>
+                    <% KeepinternationalCon = 0%>
+                    <% KeepnationalJour = 0%>
+                    <% KeepinternationalJour = 0%>
+                    <% Keepbook = 0%>
+                    <% Keeppatent = 0%>
+
+                    <%}%>
+                    <%count++%>
+                        <%}%>
+                        </tr>   
+                        
+                       <%}%>   
+                    </tbody>
+
+
+
+                  </table>
+                  <h5>Remark : A(National Conference), B(International Conference), C(National Journal),</h5>
+                  <h5>Remark : D(International Journal), E(Book/Proceeding), F(Patents)</h5>
+
+                </div>
+
+                
+          
+            </div>
+            </div>
+            </div>
+            </div>
+            
+
+        </td>
+
+
+
+         
+</body>
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> 
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> 
+<script src="bower_components/nestedSortable/jquery.mjs.nestedSortable.js"></script> 
+<script src="js/file-tree.min.js"></script> 
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>-->
+
+
+</html>

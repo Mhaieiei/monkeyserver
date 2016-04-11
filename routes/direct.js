@@ -2198,10 +2198,10 @@ module.exports = function(app, passport) {
     // Get QA Info. ==============================
     // =====================================
     app.get('/qapage',function(req,res){
-		console.log('Get QA Info(select program)');
-		console.log(years);
-		console.log(years[0]);
-		return Fac.find( { 'programname': { $exists: true } },function( err, faculty ) {
+  		console.log('Get QA Info(select program)');
+  		console.log(years);
+  		console.log(years[0]);
+  		return Fac.find( { 'programname': { $exists: true } },function( err, faculty ) {
         if( !err ) {
 			console.log(faculty);
             res.render("qa/qa.hbs", {
@@ -2224,10 +2224,10 @@ module.exports = function(app, passport) {
 	});  
 
 	app.post('/qahome',function(req,res){
-	console.log('Get QA home(select Topic)');
-	console.log(req.body.sub_programs);
-	console.log(req.body.years);
-	return Acyear.findOne({
+  	console.log('Get QA home(select Topic)');
+  	console.log(req.body.sub_programs);
+  	console.log(req.body.years);
+  	return Acyear.findOne({
 	     $and: [
 	            { 'program_name' : req.body.sub_programs },
 	            { 'academic_year' : req.body.years }
@@ -2247,13 +2247,13 @@ module.exports = function(app, passport) {
 	});
 });
     app.get('/tqf21',function(req,res){
-		console.log('Get TQF21');
-		console.log(req.query.program);
-		console.log(req.query.year);
-		var a=1;
-		var b=0;
-		var fact=true;
-		return User.find({ $and: [
+  		console.log('Get TQF21');
+  		console.log(req.query.program);
+  		console.log(req.query.year);
+  		var a=1;
+  		var b=0;
+  		var fact=true;
+  		return User.find({ $and: [
 	            { 'local.program' : req.query.program },
 	            { 'local.role' : 'staff' }
 	          ]}, function( err, clients ){
@@ -2479,6 +2479,8 @@ module.exports = function(app, passport) {
         });
   });
 
+
+
 	app.get('/aun10-1', isLoggedIn, function (req, res) {
       console.log("FacilityAndInfrastrutureSchema");
       console.log("program :"+req.query.program);
@@ -2565,12 +2567,6 @@ module.exports = function(app, passport) {
               return console.log(err + "mhaieiei");
           }
       });
-
-
-
-
-
-
   });
 
   app.get('/aun5-3', isLoggedIn, function (req, res) {
@@ -2614,13 +2610,7 @@ module.exports = function(app, passport) {
 
                  });
       });
-                 //, function (err, docs) {
-
-
-
-            
-
-
+                
   });
 
   
@@ -2805,7 +2795,8 @@ module.exports = function(app, passport) {
                   $and:[{
 
                       "type": "Supporting Staff"},
-                        { "academicYear": programs._id}
+                        { "academicYear": req.query.year },
+                                        { "program": req.query.program }
                   ]
               })
                 .populate('user')
@@ -2958,7 +2949,8 @@ module.exports = function(app, passport) {
                                                  $and: [
                                                      { "type": "Academic Staff" },
                                                     {"position": "Faculty Member"},
-                                                     { 'academicYear': programs.id }
+                                                     { "academicYear": req.query.year },
+                                        { "program": req.query.program }
                                                     
 
                                                  ]
@@ -3119,7 +3111,8 @@ module.exports = function(app, passport) {
                                                  $and: [
                                                      { "type": "Supporting Staff" },
                                                     
-                                                     { 'academicYear': programs.id }
+                                                     { "academicYear": req.query.year },
+                                        { "program": req.query.program }
 
                                                  ]
 
@@ -3267,7 +3260,8 @@ module.exports = function(app, passport) {
                         $match: {
                             $and: [
                                 { "type": "Academic Staff" },
-                                { "academicYear": programs.id }
+                                { "academicYear": req.query.year },
+                                        { "program": req.query.program }
 
                             ]
 
@@ -3520,7 +3514,7 @@ module.exports = function(app, passport) {
 
       //referenceCurriculumSchema.find();
         
-      User.aggregate(
+       User.aggregate(
 
             [
                     {
@@ -3649,7 +3643,8 @@ User.aggregate(
               Role.roleOfStaff.find({
                   $and: [
                         { "position": "Faculty Member" },
-                        { "academicYear": programs._id }
+                        { "academicYear": req.query.year },
+                                        { "program": req.query.program }
                   ]
               })
                 .populate('user')
@@ -3660,7 +3655,8 @@ User.aggregate(
                     Role.roleOfStaff.find({
                         $and: [
                             { "position": "Visiting Member" },
-                            { "academicYear": programs._id }
+                            { "academicYear": req.query.year },
+                                        { "program": req.query.program }
                         ]
                     })
                 .populate('user')
@@ -3851,9 +3847,9 @@ User.aggregate(
                                   
                                   $or: [
                                   {"type": "Academic Staff"},
-                              {"type": "Student"}
+                              {"position": "Graduate"}
                               ]},
-                              {"academicYear": programs.id}
+                              
 
                               ]
 
@@ -3865,20 +3861,21 @@ User.aggregate(
                       },
                       { 
                         $group : { 
-                          _id : {type:"$type", position:"$position"} ,
+                           _id : {academicYear:"$academicYear",type:"$type", position:"$position"} ,
+
                           user: { $push: "$user" },
                           count:{$sum:1}
                         }
 
-                    }
-                      // {
-                      //     $group: {
-                      //         _id: "$_id.academicYear",
-                      //         root: { $push: "$$ROOT" },
-                      //         sumOfYear: { $sum: "$count" }
+                    },
+                      {
+                          $group: {
+                              _id: "$_id.academicYear",
+                              root: { $push: "$$ROOT" },
+                              // sumOfYear: { $sum: "$count" }
 
-                      //     }
-                      // }
+                          }
+                      }
 
               ]
           , function (err, staffAndPublication) {
@@ -3887,29 +3884,31 @@ User.aggregate(
               //referenceCurriculumSchema.find();
 
               User.populate(staffAndPublication, {
-                 path: 'user',    
+                 path: 'root.user',    
              model: 'User'   
         },function(err, user) {
 
 
           User.populate(user, {
-                 path: 'user.publicResearch',   
+                 path: 'root.user.publicResearch',   
              model: 'Public'   
         },function(err, public) {
 
           User.populate(public, {
-                 path: 'user.publicResearch.acyear',    
+                 path: 'root.user.publicResearch.acyear',    
              model: 'Acyear'   
         },function(err, academicYear) {
 
 
               console.log("REFFFF--academic staff publication in 2014-->>>", academicYear);
 
-              res.render('qa/qa-aunAcademicStaffPublic2014.hbs', {
+              res.render('qa/qa-aun14.4.ejs', {
                  //    user: req.user,      
                  layout: "qaPage",
 
                  docs: staffAndPublication,
+                 academicYear:req.query.year,
+
                  helpers: {
                      inc: function (value) { return parseInt(value) + 1; },
                      getyear: function (value) { return yearac[value]; },
@@ -3926,6 +3925,53 @@ User.aggregate(
         });
 
   });
+  //---------------------------Edit QA information ----------------------------
+
+  app.get('/edittqf25',isLoggedIn,function(req,res){
+    console.log("Edit TQF 25 Program management results");
+    res.render('qa/editqa/tqf25edit.hbs', {
+            layout: "qaPage",
+            
+        });
+  });
+ 
+   app.post('/edittqf25',isLoggedIn,function(req,res){
+    console.log("[POST] Edit TQF 25 Program management results");
+    var obj = {
+      'indicators' : req.body.indicators,
+      'target' : req.body.target,
+      'actions' : req.body.actions,
+      'results' : req.body.results
+      } 
+      Fac.findOne({},function(err,fac){
+        if(err) console.log("query tq25 err"+err);
+        if(fac != null){
+          //update new programmanagement
+          console.log(fac);
+          fac.indicators = req.body.indicators;
+          fac.target = req.body.target;
+          fac.actions = req.body.actions;
+          fac.results = req.body.results;
+          fac.save(function(err,manage) {
+              if (err){console.log('Cant saveprogrammanagement '+err);}
+              else {
+                console.log("update progrmmanagement already");
+                }
+          });
+        }else{
+          var programmanage = new Fac(obj);
+          programmanage.save(function(err,manage) {
+              if (err){console.log('Cant save new programmanagement '+err);}
+              else {
+                console.log("Insert new progrmmanagement already");
+                }
+          });
+        }
+      });
+    });
+   
+
+
 	
 	//=====================================
     // Get Work Info.(Student) ==============================
