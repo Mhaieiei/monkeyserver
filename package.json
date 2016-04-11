@@ -3,9 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "forever start -a --uid monkeyOffice --minUptime 1000 --spinSleepTime 1000 server.js",
-    "stop": "forever stop monkeyOffice",
-    "dev": "nodemon server.js"
+    "start": "nodemon server.js"
   },
   "dependencies": {
     "async": "1.5.2",

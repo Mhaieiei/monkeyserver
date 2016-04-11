@@ -50,9 +50,8 @@
                             <th>No.</a></th>
                             <th>Title</a></th>
                             <th>Name-Surname</a></th>
-                            
-                            <th>Education</a></th>
                             <th>Position</a></th>
+                            <th>Education</a></th>
                             <th>Job Description</a></th>
                             
                             
@@ -69,16 +68,11 @@
                         <td>{{getindex}}</td>
                         <td>{{local.title}}</td>
                         <td>{{local.name}} {{local.surname}}</td>
-                        
-                        {{#each education}}
-                        <td>{{level}}</td>
-                        {{/each}}
-                        {{/each}}
-                        <td>{{position}}</td>
-                        <td>{{jobDescription}}</td>
+                        <td>{{local.position}}</td>
+                        <td></td>
+                        <td>{{local.jobDescription}}</td>
                         </tr>  
-                        
-                       
+                        {{/each}}
                     </tbody>
 					{{/each}}
                   </table>
@@ -113,30 +107,27 @@
 
                     <!-- ใช้ td colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
                     </thead>
-					
                     <tbody>
-					
                         <tr>
                         <td colspan=8></td>
                         </tr>
-                      {{#each docs}}
-                       {{#each user}}
+                      
+                       
                         <tr>
-                        <td>{{getcount}}</td>
-                        <td>{{local.title}}</td>
-                        <td>{{local.name}} {{local.surname}}</td>
-                        <td>{{local.age}}</td>
-                        <td>{{getTerminate local.terminationYear}}</td>
-                        <td>{{local.terminationYear}}</td>
-                        <td>{{getRetired local.age}}</td>
-                        <td>{{getAcYearOfRetired local.age}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         </tr>  
-                        {{/each}}
-                        {{/each}}
+                        
                     </tbody>
-					
+
                   </table>
-				  
+
                 </div>
           
             </div>
