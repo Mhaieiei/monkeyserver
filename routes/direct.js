@@ -3951,7 +3951,8 @@ User.aggregate(
             acid : req.query.acid,
             year : req.query.year,
             program : req.query.program,
-            manage : manage          
+            manage : manage,
+            len : manage.management.length
             });
 
         } else {
