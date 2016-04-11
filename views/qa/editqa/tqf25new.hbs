@@ -23,14 +23,10 @@
       new_row.cells[0].innerHTML = len;
       
       var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
-      inp1.value = '';
-      var inp2 = new_row.cells[2].getElementsByTagName('textarea')[0];
-      inp2.value = '';
-      var inp3 = new_row.cells[3].getElementsByTagName('textarea')[0];
-      inp3.value = '';
-      var inp4 = new_row.cells[4].getElementsByTagName('input')[0];
-      inp4.value = '';
-      var inp5 = new_row.cells[5].getElementsByTagName('input')[0];
+      //inp1.value = '';
+      var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
+      var inp3 = new_row.cells[3].getElementsByTagName('input')[0];
+       var inp3 = new_row.cells[4].getElementsByTagName('input')[0];
       // inp3.value = '';
       // var inp4 = new_row.cells[4].getElementsByTagName('input')[0];
       // inp4.value = '';
@@ -78,25 +74,18 @@
                             <th><a>Target</a></th>
                             <th><a>Actions</a></th>
                             <th><a>Results</a></th>
-                            <th>Delete</th>
                         </tr>
                         
                     </thead>
                     <tbody id="body_tqf25">
-                      {{#each manage.management}}
                         <tr>
                           <td> 1</td>
-                          <td> <input type="text" class="form-control" name="indicators" id="indicators" value="{{indicators}}"></td>
-                          <td> <textarea class="form-control" rows="5" name="target" id="target" >{{target}}</textarea></td>
-                          <td> <textarea class="form-control" rows="5" name="actions" id="actions" >{{actions}}</textarea></td>
-                          <td> <input type="text" class="form-control" name="results" id="results" value="{{results}}"></td>
-                          <td>
-                            <button class="btn btn-xs btn-warning" id="delPOIbutton" value="Delete" onclick="deleteRow(this)">
-                              <span class="glyphicon glyphicon-trash"></span>
-                            </button>
-                          </td>
+                          <td> <input type="text" class="form-control" name="indicators" id="indicators"></td>
+                          <td> <textarea class="form-control" rows="5" name="target" id="target"></textarea></td>
+                          <td> <textarea class="form-control" rows="5" name="actions" id="actions"></textarea></td>
+                          <td> <input type="text" class="form-control" name="results" id="results"></td>
                         </tr>
-                      {{/each}} 
+                        
                         
                     </tbody>
                 </table>

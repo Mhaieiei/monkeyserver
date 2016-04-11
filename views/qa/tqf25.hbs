@@ -9,7 +9,7 @@
         <!--<form class="form-horizontal" role="form">-->
             <h3>Program Management</h3>
             <br>
-            <a href = "/edittqf25"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button>
+            <a href = "/edittqf25?acid={{acid}}&year={{getyear}}&program={{program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button>
             <div id="tab_tqf5"><table class="table muffin">
             <thead align="center">
                 <tr>
@@ -21,13 +21,14 @@
                 
             </thead>
             <tbody>
+                {{#each manage.management}}
                 <tr>
-                <td> </td>
-                <td> </td>
-                <td> </td>
-                <td> </td>
+                    <td>{{inc @index}}. {{indicators}} </td>
+                    <td>{{target}} </td>
+                    <td>{{actions}} </td>
+                    <td>{{results}} </td>
                 </tr>
-                <tr>
+               {{/each}}
                 
             </tbody>
             </table>

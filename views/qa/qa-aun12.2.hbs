@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Monkey Office</title>
+
+        <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="dist/css/bootstrap-submenu.min.css">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css" id="" media="print, projection, screen" />
+    <script type="text/javascript" src="js/jquery-latest.js"></script> 
+    <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+    <link href="css/file-tree.min.css" rel="stylesheet"
+    <script type="text/javascript" src="../jquery-latest.js"></script>
+    <script type="text/javascript" src="../jquery.tablesorter.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        $("table").tablesorter({debug: true});
+    });
+    </script>
+</head>
+
+<body>
+
+    
+        <td>
+            <div class="container-fluid">
+            <div class="row-fluid">
+            <div class="span15">
+            <div class="col-md-15"> 
+           
+            <!--<form class="form-horizontal" role="form">-->
+                
+                <h3>AUN 12.2: The training and development activites for both academic and support staff are adequate to the identified needs</h3>
+       
+            
+
+       
+                <h5>Table : Training of support staffs in academic year</h5>
+                <div id="tab_aun12.2.2">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                            <th>No.</a></th>
+                            <th>Title</a></th>
+                            <th>Name-Surname</a></th>
+                            <th>Year of Training Course</a></th>
+                            <th>Training Courses</a></th>
+                            <th>Hr.</a></th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    {{#each docs}}
+                        <tr>
+                        <td>{{getindex}}</td>
+                        {{#each user}}
+                        <td>{{local.title}}</td>
+                        <td>{{local.name}} {{local.surname}}</td>
+                        {{#each training}}
+      
+                {{#if @first}}            
+                        <td>{{academicYear.academic_year}}</td>
+                        <td>{{trainingCourse}}</td>
+                        <td>{{hour}}</td>
+                        </tr>
+                        {{else}}
+                <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                
+                <td>{{academicYear.academic_year}}</td>
+                        <td>{{trainingCourse}}</td>
+                        <td>{{hour}}</td>
+                {{/if}}    
+                        {{/each}}
+                        {{/each}}
+                        </tr>  
+                        {{/each}}
+                    </tbody>
+
+                  </table>
+
+                </div>
+                
+                <h5>Table : Advancement of career titile</h5>
+                <div id="tab_aun12.2.3">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                            <th>Academic year</a></th>
+                            <th>Total staffs</a></th>
+                            
+                           
+                        </tr>
+                    </thead>
+                    <tbody> 
+                        {{#each noOfStaff}}
+                        <tr>
+                        <td>{{academicYear}}</td>
+                        <td>{{countstaff}}</td>
+                        
+                        </tr>  
+                        {{/each}}
+                    </tbody>
+
+                  </table>
+
+                </div>
+                <div id="tab_aun12.2.4">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                            <th>Academic year</a></th> 
+                            <td colspan=2>Advancement of carreer</a></td>
+                            
+                           
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            
+                            <th>Type</th>
+                            <th>Qty</th>
+                           
+                            
+                        </tr>
+                    </thead>
+                    <tbody> 
+
+                    {{#each noOfStaffTitle}}
+<!-- {{#if @first}} 
+                <td>{{subjectType}}</td>
+                <td>{{followingReq}}</td>
+                </tr>
+                
+                {{else}}
+                <tr>
+                <th></th>
+                <th></th>
+                <td>{{subjectType}}</td>
+                <td>{{followingReq}}</td>
+                {{/if}} -->
+                        <tr>
+                        <td>{{_id}}</td>
+                        {{#each user}}
+                        {{#if @first}} 
+                        <td>{{_id.title}}</td>
+                        <td>{{count}}</td>
+                        </tr>
+
+                        {{else}}
+                        <tr>
+                        <th></th>
+                        
+                        <td>{{_id.title}}</td>
+                        <td>{{count}}</td>
+                        {{/if}}
+                        {{/each}}
+                        
+                        </tr>  
+                       {{/each}} 
+                    </tbody>
+
+                  </table>
+
+                </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            
+
+        </td>
+
+
+
+         
+</body>
+
+
+
+</html>
