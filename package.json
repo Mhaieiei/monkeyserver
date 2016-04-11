@@ -5,7 +5,7 @@
   "scripts": {
     "start": "forever start -a --uid monkeyOffice --minUptime 1000 --spinSleepTime 1000 server.js",
     "stop": "forever stop monkeyOffice",
-    "start-dev": "nodemon server.js"
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "async": "1.5.2",
