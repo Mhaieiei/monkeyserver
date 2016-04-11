@@ -4145,16 +4145,19 @@ module.exports = function(app, passport) {
 	//});
 
 	app.get('/workflow', function(req, res){
-	TemplateWorkflow.find({}, function(err, result){
+	 
+    TemplateWorkflow.find({}, function(err, result){
 
-		if(err) console.log(err);
+		  if(err) console.log(err);
 
-    res.end('In progress by Very Bad Programmer');
-	 /*	res.render('wf/execute.hbs', 
-			{ layout: "workflowMain",workflows : result });
-		});*/
+      res.end('In progress by Very Bad Programmer');
+  	 
+      /*	res.render('wf/execute.hbs', 
+  			{ layout: "workflowMain",workflows : result });
+  		});*/
 
-	});
+	   });
+  });
 
 	app.get('/workflow/create', function(req, res){
 		res.render('wf/create.hbs',
