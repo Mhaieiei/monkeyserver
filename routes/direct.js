@@ -3946,7 +3946,7 @@ User.aggregate(
   });
   app.post('/edittqf25',isLoggedIn,function(req,res){
     console.log("[POST] Edit tqf 25");
-    console.log(req.body.indicatiors);
+    console.log(req.body.indicators);
     console.log(req.body.target);
     console.log(req.body.actions);
     console.log(req.body.results);
@@ -3960,31 +3960,52 @@ User.aggregate(
     var array = [];    
     //advisee
     for(var i=0;i< strlen;i++){
-        var obj = {
-          'indicatiors' : req.body.indicatiors,
+      if(strlen == 1){
+         var obj = {
+          'indicatiors' : req.body.indicators,
           'target' : req.body.target,
           'actions' : req.body.actions,
           'results' : req.body.results
-        }              
+        }       
+      }else{
+         var obj = {
+          'indicatiors' : req.body.indicators[i],
+          'target' : req.body.target[i],
+          'actions' : req.body.actions[i],
+          'results' : req.body.results[i]
+        }     
+      }
+              
         array.push(obj);
-      }       
-    Fac.findOne({ 'program_name' :  req.body.program  }, function(err, fac) {        
-        if (err){ console.log("Cant find factoery"+err); }
-        
+     }       
+    Fac.findOne({ 'programtrack' :  req.body.program  }, function(err, fac) {        
+        if (err){ console.log("Cant find factoery management"+err); }        
         if (fac != null) {
           console.log(ac);
-          fac.Programmanagement = array;
+          fac.programtrack = req.body.program;
+          fac.management = array;
           fac.save(function(err,manage) {
             if (err){console.log('cant edit new program Management'+err);}  
             else{
               console.log(manage);
               console.log("Update new program management succesful");  
-              res.redirect('/thesisinf?acid='+req.body.acid+'year'+req.body.year);                          
+              res.redirect('/tqf25?acid='+req.body.acid+'&year'+req.body.year+'&program'+req.body.program);                          
             }                         
          });  
 
           } else {
-             console.log("No this faculty");
+             var managefac = new Fac.ProgramManagement();
+                managefac.programtrack = req.body.program;
+                managefac.management = array;
+            managefac.save(function(err,manage) {
+            if (err){console.log('cant make new program Management'+err);}  
+            else{
+              console.log(manage);
+              console.log("Insert new program management succesful");  
+              res.redirect('/tqf25?acid='+req.body.acid+'&year'+req.body.year+'&program'+req.body.program);                          
+            }                         
+         });  
+
              
           }
         });

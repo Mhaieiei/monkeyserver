@@ -20,10 +20,6 @@ var facSchema = mongoose.Schema({
 	referenceCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'referenceCurriculum' }],
 	Responsibility: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Responsibility' }],
 	noOfStaff: [{ type: mongoose.Schema.Types.ObjectId, ref: 'noOfStaff' }],
-    Programmanagement : [{ type: mongoose.Schema.Types.ObjectId, ref: 'ProgramManagement' }]
-
-
-
 });
 
 var noOfStaffSchema = mongoose.Schema({
@@ -51,10 +47,8 @@ var StakeholderSchema = mongoose.Schema({
 
 var ProgramManagement = mongoose.Schema({
 
-    indicators: String,
-    target: String,
-    actions: String,
-    results:String  
+    programtrack : String,
+    management : mongoose.Schema.Types.Mixed
 });
 
 
