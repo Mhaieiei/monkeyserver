@@ -3639,6 +3639,18 @@ module.exports = function(app, passport) {
         });
 
 	});
+  //-------------------------------------------------edit tqf 25-------------------------------------------------------
+  app.get('/edittqf25',isLoggedIn,function(req,res){
+    console.log("Edit tqf 25");
+    console.log(req.query.name);
+    res.render('qa/editqa/tqf25edit.hbs', {
+        layout: "qaPage",
+          
+        });
+  });
+
+
+
 	
 	//=====================================
     // Get Work Info.(Student) ==============================
