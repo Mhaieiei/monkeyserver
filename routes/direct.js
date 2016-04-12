@@ -4038,7 +4038,19 @@ User.aggregate(
      });       
 
 
-//-------------------------------------------------add ELOs-------------------------------------------------------
+//-------------------------------------------------add ELOs-aun 1.3-------------------------------------------------------
+  app.get('/addelos',isLoggedIn,function(req,res){
+       res.render('qa/editqa/add_elos.hbs', {
+            layout: "qaPage"
+       });            
+            
+    
+  });
+
+
+
+
+
   app.post('/addelos',isLoggedIn,function(req,res){
     console.log("[POST] Add ELOs");
     console.log(req.body.indicators);
@@ -4054,58 +4066,45 @@ User.aggregate(
     var userarr = [];
     var array = [];    
     //advisee
-    for(var i=0;i< strlen;i++){
-      if(strlen == 1){
-         var obj = {
-          'indicators' : req.body.indicators,
-          'target' : req.body.target,
-          'actions' : req.body.actions,
-          'results' : req.body.results
-        }       
-      }else{
-         var obj = {
-          'indicators' : req.body.indicators[i],
-          'target' : req.body.target[i],
-          'actions' : req.body.actions[i],
-          'results' : req.body.results[i]
-        }     
-      }
-              
-        array.push(obj);
-     }       
-    Fac.ProgramManagement.findOne({ 'programtrack' :  req.body.program  }, function(err, fac) {        
-        if (err){ console.log("Cant find factoery management"+err); }        
+    Subject.ELO.findOne({'title' : req.body.elos_name}, function(err, elos){
+      if (err){ console.log("Cant find ELOs"+err); }        
         if (fac != null) {
-          console.log(fac);
-          fac.programtrack = req.body.program;
-          fac.management = array;
-          fac.save(function(err,manage) {
-            if (err){console.log('cant edit new program Management'+err);}  
+          console.log(elos);
+          elos.ELO.id = req.body.elos_no;
+          elos.ELO.title = req.body.elos_name;
+          elos.ELO.description = req.body.elos_des;
+          elos.ELO.number = req.body.elos_no;
+         
+          elos.save(function(err, addelos) {
+            if (err){console.log('cant edit new ELOs'+err);}  
             else{
-              console.log(manage);
-              console.log("Update new program management succesful");  
-              res.redirect('/tqf25?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
+              console.log(addelos);
+              console.log("Update new ELOs");  
+              res.redirect('/addelos?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
             }                         
          });  
 
           } else {
-             var managefac = new Fac.ProgramManagement();
-                managefac.programtrack = req.body.program;
-                managefac.management = array;
-            managefac.save(function(err,manage) {
+             var addElos = new Subject.ELO();
+              elos.ELO.title = req.body.elos_name;
+              elos.ELO.description = req.body.elos_des;
+              elos.ELO.number = req.body.elos_no;
+              addElos.save(function(err,addelos) {
             if (err){console.log('cant make new program Management'+err);}  
             else{
-              console.log(manage);
+              console.log(addelos);
               console.log("Insert new program management succesful");  
-              res.redirect('/tqf25?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
+              res.redirect('/addelos?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
             }                         
          });  
 
              
           }
         });
+    });
     
-     });       
+    
+     
 
 
 

@@ -1,0 +1,78 @@
+<script type="text/javascript">
+    $(function() {
+        $("table").tablesorter({debug: true});
+    });
+    $(function() {
+        var scntDiv = $('#p_scents');
+        var i = $('#p_scents p').size() + 1;
+        
+        $('#addScnt').live('click', function() {
+                $('<p><label for="p_scnts"><input type="text" class="form-control" id="inputType" size="30" name="p_scnt_' + i +'" value="" placeholder="name" /><input type="text" class="form-control" id="inputType" size="30" name="p_scnt_' + i +'" value="" placeholder="level" /></label> <button type="button" id="remScnt" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span></button></p>').appendTo(scntDiv);
+                i++;
+                return false;
+        });
+        
+        $('#remScnt').live('click', function() { 
+                if( i > 2 ) {
+                        $(this).parents('p').remove();
+                        i--;
+                }
+                return false;
+        });
+    });
+    </script>
+</head>
+
+
+
+
+<div class="container">
+           
+    <form class="form-horizontal" role="form"  action="" method="post" id = "myForm" > 
+      
+                <h3>Mapped The expected learnig outcomes (ELOs)</h3>
+                <br>
+               
+                    <div class="form-group">
+
+                      <label for="inputType" class="col-md-2 control-label">Program: </label>
+                      <div class="col-md-4">
+                          <select class="form-control" style="width:200px">
+                              <option value=""></option>
+                          </select>
+                      </div> 
+                      <label for="inputType" class="col-md-2 control-label">Assesment Tools: </label>
+                      <div class="col-md-4">
+                         <input type="text" class="form-control" id="assname" placeholder="Enter assessment tools' name " name="assname">
+                      </div>
+                     
+                    </div>
+                    <div class="form-group">
+                      <label for="inputType" class="col-md-2 control-label">Type: </label>
+                      <div class="col-md-4">
+                          <select class="form-control" style="width:200px">
+                              <option value="internal">Direct Measures</option>
+                              <option value="external">Indirect Measures</option>
+                          </select>
+                      </div>  
+                      
+                      <label for="inputType" class="col-md-2 control-label">Course </label>
+                      <div class="col-md-4">
+                         <div id="p_scents">
+                         <p>
+                          <label for="p_scnts">
+                            <input type="text" class="form-control" id="course_name" size="30" name="p_scnt"  placeholder="name"> 
+                            <input type="text" class="form-control" id="level" size="30" name="p_scnt"  placeholder="level">
+                          </label>
+                          <button type="button" id="addScnt" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span></button>
+                         
+                          </p>
+                        </div>
+                      </div>
+                      
+                      
+                    </div>
+                    
+                   <p align = "right"><button type="button" class="btn btn-primary">Add</button></p>
+     </form>
+</div>
