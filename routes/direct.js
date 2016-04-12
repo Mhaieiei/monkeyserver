@@ -42,7 +42,7 @@ module.exports = function(app, passport) {
     // =====================================
   var User                     = require('../model/user');
   var Work                     = require('../model/works');
-  
+  var program                  = require('../model/program');
   var Fac                      = require('../model/faculty');
   var Subject                  = require('../model/subject');
   var Acyear                   = require('../model/academic_year');
@@ -2491,7 +2491,8 @@ module.exports = function(app, passport) {
 
 
 
-	app.get('/aun10-1', isLoggedIn, function (req, res) {
+	
+  app.get('/aun10-1', isLoggedIn, function (req, res) {
       console.log("FacilityAndInfrastrutureSchema");
       console.log("program :"+req.query.program);
       Acyear.findOne({
@@ -2585,7 +2586,7 @@ module.exports = function(app, passport) {
       //referenceCurriculumSchema.find();
 
 
-      Fac.findOne({ 'programname': req.query.program }, function (err, docs) {
+      program.findOne({ 'programname': req.query.program }, function (err, docs) {
           console.log("REFFFF-DOC--->>>", docs._id);
 
           AssesmentTool.aggregate([
@@ -2630,11 +2631,11 @@ module.exports = function(app, passport) {
 
       
 
-      Fac.find({ 'programname': req.query.program })
+      program.find({ 'programname': req.query.program })
              .populate('referenceCurriculum')
             .populate('structureOfCurriculum')
              .exec(function (err, docs) {
-                 Fac.populate(docs, [{
+                 program.populate(docs, [{
                      path: 'referenceCurriculum.detail',
                      model: 'detail'
                  },
@@ -2712,7 +2713,7 @@ module.exports = function(app, passport) {
       //referenceCurriculumSchema.find();
 
 
-      Fac.find({ 'programname': req.query.program })
+      program.find({ 'programname': req.query.program })
              .populate('evaluation.stakeholder')
              .populate('evaluation.EvaluationMethod')
              .exec(function (err, docs) {
@@ -2886,7 +2887,7 @@ module.exports = function(app, passport) {
 
                              console.log("REFFFF--USERR----activity-->>>", subs);
 
-                             Fac.aggregate(
+                             program.aggregate(
                                 [
                             {
                                 $match: {
@@ -2970,7 +2971,7 @@ module.exports = function(app, passport) {
                                          , function (err, staff) {
                                           // console.log("REFFFF----Faculty----Academic Staff>>>", staff);
 
-                                             Fac.populate(staff, {
+                                             program.populate(staff, {
                                                  path: 'user',
                                                  model: 'User'
                                              },
@@ -2979,13 +2980,13 @@ module.exports = function(app, passport) {
 
                                           // console.log("REFFFF----Faculty----Academic Staff---pop-user>>>", user);
 
-                                             Fac.populate(user, {
+                                             program.populate(user, {
                                                  path: 'user.training',
                                                  model: 'training'
                                              }, function (err, usertraining) {
 
                                               // console.log("REFFFF----Faculty----Academic Staff--usertraining->>>", usertraining);
-                                                 Fac.populate(usertraining, {
+                                                 program.populate(usertraining, {
                                                  path: 'user.training.academicYear',
                                                  model: 'Acyear'
                                              }, function (err, usertraining_acYear) {
@@ -3045,7 +3046,7 @@ module.exports = function(app, passport) {
       console.log("Academictitle");
 
       //referenceCurriculumSchema.find();
-      Fac.aggregate(
+      program.aggregate(
                                 [
                             {
                                 $match: {
@@ -3129,17 +3130,17 @@ module.exports = function(app, passport) {
                                              }
                                          }]
                                          , function (err, staff) {
-                                             Fac.populate(staff, {
+                                             program.populate(staff, {
                                                  path: 'user',
                                                  model: 'User'
                                              },
                                          function (err, user) {
 
-                                             Fac.populate(user, {
+                                             program.populate(user, {
                                                  path: 'user.training',
                                                  model: 'training'
                                              }, function (err, usertraining) {
-                                                 Fac.populate(usertraining, {
+                                                 program.populate(usertraining, {
                                                  path: 'user.training.academicYear',
                                                  model: 'Acyear'
                                              }, function (err, usertraining_acYear) {
@@ -3178,11 +3179,11 @@ module.exports = function(app, passport) {
   app.get('/aun1-3', isLoggedIn, function (req, res) {
       console.log("mapELOAndKnowledge");
 
-      Fac.find({ 'programname': req.query.program })
+      program.find({ 'programname': req.query.program })
              .populate('Responsibility')
 
              .exec(function (err, docs) {
-                 Fac.populate(docs, {
+                 program.populate(docs, {
                      path: 'Responsibility.ELO',
                      model: 'ELO'
                  },
@@ -3217,11 +3218,11 @@ module.exports = function(app, passport) {
       //referenceCurriculumSchema.find();
 
 
-      Fac.find({ 'programname': req.query.program })
+      program.find({ 'programname': req.query.program })
              .populate('stakeholder')
 
              .exec(function (err, docs) {
-                 Fac.populate(docs, {
+                 program.populate(docs, {
                      path: 'stakeholder.ELO',
                      model: 'ELO'
                  },
@@ -3291,13 +3292,13 @@ module.exports = function(app, passport) {
                     ]
                   , function (err, staff) {
                     console.log("REFFFF----Faculty-----staff->>>", staff);
-                      Fac.populate(staff, {
+                      program.populate(staff, {
                           path: 'user',
                           model: 'User'
                       },
                     function (err, user) {
                       console.log("REFFFF----Faculty-----user->>>", user);
-                        Fac.populate(user, {
+                        program.populate(user, {
                             path: 'user.publicResearch',
                             model: 'Public'
                         },function (err, userPublic) {
@@ -3711,8 +3712,9 @@ User.aggregate(
                     {
                         $match: {
                             $and: [
-                                { 'local.role': 'External User' },
-                                { 'local.program': req.query.program }
+                                { 'local.role': 'student' },
+                                { 'local.program': req.query.program },
+                                {'detail.status':'Graduate'}
 
                             ]
 
@@ -3721,7 +3723,7 @@ User.aggregate(
 
                     {
                         $group: {
-                            _id: { graduatedIn: "$local.graduatedIn", careerOrHigherStudying: "$local.careerOrHigherStudying" },
+                            _id: { graduatedIn: "$detail.academicYear", careerOrHigherStudying: "$detail.careerOrHigherStudying" },
                             count: { $sum: 1 }
                         }
                     },
@@ -3969,6 +3971,76 @@ User.aggregate(
   });
   app.post('/edittqf25',isLoggedIn,function(req,res){
     console.log("[POST] Edit tqf 25");
+    console.log(req.body.indicators);
+    console.log(req.body.target);
+    console.log(req.body.actions);
+    console.log(req.body.results);
+    console.log(req.body.program);
+    console.log(req.body.acid);
+    console.log(req.body.year);
+    console.log(req.body.arrlen);
+        
+    var strlen = req.body.arrlen; 
+    var userarr = [];
+    var array = [];    
+    //advisee
+    for(var i=0;i< strlen;i++){
+      if(strlen == 1){
+         var obj = {
+          'indicators' : req.body.indicators,
+          'target' : req.body.target,
+          'actions' : req.body.actions,
+          'results' : req.body.results
+        }       
+      }else{
+         var obj = {
+          'indicators' : req.body.indicators[i],
+          'target' : req.body.target[i],
+          'actions' : req.body.actions[i],
+          'results' : req.body.results[i]
+        }     
+      }
+              
+        array.push(obj);
+     }       
+    Fac.ProgramManagement.findOne({ 'programtrack' :  req.body.program  }, function(err, fac) {        
+        if (err){ console.log("Cant find faculty management"+err); }        
+        if (fac != null) {
+          console.log(fac);
+          fac.programtrack = req.body.program;
+          fac.management = array;
+          fac.save(function(err,manage) {
+            if (err){console.log('cant edit new program Management'+err);}  
+            else{
+              console.log(manage);
+              console.log("Update new program management succesful");  
+              res.redirect('/tqf25?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
+            }                         
+         });  
+
+          } else {
+             var managefac = new Fac.ProgramManagement();
+                managefac.programtrack = req.body.program;
+                managefac.management = array;
+            managefac.save(function(err,manage) {
+            if (err){console.log('cant make new program Management'+err);}  
+            else{
+              console.log(manage);
+              console.log("Insert new program management succesful");  
+              res.redirect('/tqf25?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
+            }                         
+         });  
+
+             
+          }
+        });
+    
+     });       
+
+
+//-------------------------------------------------add ELOs-------------------------------------------------------
+  app.post('/addelos',isLoggedIn,function(req,res){
+    console.log("[POST] Add ELOs");
     console.log(req.body.indicators);
     console.log(req.body.target);
     console.log(req.body.actions);

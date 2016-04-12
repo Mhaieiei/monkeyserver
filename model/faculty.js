@@ -8,12 +8,10 @@ var bcrypt   = require('bcrypt-nodejs');
 var facSchema = mongoose.Schema({
 
 	programname: String,
-	sub_program: [String],
-	stakeholder: [{ type: mongoose.Schema.Types.ObjectId, ref: 'stakeholder' }],
-	evaluation: [{
-	    stakeholder: { type: mongoose.Schema.Types.ObjectId, ref: 'stakeholder' },
-	    EvaluationMethod: [{ type: mongoose.Schema.Types.ObjectId, ref: 'EvaluationMethod' }]
+	sub_program: [String]
 
+<<<<<<< HEAD
+=======
 	}],
 	assesmentTool: [{ type: mongoose.Schema.Types.ObjectId, ref: 'assesmentToolSchema' }],
 	structureOfCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'structure' }],
@@ -49,29 +47,11 @@ var ProgramManagement = mongoose.Schema({
 
     programtrack : String,
     management : mongoose.Schema.Types.Mixed
+>>>>>>> 8f9039f82f65a2259d6c0f76cb8211d333deadbb
 });
 
 
-facSchema.methods.editProgram = function(request, response){
-	console.log("Mhai eiei");
-	this.programname = request.body.program_head_name;
-	this.sub_program = request.body.sub_program;
-	
-	 
-	this.save(function (err) {
-        if(err) {
-            console.error('ERROR!');
-        }
-		
-    });
-	 
-	response.redirect('/programs');
-};
 
-var faculty = db.model('Faculty', facSchema, 'faculty');
-faculty.Evaluation = db.model('EvaluationMethod', EvaluationMethodSchema, 'faculty');
-faculty.Stakeholder = db.model('stakeholder', StakeholderSchema, 'faculty');
-faculty.ProgramManagement = db.model('ProgramManagement', ProgramManagement, 'faculty');
-faculty.noOfStaff = db.model('noOfStaff', noOfStaffSchema, 'faculty');
+var faculty = db.model('faculty', facSchema, 'faculty');
 
 module.exports = faculty;

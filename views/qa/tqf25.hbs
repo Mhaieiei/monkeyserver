@@ -9,21 +9,23 @@
         <!--<form class="form-horizontal" role="form">-->
             <h3>Program Management</h3>
             <br>
-            <a href = "/edittqf25?acid={{acid}}&year={{getyear}}&program={{program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button>
-            <div id="tab_tqf5"><table class="table muffin">
+           
+            <div id="tab_tqf5"><table class="tablesorter">
             <thead align="center">
                 <tr>
-                    <th><a href="javascript:table_sort('tab_tqf5',0)">Indicators</a></th>
-                    <th><a href="javascript:table_sort('tab_tqf5',1)">Target</a></th>
-                    <th><a href="javascript:table_sort('tab_tqf5',2)">Actions</a></th>
-                    <th><a href="javascript:table_sort('tab_tqf5',3)">Results</a></th>
+                    <th><a>Index</a></th>
+                    <th><a>Indicators</a></th>
+                    <th><a>Target</a></th>
+                    <th><a>Actions</a></th>
+                    <th><a>Results</a></th>
                 </tr>
                 
             </thead>
             <tbody>
                 {{#each manage.management}}
                 <tr>
-                    <td>{{inc @index}}. {{indicators}} </td>
+                    <td>{{inc @index}}.</td>
+                    <td>{{indicators}} </td>
                     <td>{{target}} </td>
                     <td>{{actions}} </td>
                     <td>{{results}} </td>
@@ -38,7 +40,7 @@
             <br>
             <br>
             <br>
-            <div id="tab_tqf5-2"><table class="table muffin">
+            <div id="tab_tqf5-2"><table class="tablesorter">
             <thead align="center">
                 <tr>
                     <th><a href="javascript:table_sort('tab_tqf5-2',0)">Meeting No.</a></th>
@@ -62,6 +64,11 @@
            </tbody>
             </table>
             <h5>Table : Meetings of program management committee</h5>
+             <div class="table-foot"> 
+                <div class="pull-right">
+                    <a href = "/edittqf25?acid={{acid}}&year={{getyear}}&program={{program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button>
+                </div>
+            </div>
             
             </div>
         </form>
