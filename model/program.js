@@ -8,7 +8,6 @@ var bcrypt   = require('bcrypt-nodejs');
 var programSchema = mongoose.Schema({
 
 	programname: String,
-	sub_program: [String],
 	stakeholder: [{ type: mongoose.Schema.Types.ObjectId, ref: 'stakeholder' }],
 	evaluation: [{
 	    stakeholder: { type: mongoose.Schema.Types.ObjectId, ref: 'stakeholder' },
@@ -20,7 +19,7 @@ var programSchema = mongoose.Schema({
 	referenceCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'referenceCurriculum' }],
 	Responsibility: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Responsibility' }],
 	noOfStaff: [{ type: mongoose.Schema.Types.ObjectId, ref: 'noOfStaff' }],
-    Programmanagement : [{ type: mongoose.Schema.Types.ObjectId, ref: 'ProgramManagement' }]
+    Programmanagement : mongoose.Schema.Types.Mixed
 
 
 
@@ -49,13 +48,7 @@ var StakeholderSchema = mongoose.Schema({
 
 });
 
-var ProgramManagement = mongoose.Schema({
 
-    indicators: String,
-    target: String,
-    actions: String,
-    results:String  
-});
 
 
 programSchema.methods.editProgram = function(request, response){
@@ -77,7 +70,6 @@ programSchema.methods.editProgram = function(request, response){
 var program = db.model('program', programSchema, 'program');
 program.Evaluation = db.model('EvaluationMethod', EvaluationMethodSchema, 'program');
 program.Stakeholder = db.model('stakeholder', StakeholderSchema, 'program');
-program.ProgramManagement = db.model('ProgramManagement', ProgramManagement, 'program');
 program.noOfStaff = db.model('noOfStaff', noOfStaffSchema, 'program');
 
 module.exports = program;

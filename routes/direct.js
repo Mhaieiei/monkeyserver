@@ -42,7 +42,7 @@ module.exports = function(app, passport) {
     // =====================================
   var User                     = require('../model/user');
   var Work                     = require('../model/works');
-  var program                  = require('../model/program');
+  var Program                  = require('../model/program');
   var Fac                      = require('../model/faculty');
   var Subject                  = require('../model/subject');
   var Acyear                   = require('../model/academic_year');
@@ -936,7 +936,7 @@ module.exports = function(app, passport) {
 		console.log('Admin Get Program');
 		console.log(years);
 		console.log(years[0]);
-		return Fac.find({ 'programname': { $exists: true } }, function( err, faculty ) {
+		return Fac.find({}, function( err, faculty ) {
         if( !err ) {
 			console.log(faculty);
             res.render("admin/faculty/program/program.hbs", {
@@ -1586,7 +1586,7 @@ module.exports = function(app, passport) {
 	//subject section======================================================================================================================
 	app.get('/subjects',isLoggedIn,function(req,res){
 		console.log('Admin Get Subject select');
-		return Fac.find({ 'programname': { $exists: true } }, function( err, faculty ) {
+		return Fac.find({}, function( err, faculty ) {
         if( !err ) {
 			console.log(faculty);
             res.render("admin/faculty/subject/subjectselect.hbs", {
@@ -2201,7 +2201,7 @@ module.exports = function(app, passport) {
   		console.log('Get QA Info(select program)');
   		console.log(years);
   		//console.log(years[0]);
-  		return Fac.find( { 'programname': { $exists: true } },function( err, faculty ) {
+  		return Fac.find( {},function( err, faculty ) {
         if( !err ) {
 			console.log(faculty);
             res.render("qa/qa.hbs", {
@@ -2471,7 +2471,7 @@ module.exports = function(app, passport) {
         }, function (err, meeting) {
           if(err) console.log("query meetings err"+err);
           console.log(meeting);
-          Fac.ProgramManagement.findOne({ 'programtrack' :  req.query.program  }, function(err, manage) {        
+          Program.findOne({ 'programname' :  req.query.program  }, function(err, manage) {        
               if (err){ console.log("Cant find factory management"+err); } 
                res.render("qa/tqf25.hbs", {
                   layout: "qaPage",
@@ -2586,7 +2586,7 @@ module.exports = function(app, passport) {
       //referenceCurriculumSchema.find();
 
 
-      program.findOne({ 'programname': req.query.program }, function (err, docs) {
+      Program.findOne({ 'programname': req.query.program }, function (err, docs) {
           console.log("REFFFF-DOC--->>>", docs._id);
 
           AssesmentTool.aggregate([
@@ -2631,7 +2631,7 @@ module.exports = function(app, passport) {
 
       
 
-      program.find({ 'programname': req.query.program })
+      Program.find({ 'programname': req.query.program })
              .populate('referenceCurriculum')
             .populate('structureOfCurriculum')
              .exec(function (err, docs) {
@@ -2713,7 +2713,7 @@ module.exports = function(app, passport) {
       //referenceCurriculumSchema.find();
 
 
-      program.find({ 'programname': req.query.program })
+      Program.find({ 'programname': req.query.program })
              .populate('evaluation.stakeholder')
              .populate('evaluation.EvaluationMethod')
              .exec(function (err, docs) {
@@ -2887,7 +2887,7 @@ module.exports = function(app, passport) {
 
                              console.log("REFFFF--USERR----activity-->>>", subs);
 
-                             program.aggregate(
+                             Program.aggregate(
                                 [
                             {
                                 $match: {
@@ -2971,7 +2971,7 @@ module.exports = function(app, passport) {
                                          , function (err, staff) {
                                           // console.log("REFFFF----Faculty----Academic Staff>>>", staff);
 
-                                             program.populate(staff, {
+                                             Program.populate(staff, {
                                                  path: 'user',
                                                  model: 'User'
                                              },
@@ -2980,13 +2980,13 @@ module.exports = function(app, passport) {
 
                                           // console.log("REFFFF----Faculty----Academic Staff---pop-user>>>", user);
 
-                                             program.populate(user, {
+                                             Program.populate(user, {
                                                  path: 'user.training',
                                                  model: 'training'
                                              }, function (err, usertraining) {
 
                                               // console.log("REFFFF----Faculty----Academic Staff--usertraining->>>", usertraining);
-                                                 program.populate(usertraining, {
+                                                 Program.populate(usertraining, {
                                                  path: 'user.training.academicYear',
                                                  model: 'Acyear'
                                              }, function (err, usertraining_acYear) {
@@ -3046,7 +3046,7 @@ module.exports = function(app, passport) {
       console.log("Academictitle");
 
       //referenceCurriculumSchema.find();
-      program.aggregate(
+      Program.aggregate(
                                 [
                             {
                                 $match: {
@@ -3130,17 +3130,17 @@ module.exports = function(app, passport) {
                                              }
                                          }]
                                          , function (err, staff) {
-                                             program.populate(staff, {
+                                             Program.populate(staff, {
                                                  path: 'user',
                                                  model: 'User'
                                              },
                                          function (err, user) {
 
-                                             program.populate(user, {
+                                             Program.populate(user, {
                                                  path: 'user.training',
                                                  model: 'training'
                                              }, function (err, usertraining) {
-                                                 program.populate(usertraining, {
+                                                 Program.populate(usertraining, {
                                                  path: 'user.training.academicYear',
                                                  model: 'Acyear'
                                              }, function (err, usertraining_acYear) {
@@ -3179,11 +3179,11 @@ module.exports = function(app, passport) {
   app.get('/aun1-3', isLoggedIn, function (req, res) {
       console.log("mapELOAndKnowledge");
 
-      program.find({ 'programname': req.query.program })
+      Program.find({ 'programname': req.query.program })
              .populate('Responsibility')
 
              .exec(function (err, docs) {
-                 program.populate(docs, {
+                 Program.populate(docs, {
                      path: 'Responsibility.ELO',
                      model: 'ELO'
                  },
@@ -3218,11 +3218,11 @@ module.exports = function(app, passport) {
       //referenceCurriculumSchema.find();
 
 
-      program.find({ 'programname': req.query.program })
+      Program.find({ 'programname': req.query.program })
              .populate('stakeholder')
 
              .exec(function (err, docs) {
-                 program.populate(docs, {
+                 Program.populate(docs, {
                      path: 'stakeholder.ELO',
                      model: 'ELO'
                  },
@@ -3292,13 +3292,13 @@ module.exports = function(app, passport) {
                     ]
                   , function (err, staff) {
                     console.log("REFFFF----Faculty-----staff->>>", staff);
-                      program.populate(staff, {
+                      Program.populate(staff, {
                           path: 'user',
                           model: 'User'
                       },
                     function (err, user) {
                       console.log("REFFFF----Faculty-----user->>>", user);
-                        program.populate(user, {
+                        Program.populate(user, {
                             path: 'user.publicResearch',
                             model: 'Public'
                         },function (err, userPublic) {
@@ -3944,7 +3944,7 @@ User.aggregate(
     console.log(req.query.acid);
     console.log(req.query.year);
     console.log(req.query.program);
-    Fac.ProgramManagement.findOne({ 'programtrack' :  req.query.program  }, function(err, manage) {        
+    Program.findOne({ 'programname' :  req.query.program  }, function(err, manage) {        
         if (err){ console.log("Cant find factory management"+err); }        
         if (manage != null) {
           console.log("Edit"+manage);
@@ -3954,7 +3954,7 @@ User.aggregate(
             year : req.query.year,
             program : req.query.program,
             manage : manage,
-            len : manage.management.length
+            len : manage.Programmanagement.length
             });
 
         } else {
@@ -4003,12 +4003,11 @@ User.aggregate(
               
         array.push(obj);
      }       
-    Fac.ProgramManagement.findOne({ 'programtrack' :  req.body.program  }, function(err, fac) {        
+    Program.findOne({ 'programname' :  req.body.program  }, function(err, fac) {        
         if (err){ console.log("Cant find faculty management"+err); }        
         if (fac != null) {
           console.log(fac);
-          fac.programtrack = req.body.program;
-          fac.management = array;
+          fac.Programmanagement = array;
           fac.save(function(err,manage) {
             if (err){console.log('cant edit new program Management'+err);}  
             else{
@@ -4019,9 +4018,9 @@ User.aggregate(
          });  
 
           } else {
-             var managefac = new Fac.ProgramManagement();
-                managefac.programtrack = req.body.program;
-                managefac.management = array;
+             var managefac = new Program();
+                managefac.programname = req.body.program;
+                managefac.Programmanagement = array;
             managefac.save(function(err,manage) {
             if (err){console.log('cant make new program Management'+err);}  
             else{
