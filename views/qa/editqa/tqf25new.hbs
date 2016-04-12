@@ -74,6 +74,7 @@
                             <th><a>Target</a></th>
                             <th><a>Actions</a></th>
                             <th><a>Results</a></th>
+                            <th>Delete</th>
                         </tr>
                         
                     </thead>
@@ -84,6 +85,11 @@
                           <td> <textarea class="form-control" rows="5" name="target" id="target"></textarea></td>
                           <td> <textarea class="form-control" rows="5" name="actions" id="actions"></textarea></td>
                           <td> <input type="text" class="form-control" name="results" id="results"></td>
+                          <td>
+                            <button class="btn btn-xs btn-warning" id="delPOIbutton" value="Delete" onclick="deleteRow(this)">
+                              <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                          </td>
                         </tr>
                         
                         
