@@ -1,6 +1,7 @@
 var expect = require('chai').expect;
 
 var template = require('model/document/department/template');
+var subtypeDocumentTester = require('./testDocumentSubType');
 
 module.exports = function() {
 	it('should set correct subtype on a correct field', function() {
@@ -29,7 +30,22 @@ module.exports = function() {
 		})
 	});
 
-	describe('Parameterize test on template parameters', function() {
+	describe('Document running number', function() {
 
+		var typeName = ['@@', '123', 'A', ' B', 'C '];
+		
+		typeName.forEach(function(param) {
+			describe('New sub type document: ' + param, function() {
+				var subDoc = template(param);
+				subtypeDocumentTester(subDoc);
+			})
+		});
+	});
+
+	
+	it('Should throw error on empty sub type name', function() {
+		expect(function() {
+			template('');
+		}).to.throw(Error);
 	});
 }

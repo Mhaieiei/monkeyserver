@@ -18,11 +18,11 @@ module.exports = function(SubTypeDoc) {
 		})
 	})
 
-	it('documentID should start at 1', function(done) {
+	it('documentID should start at 1', function() {
 		expect(doc1.docNum).to.equals(1);
 	});
 
-	it('documentID should increment by 1', function(done) {
+	it('documentID should increment by 1', function() {
 		expect(doc2.docNum).to.equals(2);
 	})
 
