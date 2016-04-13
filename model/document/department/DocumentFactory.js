@@ -11,10 +11,10 @@ module.exports = {
 	/* General Management 2 */
 	riskManagement: departmentDocTemplate('BA'),
 	accounting: departmentDocTemplate('BB'),
-	research: departmentDocTemplate('BC')
-	// acadeicService: departmentDocTemplate('BD'),
+	research: departmentDocTemplate('BC'),
+	acadeicService: departmentDocTemplate('BD'),
 
-	// /* Academic */
-	// academicAdministration: departmentDocTemplate('CA'),
-	// studentAffairs: departmentDocTemplate('CB')
+	/* Academic */
+	academicAdministration: departmentDocTemplate('CA'),
+	studentAffairs: departmentDocTemplate('CB')
 }
