@@ -14,7 +14,7 @@ var programSchema = mongoose.Schema({
 	    EvaluationMethod: [{ type: mongoose.Schema.Types.ObjectId, ref: 'EvaluationMethod' }]
 
 	}],
-	assesmentTool: [{ type: mongoose.Schema.Types.ObjectId, ref: 'assesmentToolSchema' }],
+	assesmentTool: [String],
 	structureOfCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'structure' }],
 	referenceCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'referenceCurriculum' }],
 	Responsibility: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Responsibility' }],

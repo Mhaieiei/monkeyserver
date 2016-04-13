@@ -2610,7 +2610,7 @@ module.exports = function(app, passport) {
                  res.render('qa/qa-aun5.3.hbs', {
                      //    user: req.user,      
                      layout: "qaPage",
-
+                     program:docs._id,
                      docs: result,
                      helpers: {
                          inc: function (value) { return parseInt(value) + 1; },
@@ -4028,7 +4028,7 @@ User.aggregate(
               console.log("Insert new program management succesful");  
               res.redirect('/tqf25?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
             }                         
-         });  
+            });  
 
              
           }
@@ -4102,12 +4102,153 @@ User.aggregate(
         });
     });
     
-    
+
+//---------------------------------------------add aun 5.3--------------------------------------------------------------------
      
 
+     app.get('/add_aun5-3',isLoggedIn,function(req,res){
+    console.log("[GET]add aun 5.3");
 
 
-	
+    
+    console.log("program: "+req.query.program);
+    AssesmentTool.findOne({ 'programname' :  req.query.program  }, function(err, assesment) {        
+        if (err){ console.log("Cant find factory management"+err); }        
+        if (assesment != null) {
+          console.log("ADD-------------------->:"+assesment);
+          Program.find( {'programname': { $exists: true }},function( err, program ) {
+
+            console.log("program-------------------->:"+program);
+          res.render('qa/editqa/aun5.3_add_assesment.hbs', {
+            layout: "qaPage",
+            program_fac:program,
+            program : req.query.program,
+            assesment : assesment,
+            len : assesment.length
+            });
+
+          });
+
+        } else {
+            console.log("TESTTTTTTTTTT");
+            // res.render('qa/editqa/tqf25new.hbs', {
+            // layout: "qaPage",
+            // acid : req.query.acid,
+            // year : req.query.year,
+            // program : req.query.program          
+            // });            
+        }
+    });
+    
+  });
+
+
+  app.post('/add_aun5-3',isLoggedIn,function(req,res){
+    console.log("[POST] add aun 5.3");
+    console.log("level: "+req.body.level);
+    console.log("course_name: "+req.body.course_name);
+    console.log("assname: "+req.body.assname);
+    console.log("TYPE: "+req.body.type);
+
+
+    AssesmentTool.findOne({
+          $and: [
+                   { 'programname': req.query.program },
+                   { 'assesmentTool': req.body.assname }
+          ]
+      }, function(err, assesment) {        
+        
+        if (assesment != null) {
+          console.log("EDIT-------------------->:"+assesment);
+
+          
+
+        } 
+        else {
+            console.log("ADD NEWWWW");
+            //lhuer add course type t yung mai sed (array)
+            newAssesmentTool = new AssesmentTool();
+            newAssesmentTool.assesmentTool = req.body.assname;
+            newAssesmentTool.type = req.body.type;
+            newAssesmentTool.programname= req.query.program;
+
+            newAssesmentTool.save(function(err,add_asses) {
+            if (err){console.log('cant edit new program Management'+err);}  
+            else{
+              console.log("add_asses"+add_asses);
+              console.log("Add new assigment succesful");  
+              console.log("program------> "+req.body.program);
+              Program.findOne({'programname':req.body.program}, function(err, program) { 
+
+                if(program!=null){
+
+
+                  AssesmentTool.findOne({
+                  $and: [
+                           { 'programname': req.query.program },
+                           { 'assesmentTool': req.body.assname }
+                  ]
+                  }, function(err, assesment) {
+
+
+                    console.log("assesment_id: "+assesment.id);  
+
+                      Program.update(
+                        {"programname":req.body.program}, 
+                        { $push: { "assesmentTool": assesment.id} }
+                      , function(err, add_ass_program) { 
+
+                        if (err){console.log('cant edit new program Management'+err);}  
+                        else{
+
+                          console.log('ADD TO PROGRAM SUCCESSFUL : '+add_ass_program)
+
+
+                        }
+
+                        });
+
+                  });
+
+                }
+                else{
+
+                  // var keepAssesmentTool = []
+                  // keepAssesmentTool.push(assesment.id);
+                  var managefac = new Program();
+                  managefac.programname = req.body.program;
+                  managefac.assesmentTool.push(assesment.id);
+                  managefac.save(function(err,manage) {
+                    if (err){console.log('cant make new program Management'+err);}  
+                    else{
+                      console.log("ass"+manage);
+                      console.log("Insert new program management succesful");  
+                      res.redirect('/tqf25?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
+                    }                         
+                  });
+
+
+
+                }
+
+
+                  res.redirect('/aun5-3?program='+req.body.program);   
+              });                         
+            }                         
+            });  
+          }
+          });
+      
+
+        
+    
+    
+     });
+
+
+
+
+//----------------------------------------------------------------------------------------------------------------------------
 	//=====================================
     // Get Work Info.(Student) ==============================
     // =====================================
