@@ -2493,38 +2493,17 @@ module.exports = function(app, passport) {
 
 	
   app.get('/aun10-1', isLoggedIn, function (req, res) {
-      console.log("FacilityAndInfrastrutureSchema");
-      console.log("program :"+req.query.program);
-      Acyear.findOne({
-          $and: [
-                   { 'program_name': req.query.program },
-                   { 'academic_year': req.query.year }
-          ]
-      }, function (err, programs) {
-          if (!err) {
-              console.log(programs._id);
-              //referenceCurriculumSchema.find();
-              FacilityAndInfrastruture.find({ 'programAndAcYear': programs._id }, function (err, docs) {
-
-                  console.log("REFFFF---->>>", docs);
-
-                  res.render('qa/qa-aun10.1.hbs', {
-                      //    user: req.user,      
-                      layout: "qaPage",
-
-                      docs: docs
-                  });
-
-
-
-
-              });
-
-          } else {
-              //res.redirect('/fachome');
-              return console.log(err + "mhaieiei");
-          }
-      });
+      console.log("FacilityAndInfrastrutureSchema");     
+      FacilityAndInfrastruture.find({ 'programAndAcYear': req.query.acid }, function (err, docs) {
+          if(err) console.log("aun10_1 query err"+err);
+          console.log("REFFFF---->>>", docs);
+          res.render('qa/qa-aun10.1.hbs', {
+            //    user: req.user,      
+            layout: "qaPage",
+            docs: docs,
+            acid : req.query.acid
+        });
+    });            
 
   });
 
@@ -3937,7 +3916,11 @@ User.aggregate(
         });
 
   });
-  //-------------------------------------------------edit tqf 25-------------------------------------------------------
+ //=====================================
+  // Edit QA ==============================
+  // =====================================
+
+  //------------------------edit tqf 25 ----------------------------------------------------------------------
   app.get('/edittqf25',isLoggedIn,function(req,res){
     console.log("[GET]Edit tqf 25");
     console.log(req.query.name);
@@ -4036,6 +4019,52 @@ User.aggregate(
     
      });       
 
+  //---------------------------edit aun 10.1 ----------------------------------------------------------------------
+  app.get('/addaun10_1',isLoggedIn,function(req,res){
+    console.log("[GET]Edit AUN 10.1");    
+    console.log(req.query.acid);
+   
+    res.render('qa/editqa/aun10.1_add_facilities.hbs', {
+            //    user: req.user,      
+            layout: "qaPage",
+            acid : req.query.acid
+        }); 
+    
+  });
+app.post('/addaun10_1',isLoggedIn,function(req,res){
+    console.log("[POST]Edit AUN 10.1");    
+    console.log(req.body.acid);
+    console.log(req.body.roomno);
+    console.log(req.body.floor);
+    console.log(req.body.building);
+    console.log(req.body.noofseat);
+   
+    FacilityAndInfrastruture.findOne({ 
+      $and: [
+                 { 'programAndAcYear' :  req.body.acid  },
+                 { 'roomNo' : req.body.roomno }
+               ]
+      
+    }, function (err, docs) {
+          if(err) console.log("aun10_1 query err"+err);
+          var facility = new FacilityAndInfrastruture();
+            facility.programAndAcYear = req.body.acid;
+            facility.roomNo = req.body.roomno;
+            facility.floor = req.body.floor;
+            facility.building = req.body.building;
+            facility.numberOfSeat = req.body.noofseat;
+           facility.save(function(err,manage) {
+            if (err){console.log('cant make new facility'+err);}  
+            else{
+              console.log(manage);
+              console.log("Insert new facility succesful");  
+              res.redirect('/aun10-1?acid='+req.body.acid);                          
+            }                         
+         });  
+         
+    });    
+    
+  });
 
 //-------------------------------------------------add ELOs-aun 1.3-------------------------------------------------------
   app.get('/addelos',isLoggedIn,function(req,res){
@@ -4045,11 +4074,6 @@ User.aggregate(
             
     
   });
-
-
-
-
-
   app.post('/addelos',isLoggedIn,function(req,res){
     console.log("[POST] Add ELOs");
     console.log(req.body.indicators);

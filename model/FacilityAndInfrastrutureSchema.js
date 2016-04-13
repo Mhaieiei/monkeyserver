@@ -6,11 +6,10 @@ var bcrypt = require('bcrypt-nodejs');
 var lecturerPlaceSchema = mongoose.Schema({
 
     roomNo: String,
-    academicYear: String,
     floor: Number,
     building: String,
     numberOfSeat: Number,
-    programAndAcYear: { type: mongoose.Schema.Types.ObjectId, ref: 'Acyear' }
+    programAndAcYear: String,
 
 });
 

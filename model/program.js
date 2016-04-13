@@ -51,21 +51,7 @@ var StakeholderSchema = mongoose.Schema({
 
 
 
-programSchema.methods.editProgram = function(request, response){
-	console.log("Mhai eiei");
-	this.programname = request.body.program_head_name;
-	this.sub_program = request.body.sub_program;
-	
-	 
-	this.save(function (err) {
-        if(err) {
-            console.error('ERROR!');
-        }
-		
-    });
-	 
-	response.redirect('/programs');
-};
+
 
 var program = db.model('program', programSchema, 'program');
 program.Evaluation = db.model('EvaluationMethod', EvaluationMethodSchema, 'program');

@@ -12,6 +12,22 @@ var facSchema = mongoose.Schema({
 
 });
 
+facSchema.methods.editProgram = function(request, response){
+    console.log("Edit program");
+    this.programname = request.body.program_head_name;
+    this.sub_program = request.body.sub_program;
+    
+     
+    this.save(function (err) {
+        if(err) {
+            console.error('ERROR!');
+        }
+        
+    });
+     
+    response.redirect('/programs');
+};
+
 var faculty = db.model('faculty', facSchema, 'faculty');
 
 module.exports = faculty;
