@@ -1,4 +1,8 @@
 module.exports = function(abbriviation, keyValue2Add) {
+	if(!abbriviation)
+		throw new Error('Invalid subtype name');
+	abbriviation = abbriviation.trim();
+
 	var db = require('lib/dbclient').db();
 	var Doc = require('model/document');
 	var mongoose = require('mongoose');
