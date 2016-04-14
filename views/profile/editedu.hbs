@@ -5,16 +5,18 @@
 
 <form action="/editedu?id={{ index }}" method="post" >	
 		
-	<label>Email</label>
-	  <input type="text" tabindex="1" placeholder="Enter Your Email Address" name="email" value ="{{ user.local.email }}" readonly><br>
+	<p hidden>
+		<input type="text" class="form-control" name="username" id="inputType" value={{username}}>
+		<input type="text" class="form-control" name="eduid" id="inputType" value={{education.id}}>
+  	</p>
 	<label>Level:</label>
-	  <input type="text" tabindex="1" placeholder="Enter Your level" name="level" value ="{{ education.level }}"  required><br>
+	  <input type="text" tabindex="1"  name="level" value ="{{ education.level }}"  required><br>
 	<label>Degree:</label>
-	  <input type="text" tabindex="1" placeholder="Enter Your Degree" name="degree" value ="{{ education.degree }}" required><br>
+	  <input type="text" tabindex="1"  name="degree" value ="{{ education.degree }}" required><br>
 	<label>University:</label>
-	  <input type="text" tabindex="1" placeholder="Enter Your University" name="university" value ="{{ education.university }}" required><br>
+	  <input type="text" tabindex="1"  name="university" value ="{{ education.university }}" required><br>
 	<label>Year:</label>
-	  <input type="text" tabindex="1" placeholder="Enter Your Year" name="year" value ="{{ education.year }}" required><br>
+	  <input type="text" tabindex="1"  name="year" value ="{{ education.year }}" required><br>
 	    
 	<footer>
 	  <input type="submit" class="btnLogin" value="Edit" tabindex="1">

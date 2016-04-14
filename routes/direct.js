@@ -388,6 +388,58 @@ module.exports = function(app, passport) {
     // =====================================
     // Get User Info. ==============================
     // =====================================
+
+	app.get('/profile_inf',isLoggedIn,function(req,res){
+		console.log("Get profile information");	
+		var role = req.query.role;
+		console.log(role);
+		if(role == "student"){
+			res.render('profile/student_profile.hbs',{
+			layout:"profilestudent",
+			user : req.user
+
+			});
+		}
+		else{
+			res.render('profile/staff_profile.hbs',{
+			layout:"profilePage",
+			user : req.user
+
+			});
+		}
+		
+		
+	});
+	app.get('/profile_inf_admin',isLoggedIn,function(req,res){
+		console.log("Get profile information");	
+		return User.findOne({'local.username': req.query.user}, function( err, user ) {
+	        if( !err ) {
+	        	console.log(user);
+	        	console.log(user.local.username);
+	        	//console.log(Object.entries(user.local));
+	        	console.log(user.local.role);
+	     if(user.local.role == "student"){
+					res.render('profile/student_profile.hbs', {
+						layout: "profileAdstudent",
+						user : user
+					});
+				}
+				else{
+					res.render('profile/staff_profile.hbs', {
+						layout: "profileAdmin",
+						user : user
+					});
+				}
+	        } else {
+	            return console.log( err+"mhaieiei" );
+		        }
+		    });
+		
+		
+		
+	});
+	// =====================================
+
   app.get('/profile_inf',isLoggedIn,function(req,res){
     console.log("Get profile information"); 
     var role = req.query.role;
@@ -438,6 +490,7 @@ module.exports = function(app, passport) {
     
   });
   // =====================================
+
     // Edit Profile ========
     // =====================================
     
@@ -556,33 +609,35 @@ module.exports = function(app, passport) {
       
       
     });
-  //=====================================
+ //=====================================
     // Get Education Info. ==============================
     // =====================================
+
   app.get('/education_inf',isLoggedIn,function(req,res){
     console.log("Get education");
     console.log(req.query.name);
     if(req.query.name != null){
       user = req.query.name;
+      nameid = req.query.name;
     }else{
       user = req.user;
+      nameid = req.user.id;
     }
     console.log(user);
-    return User.findOne({'local.username': user}, function( err, user ) {
+    User.findOne({'_id': nameid}, function( err, user ) {
           if( !err ) {
             console.log(user);
-            console.log(user.local.username);
-            //console.log(Object.entries(user.local));
-            console.log(user.local.role);
             res.render('profile/educationinfo.hbs', {
-          layout: "profilePage",
+                layout: "profilePage",
                 user : user, // get the user out of session and pass to template
                 helpers: {
-                inc: function (value) { return parseInt(value) + 1; }
+                inc: function (value) { return parseInt(value) + 1; },
+                getname: function () { return nameid; },
+
             }     
           });
           } else {
-              return console.log( err+"mhaieiei" );
+              return console.log( "Cant query education"+err );
             }
      });
     
@@ -595,13 +650,13 @@ module.exports = function(app, passport) {
     console.log("Add Education");
     console.log(req.query.user);
     res.render('profile/addeducation.hbs', {
-      layout: "profilePage",
+             layout: "profilePage",
             username : req.query.user // get the user out of session and pass to template     
         });
   });
   
   app.post('/addedu',isLoggedIn,function(req,res){
-    console.log("Posttt Mhai eiei1234455678");
+    console.log("[Post] add education");
     var id = req.body.level+req.body.year;
     console.log(id);
 
@@ -610,7 +665,7 @@ module.exports = function(app, passport) {
 
      "$push" : {
       "education" :  {
-           "id" : id,
+            "id" : id,
            "level": req.body.level,
            "degree": req.body.degree,
            "university": req.body.university,
@@ -619,8 +674,8 @@ module.exports = function(app, passport) {
         }
       },{safe:true},
         function (err, user) {
-        if (err){console.log('mhaiiiiiii');}
-          else console.log(user);
+        if (err){console.log('Cant push new education');}
+          else console.log("Push new education already"+user);
     });
     res.redirect('/education_inf?name='+req.body.username);
         
@@ -631,54 +686,65 @@ module.exports = function(app, passport) {
     var index =req.query.id;
     console.log("Get Edit education");
     console.log(req.query.id);
-    res.render('profile/editedu.hbs', {
-      layout: "profileAdmin",
-      user : req.user, // get the user out of session and pass to template
-      index : req.query.id,
-      education : req.user.education[index]
-        });
+    var nameid = req.query.user;
+    User.findOne({'_id' : nameid }, function(err, user) {
+          if (err){ console.log("Upload Failed!");}
+          res.render('profile/editedu.hbs', {
+            layout: "homePage",
+            username : nameid,
+            index : index,
+            education : user.education[index]
+          });
+
+    });
+      
   });
 
   app.post('/editedu',isLoggedIn,function(req,res){
     console.log("Edit education");
     console.log(req.query.id);
-    user : req.user   
-    User.findOne({'local.email' : req.body.email },{ education: 1}, function(err, user) {
-          if (err){ 
-            console.log("Upload Failed!");
-            return done(err);}
-          
-          if (user){
-              console.log(user);
-              console.log("eiei");
-              user.editEducation(req, res)
-              
-          }
+    console.log(req.body.level);
+    //user : req.user   
+    
+      
+    User.findOneAndUpdate({ _id : req.body.username,'education.id': req.body.eduid},
+    {
+     "$set" : {
+            'education.$.level': req.body.level,
+            'education.$.degree': req.body.degree,
+            'education.$.university': req.body.university,
+            'education.$.year': req.body.year
 
-      });
+        }
+      },function (err, useredit) {
+        if (err){console.log('Cant delete education of user'+err);}
+        else {console.log('Delete education of user already'+ useredit.local.name);}
+    });
+    res.redirect('/education_inf?name='+req.body.username);
+    
   });
   //delete education information.
   app.get('/deledu',isLoggedIn,function(req,res){
     console.log("Delete Education");
-    console.log(req.query.username);
-    User.update({ 'local.username' : 'admin' },
+    console.log(req.query.user);
+    User.findOneAndUpdate({ '_id' : req.query.user },
     {
      "$pull" : {
       "education" :  {
-
-           "id": req.query.id,
+           "id": req.query.id
           } //inserted data is the object to be inserted 
         }
-      },{safe:true},
-        function (err, user) {
-        if (err){console.log('mhaiiiiiii');}
-          else console.log(user);
+      },function (err, useredit) {
+        if (err){console.log('Cant delete education of user'+err);}
+        else {console.log('Delete education of user already'+ useredit.local.name);}
     });
-    res.redirect('/education_inf?');
+    res.redirect('/education_inf?name='+req.query.user);
     
     
   });
    // =====================================
+   // =====================================
+
     // Admin SECTION =====================
     // =====================================
 
@@ -4444,20 +4510,24 @@ app.get('/delaun5_3',isLoggedIn,function(req,res){
               acid : req.query.id,
            
              });
+
+		  });
+		});		
+	});
+		
+	//add thesis
+	app.get('/addthesis',isLoggedIn,function(req,res){
+		console.log("Add Thesis");
+		console.log(req.query.user);
+		res.render('profile/works/addthesis.hbs', {
+			layout: "homePage",
+            username : req.query.user // get the user out of session and pass to template			
+
       });
     });   
-  });
-    
-  //add thesis
-  app.get('/addthesis',isLoggedIn,function(req,res){
-    console.log("Add Thesis");
-    console.log(req.query.user);
-    res.render('profile/works/addthesis.hbs', {
-      layout: "profilestudent",
-            username : req.query.user // get the user out of session and pass to template     
-        });
-  });
 
+    
+ 
   app.post('/addthesis',isLoggedIn,function(req,res){
     console.log("Posttt Add thesis");
     console.log(req.body.name);
@@ -4665,18 +4735,20 @@ app.get('/delaun5_3',isLoggedIn,function(req,res){
               acid : req.query.id,
            
              });
+
+		  });
+		});		
+	});
+	//add publication
+	app.get('/addpublication',isLoggedIn,function(req,res){
+		console.log("Add Publication");
+		console.log(req.query.user);
+		res.render('profile/works/addpublic.hbs', {
+			layout: "homePage",
+            username : req.query.user // get the user out of session and pass to template			
       });
     });   
-  });
-  //add publication
-  app.get('/addpublication',isLoggedIn,function(req,res){
-    console.log("Add Publication");
-    console.log(req.query.user);
-    res.render('profile/works/addpublic.hbs', {
-      layout: "profilestudent",
-            username : req.query.user // get the user out of session and pass to template     
-        });
-  });
+  
 
   app.post('/addpublication',isLoggedIn,function(req,res){
     console.log("Posttt Add Publication");
@@ -4893,7 +4965,34 @@ app.get('/delaun5_3',isLoggedIn,function(req,res){
     
      });       
 
-
+  //--------------------Training Courses------------------------------------------------------------
+  app.get('/traininf',isLoggedIn,function(req,res){
+    console.log("Get Training Information");
+    console.log(req.query.name);
+    User
+    .findOne({'local.username': req.query.name})
+    .populate('training')
+    .exec(function(err, docs) {
+      if(err) console.log(err);
+      console.log(docs);
+        res.render("profile/works/traininf.hbs", {
+              layout: "profileAdmin",
+              user : req.query.name,
+              Userinfo: docs,
+              year : years
+                  
+         });     
+    });   
+  });
+  app.get('/addtraining',isLoggedIn,function(req,res){
+    console.log("Add Training");
+    console.log(req.query.user);
+    res.render('profile/works/addtraining.hbs', {
+            layout: "homePage",
+            username : req.query.user // get the user out of session and pass to template     
+      });
+    });   
+  
 
 
 

@@ -34,7 +34,7 @@ var userSchema = new mongoose.Schema({
         age: Number,
         terminationYear:Number //academicYear of termination //only for some staff who want to terminate herself
        },
-       detail:[{
+    detail:[{
 
        	status : String,  //drop out, on-time graduation, carry on, delayed graduaion
        	academicYear:String
@@ -113,25 +113,6 @@ userSchema.methods.updateUser = function(request, response){
 
 	
 };
-userSchema.methods.editEducation = function(request, response){	
-	console.log("Eieiei555");	
-	var index = request.query.id;
-	console.log(index);
-	this.education[index].level = request.body.level;
-	this.education[index].degree = request.body.degree;
-	this.education[index].university = request.body.university;
-	this.education[index].year = request.body.year;
-	 
-	this.save(function (err) {
-        if(err) {
-            console.error('ERROR!');
-        }
-		
-    });
-	console.log("Eieiei");
-	response.redirect('/education_inf');
 
-
-};
 
 module.exports = db.model('User', userSchema, 'users');
