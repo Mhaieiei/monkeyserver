@@ -10,6 +10,7 @@ var isLoggedIn = require('middleware/loginChecker');
 
 var formController      = require('../lib/form');
 var workflowController  = require('../lib/workflow');
+var serviceController   = require('../lib/service');
 
 Handlebars.registerHelper('select', function( value, options ){
         var $el = $('<select />').html( options.fn(this) );
@@ -5012,6 +5013,7 @@ app.get('/delaun5_3',isLoggedIn,function(req,res){
 
   app.use('/workflow', workflowController );
   app.use('/form', formController);
+  app.use('/service', serviceController );
 	
   //==== end workflow module =========
 
