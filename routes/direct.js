@@ -2566,6 +2566,9 @@ module.exports = function(app, passport) {
 
 
       Program.findOne({ 'programname': req.query.program }, function (err, docs) {
+        
+
+        if(docs !=null){
           console.log("REFFFF-DOC--->>>", docs._id);
 
           AssesmentTool.aggregate([
@@ -2599,6 +2602,32 @@ module.exports = function(app, passport) {
                  });
 
                  });
+        }
+        else{
+
+          console.log("program dose not exist");
+
+          // res.redirect('/qapage');
+
+
+
+
+          // res.render('qa/qa-aun5.3.hbs', {
+          //            //    user: req.user,      
+          //            layout: "qaPage",
+          //            program:docs._id,
+          //            docs: result,
+          //            helpers: {
+          //                inc: function (value) { return parseInt(value) + 1; },
+          //                getyear:function(value) {return yearac[value];},
+          //                getindex:function() {return ++index;}}
+
+          //        });
+
+
+
+
+        }
       });
                 
   });
