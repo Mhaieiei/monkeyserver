@@ -1,26 +1,41 @@
 <script type="text/javascript">
-    $(function() {
-        $("table").tablesorter({debug: true});
-    });
-    $(function() {
-        var scntDiv = $('#p_scents');
-        var i = $('#p_scents p').size() + 1;
-        
-        $('#addScnt').live('click', function() {
-                $('<p><label for="p_scnts"><input type="text" class="form-control" id="inputType" size="30" name="p_scnt_' + i +'" value="" placeholder="name" /><input type="text" class="form-control" id="inputType" size="30" name="p_scnt_' + i +'" value="" placeholder="level" /></label> <button type="button" id="remScnt" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span></button></p>').appendTo(scntDiv);
-                i++;
-                return false;
-        });
-        
-        $('#remScnt').live('click', function() { 
-                if( i > 2 ) {
-                        $(this).parents('p').remove();
-                        i--;
-                }
-                return false;
-        });
-    });
+    var array = [];
+    var rowind = 1;
+    function deleteRow(row)
+    {
+        var i=row.parentNode.parentNode.rowIndex;
+        document.getElementById('CourseTable').deleteRow(i);
+        rowind--;
+        document.getElementById('arrlen').value = rowind;
+        console.log("value="+document.getElementById('arrlen').value);
+    } 
+
+    function insRow()
+    {
+      
+        console.log( 'hi');
+        var x=document.getElementById('CourseTable');
+        var y =document.getElementById('Coursetbody');
+        var new_row = x.rows[1].cloneNode(true);
+        var len = x.rows.length;
+        var inp0 = new_row.cells[0].getElementsByTagName('input')[0];
+        var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+        inp1.value = '';
+        var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
+        console.log(new_row);
+        y.appendChild( new_row );
+        rowind++;
+        console.log(rowind);
+        document.getElementById('arrlen').value = rowind;
+        console.log("value="+document.getElementById('arrlen').value);
+     
+    }
     </script>
+</head>
+
+
+
+
 
 
 
@@ -33,7 +48,7 @@
                
                     <div class="form-group">
 
-                      <label for="inputType" class="col-md-2 control-label">Program: </label>
+                      <label for="inputType" class="col-md-1 control-label">Program: </label>
                       <div class="col-md-4">
                           <select class="form-control" style="width:200px" id="program" name="program">
                               {{#each program_fac}}                 
@@ -41,14 +56,14 @@
                               {{/each}}
                           </select>
                       </div> 
-                      <label for="inputType" class="col-md-2 control-label">Assesment Tools: </label>
+                      <label for="inputType" class="col-md-1 control-label">Assesment Tools: </label>
                       <div class="col-md-4">
                          <input type="text" class="form-control" id="assname" placeholder="Enter assessment tools' name " name="assname">
                       </div>
                      
                     </div>
                     <div class="form-group">
-                      <label for="inputType" class="col-md-2 control-label">Type: </label>
+                      <label for="inputType" class="col-md-1 control-label">Type: </label>
                       <div class="col-md-4">
                           <select class="form-control" style="width:200px" id="type" name="type">
                               <option value="Direct">Direct Measures</option>
@@ -56,21 +71,29 @@
                           </select>
                       </div>  
                       
-                      <label for="inputType" class="col-md-2 control-label">Course </label>
+                      <label for="inputType" class="col-md-1 control-label">Course </label>
                       <div class="col-md-4">
-                         <div id="p_scents">
-                         <p>
-                          <label for="p_scnts">
-                            <input type="text" class="form-control" id="p_scents" size="30" name="course_name"  placeholder="name"> 
-                            <input type="text" class="form-control" id="p_scents" size="30" name="level"  placeholder="level">
-                          </label>
-                          <button type="button" id="addScnt" class="btn btn-primary btn-sm" ><span class="glyphicon glyphicon-plus" ></span></button>
-                         
-                          </p>
-                        </div>
-                      </div>
-                      
-                      
+                         <div id="tab_2">
+                            <table id="CourseTable" class="tablesorter">
+                                <thead>
+                                    <tr>
+                                    <th ><a>Course name</a></th>
+                                    <th><a>Level</a></th>
+                                    <th><a>Delete</a></th>
+                                    <th><a>Add</a></th>
+                                    </tr>
+                                </thead>
+                                <tbody id = "Coursetbody">
+                                    <tr>
+                                    <td><input  type="text" name="nameCourse" id="latbox"/></td>
+                                    <td><input  type="text" name="nameCourse" id="latbox"/></td>
+                                    <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
+                                    </td>    
+                                    <td> <button class="btn btn-xs btn-primary" id="insertbutton" value="Delete" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span></button>
+                                    </td>         
+                                    </tr>                    
+                                </tbody>
+                            </table>
                     </div>
                     
                    <p align = "right"><button type="submit" class="btn btn-primary">Add</button></p>
