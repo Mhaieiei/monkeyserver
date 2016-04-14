@@ -23,6 +23,8 @@
                             <th>Floor</a></th>
                             <th>Building</a></th>
                             <th>No. of seats</a></th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                             
                         </tr>
                     </thead>
@@ -30,10 +32,12 @@
                     <tbody>
                         {{#each docs}}
                         <tr>
-                        <td>{{roomNo}}</td>
-                        <td>{{floor}}</td>
-                        <td>{{building}}</td>
-                        <td>{{numberOfSeat}}</td>
+                            <td>{{roomNo}}</td>
+                            <td>{{floor}}</td>
+                            <td>{{building}}</td>
+                            <td>{{numberOfSeat}}</td>
+                            <td><a href = "/editaun10_1?id={{_id}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></td>
+                            <td><a href = "/delaun10_1?id={{_id}}&acid={{getacyear}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></td>
                         </tr>  
                         {{/each}}   
                     </tbody>
