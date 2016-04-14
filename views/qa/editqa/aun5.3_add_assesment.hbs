@@ -21,37 +21,7 @@
         });
     });
     </script>
-</head>
 
-
-<script>
-function insRow()
-  {
-    
-      console.log( 'hi');
-      var x=document.getElementById('userTable');
-      var y =document.getElementById('usertbody');
-      var new_row = x.rows[1].cloneNode(true);
-      var len = x.rows.length;
-      
-      new_row.cells[0].innerHTML = len;
-      
-      var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
-      inp1.value = '';
-      var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
-      var inp3 = new_row.cells[3].getElementsByTagName('input')[0];
-      // inp3.value = '';
-      // var inp4 = new_row.cells[4].getElementsByTagName('input')[0];
-      // inp4.value = '';
-      console.log(new_row);
-      y.appendChild( new_row );
-      rowind++;
-      console.log(rowind);
-      document.getElementById('arrlen').value = rowind;
-      console.log("value="+document.getElementById('arrlen').value);
-   
-  }
-</script>
 
 
 <div class="container">
@@ -94,7 +64,7 @@ function insRow()
                             <input type="text" class="form-control" id="p_scents" size="30" name="course_name"  placeholder="name"> 
                             <input type="text" class="form-control" id="p_scents" size="30" name="level"  placeholder="level">
                           </label>
-                          <button type="button" id="p_scents" class="btn btn-primary btn-sm" ><span class="glyphicon glyphicon-plus" ></span></button>
+                          <button type="button" id="addScnt" class="btn btn-primary btn-sm" ><span class="glyphicon glyphicon-plus" ></span></button>
                          
                           </p>
                         </div>

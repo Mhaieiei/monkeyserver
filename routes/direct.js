@@ -2643,7 +2643,7 @@ module.exports = function(app, passport) {
              .populate('referenceCurriculum')
             .populate('structureOfCurriculum')
              .exec(function (err, docs) {
-                 program.populate(docs, [{
+                 Program.populate(docs, [{
                      path: 'referenceCurriculum.detail',
                      model: 'detail'
                  },
@@ -4162,13 +4162,9 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
      app.get('/add_aun5-3',isLoggedIn,function(req,res){
     console.log("[GET]add aun 5.3");
 
-
-    
     console.log("program: "+req.query.program);
-    AssesmentTool.findOne({ 'programname' :  req.query.program  }, function(err, assesment) {        
-        if (err){ console.log("Cant find factory management"+err); }        
-        if (assesment != null) {
-          console.log("ADD-------------------->:"+assesment);
+    
+          
           Program.find( {'programname': { $exists: true }},function( err, program ) {
 
             console.log("program-------------------->:"+program);
@@ -4176,22 +4172,10 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
             layout: "qaPage",
             program_fac:program,
             program : req.query.program,
-            assesment : assesment,
-            len : assesment.length
+            
             });
 
           });
-
-        } else {
-            console.log("TESTTTTTTTTTT");
-            // res.render('qa/editqa/tqf25new.hbs', {
-            // layout: "qaPage",
-            // acid : req.query.acid,
-            // year : req.query.year,
-            // program : req.query.program          
-            // });            
-        }
-    });
     
   });
 
