@@ -1523,7 +1523,7 @@ module.exports = function(app, passport) {
           });  
    
   }); 
-   app.get('/editmeeting',isLoggedIn,function(req,res){
+ app.get('/editmeeting',isLoggedIn,function(req,res){
     var index =req.query.id;
     console.log("[Get]Admin Edit Meeting");
     console.log(req.query.id);
@@ -2493,7 +2493,8 @@ module.exports = function(app, passport) {
 
 	
   app.get('/aun10-1', isLoggedIn, function (req, res) {
-      console.log("FacilityAndInfrastrutureSchema");     
+      console.log("FacilityAndInfrastrutureSchema");  
+      var acyear = req.query.acid;   
       FacilityAndInfrastruture.find({ 'programAndAcYear': req.query.acid }, function (err, docs) {
           if(err) console.log("aun10_1 query err"+err);
           console.log("REFFFF---->>>", docs);
@@ -2501,7 +2502,11 @@ module.exports = function(app, passport) {
             //    user: req.user,      
             layout: "qaPage",
             docs: docs,
-            acid : req.query.acid
+            acid : req.query.acid,
+            helpers: {
+                  inc: function (value) { return parseInt(value) + 1; },
+                  getacyear: function () { return acyear; }
+            } 
         });
     });            
 
@@ -4092,6 +4097,48 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
          });  
          
     });    
+    
+  });
+
+ app.get('/editaun10_1',isLoggedIn,function(req,res){
+    var index =req.query.id;
+    console.log("[Get]Edit AUN 10.1");
+    return FacilityAndInfrastruture.findById(index, function( err, facility ) {
+        if( !err ) {
+        console.log(facility);
+            res.render('qa/editqa/aun10_1edit.hbs', {
+              layout: "adminPage",
+              facility: facility ,                     
+            });
+        } else {
+            return console.log( "query facility err"+err );
+          }
+      }); 
+  });
+  app.post('/editaun10_1',isLoggedIn,function(req,res){
+    console.log("[Post] Edit AUN10.1");
+    return FacilityAndInfrastruture.findById(req.body.facilityid, function( err, facility ) {
+        if( err ) {console.log('Query facility err'+err);}
+        console.log(facility);
+        facility.editFacility(req,res);          
+      }); 
+  });
+
+  app.get('/delaun10_1',isLoggedIn,function(req,res){
+    console.log("Delete Aun10.1");
+    console.log(req.query.id);
+    //console.log(req.query.email);
+
+    FacilityAndInfrastruture.remove(
+          { '_id' : req.query.id },
+          function(err, results) {
+            if (err){console.log('Delete facility err'+err);}
+          else console.log(results);
+          }
+       );
+    res.redirect('/aun10-1?acid='+req.query.acid);
+
+    
     
   });
 

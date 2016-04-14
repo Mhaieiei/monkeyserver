@@ -1,0 +1,35 @@
+<div class="container">
+           
+    <form class="form-horizontal" role="form"  action="/editaun10_1" method="post" id = "myForm" > 
+         <p hidden>              
+            <input type="text" tabindex="1"  name="acid" id="acid"  value="{{facility.programAndAcYear}}"><br> 
+            <input type="text" tabindex="1"  name="facilityid"  value="{{facility._id}}"><br>         
+        </p>  
+                <h3>Mapped The expected learnig outcomes (ELOs)</h3>
+                <br>
+               
+                    <div class="form-group">
+                      <label for="inputType" class="col-md-2 control-label">Room No. : </label>
+                      <div class="col-md-4">
+                         <input type="text" class="form-control" id="inputType" value="{{facility.roomNo}}" name="roomno">
+                      </div>
+                     <label for="inputType" class="col-md-2 control-label">Floor: </label>
+                      <div class="col-md-4">
+                         <input type="text" class="form-control" id="inputType" value="{{facility.floor}}" name="floor">
+                      </div> 
+                    </div>
+                    <div class="form-group">
+                      <label for="inputType" class="col-md-2 control-label">Building: </label>
+                      <div class="col-md-4">
+                         <input type="text" class="form-control" id="inputType" value="{{facility.building}}" name="building">
+                      </div>
+                     
+                      <label for="inputType" class="col-md-2 control-label">No. of seats:</label>
+                      <div class="col-md-4">
+                         <input type="text" class="form-control" id="inputType" value="{{facility.numberOfSeat}}" name="noofseat">
+                      </div>
+                    </div>
+                    
+                   <p align = "right"><button type="submit" class="btn btn-primary">Submit</button></p>
+     </form>
+</div>
