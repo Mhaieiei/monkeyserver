@@ -9,10 +9,12 @@
             <tr>
                 
                 <tr>
+                        <td>Delete</td>
                       <th>No.</a></th>
                       <th>Assessment Tools</a></th>
                       <td>Courses</a></td>
                       <td>Levels</a></td>
+                      
                 </tr>
                 
             
@@ -27,29 +29,37 @@
     	</tr>
                     <tr>
             			{{#each assementTool}}
+
+                        <td><a href = "/delaun5_3?id={{_id}}&programname={{programname}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></td>
+                          
                         <th>{{inc @index}}</th>
 
         				
+
                         <th>{{assesmentTool}}</th>
             				
             			{{#each subject}} 
             			{{#if @first}} 
                             <td>{{subjectType}}</td>
                             <td>{{followingReq}}</td>
+                            
                     </tr>
     			 	
     				{{else}}
                     <tr>
                     <th></th>
     				<th></th>
+                    <th></th>
                     <td>{{subjectType}}</td>
                     <td>{{followingReq}}</td>
+
     				{{/if}}
     				{{/each}}
     				
     				</tr>
     				{{/each}}
-         {{/each}}           
+         {{/each}}   
+
                     
 
                     

@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    var array = [];
+    
     var rowind = 1;
     function deleteRow(row)
     {
@@ -12,10 +12,14 @@
 
     function insRow()
     {
+
+      var arr = []
       
         console.log( 'hi');
         var x=document.getElementById('CourseTable');
         var y =document.getElementById('Coursetbody');
+
+
         var new_row = x.rows[1].cloneNode(true);
         var len = x.rows.length;
         var inp0 = new_row.cells[0].getElementsByTagName('input')[0];
@@ -84,9 +88,13 @@
                                     </tr>
                                 </thead>
                                 <tbody id = "Coursetbody">
+                                    <p hidden>    
+                                      <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>
+                                     
+                                    </p>
                                     <tr>
-                                    <td><input  type="text" name="nameCourse" id="latbox"/></td>
-                                    <td><input  type="text" name="nameCourse" id="latbox"/></td>
+                                    <td><input  type="text" name="nameCourse" id="nameCourse"/></td>
+                                    <td><input  type="text" name="levelCourse" id="levelCourse"/></td>
                                     <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
                                     </td>    
                                     <td> <button class="btn btn-xs btn-primary" id="insertbutton" value="Insert" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span></button>

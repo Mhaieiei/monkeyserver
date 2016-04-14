@@ -4229,11 +4229,60 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
 
   app.post('/add_aun5-3',isLoggedIn,function(req,res){
     console.log("[POST] add aun 5.3");
-    console.log("level: "+req.body.level);
-    console.log("course_name: "+req.body.course_name);
+   
     console.log("assname: "+req.body.assname);
     console.log("TYPE: "+req.body.type);
+    console.log("arrlen: "+req.body.arrlen);
 
+
+    var strlen = req.body.arrlen; 
+    
+      var array = [];
+      var keepCourse;
+      var check = 0;
+      var check_duplicate = 0;
+      for(var i=0;i< strlen;i++){
+        if(strlen==1){
+          var obj = {
+            'subjectType': req.body.nameCourse,
+            'followingReq' : req.body.levelCourse
+          }
+          array.push(obj);
+          
+        }else{
+          keepCourse = req.body.nameCourse[i];
+          for(var j=i+1;j< strlen;j++){
+
+            if(keepCourse == req.body.nameCourse[j]){
+
+              check =1;
+              check_duplicate = 1;
+            }
+
+
+          }
+          if(check == 0){
+            var obj = {
+              'subjectType': req.body.nameCourse[i],
+              'followingReq' : req.body.levelCourse[i]
+            }
+            array.push(obj);
+          }
+          else{
+
+          }
+
+          check = 0;
+
+
+        }
+             
+        
+      }
+
+      if(check_duplicate == 0 ){
+
+      console.log('ARRAY ------- >'+array);
 
     AssesmentTool.findOne({
           $and: [
@@ -4255,6 +4304,7 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
             newAssesmentTool.assesmentTool = req.body.assname;
             newAssesmentTool.type = req.body.type;
             newAssesmentTool.programname= req.query.program;
+            newAssesmentTool.subject = array;
 
             newAssesmentTool.save(function(err,add_asses) {
             if (err){console.log('cant edit new program Management'+err);}  
@@ -4322,12 +4372,42 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
             });  
           }
           });
-      
+      }
 
         
     
     
      });
+
+app.get('/delaun5_3',isLoggedIn,function(req,res){
+    console.log("Delete Aun5.3");
+    console.log(req.query.id);
+    //console.log(req.query.email);
+
+    AssesmentTool.remove({ '_id' : req.query.id },function(err, results) {
+      if (err){console.log('Delete facility err'+err);}
+      else{
+         console.log(results);
+
+         console.log("PROGRAMNAME--req.query.programname-->"+req.query.programname);
+
+         Program.findOne({ '_id' :  req.query.programname  }, function(err, program) {
+
+          console.log("PROGRAMNAME---->"+program.programname);
+
+          res.redirect('/aun5-3?program='+program.programname);
+
+
+         });
+
+      }
+    });
+    // res.redirect('/aun10-1?acid='+req.query.acid);
+    
+
+    
+    
+  });
 
 
 
