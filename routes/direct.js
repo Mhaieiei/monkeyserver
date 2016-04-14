@@ -4886,8 +4886,33 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
      });       
 
   //--------------------Training Courses------------------------------------------------------------
-
-
+  app.get('/traininf',isLoggedIn,function(req,res){
+    console.log("Get Training Information");
+    console.log(req.query.name);
+    User
+    .findOne({'local.username': req.query.name})
+    .populate('training')
+    .exec(function(err, docs) {
+      if(err) console.log(err);
+      console.log(docs);
+        res.render("profile/works/traininf.hbs", {
+              layout: "profileAdmin",
+              user : req.query.name,
+              Userinfo: docs,
+              year : years
+                  
+         });     
+    });   
+  });
+  app.get('/addtraining',isLoggedIn,function(req,res){
+    console.log("Add Training");
+    console.log(req.query.user);
+    res.render('profile/works/addtraining.hbs', {
+            layout: "homePage",
+            username : req.query.user // get the user out of session and pass to template     
+      });
+    });   
+  
 
 
 

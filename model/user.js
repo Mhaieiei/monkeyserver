@@ -113,28 +113,6 @@ userSchema.methods.updateUser = function(request, response){
 
 	
 };
-userSchema.methods.editEducation = function(request, response){	
-	console.log("Edit education");	
-	var index = request.query.id;
-	console.log(index);
-	this.education[index].id = request.body.level+request.body.year;
-	this.education[index].level = request.body.level;
-	this.education[index].degree = request.body.degree;
-	this.education[index].university = request.body.university;
-	this.education[index].year = request.body.year;
-	 
-	this.save(function (err,results) {
-        if(err) {
-            console.error('ERROR!');
-        }else{
-        	console.log('update education already'+results);
-        	response.redirect('/education_inf?name='+request.body.username);
-        }
-		
-    });
-	
 
-
-};
 
 module.exports = db.model('User', userSchema, 'users');
