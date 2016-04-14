@@ -1524,7 +1524,7 @@ module.exports = function(app, passport) {
           });  
    
   }); 
-   app.get('/editmeeting',isLoggedIn,function(req,res){
+ app.get('/editmeeting',isLoggedIn,function(req,res){
     var index =req.query.id;
     console.log("[Get]Admin Edit Meeting");
     console.log(req.query.id);
@@ -2494,38 +2494,22 @@ module.exports = function(app, passport) {
 
 	
   app.get('/aun10-1', isLoggedIn, function (req, res) {
-      console.log("FacilityAndInfrastrutureSchema");
-      console.log("program :"+req.query.program);
-      Acyear.findOne({
-          $and: [
-                   { 'program_name': req.query.program },
-                   { 'academic_year': req.query.year }
-          ]
-      }, function (err, programs) {
-          if (!err) {
-              console.log(programs._id);
-              //referenceCurriculumSchema.find();
-              FacilityAndInfrastruture.find({ 'programAndAcYear': programs._id }, function (err, docs) {
-
-                  console.log("REFFFF---->>>", docs);
-
-                  res.render('qa/qa-aun10.1.hbs', {
-                      //    user: req.user,      
-                      layout: "qaPage",
-
-                      docs: docs
-                  });
-
-
-
-
-              });
-
-          } else {
-              //res.redirect('/fachome');
-              return console.log(err + "mhaieiei");
-          }
-      });
+      console.log("FacilityAndInfrastrutureSchema");  
+      var acyear = req.query.acid;   
+      FacilityAndInfrastruture.find({ 'programAndAcYear': req.query.acid }, function (err, docs) {
+          if(err) console.log("aun10_1 query err"+err);
+          console.log("REFFFF---->>>", docs);
+          res.render('qa/qa-aun10.1.hbs', {
+            //    user: req.user,      
+            layout: "qaPage",
+            docs: docs,
+            acid : req.query.acid,
+            helpers: {
+                  inc: function (value) { return parseInt(value) + 1; },
+                  getacyear: function () { return acyear; }
+            } 
+        });
+    });            
 
   });
 
@@ -2588,6 +2572,9 @@ module.exports = function(app, passport) {
 
 
       Program.findOne({ 'programname': req.query.program }, function (err, docs) {
+        
+
+        if(docs !=null){
           console.log("REFFFF-DOC--->>>", docs._id);
 
           AssesmentTool.aggregate([
@@ -2611,7 +2598,7 @@ module.exports = function(app, passport) {
                  res.render('qa/qa-aun5.3.hbs', {
                      //    user: req.user,      
                      layout: "qaPage",
-
+                     program:docs._id,
                      docs: result,
                      helpers: {
                          inc: function (value) { return parseInt(value) + 1; },
@@ -2621,6 +2608,32 @@ module.exports = function(app, passport) {
                  });
 
                  });
+        }
+        else{
+
+          console.log("program dose not exist");
+
+          // res.redirect('/qapage');
+
+
+
+
+          // res.render('qa/qa-aun5.3.hbs', {
+          //            //    user: req.user,      
+          //            layout: "qaPage",
+          //            program:docs._id,
+          //            docs: result,
+          //            helpers: {
+          //                inc: function (value) { return parseInt(value) + 1; },
+          //                getyear:function(value) {return yearac[value];},
+          //                getindex:function() {return ++index;}}
+
+          //        });
+
+
+
+
+        }
       });
                 
   });
@@ -3938,7 +3951,11 @@ User.aggregate(
         });
 
   });
-  //-------------------------------------------------edit tqf 25-------------------------------------------------------
+ //=====================================
+  // Edit QA ==============================
+  // =====================================
+
+  //------------------------edit tqf 25 ----------------------------------------------------------------------
   app.get('/edittqf25',isLoggedIn,function(req,res){
     console.log("[GET]Edit tqf 25");
     console.log(req.query.name);
@@ -4029,7 +4046,7 @@ User.aggregate(
               console.log("Insert new program management succesful");  
               res.redirect('/tqf25?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
             }                         
-         });  
+            });  
 
              
           }
@@ -4037,8 +4054,103 @@ User.aggregate(
     
      });       
 
+  //---------------------------edit aun 10.1 ----------------------------------------------------------------------
+  app.get('/addaun10_1',isLoggedIn,function(req,res){
+    console.log("[GET]Edit AUN 10.1");    
+    console.log(req.query.acid);
+   
+    res.render('qa/editqa/aun10.1_add_facilities.hbs', {
+            //    user: req.user,      
+            layout: "qaPage",
+            acid : req.query.acid
+        }); 
+    
+  });
+app.post('/addaun10_1',isLoggedIn,function(req,res){
+    console.log("[POST]Edit AUN 10.1");    
+    console.log(req.body.acid);
+    console.log(req.body.roomno);
+    console.log(req.body.floor);
+    console.log(req.body.building);
+    console.log(req.body.noofseat);
+   
+    FacilityAndInfrastruture.findOne({ 
+      $and: [
+                 { 'programAndAcYear' :  req.body.acid  },
+                 { 'roomNo' : req.body.roomno }
+               ]
+      
+    }, function (err, docs) {
+          if(err) console.log("aun10_1 query err"+err);
+          var facility = new FacilityAndInfrastruture();
+            facility.programAndAcYear = req.body.acid;
+            facility.roomNo = req.body.roomno;
+            facility.floor = req.body.floor;
+            facility.building = req.body.building;
+            facility.numberOfSeat = req.body.noofseat;
+           facility.save(function(err,manage) {
+            if (err){console.log('cant make new facility'+err);}  
+            else{
+              console.log(manage);
+              console.log("Insert new facility succesful");  
+              res.redirect('/aun10-1?acid='+req.body.acid);                          
+            }                         
+         });  
+         
+    });    
+    
+  });
 
-//-------------------------------------------------add ELOs-------------------------------------------------------
+ app.get('/editaun10_1',isLoggedIn,function(req,res){
+    var index =req.query.id;
+    console.log("[Get]Edit AUN 10.1");
+    return FacilityAndInfrastruture.findById(index, function( err, facility ) {
+        if( !err ) {
+        console.log(facility);
+            res.render('qa/editqa/aun10_1edit.hbs', {
+              layout: "adminPage",
+              facility: facility ,                     
+            });
+        } else {
+            return console.log( "query facility err"+err );
+          }
+      }); 
+  });
+  app.post('/editaun10_1',isLoggedIn,function(req,res){
+    console.log("[Post] Edit AUN10.1");
+    return FacilityAndInfrastruture.findById(req.body.facilityid, function( err, facility ) {
+        if( err ) {console.log('Query facility err'+err);}
+        console.log(facility);
+        facility.editFacility(req,res);          
+      }); 
+  });
+
+  app.get('/delaun10_1',isLoggedIn,function(req,res){
+    console.log("Delete Aun10.1");
+    console.log(req.query.id);
+    //console.log(req.query.email);
+
+    FacilityAndInfrastruture.remove(
+          { '_id' : req.query.id },
+          function(err, results) {
+            if (err){console.log('Delete facility err'+err);}
+          else console.log(results);
+          }
+       );
+    res.redirect('/aun10-1?acid='+req.query.acid);
+
+    
+    
+  });
+
+//-------------------------------------------------add ELOs-aun 1.3-------------------------------------------------------
+  app.get('/addelos',isLoggedIn,function(req,res){
+       res.render('qa/editqa/add_elos.hbs', {
+            layout: "qaPage"
+       });            
+            
+    
+  });
   app.post('/addelos',isLoggedIn,function(req,res){
     console.log("[POST] Add ELOs");
     console.log(req.body.indicators);
@@ -4054,62 +4166,190 @@ User.aggregate(
     var userarr = [];
     var array = [];    
     //advisee
-    for(var i=0;i< strlen;i++){
-      if(strlen == 1){
-         var obj = {
-          'indicators' : req.body.indicators,
-          'target' : req.body.target,
-          'actions' : req.body.actions,
-          'results' : req.body.results
-        }       
-      }else{
-         var obj = {
-          'indicators' : req.body.indicators[i],
-          'target' : req.body.target[i],
-          'actions' : req.body.actions[i],
-          'results' : req.body.results[i]
-        }     
-      }
-              
-        array.push(obj);
-     }       
-    Fac.ProgramManagement.findOne({ 'programtrack' :  req.body.program  }, function(err, fac) {        
-        if (err){ console.log("Cant find factoery management"+err); }        
+    Subject.ELO.findOne({'title' : req.body.elos_name}, function(err, elos){
+      if (err){ console.log("Cant find ELOs"+err); }        
         if (fac != null) {
-          console.log(fac);
-          fac.programtrack = req.body.program;
-          fac.management = array;
-          fac.save(function(err,manage) {
-            if (err){console.log('cant edit new program Management'+err);}  
+          console.log(elos);
+          elos.ELO.id = req.body.elos_no;
+          elos.ELO.title = req.body.elos_name;
+          elos.ELO.description = req.body.elos_des;
+          elos.ELO.number = req.body.elos_no;
+         
+          elos.save(function(err, addelos) {
+            if (err){console.log('cant edit new ELOs'+err);}  
             else{
-              console.log(manage);
-              console.log("Update new program management succesful");  
-              res.redirect('/tqf25?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
+              console.log(addelos);
+              console.log("Update new ELOs");  
+              res.redirect('/addelos?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
             }                         
          });  
 
           } else {
-             var managefac = new Fac.ProgramManagement();
-                managefac.programtrack = req.body.program;
-                managefac.management = array;
-            managefac.save(function(err,manage) {
+             var addElos = new Subject.ELO();
+              elos.ELO.title = req.body.elos_name;
+              elos.ELO.description = req.body.elos_des;
+              elos.ELO.number = req.body.elos_no;
+              addElos.save(function(err,addelos) {
             if (err){console.log('cant make new program Management'+err);}  
             else{
-              console.log(manage);
+              console.log(addelos);
               console.log("Insert new program management succesful");  
-              res.redirect('/tqf25?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
+              res.redirect('/addelos?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
             }                         
          });  
 
              
           }
         });
+    });
     
-     });       
+
+//---------------------------------------------add aun 5.3--------------------------------------------------------------------
+     
+
+     app.get('/add_aun5-3',isLoggedIn,function(req,res){
+    console.log("[GET]add aun 5.3");
+
+
+    
+    console.log("program: "+req.query.program);
+    AssesmentTool.findOne({ 'programname' :  req.query.program  }, function(err, assesment) {        
+        if (err){ console.log("Cant find factory management"+err); }        
+        if (assesment != null) {
+          console.log("ADD-------------------->:"+assesment);
+          Program.find( {'programname': { $exists: true }},function( err, program ) {
+
+            console.log("program-------------------->:"+program);
+          res.render('qa/editqa/aun5.3_add_assesment.hbs', {
+            layout: "qaPage",
+            program_fac:program,
+            program : req.query.program,
+            assesment : assesment,
+            len : assesment.length
+            });
+
+          });
+
+        } else {
+            console.log("TESTTTTTTTTTT");
+            // res.render('qa/editqa/tqf25new.hbs', {
+            // layout: "qaPage",
+            // acid : req.query.acid,
+            // year : req.query.year,
+            // program : req.query.program          
+            // });            
+        }
+    });
+    
+  });
+
+
+  app.post('/add_aun5-3',isLoggedIn,function(req,res){
+    console.log("[POST] add aun 5.3");
+    console.log("level: "+req.body.level);
+    console.log("course_name: "+req.body.course_name);
+    console.log("assname: "+req.body.assname);
+    console.log("TYPE: "+req.body.type);
+
+
+    AssesmentTool.findOne({
+          $and: [
+                   { 'programname': req.query.program },
+                   { 'assesmentTool': req.body.assname }
+          ]
+      }, function(err, assesment) {        
+        
+        if (assesment != null) {
+          console.log("EDIT-------------------->:"+assesment);
+
+          
+
+        } 
+        else {
+            console.log("ADD NEWWWW");
+            //lhuer add course type t yung mai sed (array)
+            newAssesmentTool = new AssesmentTool();
+            newAssesmentTool.assesmentTool = req.body.assname;
+            newAssesmentTool.type = req.body.type;
+            newAssesmentTool.programname= req.query.program;
+
+            newAssesmentTool.save(function(err,add_asses) {
+            if (err){console.log('cant edit new program Management'+err);}  
+            else{
+              console.log("add_asses"+add_asses);
+              console.log("Add new assigment succesful");  
+              console.log("program------> "+req.body.program);
+              Program.findOne({'programname':req.body.program}, function(err, program) { 
+
+                if(program!=null){
+
+
+                  AssesmentTool.findOne({
+                  $and: [
+                           { 'programname': req.query.program },
+                           { 'assesmentTool': req.body.assname }
+                  ]
+                  }, function(err, assesment) {
+
+
+                    console.log("assesment_id: "+assesment.id);  
+
+                      Program.update(
+                        {"programname":req.body.program}, 
+                        { $push: { "assesmentTool": assesment.id} }
+                      , function(err, add_ass_program) { 
+
+                        if (err){console.log('cant edit new program Management'+err);}  
+                        else{
+
+                          console.log('ADD TO PROGRAM SUCCESSFUL : '+add_ass_program)
+
+
+                        }
+
+                        });
+
+                  });
+
+                }
+                else{
+
+                  // var keepAssesmentTool = []
+                  // keepAssesmentTool.push(assesment.id);
+                  var managefac = new Program();
+                  managefac.programname = req.body.program;
+                  managefac.assesmentTool.push(assesment.id);
+                  managefac.save(function(err,manage) {
+                    if (err){console.log('cant make new program Management'+err);}  
+                    else{
+                      console.log("ass"+manage);
+                      console.log("Insert new program management succesful");  
+                      res.redirect('/tqf25?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
+                    }                         
+                  });
 
 
 
-	
+                }
+
+
+                  res.redirect('/aun5-3?program='+req.body.program);   
+              });                         
+            }                         
+            });  
+          }
+          });
+      
+
+        
+    
+    
+     });
+
+
+
+
+//----------------------------------------------------------------------------------------------------------------------------
 	//=====================================
     // Get Work Info.(Student) ==============================
     // =====================================

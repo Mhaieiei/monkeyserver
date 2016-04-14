@@ -6,8 +6,6 @@ var bcrypt   = require('bcrypt-nodejs');
 
 // define the schema for our user model
 var subjectSchema = mongoose.Schema({	
-    
-	
 	sub_code : String,
 	sub_name	: String,
 	sub_credit	: Number,
@@ -22,9 +20,9 @@ var subjectSchema = mongoose.Schema({
 });
 
 var ELOSchema = mongoose.Schema({
-
+	_id: Number,
     title: String,
-    description: String,
+    description: [String],
     number:Number
     
 });

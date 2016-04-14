@@ -6,12 +6,29 @@ var bcrypt = require('bcrypt-nodejs');
 var lecturerPlaceSchema = mongoose.Schema({
 
     roomNo: String,
-    academicYear: String,
     floor: Number,
     building: String,
     numberOfSeat: Number,
-    programAndAcYear: { type: mongoose.Schema.Types.ObjectId, ref: 'Acyear' }
+    programAndAcYear: String,
 
 });
 
+lecturerPlaceSchema.methods.editFacility = function(request, response){
+    console.log("Edit facility place");
+    this.roomNo = request.body.roomno;
+    this.floor = request.body.floor;
+    this.building = request.body.building;
+    this.numberOfSeat = request.body.noofseat;
+    this.programAndAcYear = request.body.acid    
+    
+     
+    this.save(function (err) {
+        if(err) {
+            console.error('Cant update new facility');
+        }
+        
+    });
+     
+    response.redirect('/aun10-1?acid='+request.body.acid);
+};
 module.exports = db.model('lecturerPlaceSchema', lecturerPlaceSchema, 'lecturerPlaceSchema');
