@@ -8,7 +8,8 @@ var mongoose = require('mongoose');
 var Handlebars = require('handlebars/runtime')['default'];
 var isLoggedIn = require('middleware/loginChecker');
 
-var formController = require('../lib/form');
+var formController      = require('../lib/form');
+var workflowController  = require('../lib/workflow');
 
 Handlebars.registerHelper('select', function( value, options ){
         var $el = $('<select />').html( options.fn(this) );
@@ -5002,108 +5003,21 @@ app.get('/delaun5_3',isLoggedIn,function(req,res){
   //=====================================
     // Get Course Info. ==============================
     // =====================================
-  app.get('/course_inf',function(req,res){
-    res.render('profile_inf.ejs', { message: req.flash('profile') });
-  });
-  
-  
-  //=====================================
-  // Workflow. ==============================
-  // =====================================
-  //app.get('/workflow', function(req, res){
-  //  res.render('wf/index.hbs',{
-  //    layout:"workflowMain"
-  //  });
-  //});
+	app.get('/course_inf',function(req,res){
+		res.render('profile_inf.ejs', { message: req.flash('profile') });
+	});
+	
 
-  app.get('/workflow', function(req, res){
-  TemplateWorkflow.find({}, function(err, result){
+  //==== workflow module =========
 
-    if(err) console.log(err);
-
-    res.render('wf/execute.hbs', 
-      { layout: "workflowMain",workflows : result });
-    });
-
-  });
-
-  app.get('/workflow/create', function(req, res){
-    res.render('wf/create.hbs',
-      {layout:"workflowMain"});
-  });
-
-  app.post('/save', function(req, res){
-
-    var tpWorkflow = new TemplateWorkflow( { 
-      name: req.body.name, 
-      description: req.body.description,
-      xml: req.body.xml  
-    } );
-  
-    tpWorkflow.save(function (err) {
-      if(!err){
-        console.log('Save template workflow !!!');
-        res.end('succesful');
-      }
-      else{
-        console.log(err);
-        res.end('failed');
-        }
-
-    });
-  });
-
+  app.use('/workflow', workflowController );
   app.use('/form', formController);
-  app.get('/:id/profile', function(req, res){
-    
-    TemplateWorkflow.findOne( { "_id" : req.params.id }, function(err, result){
+	
+  //==== end workflow module =========
 
-      res.render('wf/single/profile.hbs', 
-        { layout:"workflowMain",workflow: result } );
-    }); 
-
-  });
-
-
-  app.get('/:id/execute', function(req, res){
-
-    TemplateWorkflow.findOne( { "_id" : req.params.id }, function(err, result){
-      var xml = result.xml;
-
-      parseString(xml, function (err, strResult) {
-
-        var elements = strResult["bpmn2:definitions"]["bpmn2:process"][0];
-        var keys = Object.keys( elements );
-
-
-        var handler = new WorkflowHandler();
-
-      
-        handler.setup( elements );
-        handler.run();
-    
-          res.render( "workflow/single/execute.hbs", { 
-            layout:"workflowMain",
-            tasks : handler.taskList,
-            id : req.params.id
-          });
-      });
-    });
-  });
-
-
-  app.post('/:id/execute', function(req, res){
-
-    res.end("DONE");
-
-  });
-
-  //=====================================
-  // DMs. ==============================
-  // =====================================
-
-
-
+	//=====================================
+	// DMs. ==============================
+	// =====================================
 
   app.post('/getdoc',function(req,res){
     console.log('Post Document');
