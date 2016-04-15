@@ -4461,10 +4461,25 @@ app.get('/del_aun5-3',isLoggedIn,function(req,res){
 
           console.log("PROGRAMNAME---->"+program.programname);
 
-          res.redirect('/aun5-3?program='+program.programname);
+         Program.update(
+            {"_id":req.query.programname}, 
+            { $pull: { "assesmentTool": req.query.id} }
+          , function(err, delete_ass_program) { 
+
+            if (err){console.log('cant edit new program Management'+err);}  
+            else{
+
+              console.log('delete from PROGRAM SUCCESSFUL : '+delete_ass_program);
+              res.redirect('/aun5-3?program='+program.programname);
 
 
-         });
+            }
+
+        });
+
+       });
+         
+
 
       }
     });
