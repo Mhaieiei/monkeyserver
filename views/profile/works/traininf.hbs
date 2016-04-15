@@ -4,6 +4,10 @@
             <div class="span15">
             <div class="col-md-15"> 
 
+        <br>
+        <br>
+        <br>
+       
         <div id="tab_aun12.1">
                   <table class="tablesorter">
                     <thead align="center">
@@ -24,17 +28,17 @@
                       
                        {{#each Userinfo.training}}
                             <tr>
-                                <td>{{@index}}</td>
-                                <td></td>
-                                <td></td>
+                                <td>{{inc @index}}</td>
+                                <td>{{gettitle}}</td>
+                                <td>{{getname}} {{getsurname}}</td>
                                 <td>{{trainingCourse}}</td>
                                 <td>{{hour}}</td>
-                                <td></td>  
-                                <td></td>                      
+                                <td><a href='/edittrain?id={{id}}&user={{getname}}'>edit</a></td>  
+                                <td><a href='/deltrain?id={{id}}&user={{getname}}'>delete</a></td>                      
                             </tr>  
                         {{/each}}
                     </tbody>
 
                   </table>
-                   <a href = "/addtraining"><button id="tab_2_submit" class="btn btn-mini" type="button">ADD new</button>
+                   <a href = "/addtraining?username={{username}}"><button id="tab_2_submit" class="btn btn-mini" type="button">ADD new</button>
                 </div>

@@ -4861,7 +4861,7 @@ app.get('/delaun5_3',isLoggedIn,function(req,res){
        
     console.log(userarr);
     console.log(array); 
-      Acyear.findOne({ 
+    Acyear.findOne({ 
       $and: [
                  { 'program_name' :  req.body.program  },
                  { 'academic_year' : req.body.acyear }
@@ -4977,24 +4977,109 @@ app.get('/delaun5_3',isLoggedIn,function(req,res){
     .exec(function(err, docs) {
       if(err) console.log(err);
       console.log(docs);
-        res.render("profile/works/traininf.hbs", {
-              layout: "profileAdmin",
-              user : req.query.name,
-              Userinfo: docs,
-              year : years
-                  
-         });     
+      var title = docs.local.title;
+      var username = docs.local.username
+      var surname = docs.local.surname;
+       res.render("profile/works/traininf.hbs", {
+            layout: "homePage",
+            username : req.query.name,
+            Userinfo: docs,
+            year : years,
+             helpers: {
+                inc: function (value) { return parseInt(value) + 1; },
+                gettitle: function () { return title; },
+                getname: function () { return username; },
+                getsurname: function () { return surname; },
+
+            }     
+            
+                
+       });             
     });   
   });
   app.get('/addtraining',isLoggedIn,function(req,res){
     console.log("Add Training");
-    console.log(req.query.user);
-    res.render('profile/works/addtraining.hbs', {
+    console.log(req.query.username);
+     Fac.find({},function(err,fac){
+        if(err) console.log('Cant query fac'+err);
+         res.render('profile/works/addtraining.hbs', {
             layout: "homePage",
-            username : req.query.user // get the user out of session and pass to template     
-      });
-    });   
-  
+            username : req.query.username,
+            faculty: fac 
+            });
+                  
+       }); 
+   
+    }); 
+
+  app.post('/addtraining',isLoggedIn,function(req,res){
+    console.log("[POST]Add training");    
+    console.log(req.body.nametrain);
+    console.log(req.body.hour);
+    console.log(req.body.acyear);
+    console.log(req.body.subprogram);
+    console.log(req.body.username);
+    Acyear.findOne({ 
+      $and: [
+                 { 'program_name' :  req.body.subprogram  },
+                 { 'academic_year' : req.body.acyear }
+               ]
+      
+    }, function(err, ac) {
+        
+        if (err){console.log("Error ...1");}
+        // check to see if theres already a user with that email
+        if (ac!= null) {
+      
+         console.log(ac);
+        Work.findOne( { 
+        $and: [
+                   { '_type' :  'training' },
+                   { 'trainingCourse' : req.body.nametrain }
+                 ]
+        
+      }, function (err, rows) {
+              if(err){
+                console.log("Find Training err"+err);
+              }
+              if(rows != null){
+                console.log("This work have already");
+                console.log(rows);
+                //if user have already, set ref of id user to subject           
+              }
+              else{
+            
+                var newtraining       = new Work.Training();
+                  newtraining.academicYear = ac.id;
+                  newtraining.trainingCourse = req.body.nametrain;
+                  newtraining.hour = req.body.hour;    
+                  newtraining.user = req.body.username;           
+                // save the user
+                newtraining.save(function(err,train) {
+                    if (err){console.log('new Training save'+err);}
+                    else {
+                     console.log("Save new training already"+train);                      
+                     User.findOne({'_id': req.body.username},function(err,user){
+                      if(err){console.log("user can't find"+err);}
+                      if(user != null){
+                        user.training.push(train._id); //save id of project to user
+                        user.save(function(err,user) {
+                                    if (err){console.log('user cant update work id'+err);}  
+                                    else{
+                                      console.log("Update Trianing succesful");
+                                      res.redirect('/traininf?name='+req.body.username);
+                                     }                         
+                                });  
+                      }
+                     }); 
+                    }
+               });
+            }
+          });
+      }
+     
+    });
+  });
 
 
 

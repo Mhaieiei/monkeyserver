@@ -60,19 +60,18 @@ $(document).ready(function() {
  <form class="form-horizontal" role="form"  action="" method="post" id = "myForm" > 
       
           <p hidden>    
-            <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>
             <input type="text" class="form-control" name="username" id="inputType" value={{username}}>
           </p>
            <h3>Add new training course</h3>
           <div class="form-group"> 
               <label for="inputType" class="col-md-2 control-label">Name of Traning course: </label>
               <div class="col-md-4">
-                    <input type="text" class="form-control" name="namepublic" id="inputType">
+                    <input type="text" class="form-control" name="nametrain" id="inputType">
               </div>     
                   
               <label for="inputType" class="col-md-1 control-label">Hours: </label>
               <div class="col-md-4">
-                 <input type="text" class="form-control" id="inputType" name="program">
+                 <input type="text" class="form-control" id="inputType" name="hour">
               </div>
 
           </div>
@@ -88,51 +87,24 @@ $(document).ready(function() {
                                   <option value="2016">2016</option>
                       </select> 
                       </div>
-                      
-                      <label for="inputType" class="col-md-1 control-label">User: </label>
+                      <label for="inputType" class="col-md-1 control-label">Program: </label>
                       <div class="col-md-4">
-                         <div id="tab_2">
-                          <table id="userTable" class="tablesorter">
-                              <thead>
-                                  <tr>
-                                  
-                                  <th><a>Username</a></th>
-                                  <th><a>Type User.</a></th>
-                                  <th><a>Delete</a></th>
-                                  <th><a>Add</a></th>
-                                  </tr>
-                              </thead>
-                              <tbody id = "usertbody">
-                                   <tr>
-                                        
-                                        <td><input  type="text" name="nameuser" id="latbox"/></td>
-                                        
-                                        <td>
-                                          <div class="col-md-4">
-                                                      <select class="form-control" style="width:100px" name="roleuser">
-                                                        <option value="advisee">advisee</option>
-                                                        <option value="advisor">advisor</option>                                     
-                                                     </select>
-                                                  </div>
-                                                  </td>
-                                        <td>
-                                      <button class="btn btn-xs btn-warning" id="delPOIbutton" value="Delete" onclick="deleteRow(this)">
-                                      <span class="glyphicon glyphicon-trash"></span>
-                                    </button>
-                                    </td>             
-                                     <td> <button class="btn btn-xs btn-primary" id="insertbutton" value="Insert" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span></button>
-                                    </td> 
-                                </tr>                    
-                              </tbody>
-                           </table>
-                          </div>
+                              <select class="form-control" style="width:200px" id="sub_programs" name="subprogram">
+                               
+                            {{#each faculty}} 
+                                 {{#each sub_program}}
+                                  <option  value="{{this}}">{{this}}</option>         
+                                  {{/each}}                    
+                            {{/each}}
+                        </select>
+                      </div>
 
+                     
+                     
                       
                       <div class="table-foot muffin"> 
                         
-                        <div class="pull-right">
-                         <div class="btn-group">
-                          <button id="tab_2_submit" class="btn btn-mini" type="button" onclick="insRow()">Insert</button>
+                        
                       </div>
                       </div>
                      </div>
