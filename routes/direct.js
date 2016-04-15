@@ -942,11 +942,7 @@ module.exports = function(app, passport) {
         var jsonstring = JSON.stringify(arraytest);
         //convert json string to json object using JSON.parse function
         var jsonobject = JSON.parse(jsonstring);
-      var usertest = {
-            'email': "aaa",
-            'name': "bbb",
-            'password': "ccc",
-            'Role': 'lecterer'};
+     
         async.eachSeries(array,function(item,callback) {
           
           User.find( { 'local.name' :  item.username }, function (err, rows) {
@@ -4747,10 +4743,15 @@ app.get('/delaun5_3',isLoggedIn,function(req,res){
 	app.get('/addpublication',isLoggedIn,function(req,res){
 		console.log("Add Publication");
 		console.log(req.query.user);
-		res.render('profile/works/addpublic.hbs', {
-			layout: "homePage",
-            username : req.query.user // get the user out of session and pass to template			
-      });
+      Fac.find({},function(err,fac){
+          if(err) console.log('Cant query fac'+err);
+            res.render('profile/works/addpublic.hbs', {
+            layout: "homePage",
+            username : req.query.user, // get the user out of session and pass to template
+            faculty : fac     
+          });                        
+        });
+		
     });   
   
 
@@ -4968,6 +4969,71 @@ app.get('/delaun5_3',isLoggedIn,function(req,res){
         });
     
      });       
+  
+  app.get('/editpublication',isLoggedIn,function(req,res){    
+    console.log("[Get] Edit Publication");
+    console.log(req.query.id);
+    console.log(req.query.user);
+
+    Work.Public.findById(req.query.id, function( err, public ) {
+        if( !err ) {
+        console.log(public);
+        Acyear.findById(public.acyear, function(err, ac) {            
+            if (err){console.log("Error ...1");}
+            // check to see if theres already a user with that email
+            if (ac!= null) {          
+             console.log(ac.academic_year);
+             console.log(ac.program_name);
+               Fac.find({},function(err,fac){
+                if(err) console.log('Cant query fac'+err);
+                 res.render('profile/works/editpublic.hbs', {
+                    layout: "homePage",
+                    public: public ,
+                    username: req.query.user,
+                    faculty: fac,
+                    acid : req.query.id,
+                    acyear : ac.academic_year,
+                    program : ac.program_name,
+                     helpers: {
+                        inc: function (value) { return parseInt(value) + 1; },                        
+                    }          
+                  });                          
+               });
+            }         
+          });            
+        } else {
+            return console.log( "query public err"+err );
+          }
+      }); 
+  });
+
+  app.get('/deltrain',isLoggedIn,function(req,res){
+    console.log("Delete Training");
+    console.log(req.query.id);
+    console.log(req.query.user);
+    Work.remove(
+          { '_id' : req.query.id },
+          function(err, results) {
+            if (err){console.log('delete training err'+err);}
+          else console.log("delete already");
+          }
+       );
+
+     User.findOneAndUpdate({ '_id' : req.query.user },
+      {
+       "$pull" : {
+        "training" : req.query.id
+           }
+        },function (err, useredit) {
+          if (err){console.log('Cant delete training of user'+err);}
+          else {console.log('Delete training of user already'+ useredit.training.length);}
+      });
+    res.redirect('/traininf?name='+req.query.user);   
+    
+  });
+
+
+
 
   //--------------------Training Courses------------------------------------------------------------
   app.get('/traininf',isLoggedIn,function(req,res){
@@ -5133,6 +5199,16 @@ app.get('/delaun5_3',isLoggedIn,function(req,res){
           else console.log("delete already");
           }
        );
+
+     User.findOneAndUpdate({ '_id' : req.query.user },
+      {
+       "$pull" : {
+        "training" : req.query.id
+           }
+        },function (err, useredit) {
+          if (err){console.log('Cant delete training of user'+err);}
+          else {console.log('Delete training of user already'+ useredit.training.length);}
+      });
     res.redirect('/traininf?name='+req.query.user);   
     
   });

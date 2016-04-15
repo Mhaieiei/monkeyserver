@@ -23,6 +23,7 @@
                         <th><a href="javascript:table_sort('tab_2',3)">Vol</a></th>
                         <th><a href="javascript:table_sort('tab_2',3)">Issue</a></th>
                         <th><a href="javascript:table_sort('tab_2',3)">Article</a></th>
+                        <th><a href="javascript:table_sort('tab_2',3)">Edit</a></th>
                         <th><a href="javascript:table_sort('tab_2',6)">Delete</a></th>
                         </tr>
                     </thead>
@@ -49,7 +50,8 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><a href='/delthesis?'>delete</a></td>
+                            <td><a href='/editpublication?id=<%= Userinfo.publicResearch[i].id %>&user=<%= user %>'>Edit</a></td>
+                            <td><a href='/delpublication?'>Delete</a></td>
                         </tr>
                         <%}else{%>
                             <tr>
@@ -72,7 +74,8 @@
                             <td><%= Userinfo.publicResearch[i].vol %></td>
                             <td><%= Userinfo.publicResearch[i].issue %></td>
                             <td><%= Userinfo.publicResearch[i].article %></td>
-                            <td><a href='/delthesis?'>delete</a></td>
+                            <td><a href='/editpublication?id=<%= Userinfo.publicResearch[i].id %>&user=<%= user %>'>Edit</a></td>
+                            <td><a href='/delpublication?'>Delete</a></td>
                         </tr>
                         <%}                   	
                     	}%>

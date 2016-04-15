@@ -1,17 +1,50 @@
 
 <script>
 $(document).ready(function() {
+   var getyear = document.getElementById('year').value;
+    var getprogram=document.getElementById('programyear').value;
+    var gettypepub =document.getElementById('typepub').value;
+    var gettypeuser =document.getElementById('typeuser').value;
+   console.log(gettypepub);
+   console.log(gettypeuser);
+    var mySelectYear = document.getElementById('acyear');
+    var mySelectProgram = document.getElementById('program');
+    var mySelectPublic = document.getElementById('typepublic');
+    var mySelectUser = document.getElementById('userselect');
+    for(var i, j = 0; i = mySelectYear.options[j]; j++) {
+      if(i.value == getyear) {
+        mySelectYear.selectedIndex = j;
+        break;
+      }
+    }
+    for(var k, l = 0; k = mySelectProgram.options[l]; l++) {
+      if(k.value == getprogram) {
+        mySelectProgram.selectedIndex = l;
+        break;
+      }
+    }
+    for(var m, n = 0; m = mySelectPublic.options[n]; n++) {
+      if(m.value == gettypepub) {
+        mySelectPublic.selectedIndex = n;
+        break;
+      }
+    }
+    for(var o, p = 0; o = mySelectUser.options[p]; p++) {
+      if(o.value == gettypeuser) {
+        mySelectUser.selectedIndex = p;
+        break;
+      }
+    }
+
   var $state = $("#typepublic"),
     $nameconfer = $('#nameconfer'),
     $namejournal = $('#namejournal'), 
     $location = $('#location');
-    //$page = $('#page');
-    //$date = $('#date');
     $vol = $('#vol');
     $issue = $('#issue');
     $article = $('#article');
   $state.change(function() {
-    if ($state.val() == 'intercon') {
+    if (gettypepub == 'intercon') {
         console.log('intercon');
         $nameconfer.removeAttr('disabled');
         $location.removeAttr('disabled');
@@ -31,6 +64,10 @@ $(document).ready(function() {
         $article.removeAttr('disabled');
     }
   }).trigger('change'); // added trigger to calculate initial state
+
+   
+
+    
 });
 </script>
 <script>
@@ -85,18 +122,21 @@ $(document).ready(function() {
                 <form class="form-horizontal" role="form">
                     </div>
                    
-                    <p hidden>    
+           <p hidden>    
             <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>
             <input type="text" class="form-control" name="username" id="inputType" value={{username}}>
+             <input type="text" class="form-control" name="year" id="year" value={{acyear}}>
+            <input type="text" class="form-control" name="program" id="programyear" value={{program}}>
+            <input type="text" class="form-control" name="typepub" id="typepub" value={{public.typepublic}}>
           </p>
               <label for="inputType" class="col-md-2 control-label">Name Publication : </label>
                   <div class="col-md-4">
-                        <input type="text" class="form-control" name="namepublic" id="inputType">
+                        <input type="text" class="form-control" name="namepublic" value="{{public.namepublic}}"id="inputType">
                   </div>     
                   <div class="form-group"> 
                        <label for="inputType" class="col-md-2 control-label">Program : </label>
                        <div class="col-md-4">
-                          <select class="form-control" style="width:200px" id="sub_programs" name="subprogram">
+                          <select id='program' class="form-control" style="width:200px" id="sub_programs" name="subprogram">
                                
                             {{#each faculty}} 
                                  {{#each sub_program}}
@@ -108,7 +148,7 @@ $(document).ready(function() {
                         <label for="inputType" class="col-md-2 control-label">Acedamic Year : </label>
                         <div class="col-md-4">
                        
-                          <select class="form-control" style="width:100px" name="acyear">
+                          <select id='acyear' class="form-control" style="width:100px" name="acyear">
                                       <option value="2012">2012</option>
                                       <option value="2013">2013</option>
                                       <option value="2014">2014</option>
@@ -119,47 +159,47 @@ $(document).ready(function() {
                         <label for="inputType" class="col-md-2 control-label">Publication Type : </label>
                         <div class="col-md-4">
                        
-                          <select class="form-control" id="typepublic" name="typepublic">
-                                      <option value="intercon">International Conference</option>
-                                      <option value="interjunal">International Jounals</option>                                     
+                          <select id="typepublic" class="form-control"  name="typepublic">
+                               <option value="intercon">International Conference</option>
+                               <option value="interjunal">International Jounals</option>                                     
                           </select> 
                         </div>
                </div>   
                <label for="inputType" class="col-md-2 control-label">Name Conference : </label>
                   <div class="col-md-4">
-                        <input type="text" class="form-control" id="nameconfer" name="nameconfer" id="inputType">
+                        <input type="text" class="form-control" id="nameconfer" name="nameconfer" value="{{public.nameconfer}}" id="inputType">
                   </div> 
               <label for="inputType" class="col-md-2 control-label">Name Journals : </label>
                   <div class="col-md-4">
-                        <input type="text" class="form-control" id="namejournal" name="namejournal" id="inputType">
+                        <input type="text" class="form-control" id="namejournal" name="namejournal" value="{{public.namejournal}}" id="inputType">
                   </div> 
              <!--additional information   --> 
               <label for="inputType" class="col-md-2 control-label">Location : </label>
                   <div class="col-md-4">
-                        <input type="text" class="form-control" id="location" name="location" id="inputType">
+                        <input type="text" class="form-control" id="location" name="location" value="{{public.location}}" id="inputType">
                   </div>    
               <label for="inputType" class="col-md-2 control-label">Vol : </label>
                 <div class="col-md-4">
-                      <input type="text" class="form-control" style="width:100px" id="vol" name="vol" id="inputType">
+                      <input type="text" class="form-control" style="width:100px" id="vol" name="vol" value="{{public.vol}}" id="inputType">
               </div> 
                   
               <label for="inputType" class="col-md-2 control-label">Date : </label>
                     <div class="col-md-4">
-                          <input type="text" placeholder="Month,Year" class="form-control" id="date" name="datenum" id="inputType">
+                          <input type="text" placeholder="Month,Year" class="form-control" id="date" name="datenum" value="{{public.datenum}}" id="inputType">
                     </div> 
               
                
               <label for="inputType" class="col-md-2 control-label">Issue : </label>
                 <div class="col-md-4">
-                      <input type="text" class="form-control" style="width:100px" id="issue" name="issue" id="inputType">
+                      <input type="text" class="form-control" style="width:100px" id="issue" name="issue" value="{{public.issue}}" id="inputType">
                 </div>     
                <label for="inputType" class="col-md-2 control-label">Page : </label>
                 <div class="col-md-4">
-                      <input type="text" class="form-control" id="page" name="page" id="inputType">
+                      <input type="text" class="form-control" id="page" name="page" value="{{public.page}}" id="inputType">
                 </div>
                 <label for="inputType" class="col-md-2 control-label">Article : </label>
                 <div class="col-md-4">
-                      <input type="text" class="form-control" style="width:100px" id="article" name="article" id="inputType">
+                      <input type="text" class="form-control" style="width:100px" id="article" name="article" value="{{public.article}}" id="inputType">
                 </div>     
           
                     <div id="tab_2"><table id="userTable" class="table muffin table-striped table-hover margin-bottom0">
@@ -172,25 +212,29 @@ $(document).ready(function() {
                           </tr>
                       </thead>
                       <tbody id = "usertbody">
+                        {{#each public.user}}
                            <tr>
-                      <td>1</td>
-                      <td><input  type="text" name="nameuser" id="latbox"/></td>
-                      
-                      <td>
-                        <div class="col-md-4">
-                                    <select class="form-control" style="width:100px" name="roleuser">
-                                      <option value="advisee">advisee</option>
-                                      <option value="advisor">advisor</option>                                     
-                                   </select>
-                                </div>
-                                </td>
-                      <td>
-                        <button class="btn btn-xs btn-warning" id="delPOIbutton" value="Delete" onclick="deleteRow(this)">
-                        
-                        <span class="glyphicon glyphicon-trash"></span>
-                      </button>
-                      </td>             
-                  </tr>                    
+                            <td>{{inc @index}}</td>
+                            <td><input  type="text" name="nameuser" id="latbox" value="{{iduser}}" /></td>
+                            <p hidden>    
+                              <input type="text" tabindex="1"  name="typeuser" id="typeuser" value='{{typeuser}}' readonly=""><br>     
+                            </p>
+                            <td>
+                              <div class="col-md-4">
+                                <select  id='userselect' class="form-control" style="width:100px" name="roleuser">
+                                  <option value="advisee">advisee</option>
+                                  <option value="advisor">advisor</option>                                     
+                               </select>
+                            </div>
+                            </td>
+                            <td>
+                              <button class="btn btn-xs btn-warning" id="delPOIbutton" value="Delete" onclick="deleteRow(this)">
+                              
+                              <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                            </td>             
+                        </tr>  
+                        {{/each}}                  
                       </tbody>
                     </table>
                     </div>
