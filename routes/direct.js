@@ -2637,8 +2637,6 @@ module.exports = function(app, passport) {
 
 
       Program.findOne({ 'programname': req.query.program }, function (err, docs) {
-        
-
         if(docs !=null){
           console.log("REFFFF-DOC--->>>", docs._id);
 
@@ -4505,7 +4503,8 @@ app.get('/edit_aun5-3',isLoggedIn,function(req,res){
          res.render('qa/editqa/aun5.3_edit_assesment.hbs', {
             layout: "qaPage",
             program_fac:program,
-            assessment : results
+            assessment : results,
+            len : results.subject.length
             
             });
         });

@@ -23,6 +23,7 @@
         var new_row = x.rows[1].cloneNode(true);
         var len = x.rows.length;
         var inp0 = new_row.cells[0].getElementsByTagName('input')[0];
+        inp0.value= '';
         var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
         inp1.value = '';
         var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
@@ -30,7 +31,7 @@
         y.appendChild( new_row );
         rowind++;
         console.log(rowind);
-        document.getElementById('arrlen').value = rowind;
+        document.getElementById('arrlen').value = len;
         console.log("value="+document.getElementById('arrlen').value);
      
     }
@@ -49,7 +50,10 @@
       
                 <h3>Mapped The expected learnig outcomes (ELOs)</h3>
                 <br>
-               
+                    <p hidden>    
+                        <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='{{len}}' readonly=""><br>
+                       
+                      </p>
                     <div class="form-group">
 
                       <label for="inputType" class="col-md-1 control-label">Program: </label>
@@ -87,14 +91,11 @@
                                     <th><a>Add</a></th>
                                     </tr>
                                 </thead>
-                                {{#each assessment.subject}}
+                               
                                 <tbody id = "Coursetbody">
 
-                                
-                                    <p hidden>    
-                                      <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>
-                                     
-                                    </p>
+                                   {{#each assessment.subject}}
+                                    
                                     <tr>
                                     <td><input  type="text" name="nameCourse" id="nameCourse" value="{{subjectType}}"/></td>
                                     <td><input  type="text" name="levelCourse" id="levelCourse" value="{{followingReq}}"/></td>
@@ -103,9 +104,9 @@
                                     <td> <button class="btn btn-xs btn-primary" id="insertbutton" value="Insert" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span></button>
                                     </td>         
                                     </tr> 
-                                                       
+                                     {{/each}}                  
                                 </tbody>
-                                {{/each}}
+                                
                             </table>
                         </div>
                       </div>
