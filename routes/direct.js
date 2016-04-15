@@ -4357,7 +4357,19 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
         
         if (assesment != null) {
           console.log("EDIT-------------------->:"+assesment);
+          assesment.assesmentTool = req.body.assname;
+          assesment.type = req.body.type;
+          assesment.programname= req.query.program;
+          assesment.subject = array;
 
+          assesment.save(function (err) {
+            if(err) {
+                console.error('Cant update new facility');
+            }
+            
+          });
+
+          res.redirect('/aun5-3?program='+req.body.program);
           
 
         } 
@@ -4504,7 +4516,8 @@ app.get('/edit_aun5-3',isLoggedIn,function(req,res){
             layout: "qaPage",
             program_fac:program,
             assessment : results,
-            len : results.subject.length
+            len : results.subject.length,
+            program:results.programname
             
             });
         });
@@ -4576,16 +4589,11 @@ app.post('/edit_aun5-3',isLoggedIn,function(req,res){
 
       console.log('ARRAY ------- >'+array);
 
-    AssesmentTool.findOne({
-          $and: [
-                   { 'programname': req.query.program },
-                   { 'assesmentTool': req.body.assname }
-          ]
-      }, function(err, assesment) {        
+    AssesmentTool.findOne({'_id':req.query.id  }, function(err, assesment) {        
         
         if (assesment != null) {
           console.log("EDIT-------------------->:"+assesment);
-
+          console.log("EDIT-------req.query.program------------->:"+req.query.program);
           assesment.assesmentTool = req.body.assname;
           assesment.type = req.body.type;
           assesment.programname= req.query.program;

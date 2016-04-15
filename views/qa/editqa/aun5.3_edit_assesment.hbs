@@ -5,7 +5,7 @@
     {
         var i=row.parentNode.parentNode.rowIndex;
         document.getElementById('CourseTable').deleteRow(i);
-        rowind--;
+        var rowind = i-1;
         document.getElementById('arrlen').value = rowind;
         console.log("value="+document.getElementById('arrlen').value);
     } 
@@ -46,14 +46,11 @@
 
 <div class="container">
            
-    <form class="form-horizontal" role="form"  action="/edit_aun5-3?program={{program}}" method="post" id = "myForm" > 
+    <form class="form-horizontal" role="form"  action="/edit_aun5-3?program={{program}}&id={{assessment._id}}" method="post" id = "myForm" > 
       
                 <h3>Mapped The expected learnig outcomes (ELOs)</h3>
                 <br>
-                    <p hidden>    
-                        <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='{{len}}' readonly=""><br>
-                       
-                      </p>
+                    
                     <div class="form-group">
 
                       <label for="inputType" class="col-md-1 control-label">Program: </label>
@@ -89,10 +86,16 @@
                                     <th><a>Level</a></th>
                                     <th><a>Delete</a></th>
                                     <th><a>Add</a></th>
+                                    
                                     </tr>
                                 </thead>
                                
                                 <tbody id = "Coursetbody">
+
+                                <p hidden>    
+                        <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='{{len}}' readonly=""><br>
+                       
+                      </p>
 
                                    {{#each assessment.subject}}
                                     
@@ -100,17 +103,22 @@
                                     <td><input  type="text" name="nameCourse" id="nameCourse" value="{{subjectType}}"/></td>
                                     <td><input  type="text" name="levelCourse" id="levelCourse" value="{{followingReq}}"/></td>
                                     <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
-                                    </td>    
+                                    </td>   
+
                                     <td> <button class="btn btn-xs btn-primary" id="insertbutton" value="Insert" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span></button>
-                                    </td>         
+                                    </td> 
+                                         
                                     </tr> 
-                                     {{/each}}                  
+                                     {{/each}}        
+
                                 </tbody>
+                                
                                 
                             </table>
                         </div>
                       </div>
                     </div>
+
                    <div class="form-group">
                       <p align = "right"><button type="submit" class="btn btn-primary">Add</button></p>
                    </div>
