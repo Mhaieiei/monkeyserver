@@ -1532,6 +1532,8 @@ module.exports = function(app, passport) {
 
   });
 
+//-----------------------------------Meeting -------------------------------------------------------------------------
+
   app.get('/addmeeting',isLoggedIn,function(req,res){
     console.log('Admin get add new Meetings to program');
     console.log(req.query.acid);
@@ -4977,9 +4979,7 @@ app.get('/delaun5_3',isLoggedIn,function(req,res){
     .exec(function(err, docs) {
       if(err) console.log(err);
       console.log(docs);
-      var title = docs.local.title;
-      var username = docs.local.username
-      var surname = docs.local.surname;
+      var username = req.query.name;
        res.render("profile/works/traininf.hbs", {
             layout: "homePage",
             username : req.query.name,
@@ -4987,13 +4987,8 @@ app.get('/delaun5_3',isLoggedIn,function(req,res){
             year : years,
              helpers: {
                 inc: function (value) { return parseInt(value) + 1; },
-                gettitle: function () { return title; },
-                getname: function () { return username; },
-                getsurname: function () { return surname; },
-
-            }     
-            
-                
+                getuser: function () { return username; },
+            }               
        });             
     });   
   });
@@ -5032,20 +5027,32 @@ app.get('/delaun5_3',isLoggedIn,function(req,res){
         if (ac!= null) {
       
          console.log(ac);
-        Work.findOne( { 
+        Work.Training.findOne( { 
         $and: [
                    { '_type' :  'training' },
                    { 'trainingCourse' : req.body.nametrain }
                  ]
         
-      }, function (err, rows) {
+      }, function (err, training) {
               if(err){
                 console.log("Find Training err"+err);
               }
-              if(rows != null){
+              if(training != null){
                 console.log("This work have already");
-                console.log(rows);
-                //if user have already, set ref of id user to subject           
+                //console.log(rows);
+                //if user have already, set ref of id user to subject  
+                  training.academicYear = ac.id;
+                  training.trainingCourse = req.body.nametrain;
+                  training.hour = req.body.hour;    
+                  training.user = req.body.username;           
+                  // save the user
+                  training.save(function(err,train) {
+                      if (err){console.log('new Training save'+err);}
+                      else {
+                       console.log("Update training already"+train);                      
+                       res.redirect('/traininf?name='+req.body.username);
+                      }
+                  });         
               }
               else{
             
@@ -5079,6 +5086,55 @@ app.get('/delaun5_3',isLoggedIn,function(req,res){
       }
      
     });
+  });
+
+  app.get('/edittrain',isLoggedIn,function(req,res){    
+    console.log("[Get]Admin Edit Trianing");
+    console.log(req.query.id);
+    console.log(req.query.user);
+
+    Work.Training.findById(req.query.id, function( err, training ) {
+        if( !err ) {
+        console.log(training);
+        Acyear.findById(training.academicYear, function(err, ac) {            
+            if (err){console.log("Error ...1");}
+            // check to see if theres already a user with that email
+            if (ac!= null) {          
+             console.log(ac.academic_year);
+             console.log(ac.program_name);
+               Fac.find({},function(err,fac){
+                if(err) console.log('Cant query fac'+err);
+                 res.render('profile/works/edittraining.hbs', {
+                    layout: "homePage",
+                    traning: training ,
+                    username: req.query.user,
+                    faculty: fac,
+                    acid : req.query.id,
+                    acyear : ac.academic_year,
+                    program : ac.program_name          
+                  });                          
+               });
+            }         
+          });            
+        } else {
+            return console.log( "query training err"+err );
+          }
+      }); 
+  });
+
+  app.get('/deltrain',isLoggedIn,function(req,res){
+    console.log("Delete Training");
+    console.log(req.query.id);
+    console.log(req.query.user);
+    Work.remove(
+          { '_id' : req.query.id },
+          function(err, results) {
+            if (err){console.log('delete training err'+err);}
+          else console.log("delete already");
+          }
+       );
+    res.redirect('/traininf?name='+req.query.user);   
+    
   });
 
 

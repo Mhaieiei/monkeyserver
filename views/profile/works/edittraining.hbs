@@ -1,20 +1,50 @@
+<script>
+
+$(document).ready(function() {
+
+  var getyear = document.getElementById('acyear').value;
+  var getprogram=document.getElementById('program').value;;
+  var mySelectYear = document.getElementById('acyear');
+  var mySelectProgram = document.getElementById('program');
+
+  for(var i, j = 0; i = mySelectYear.options[j]; j++) {
+    if(i.value == getyear) {
+      mySelectYear.selectedIndex = j;
+      break;
+    }
+  }
+  for(var k, l = 0; k = mySelectProgram.options[l]; l++) {
+    if(k.value == getprogram) {
+      mySelectProgram.selectedIndex = l;
+      break;
+    }
+  }
+
+  
+});
+</script>
+
+
 
 <div class="container">
  <form class="form-horizontal" role="form"  action="/addtraining" method="post" id = "myForm" > 
-      
+           
           <p hidden>    
             <input type="text" class="form-control" name="username" id="inputType" value={{username}}>
+            <input type="text" class="form-control" name="year" id="inputType" value={{acyear}}>
+            <input type="text" class="form-control" name="program" id="inputType" value={{program}}>
+            
           </p>
            <h3>Add new training course</h3>
           <div class="form-group"> 
               <label for="inputType" class="col-md-2 control-label">Name of Traning course: </label>
               <div class="col-md-4">
-                    <input type="text" class="form-control" name="nametrain" id="inputType">
+                    <input type="text" class="form-control" name="nametrain" id="nametrain" value="{{traning.trainingCourse}}">
               </div>     
                   
               <label for="inputType" class="col-md-1 control-label">Hours: </label>
               <div class="col-md-4">
-                 <input type="text" class="form-control" id="inputType" name="hour">
+                 <input type="text" class="form-control" id="inputType" name="hour" value="{{traning.hour}}">
               </div>
 
           </div>
@@ -22,17 +52,17 @@
           <div class="form-group">
                       <label for="inputType" class="col-md-2 control-label">Acedamic Year : </label>
                       <div class="col-md-4">        
-                      <select class="form-control" style="width:100px" name="acyear">
-                                  <option value="2012">2012</option>
-                                  <option value="2013">2013</option>
-                                  <option value="2014">2014</option>
-                                  <option value="2015">2015</option>
-                                  <option value="2016">2016</option>
+                      <select  id="acyear" class="form-control" style="width:100px" name="acyear" >
+                          <option value="2012">2012</option>
+                          <option value="2013">2013</option>
+                          <option value="2014">2014</option>
+                          <option value="2015">2015</option>
+                          <option value="2016">2016</option>
                       </select> 
                       </div>
                       <label for="inputType" class="col-md-1 control-label">Program: </label>
                       <div class="col-md-4">
-                              <select class="form-control" style="width:200px" id="sub_programs" name="subprogram">
+                        <select id='program' class="form-control" style="width:200px" id="sub_programs" name="subprogram">
                                
                             {{#each faculty}} 
                                  {{#each sub_program}}
@@ -42,7 +72,7 @@
                         </select>
                       </div>
 
-                     
+                         
                      
                       
                       <div class="table-foot muffin"> 

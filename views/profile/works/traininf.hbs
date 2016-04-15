@@ -14,8 +14,6 @@
                         <tr>
                             
                             <th>No.</a></th>
-                            <th>Title</a></th>
-                            <th>Name-Surname</a></th>
                             <th>Training Courses</a></th>
                             <th>Hr.</a></th>
                             <th>Edit</th>
@@ -29,12 +27,10 @@
                        {{#each Userinfo.training}}
                             <tr>
                                 <td>{{inc @index}}</td>
-                                <td>{{gettitle}}</td>
-                                <td>{{getname}} {{getsurname}}</td>
                                 <td>{{trainingCourse}}</td>
                                 <td>{{hour}}</td>
-                                <td><a href='/edittrain?id={{id}}&user={{getname}}'>edit</a></td>  
-                                <td><a href='/deltrain?id={{id}}&user={{getname}}'>delete</a></td>                      
+                                <td><a href='/edittrain?id={{id}}&user={{getuser}}'>edit</a></td>  
+                                <td><a href='/deltrain?id={{id}}&user={{getuser}}'>delete</a></td>                      
                             </tr>  
                         {{/each}}
                     </tbody>
