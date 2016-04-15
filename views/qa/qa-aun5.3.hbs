@@ -9,11 +9,12 @@
             <tr>
                 
                 <tr>
+                        <td>Edit</td>
                         <td>Delete</td>
-                      <th>No.</a></th>
-                      <th>Assessment Tools</a></th>
-                      <td>Courses</a></td>
-                      <td>Levels</a></td>
+                        <th>No.</a></th>
+                        <th>Assessment Tools</a></th>
+                        <td>Courses</a></td>
+                        <td>Levels</a></td>
                       
                 </tr>
                 
@@ -30,7 +31,9 @@
                     <tr>
             			{{#each assementTool}}
 
-                        <td><a href = "/delaun5_3?id={{_id}}&programname={{programname}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></td>
+                        <td><a href = "/edit_aun5-3?id={{_id}}&programname={{programname}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></td>
+
+                        <td><a href = "/del_aun5-3?id={{_id}}&programname={{programname}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></td>
                           
                         <th>{{inc @index}}</th>
 
@@ -40,6 +43,7 @@
             				
             			{{#each subject}} 
             			{{#if @first}} 
+                        
                             <td>{{subjectType}}</td>
                             <td>{{followingReq}}</td>
                             
@@ -47,6 +51,7 @@
     			 	
     				{{else}}
                     <tr>
+                    <th></th>
                     <th></th>
     				<th></th>
                     <th></th>

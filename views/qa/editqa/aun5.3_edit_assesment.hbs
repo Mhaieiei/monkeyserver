@@ -1,0 +1,118 @@
+<script type="text/javascript">
+    
+    var rowind = 1;
+    function deleteRow(row)
+    {
+        var i=row.parentNode.parentNode.rowIndex;
+        document.getElementById('CourseTable').deleteRow(i);
+        rowind--;
+        document.getElementById('arrlen').value = rowind;
+        console.log("value="+document.getElementById('arrlen').value);
+    } 
+
+    function insRow()
+    {
+
+      var arr = []
+      
+        console.log( 'hi');
+        var x=document.getElementById('CourseTable');
+        var y =document.getElementById('Coursetbody');
+
+
+        var new_row = x.rows[1].cloneNode(true);
+        var len = x.rows.length;
+        var inp0 = new_row.cells[0].getElementsByTagName('input')[0];
+        var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+        inp1.value = '';
+        var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
+        console.log(new_row);
+        y.appendChild( new_row );
+        rowind++;
+        console.log(rowind);
+        document.getElementById('arrlen').value = rowind;
+        console.log("value="+document.getElementById('arrlen').value);
+     
+    }
+    </script>
+</head>
+
+
+
+
+
+
+
+<div class="container">
+           
+    <form class="form-horizontal" role="form"  action="/edit_aun5-3?program={{program}}" method="post" id = "myForm" > 
+      
+                <h3>Mapped The expected learnig outcomes (ELOs)</h3>
+                <br>
+               
+                    <div class="form-group">
+
+                      <label for="inputType" class="col-md-1 control-label">Program: </label>
+                      <div class="col-md-4">
+                          <select class="form-control" style="width:200px" id="program" name="program">
+                                 {{#each program_fac}}          
+                                  <option value="{{ programname}}">{{ programname }}</option>                    
+                              {{/each}}
+                          </select>
+                      </div> 
+                      <label for="inputType" class="col-md-1 control-label">Assesment Tools: </label>
+                      <div class="col-md-4">
+                         <input type="text" class="form-control" id="assname" placeholder="Enter assessment tools' name " name="assname" value="{{assessment.assesmentTool}}">
+                      </div>
+                     
+                    </div>
+                    <div class="form-group">
+                      <label for="inputType" class="col-md-1 control-label">Type: </label>
+                      <div class="col-md-4">
+                          <select class="form-control" style="width:200px" id="type" name="type">
+                              <option value="Direct">Direct Measures</option>
+                              <option value="Indirect">Indirect Measures</option>
+                          </select>
+                      </div>  
+                      
+                      <label for="inputType" class="col-md-1 control-label">Course </label>
+                      <div class="col-md-4">
+                         <div id="tab_2">
+                            <table id="CourseTable" class="tablesorter">
+                                <thead>
+                                    <tr>
+                                    <th ><a>Course name</a></th>
+                                    <th><a>Level</a></th>
+                                    <th><a>Delete</a></th>
+                                    <th><a>Add</a></th>
+                                    </tr>
+                                </thead>
+                                {{#each assessment.subject}}
+                                <tbody id = "Coursetbody">
+
+                                
+                                    <p hidden>    
+                                      <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>
+                                     
+                                    </p>
+                                    <tr>
+                                    <td><input  type="text" name="nameCourse" id="nameCourse" value="{{subjectType}}"/></td>
+                                    <td><input  type="text" name="levelCourse" id="levelCourse" value="{{followingReq}}"/></td>
+                                    <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
+                                    </td>    
+                                    <td> <button class="btn btn-xs btn-primary" id="insertbutton" value="Insert" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span></button>
+                                    </td>         
+                                    </tr> 
+                                                       
+                                </tbody>
+                                {{/each}}
+                            </table>
+                        </div>
+                      </div>
+                    </div>
+                   <div class="form-group">
+                      <p align = "right"><button type="submit" class="btn btn-primary">Add</button></p>
+                   </div>
+
+     </form>
+</div>

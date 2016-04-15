@@ -4449,7 +4449,7 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
     
      });
 
-app.get('/delaun5_3',isLoggedIn,function(req,res){
+app.get('/del_aun5-3',isLoggedIn,function(req,res){
     console.log("Delete Aun5.3");
     console.log(req.query.id);
     //console.log(req.query.email);
@@ -4472,10 +4472,133 @@ app.get('/delaun5_3',isLoggedIn,function(req,res){
 
       }
     });
-    // res.redirect('/aun10-1?acid='+req.query.acid);
     
+  });
 
+app.get('/edit_aun5-3',isLoggedIn,function(req,res){
+    console.log("[GET] Edit Aun5.3");
+    console.log(req.query.id);
+    //console.log(req.query.email);
+
+    AssesmentTool.findOne({ '_id' : req.query.id },function(err, results) {
+      if (err){console.log('Edit Assessment tool err'+err);}
+      else{
+         console.log("ass edit --->"+results);
+
+
+         // Program.findOne({ '_id' : req.query.programname },function(err, program) {
+          Program.find({'programname': { $exists: true }},function(err, program) {
+
+          console.log("program edit --->"+program);
+
+         res.render('qa/editqa/aun5.3_edit_assesment.hbs', {
+            layout: "qaPage",
+            program_fac:program,
+            assessment : results
+            
+            });
+        });
+
+         
+
+      }
+    });
     
+  });
+
+
+app.post('/edit_aun5-3',isLoggedIn,function(req,res){
+    console.log("[POST] Edit Aun5.3");
+    console.log(req.query.id);
+    //console.log(req.query.email);
+
+    console.log("assname: "+req.body.assname);
+    console.log("TYPE: "+req.body.type);
+    console.log("arrlen: "+req.body.arrlen);
+
+
+    var strlen = req.body.arrlen; 
+    
+      var array = [];
+      var keepCourse;
+      var check = 0;
+      var check_duplicate = 0;
+      for(var i=0;i< strlen;i++){
+        if(strlen==1){
+          var obj = {
+            'subjectType': req.body.nameCourse,
+            'followingReq' : req.body.levelCourse
+          }
+          array.push(obj);
+          
+        }else{
+          keepCourse = req.body.nameCourse[i];
+          for(var j=i+1;j< strlen;j++){
+
+            if(keepCourse == req.body.nameCourse[j]){
+
+              check =1;
+              check_duplicate = 1;
+            }
+
+
+          }
+          if(check == 0){
+            var obj = {
+              'subjectType': req.body.nameCourse[i],
+              'followingReq' : req.body.levelCourse[i]
+            }
+            array.push(obj);
+          }
+          else{
+
+          }
+
+          check = 0;
+
+
+        }
+             
+        
+      }
+
+      if(check_duplicate == 0 ){
+
+      console.log('ARRAY ------- >'+array);
+
+    AssesmentTool.findOne({
+          $and: [
+                   { 'programname': req.query.program },
+                   { 'assesmentTool': req.body.assname }
+          ]
+      }, function(err, assesment) {        
+        
+        if (assesment != null) {
+          console.log("EDIT-------------------->:"+assesment);
+
+          assesment.assesmentTool = req.body.assname;
+          assesment.type = req.body.type;
+          assesment.programname= req.query.program;
+          assesment.subject = array;
+
+          assesment.save(function (err) {
+            if(err) {
+                console.error('Cant update new facility');
+            }
+            
+          });
+
+          res.redirect('/aun5-3?program='+req.body.program);
+
+          
+
+        } 
+        else {
+            console.log("ADD NEWWWW");
+            
+          }
+          });
+      }
     
   });
 
