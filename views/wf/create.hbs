@@ -1,400 +1,528 @@
 <br>
 <br>
 <br>
-    <div class="main-panel" style="padding-left: 5px; padding-right: 5px; position: absolute;  margin-left: 980px; width: 270px; height: 400px;
-    background-color: #999;">
-      <h3>Workflow config</h3>
-      <div style="margin-top: 10px">
-        <b>Name</b><br>
-        <input type="text" class="form-control" id="workflow-name">
-      </div>
-      <div style="margin-top: 10px">
-        <b>Description</b><br>
-        <input type="text" class="form-control" id="workflow-description">
-      </div>
-      <div style="margin-top: 10px">
-        <b>Workflow variables</b>
-         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addVariablePopup">Add variable</button>
-      </div>
+	<div class="main-panel" style="padding-left: 5px; padding-right: 5px; position: absolute;  margin-left: 980px; width: 270px; height: 400px;
+	background-color: #999;">
+	  <h3>Workflow config</h3>
+	  <div style="margin-top: 10px">
+		<b>Name</b><br>
+		<input type="text" class="form-control" id="workflow-name">
+	  </div>
+	  <div style="margin-top: 10px">
+		<b>Description</b><br>
+		<input type="text" class="form-control" id="workflow-description">
+	  </div>
+	  <div style="margin-top: 10px">
+		<b>Workflow variables</b>
+		 <button type="button" onclick="startAddVariable()" class="btn btn-success btn-sm" data-toggle="modal" data-target="#mainPopup">Add variable</button>
+	  </div>
 
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type</th> 
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody id="variable-list">
-        </tbody>
-      </table>
+	  <table class="table table-hover">
+		<thead>
+		  <tr>
+			<th>Name</th>
+			<th>Type</th> 
+			<th>Value</th>
+		  </tr>
+		</thead>
+		<tbody id="variable-list">
+		</tbody>
+	  </table>
+
+	<div id="mainPopup" class="modal fade" role="dialog">   
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body"></div>
+				<div class="modal-footer"></div>
+			</div>
+		</div> 
+	</div>
  
-     
+	 
 
-      <!-- Modal -->
-      <div id="addVariablePopup" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-sm">
+	  <!-- Modal -->
+	  <div id="addVariablePopup" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
 
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Add new variable</h4>
-            </div>
-            <div class="modal-body">
+		  <!-- Modal content-->
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			  <h4 class="modal-title">Add new variable</h4>
+			</div>
+			<div class="modal-body">
 
-              <div>
-                <b>Name</b><br><input type="text" id="variable-name">
-              </div>
+			  <div>
+				<b>Name</b><br><input type="text" id="variable-name">
+			  </div>
 
-              <div>
-                <b>Type</b>
-                <br>
-                <select id="variable-type">
-                  <option value="Text">Text</option>
-                  <option value="Number">Number</option>
-                </select>
-              </div>
+			  <div>
+				<b>Type</b>
+				<br>
+				<select id="variable-type">
+				  <option value="Text">Text</option>
+				  <option value="Number">Number</option>
+				</select>
+			  </div>
 
-              <div>
-                <b>Initial Value</b><br><input type="text" id="variable-value">
-              </div>
+			  <div>
+				<b>Initial Value</b><br><input type="text" id="variable-value">
+			  </div>
 
-            </div>
-            <div class="modal-footer">
-              <button type="button" id="done-add-variable-btn" class="btn btn-default" data-dismiss="modal">Add</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
+			</div>
+			<div class="modal-footer">
+			  <button type="button" id="done-add-variable-btn" class="btn btn-default" data-dismiss="modal">Add</button>
+			  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		  </div>
 
-        </div>
-      </div>
-
-
-      <div id="selectFormPopup" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-sm">
-
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Select Form</h4>
-            </div>
-            <div class="modal-body">
-                  <div class="form-list">
-                  </div>
-            </div>
-            <div class="modal-footer">
-            </div>
-          </div>
-
-        </div>
-      </div>
+		</div>
+	  </div>
 
 
-      <div id="selectServicePopup" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-sm">
+	  <div id="selectFormPopup" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
 
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Select service</h4>
-            </div>
-            <div class="modal-body">
-               <div class="service-list">
-                </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
+		  <!-- Modal content-->
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			  <h4 class="modal-title">Select Form</h4>
+			</div>
+			<div class="modal-body">
+				  <div class="form-list">
+				  </div>
+			</div>
+			<div class="modal-footer">
+			</div>
+		  </div>
 
-        </div>
-      </div>
+		</div>
+	  </div>
 
-      <div id="inputMappingPopup" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-sm">
 
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Input mapping</h4>
-            </div>
-            <div class="modal-body">
-              <input id="input-mapping-first" type="text" size="10"> <-- <input id="input-mapping-second" type="text" size="10">
-            </div>
-            <div class="modal-footer">
-              <button type="button" id="done-input-mapping-btn" class="btn btn-default" data-dismiss="modal">Add</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
+	  <div id="selectServicePopup" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
 
-        </div>
-      </div>
+		  <!-- Modal content-->
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			  <h4 class="modal-title">Select service</h4>
+			</div>
+			<div class="modal-body">
+			   <div class="service-list">
+				</div>
+			</div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		  </div>
 
-      <div id="outputMappingPopup" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-sm">
+		</div>
+	  </div>
 
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Output mapping</h4>
-            </div>
-            <div class="modal-body">
-              <input id="output-mapping-first" type="text" size="10"> <-- <input id="output-mapping-second" type="text" size="10">
-            </div>
-            <div class="modal-footer">
-              <button type="button" id="done-output-mapping-btn" class="btn btn-default" data-dismiss="modal">Add</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
+	  <div id="inputMappingPopup" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
 
-        </div>
-      </div>
+		  <!-- Modal content-->
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			  <h4 class="modal-title">Input mapping</h4>
+			</div>
+			<div class="modal-body">
+			  <input id="input-mapping-first" type="text" size="10"> <-- <input id="input-mapping-second" type="text" size="10">
+			</div>
+			<div class="modal-footer">
+			  <button type="button" id="done-input-mapping-btn" class="btn btn-default" data-dismiss="modal">Add</button>
+			  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		  </div>
 
-    </div>
+		</div>
+	  </div>
 
-     <div id="editVariablePopup" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-sm">
+	  <div id="outputMappingPopup" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
 
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Edit variable</h4>
-            </div>
-            <div class="modal-body">
-                <div>
-                <b>Name</b><br><input type="text" id="variable-name">
-              </div>
+		  <!-- Modal content-->
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			  <h4 class="modal-title">Output mapping</h4>
+			</div>
+			<div class="modal-body">
+			  <input id="output-mapping-first" type="text" size="10"> <-- <input id="output-mapping-second" type="text" size="10">
+			</div>
+			<div class="modal-footer">
+			  <button type="button" id="done-output-mapping-btn" class="btn btn-default" data-dismiss="modal">Add</button>
+			  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		  </div>
 
-              <div>
-                <b>Type</b>
-                <br>
-                <select id="variable-type">
-                  <option value="Text">Text</option>
-                  <option value="Number">Number</option>
-                </select>
-              </div>
+		</div>
+	  </div>
 
-              <div>
-                <b>Initial Value</b><br><input type="text" id="variable-value">
-              </div>
-               
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Edit</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Delete</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
+	</div>
 
-        </div>
-      </div>
-    
-    <div class="setting-popup" style="position: absolute; margin-left: 980px;display: none; background-color: #999; width: 270px; height: 400px">   
-    </div>
+	 <div id="editVariablePopup" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+
+		  <!-- Modal content-->
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			  <h4 class="modal-title">Edit variable</h4>
+			</div>
+			<div class="modal-body">
+				<div>
+				<b>Name</b><br><input type="text" id="variable-name">
+			  </div>
+
+			  <div>
+				<b>Type</b>
+				<br>
+				<select id="variable-type">
+				  <option value="Text">Text</option>
+				  <option value="Number">Number</option>
+				</select>
+			  </div>
+
+			  <div>
+				<b>Initial Value</b><br><input type="text" id="variable-value">
+			  </div>
+			   
+			</div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-default" data-dismiss="modal">Edit</button>
+			  <button type="button" class="btn btn-default" data-dismiss="modal">Delete</button>
+			  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		  </div>
+
+		</div>
+	  </div>
+	
+	<div class="setting-popup" style="position: absolute; margin-left: 980px;display: none; background-color: #999; width: 270px; height: 400px">   
+	</div>
 
  <div class="content" style="margin-left: 15px; background: #DDD; max-width: 950px" id="js-drop-zone">
 
-    <div class="message intro">
-      <div class="note">
-        Drop BPMN diagram from your desktop or <a id="js-create-diagram" href>create a new diagram</a> to get started.
-      </div>
-    </div>
+	<div class="message intro">
+	  <div class="note">
+		Drop BPMN diagram from your desktop or <a id="js-create-diagram" href>create a new diagram</a> to get started.
+	  </div>
+	</div>
 
-    <div class="message error">
-      <div class="note">
-        <p>Ooops, we could not display the BPMN 2.0 diagram.</p>
+	<div class="message error">
+	  <div class="note">
+		<p>Ooops, we could not display the BPMN 2.0 diagram.</p>
 
-        <div class="details">
-          <span>cause of the problem</span>
-          <pre></pre>
-        </div>
-      </div>
-    </div>
+		<div class="details">
+		  <span>cause of the problem</span>
+		  <pre></pre>
+		</div>
+	  </div>
+	</div>
 
-    <div class="canvas" id="js-canvas">
-      <div class="panel">
-    </div>
+	<div class="canvas" id="js-canvas">
+	  <div class="panel">
+	</div>
 </div>
 
   <ul class="buttons">
-    <li>
-      Save
-    </li>
-    <li>
-      <a id="js-download-diagram" href title="download BPMN diagram">
-        Save BPMN Diagram
-      </a>
-    </li>
-    <li>
-      <a id="js-download-svg" href title="download as SVG image">
-        SVG image
-      </a>
-    </li>
+	<li>
+	  Save
+	</li>
+	<li>
+	  <a id="js-download-diagram" href title="download BPMN diagram">
+		Save BPMN Diagram
+	  </a>
+	</li>
+	<li>
+	  <a id="js-download-svg" href title="download as SVG image">
+		SVG image
+	  </a>
+	</li>
   </ul>
 <script>
   
-  var myVariables = [];
-  var currentElementId = null;
-  var myElements = {};
+	var myVariables = [];
+	var currentElementId = null;
+	var myElements = {};	
+	var currentVariableId = -1;
+
+	var popupHeaderPrefix = '<button type="button" class="close" data-dismiss="modal">&times;</button>';
+	
+	var popupHtmlList = {
+
+		'addVariable': {
+			header: 'Add variable',
+			body: `<div>
+					<b>Name</b><br><input type="text" id="variable-name">
+				  </div>
+				  <div>
+					<b>Type</b>
+					<br>
+					<select id="variable-type">
+					  <option value="Text">Text</option>
+					  <option value="Number">Number</option>
+					</select>
+				  </div>
+				  <div>
+					<b>Initial Value</b><br><input type="text" id="variable-value">
+				  </div>`,
+			footer: `<button type="button" onclick="doAddVariable()" class="btn btn-default" data-dismiss="modal">Add</button>
+			  		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>`
+		},
+
+		'editVariable': {
+			header: 'Edit variable',
+			body: `<div>
+					<b>Name</b><br><input type="text" id="variable-name">
+				  </div>
+				  <div>
+					<b>Type</b>
+					<br>
+					<select id="variable-type">
+					  <option value="Text">Text</option>
+					  <option value="Number">Number</option>
+					</select>
+				  </div>
+				  <div>
+					<b>Initial Value</b><br><input type="text" id="variable-value">
+				  </div>`,
+			footer: ` <button type="button" onclick="doEditVariable" class="btn btn-default" data-dismiss="modal">Edit</button>
+					  <button type="button" onclick="doDeleteVariable" class="btn btn-default" data-dismiss="modal">Delete</button>
+					  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>`
+		}
+
+	}
+
+
+	function setPopupDialog( popupName ){
+
+		var popupHeader = $('#mainPopup').find('.modal-header');
+		var popupBody = $('#mainPopup').find('.modal-body');
+		var popupFooter = $('#mainPopup').find('.modal-footer');
+
+		popupHeader.html( popupHeaderPrefix + '<h4 class="modal-title">' + popupHtmlList[popupName].header + '</h4>' );
+		popupBody.html( popupHtmlList[popupName].body );
+		popupFooter.html( popupHtmlList[popupName].footer );
+
+	}
+
+	function clearPopupDialog(){
+
+	}
+
+
+	function startAddVariable(){
+		setPopupDialog('addVariable');
+	}
+
+	function doAddVariable(){
+		var variableName = $('#mainPopup').find('#variable-name');
+		var variableType = $('#mainPopup').find('#variable-type');
+		var variableValue = $('#mainPopup').find('#variable-value');
+
+		myVariables.push({
+			name: variableName.val(),
+			type: variableType.val(),
+	  		value: variableValue.val()
+		});
+
+		updateVariableList();
+	}
+
+	function startEditVariable(element){
+		
+		setPopupDialog('editVariable');
+
+		var variableName = $('#mainPopup').find('#variable-name');
+		var variableType = $('#mainPopup').find('#variable-type');
+		var variableValue = $('#mainPopup').find('#variable-value');
+
+    	currentVariableId = Number( element.getAttribute('data-id') );
+    	variableName.val( myVariables[currentVariableId].name );
+    	variableType.val( myVariables[currentVariableId].type );
+    	variableValue.val( myVariables[currentVariableId].value );
+
+	}
+
+	function doEditVariable(){
+
+		var variableName = $('#mainPopup').find('#variable-name');
+		var variableType = $('#mainPopup').find('#variable-type');
+		var variableValue = $('#mainPopup').find('#variable-value');
+
+		myVariables[currentVariableId].name =  variableName.val();
+    	myVariables[currentVariableId].type = variableType.val();
+    	myVariables[currentVariableId].value = variableValue.val();
+
+    	updateVariableList();
+	}
+
+	function doDeleteVariable(){
+
+	}
+
+
 
   $("#done-add-variable-btn").click(function(){
-    myVariables.push({ 
-      name: $("#variable-name").val(),
-      type: $("#variable-type").val(),
-      value: $("#variable-value").val()
-    });
+	myVariables.push({ 
+	  name: $("#variable-name").val(),
+	  type: $("#variable-type").val(),
+	  value: $("#variable-value").val()
+	});
 
-    // clear add variable inputs when added
-    $("#variable-name").val("");
-    $("#variable-type").val("Text");
-    $("#variable-value").val("");
-    console.log(myVariables);
-    updateVariableList();
+	// clear add variable inputs when added
+	$("#variable-name").val("");
+	$("#variable-type").val("Text");
+	$("#variable-value").val("");
+	console.log(myVariables);
+	updateVariableList();
 
-    /*var currentVar = myVariables[ myVariables.length - 1 ];
-    console.log( myVariables );
-    $("#variable-list")
-      .append( '<li class="list-group-item">' + currentVar.name + " : " + currentVar.value 
-        + '<span style="float: right"><button onclick="deleteVariable(this)" class="variable-delete" id="' + (myVariables.length - 1) +'">delete</button></span></li>' );*/
+	/*var currentVar = myVariables[ myVariables.length - 1 ];
+	console.log( myVariables );
+	$("#variable-list")
+	  .append( '<li class="list-group-item">' + currentVar.name + " : " + currentVar.value 
+		+ '<span style="float: right"><button onclick="deleteVariable(this)" class="variable-delete" id="' + (myVariables.length - 1) +'">delete</button></span></li>' );*/
   });
 
   $("#done-input-mapping-btn").click(function(){
-    
-    var mapping = {
-      first: $("#input-mapping-first").val(),
-      second: $("#input-mapping-second").val()
-    }
+	
+	var mapping = {
+	  first: $("#input-mapping-first").val(),
+	  second: $("#input-mapping-second").val()
+	}
 
-    myElements[currentElementId].inputMappings.push(mapping);
-    
-    $("#input-mapping-first").val("");
-    $("#input-mapping-second").val("");
+	myElements[currentElementId].inputMappings.push(mapping);
+	
+	$("#input-mapping-first").val("");
+	$("#input-mapping-second").val("");
 
   });
 
 
   $("#done-output-mapping-btn").click(function(){
-    
-    var mapping = {
-      first: $("#output-mapping-first").val(),
-      second: $("#output-mapping-second").val()
-    }
+	
+	var mapping = {
+	  first: $("#output-mapping-first").val(),
+	  second: $("#output-mapping-second").val()
+	}
 
-    myElements[currentElementId].outputMappings.push(mapping);
-    
-    $("#output-mapping-first").val("");
-    $("#output-mapping-second").val("");
+	myElements[currentElementId].outputMappings.push(mapping);
+	
+	$("#output-mapping-first").val("");
+	$("#output-mapping-second").val("");
   });
 
   function deleteVariable(element){
-    myVariables.splice( parseInt(element.id), 1 );
-    updateVariableList();
+	myVariables.splice( parseInt(element.id), 1 );
+	updateVariableList();
   }
 
   function selectForm(){
 
-     $.ajax({
-        url: "/form/all",
-        type: "GET",
-        dataType : "html",
-        success: function( data ) {
-          var myjson = JSON.parse(data);
-          var rabbit = "";
-          for( var i = 0; i < myjson.length; i++ ){
-            var thisForm = {};
-            thisForm.id = myjson[i]._id;
-            thisForm.name = myjson[i].name;
-            thisForm.description = myjson[i].description;
-            var yo = JSON.stringify(thisForm);
-            rabbit += '<div>';
-            rabbit += '<b>' + myjson[i].name + '</b><br>';
-            rabbit += myjson[i].description + '<br>';
-            rabbit += '<button data-dismiss="modal" onclick="finishSelectForm(this)" class="btn btn-default btn-sm"'; 
-            rabbit += 'form_id="' + myjson[i]._id + '" form_name="' + myjson[i].name + '" form_description="' + myjson[i].description + '"';
-            rabbit += '>Select</button>';
-            rabbit += "</div>";
-          }
-          $('.form-list').html(rabbit);
-        }
-      });
+	 $.ajax({
+		url: "/form/all",
+		type: "GET",
+		dataType : "html",
+		success: function( data ) {
+		  var myjson = JSON.parse(data);
+		  var rabbit = "";
+		  for( var i = 0; i < myjson.length; i++ ){
+			var thisForm = {};
+			thisForm.id = myjson[i]._id;
+			thisForm.name = myjson[i].name;
+			thisForm.description = myjson[i].description;
+			var yo = JSON.stringify(thisForm);
+			rabbit += '<div>';
+			rabbit += '<b>' + myjson[i].name + '</b><br>';
+			rabbit += myjson[i].description + '<br>';
+			rabbit += '<button data-dismiss="modal" onclick="finishSelectForm(this)" class="btn btn-default btn-sm"'; 
+			rabbit += 'form_id="' + myjson[i]._id + '" form_name="' + myjson[i].name + '" form_description="' + myjson[i].description + '"';
+			rabbit += '>Select</button>';
+			rabbit += "</div>";
+		  }
+		  $('.form-list').html(rabbit);
+		}
+	  });
   }
 
   function selectService(){
 
-     $.ajax({
-        url: "/service/all",
-        type: "GET",
-        dataType : "html",
-        success: function( data ) {
-          var myjson = JSON.parse(data);
-          var rabbit = "";
-          for( var i = 0; i < myjson.length; i++ ){
-            rabbit += '<div>';
-            rabbit += '<b>' + myjson[i].name + '</b><br>';
-            rabbit += myjson[i].description + '<br>';
-            rabbit += '<button data-dismiss="modal" onclick="finishSelectService(this)" id="' + myjson[i]._id + '" class="btn btn-default btn-sm">Select</button>';
-            rabbit += "</div>";
-          }
-          $('.service-list').html(rabbit);
-        }
-      });
+	 $.ajax({
+		url: "/service/all",
+		type: "GET",
+		dataType : "html",
+		success: function( data ) {
+		  var myjson = JSON.parse(data);
+		  var rabbit = "";
+		  for( var i = 0; i < myjson.length; i++ ){
+			rabbit += '<div>';
+			rabbit += '<b>' + myjson[i].name + '</b><br>';
+			rabbit += myjson[i].description + '<br>';
+			rabbit += '<button data-dismiss="modal" onclick="finishSelectService(this)" id="' + myjson[i]._id + '" class="btn btn-default btn-sm">Select</button>';
+			rabbit += "</div>";
+		  }
+		  $('.service-list').html(rabbit);
+		}
+	  });
   }
 
   function finishSelectForm(element){
-    var form = {};
-    form.id = element.getAttribute("form_id");
-    form.name = element.getAttribute("form_name");
-    form.description = element.getAttribute("form_description");
-    myElements[currentElementId].form = form;
-    
-    $(".selected-form").html( form.name );
+	var form = {};
+	form.id = element.getAttribute("form_id");
+	form.name = element.getAttribute("form_name");
+	form.description = element.getAttribute("form_description");
+	myElements[currentElementId].form = form;
+	
+	$(".selected-form").html( form.name );
   }
 
   function finishSelectService(element){
-    myElements[currentElementId].serviceId = element.id;
-    $(".selected-service").html( element.id );
+	myElements[currentElementId].serviceId = element.id;
+	$(".selected-service").html( element.id );
   }
 
   function getMappingList(elementId, type){
 
-    var html = "";
-    var thelist = myElements[elementId][type];
+	var html = "";
+	var thelist = myElements[elementId][type];
 
-    for(var i = 0; i < thelist.length; i++ ){
-      html += "<p>" + thelist[i].first + " : " + thelist[i].second + "</p>";
-    }
+	for(var i = 0; i < thelist.length; i++ ){
+	  html += "<p>" + thelist[i].first + " : " + thelist[i].second + "</p>";
+	}
 
-    return html;
+	return html;
   }
 
   function clickRow(element){
 
-    alert(element);
+	alert(element);
   }
 
   function updateVariableList(){
-    $("#variable-list").html("");
-    for( var i = 0; i < myVariables.length; i++ ){
-      var currentVar = myVariables[i];
-      var htmlText = '<tr onclick="clickRow(this)" data-id="ice" data-toggle="modal" data-target="#editVariablePopup" style="cursor: pointer;">';
-      htmlText += '<td>' + currentVar.name + '</td>';
-      htmlText += '<td>' + currentVar.type + '</td>';
-      htmlText += '<td>' + currentVar.value + '</td>';
-      htmlText += '</tr>';
-      /*var htmlText = '<li class="list-group-item">';
-      htmlText += currentVar.name + " : " + currentVar.value;
-      htmlText += '<span style="float: right">';
-      htmlText += '<button onclick="deleteVariable(this)" class="variable-delete" id="' + i + '">delete</button>';
-      htmlText += '</span></li>'*/
+	$("#variable-list").html("");
+	for( var i = 0; i < myVariables.length; i++ ){
+	  var currentVar = myVariables[i];
+	  var htmlText = '<tr onclick="startEditVariable(this)" data-id="' + i + '" data-toggle="modal" data-target="#mainPopup" style="cursor: pointer;">';
+	  htmlText += '<td>' + currentVar.name + '</td>';
+	  htmlText += '<td>' + currentVar.type + '</td>';
+	  htmlText += '<td>' + currentVar.value + '</td>';
+	  htmlText += '</tr>';
+	  /*var htmlText = '<li class="list-group-item">';
+	  htmlText += currentVar.name + " : " + currentVar.value;
+	  htmlText += '<span style="float: right">';
+	  htmlText += '<button onclick="deleteVariable(this)" class="variable-delete" id="' + i + '">delete</button>';
+	  htmlText += '</span></li>'*/
 
-      $("#variable-list").append(htmlText);
-    }
+	  $("#variable-list").append(htmlText);
+	}
   }
 </script>
 <script src="/javascripts/index.js"></script>
