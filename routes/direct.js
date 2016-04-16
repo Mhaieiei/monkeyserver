@@ -5152,14 +5152,14 @@ app.post('/edit_aun5-3',isLoggedIn,function(req,res){
       }); 
   });
 
-  app.get('/deltrain',isLoggedIn,function(req,res){
-    console.log("Delete Training");
+  app.get('/delpublication',isLoggedIn,function(req,res){
+    console.log("Delete Publication");
     console.log(req.query.id);
     console.log(req.query.user);
     Work.remove(
           { '_id' : req.query.id },
           function(err, results) {
-            if (err){console.log('delete training err'+err);}
+            if (err){console.log('delete public err'+err);}
           else console.log("delete already");
           }
        );
@@ -5167,13 +5167,13 @@ app.post('/edit_aun5-3',isLoggedIn,function(req,res){
      User.findOneAndUpdate({ '_id' : req.query.user },
       {
        "$pull" : {
-        "training" : req.query.id
+        "publicResearch" : req.query.id
            }
         },function (err, useredit) {
-          if (err){console.log('Cant delete training of user'+err);}
-          else {console.log('Delete training of user already'+ useredit.training.length);}
+          if (err){console.log('Cant delete public of user'+err);}
+          else {console.log('Delete public of user already'+ useredit);}
       });
-    res.redirect('/traininf?name='+req.query.user);   
+    res.redirect('/publicationinf?name='+ req.query.user);   
     
   });
 
