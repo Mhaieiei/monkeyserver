@@ -13,7 +13,7 @@
     function insRow()
     {
 
-      var arr = []
+      
       
         console.log( 'hi');
         var x=document.getElementById('CourseTable');
@@ -35,22 +35,17 @@
         console.log("value="+document.getElementById('arrlen').value);
      
     }
-    </script>
-</head>
-
-
-
-
-
-
-
+</script>
 <div class="container">
            
     <form class="form-horizontal" role="form"  action="/edit_aun5-3?program={{program}}&id={{assessment._id}}" method="post" id = "myForm" > 
       
                 <h3>Mapped The expected learnig outcomes (ELOs)</h3>
                 <br>
-                    
+                      <p hidden>    
+                        <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='{{len}}' readonly=""><br>
+                       
+                      </p>
                     <div class="form-group">
 
                       <label for="inputType" class="col-md-1 control-label">Program: </label>
@@ -58,7 +53,7 @@
                           <select class="form-control" style="width:200px" id="program" name="program">
                                  {{#each program_fac}}          
                                   <option value="{{ programname}}">{{ programname }}</option>                    
-                              {{/each}}
+                                  {{/each}}
                           </select>
                       </div> 
                       <label for="inputType" class="col-md-1 control-label">Assesment Tools: </label>
@@ -79,42 +74,41 @@
                       <label for="inputType" class="col-md-1 control-label">Course </label>
                       <div class="col-md-4">
                          <div id="tab_2">
+                         
+
+                          <div class="btn-group">
+                              <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()">
+                                <span class="glyphicon glyphicon-plus"></span>ADD
+                              </button>
+                          </div>
+                        
                             <table id="CourseTable" class="tablesorter">
                                 <thead>
                                     <tr>
                                     <th ><a>Course name</a></th>
                                     <th><a>Level</a></th>
                                     <th><a>Delete</a></th>
-                                    <th><a>Add</a></th>
+                                   
                                     
                                     </tr>
                                 </thead>
                                
                                 <tbody id = "Coursetbody">
-
-                                <p hidden>    
-                        <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='{{len}}' readonly=""><br>
-                       
-                      </p>
-
-                                   {{#each assessment.subject}}
+                                  {{#each assessment.subject}}
                                     
                                     <tr>
-                                    <td><input  type="text" name="nameCourse" id="nameCourse" value="{{subjectType}}"/></td>
-                                    <td><input  type="text" name="levelCourse" id="levelCourse" value="{{followingReq}}"/></td>
-                                    <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
-                                    </td>   
-
-                                    <td> <button class="btn btn-xs btn-primary" id="insertbutton" value="Insert" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span></button>
-                                    </td> 
-                                         
+                                      <td><input  type="text" name="nameCourse" id="nameCourse" value="{{subjectType}}"/></td>
+                                      <td><input  type="text" name="levelCourse" id="levelCourse" value="{{followingReq}}"/></td>
+                                      <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
+                                      </td>                                          
                                     </tr> 
-                                     {{/each}}        
+                                  {{/each}}        
 
                                 </tbody>
                                 
                                 
                             </table>
+                             
                         </div>
                       </div>
                     </div>
