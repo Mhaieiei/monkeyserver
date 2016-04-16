@@ -23271,20 +23271,20 @@ ContextPad.prototype.getPopup = function(element){
 
   currentElementId = element.id;
 
+  var mappingHtml = '';     
+  mappingHtml += '<div><b>Input Mapping</b><button onclick="startMap(\'Input\')" data-toggle="modal" data-target="#mainPopup">Add new mapping</button></div>';
+  mappingHtml += '<div id="input-mapping-list">' + getMappingList(currentElementId, 'inputMappings') + '</div>';
+  mappingHtml += '<div><b>Output Mapping</b><button onclick="startMap(\'Output\')" data-toggle="modal" data-target="#mainPopup">Add new mapping</button></div>';
+  mappingHtml += '<div id="output-mapping-list">' + getMappingList(currentElementId, 'outputMappings') + '</div>';
 
   if( element.type === 'bpmn:ServiceTask'){
     html += '<p><b>Service</b>';
     html += '<div class="selected-service">' + myElements[currentElementId].serviceId + '</div>';
     html += '<input class="selected-service-id" type="hidden"></input>';
     html += '<p><b>Setting</b></p>';
-    html += '<button onclick="selectService()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#selectServicePopup">Select service</button>';
+    html += '<button onclick="startSelectService()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#mainPopup">Select service</button>';
     html += '<a class="btn btn-default btn-sm" href="/service/create" target="_blank">Create new service</a></div>';
-    
-    html += '<div><b>Input Mapping</b><button data-toggle="modal" data-target="#inputMappingPopup">Add new mapping</button></div>';
-    html += '<div id="input-mapping-list">' + getMappingList(currentElementId, 'inputMappings') + '</div>';
-  
-    html += '<div><b>Output Mapping</b><button data-toggle="modal" data-target="#outputMappingPopup">Add new mapping</button></div>';
-    html += '<div id="output-mapping-list">' + getMappingList(currentElementId, 'outputMappings') + '</div>';
+    html += mappingHtml;
 
   }
   else if( element.type === 'bpmn:UserTask'){
@@ -23297,14 +23297,10 @@ ContextPad.prototype.getPopup = function(element){
     html += '<p><b>Form</b>';
     html += '<div class="selected-form">' + currentFormName + '</div>';
     html += '<input class="selected-form-id" type="hidden"></input>';
-    html += '<div><button onclick="selectForm()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#selectFormPopup">Select form</button>';
+    html += '<div><button onclick="startSelectForm()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#mainPopup">Select form</button>';
     html += '<a class="btn btn-default btn-sm" href="/form/create" target="_blank">Create new form</a></div>';
-    
-    html += '<div><b>Input Mapping</b><button data-toggle="modal" data-target="#inputMappingPopup">Add new mapping</button></div>';
-    html += '<div id="input-mapping-list">' + getMappingList(currentElementId, 'inputMappings') + '</div>';
-  
-    html += '<div><b>Output Mapping</b><button data-toggle="modal" data-target="#outputMappingPopup">Add new mapping</button></div>';
-    html += '<div id="output-mapping-list">' + getMappingList(currentElementId, 'outputMappings') + '</div>';
+    html += mappingHtml;
+
   }
 
   return html;
