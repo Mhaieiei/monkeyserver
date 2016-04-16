@@ -51,7 +51,7 @@
                             <td></td>
                             <td></td>
                             <td><a href='/editpublication?id=<%= Userinfo.publicResearch[i].id %>&user=<%= user %>'>Edit</a></td>
-                            <td><a href='/delpublication?'>Delete</a></td>
+                            <td><a href='/delpublication?id=<%= Userinfo.publicResearch[i].id %>&user=<%= user %>'>Delete</a></td>
                         </tr>
                         <%}else{%>
                             <tr>
@@ -75,7 +75,7 @@
                             <td><%= Userinfo.publicResearch[i].issue %></td>
                             <td><%= Userinfo.publicResearch[i].article %></td>
                             <td><a href='/editpublication?id=<%= Userinfo.publicResearch[i].id %>&user=<%= user %>'>Edit</a></td>
-                            <td><a href='/delpublication?'>Delete</a></td>
+                            <td><a href='/delpublication?id=<%= Userinfo.publicResearch[i].id %>&user=<%= user %>'>Delete</a></td>
                         </tr>
                         <%}                   	
                     	}%>
