@@ -4,8 +4,13 @@
     function deleteRow(row)
     {
         var i=row.parentNode.parentNode.rowIndex;
+        console.log("row(i): "+i);
+        var x=document.getElementById('CourseTable');
+        var len = x.rows.length - 1;
+        console.log("before delete(len)="+len);
         document.getElementById('CourseTable').deleteRow(i);
-        var rowind = i-1;
+        var rowind = len-1;
+        console.log("after delete(rowind)="+rowind);
         document.getElementById('arrlen').value = rowind;
         console.log("value="+document.getElementById('arrlen').value);
     } 
@@ -100,7 +105,9 @@
                                       <td><input  type="text" name="nameCourse" id="nameCourse" value="{{subjectType}}"/></td>
                                       <td><input  type="text" name="levelCourse" id="levelCourse" value="{{followingReq}}"/></td>
                                       <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
-                                      </td>                                          
+                                      </td>  
+
+
                                     </tr> 
                                   {{/each}}        
 
