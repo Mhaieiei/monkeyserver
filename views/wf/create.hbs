@@ -111,8 +111,8 @@
 				  <div>
 					<b>Initial Value</b><br><input type="text" id="variable-value">
 				  </div>`,
-			footer: `<button type="button" onclick="doAddVariable()" class="btn btn-default" data-dismiss="modal">Add</button>
-			  		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>`
+			footer: `	<button type="button" onclick="doAddVariable()" class="btn btn-default" data-dismiss="modal">Add</button>
+			  			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>`
 		},
 
 		'editVariable': {
@@ -160,6 +160,18 @@
 			header: 'Select service',
 			body: '<div class="service-list"></div>',
 			footer: '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'
+		},
+
+		'addCondition': {
+			header: 'Add condition',
+			body: `	<div>
+						<b>Name</b><br><input type="text" id="condition-name">
+				  	</div>
+				  	<div>
+				  		<b>Condition</b><br><input type="text" id="condition-content">
+				  	</div>`,
+			footer: `	<button type="button" onclick="doAddCondition()" class="btn btn-default" data-dismiss="modal">Add</button>
+			  			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>`
 		}
 
 	}
@@ -340,6 +352,19 @@
   	function doSelectService(element){
   		myElements[currentElementId].serviceId = element.id;
     	$(".selected-service").html( element.id );
+  	}
+
+  	function startAddCondition(){
+  		setPopupDialog('addCondition');
+  	}
+
+  	function doAddCondition(){
+
+  		var conditionName = $('#mainPopup').find('#condition-name');
+		var conditionContent = $('#mainPopup').find('#condition-content');
+
+
+  		alert( conditionName.val() + " : " + conditionContent.val() );
   	}
 
 

@@ -23287,6 +23287,10 @@ ContextPad.prototype.getPopup = function(element){
     html += mappingHtml;
 
   }
+  else if( element.type === 'bpmn:ExclusiveGateway' ){
+    html += '<p><b>Condition</b>';
+    html += '<button onclick="startAddCondition()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#mainPopup">Add</button></p>'; 
+  }
   else if( element.type === 'bpmn:UserTask'){
     
     var currentFormName = "none";
