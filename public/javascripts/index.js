@@ -19913,6 +19913,7 @@ Canvas.prototype._addElement = function(type, element, parent, parentIndex) {
   eggElement.inputMappings = [];
   eggElement.outputMappings = [];
   myElements[element.id] = eggElement;
+
   console.log(myElements);
   console.log( "=== End Canvas.addElement ===");
 
@@ -23287,9 +23288,15 @@ ContextPad.prototype.getPopup = function(element){
     html += mappingHtml;
 
   }
+  else if( element.type === 'bpmn:SequenceFlow' ){
+    html += '<p><b>Condition name</b></p>';
+    html += '<input type="text" id="condition-name" value="' + getConditionName() + '">';
+    html += '<button onclick="saveCondition()">Save</button>';
+  }
   else if( element.type === 'bpmn:ExclusiveGateway' ){
     html += '<p><b>Condition</b>';
     html += '<button onclick="startAddCondition()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#mainPopup">Add</button></p>'; 
+    html += '<div id="condition-list">' + getConditionList() + '</div>';
   }
   else if( element.type === 'bpmn:UserTask'){
     

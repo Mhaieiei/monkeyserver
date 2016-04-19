@@ -10,6 +10,7 @@ var isLoggedIn = require('middleware/loginChecker');
 
 var formController      = require('../lib/form');
 var workflowController  = require('../lib/workflow');
+var executionController = require('../lib/execution');
 var serviceController   = require('../lib/service');
 
 Handlebars.registerHelper('select', function( value, options ){
@@ -5374,6 +5375,7 @@ app.post('/edit_aun5-3',isLoggedIn,function(req,res){
   //==== workflow module =========
 
   app.use('/workflow', workflowController );
+  app.use('/execution', executionController );
   app.use('/form', formController);
   app.use('/service', serviceController );
 	

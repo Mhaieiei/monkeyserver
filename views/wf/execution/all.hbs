@@ -1,0 +1,7 @@
+<div style="margin-left:40px; margin-top: 80px;">
+{{#each result}}
+	<div>Template Id: {{this.templateId}}</div>
+	<div>Current Task: {{this.handler.currentTask.id}}</div>
+	<div><a href="/execution/{{this._id}}">Look</a></div>
+{{/each}}
+</div>

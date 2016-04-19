@@ -363,8 +363,55 @@
   		var conditionName = $('#mainPopup').find('#condition-name');
 		var conditionContent = $('#mainPopup').find('#condition-content');
 
+		if( myElements[currentElementId].conditions === undefined ){
+			myElements[currentElementId].conditions = [];
+		}
 
-  		alert( conditionName.val() + " : " + conditionContent.val() );
+		myElements[currentElementId].conditions.push( {
+			name: conditionName.val(),
+			content: conditionContent.val()
+		});
+
+		updateConditionList();
+
+  	}
+
+  	function updateConditionList(){
+  		var html = getConditionList();
+  		$('#condition-list').html( html );
+  	}
+
+  	function getConditionList(elementId, type){
+
+		if( myElements[currentElementId].conditions === undefined ){
+  			myElements[currentElementId].conditions = [];
+  		}
+
+  		var conditionList = myElements[currentElementId].conditions;
+  		var html = '';
+
+  		for( var i = 0; i < conditionList.length; i++ ){
+  			html += '<p>' + conditionList[i].name + " : " + conditionList[i].content + '</p>';
+  		}
+
+		return html;
+  	}
+
+  	function saveCondition(){
+
+  		var conditionName = $("#condition-name").val();
+  		alert(conditionName);
+
+  		myElements[currentElementId].conditionName = conditionName;		
+  	}
+
+  	function getConditionName(){
+
+  		if( myElements[currentElementId].conditionName === undefined ){
+  			return '';
+  		} 
+
+  		return myElements[currentElementId].conditionName;
   	}
 
 
@@ -387,34 +434,6 @@
 	$("#variable-list")
 	  .append( '<li class="list-group-item">' + currentVar.name + " : " + currentVar.value 
 		+ '<span style="float: right"><button onclick="deleteVariable(this)" class="variable-delete" id="' + (myVariables.length - 1) +'">delete</button></span></li>' );*/
-  });
-
-  $("#done-input-mapping-btn").click(function(){
-	
-	var mapping = {
-	  first: $("#input-mapping-first").val(),
-	  second: $("#input-mapping-second").val()
-	}
-
-	myElements[currentElementId].inputMappings.push(mapping);
-	
-	$("#input-mapping-first").val("");
-	$("#input-mapping-second").val("");
-
-  });
-
-
-  $("#done-output-mapping-btn").click(function(){
-	
-	var mapping = {
-	  first: $("#output-mapping-first").val(),
-	  second: $("#output-mapping-second").val()
-	}
-
-	myElements[currentElementId].outputMappings.push(mapping);
-	
-	$("#output-mapping-first").val("");
-	$("#output-mapping-second").val("");
   });
 
 
