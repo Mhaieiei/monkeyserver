@@ -223,10 +223,7 @@
                        <% for(j=0;j< student[i].groupOftype.length;j++){%>
                         
                         <% if(count == 0){ %>
-                        <% if(student[i].groupOftype[j]._id.type == 'Graduate'){ %>
-
-                           
-                        <%}%>
+                        
                         <td><%=student[i].groupOftype[j]._id.type%></td>
                         <td><%=student[i].groupOftype[j].count%></td>
                         </tr>
@@ -250,42 +247,66 @@
                             <td><%=student[i].sunOfYear%></td>
 
                         </tr>
+                        <%}%>
                         <tr>
-                            <th>TEST LENGTH FTES</th>
-                            
-
+                            <th></th>
+                            <th>No. of Students / FTEs of staffs</th>
+                            <th>No. of Graduates / FTEs of staffs</th>
+                            </tr>
 
                                 
                                 <%count = 0%>
                     <%FTE = 0%>
                     <%keepFTE = []%>
                         <% for(i=0;i< roleOfuser.length;i++){%>
-                        <th><%= roleOfuser[i]._id %></th>
-                      <%FTE = 0%>
-                       <% for(j=0;j< roleOfuser[i].groupOftype.length;j++){%>
-                        
-                        
-                        <% if(roleOfuser[i].groupOftype[j]._id.type == "Visiting Member"){ %>
 
-                            <% FTE += (roleOfuser[i].groupOftype[j].count * 0.1)%>
-                        <%}else{%>
-                            <% FTE += roleOfuser[i].groupOftype[j].count %>
-                        <%}%>
-                    <%}%>
-                        
-                        
-                        
-                            
-                            <td><%=student[i].sunOfYear /FTE%></td>
-                            
+                            <% for(k=0;k< student.length;k++){%>
+
+                                <% if(roleOfuser[i]._id == student[k]._id ){ %>
+                                <tr>
+                                    <th><%= roleOfuser[i]._id %></th>
+                                        <%FTE = 0%>
+                                        <% for(j=0;j< roleOfuser[i].groupOftype.length;j++){%>
+                                            
+                                            
+                                            <% if(roleOfuser[i].groupOftype[j]._id.type == "Visiting Member"){ %>
+
+                                                <% FTE += (roleOfuser[i].groupOftype[j].count * 0.1)%>
+
+                                            <%}else{%>
+                                                <% FTE += roleOfuser[i].groupOftype[j].count %>
+                                            <%}%>
+                                        <%}%>
+                                    
+                                    
+                                    
+                                        
+                                        <td><%=student[k].sunOfYear /FTE%></td>
+                                        <% for(g=0;g< student[k].groupOftype.length;g++){%>
+
+                                            <% if(student[k].groupOftype[g]._id.type == "Graduate"){ %>
+                                
+                                            <td><%=student[k].groupOftype[g].count /FTE%></td>
+
+                                    
+                                            <%}%>
+                                        <%}%>
+                                        <%}%>
+
                         </tr>
+
+                        
+
+
+
+                            <%}%>
                         <%}%>
 
 
 
 
-                        </tr>
-                        <%}%>
+                        
+                        
                         
                     </tbody>
 

@@ -62,77 +62,85 @@
                     <!-- ใช้ th colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
                     </thead>
                     <tbody>
-                    
+                    <%count = 0%>
+                    <%count1 = 0%>
+                    <%count2 = 0%>
                         <tr>
                         <th colspan=6></th>
                         </tr>
-                       
-                       {{#each docs}}
+                       <% for(i=0;i< docs.length;i++){%>
+                       <%count = 0%>
                        
                         <tr>
-                        <td>{{_id}}</td>
+                        <td><%= docs[i]._id%></td>
                        
-                        <!-- {{#if @first}} 
-                <td>{{subjectType}}</td>
-                <td>{{followingReq}}</td>
-                </tr>
-                
-                {{else}}
-                <tr>
-                <th></th>
-                <th></th>
-                <td>{{subjectType}}</td>
-                <td>{{followingReq}}</td>
-                {{/if}} -->
-                        {{#each user}}
-                        {{#if @first}} 
-                        <td>{{local.title}}</td>             
-                        <td>{{local.name}} {{local.surname}}</td>
+                        <% for(j=0;j< docs[i].user.length;j++){%>
                         
-                        <td>{{education.0.level}}</td>
+                        <% if(count == 0){ %>
+                        <td><%=docs[i].user[j].local.title%></td>             
+                        <td><%=docs[i].user[j].local.name%> <%=docs[i].user[j].local.surname%></td>
                         
-                        <td>{{local.yearOfTeaching}}</td>
-                        {{#each publicResearch}}
-                        {{#if @first}} 
-                        <td>{{typepublic}}</td>
+                        <% for(k=0;k< docs[i].user[j].education.length;k++){%>
+                        <% if(docs[i].user[j].education[k].level == 'Doctoral'){ %>
+                        <td><%=docs[i].user[j].education[k].degree%></td>
+                        <%}%>
+                        <%}%>
+                        <td><%=docs[i].user[j].local.yearOfTeaching%></td>
+                        <%count1 = 0%>
+                        <% for(g=0;g< docs[i].user[j].publicResearch.length;g++){%>
+                        
+                        <% if(count1 == 0){ %>
+                        <td><%=docs[i].user[j].publicResearch[g].typepublic%></td>
                         </tr>
-                        {{else}}
+                        <%}else{%>
                         <tr>
                         <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
-                        <<td>{{typepublic}}</td>
-                        {{/if}}
-                        {{/each}}
+                        <<td><%=docs[i].user[j].publicResearch[g].typepublic%></td>
+                        <%}%>
+                        <%count1++%>
+                        <%}%>
                         </tr>
-                       {{else}}
-                <tr>
-                <th></th>
-                
-                <td>{{local.title}}</td>             
-                        <td>{{local.name}} {{local.surname}}</td>
-                        <td>{{education.0.level}}</td>
-                        <td>{{local.yearOfTeaching}}</td>
-                        {{#each publicResearch}}
-                        {{#if @first}} 
-                        <td>{{typepublic}}</td>
+                       <%}else{%>
+                        <tr>
+                        <th></th>
+                        
+                        <td><%=docs[i].user[j].local.title%></td>             
+                        <td><%=docs[i].user[j].local.name%> <%=docs[i].user[j].local.surname%></td>
+
+                        <% for(k=0;k< docs[i].user[j].education.length;k++){%>
+                        <% if(docs[i].user[j].education[k].level == 'Doctoral'){ %>
+                        <td><%=docs[i].user[j].education[k].degree%></td>
+                        <%}%>
+                        <%}%>
+
+                        <td><%=docs[i].user[j].local.yearOfTeaching%></td>
+
+                        <%count1 = 0%>
+                        <% for(g=0;g< docs[i].user[j].publicResearch.length;g++){%>
+                        <% if(count1 == 0){ %>
+                        <td><%=docs[i].user[j].publicResearch[g].typepublic%></td>
                         </tr>
-                        {{else}}
+                        <%}else{%>
                         <tr>
                         <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
-                        <<td>{{typepublic}}</td>
-                        {{/if}}
-                        {{/each}}
-                {{/if}}
-                        {{/each}}
+                        <<td><%=docs[i].user[j].publicResearch[g].typepublic%></td>
+                        <%}%>
+                        <%count1++%>
+                        <%}%>
+                <%}%>
+                        <%count++%>
+                        <%}%>
                         </tr>  
-                        {{/each}}
+                        
+                        <%}%>
                     </tbody>
 
                   </table>

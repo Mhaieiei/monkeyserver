@@ -48,7 +48,7 @@
                             
                             <th>Academic Year</a></th>
                             <th>No. of Students</a></th>
-                            <td colspan=2>Student Status</a></td>
+                            <td colspan=3>Student Status</a></td>
                             
                             
                             
@@ -59,6 +59,7 @@
                             <td></td>
                             <th>Type</th>
                             <th>Qty</th>
+                            <th>%</th>
                            
                             
                         </tr>
@@ -68,43 +69,47 @@
                    
                     </thead>
                     <tbody>
-                    {{#if @first}} 
-                <td>{{subjectType}}</td>
-                <td>{{followingReq}}</td>
-                </tr>
-                
-                {{else}}
-                <tr>
-                <th></th>
-                <th></th>
-                <td>{{subjectType}}</td>
-                <td>{{followingReq}}</td>
-                {{/if}}
+                    
 
 
-                        {{#each docs}}
+                        <%count = 0%>
+                      
+                       <% for(i=0;i< docs.length;i++){%>
+                       <%count = 0%>
                         <tr>
                         
-                        <td>{{_id}}</td>
-                        <td>{{sumOfYear}}</td>
-                        {{#each root}}
-                        {{#if @first}} 
-                        <td>{{_id.studentDetail}}</td>
-                        <td>{{count}}</td>
+                        <td><%=docs[i]._id%></td>
+                        <td><%=docs[i].sumOfYear%></td>
+                        <% for(j=0;j< docs[i].root.length;j++){%>
+                        <% if(count == 0){ %>
+                        <td><%=docs[i].root[j]._id.studentDetail%></td>
+                        <td><%=docs[i].root[j].count%></td>
+
+                        <% percen = Math.round(docs[i].root[j].count * 100 / docs[i].sumOfYear)%>
+
+
+                        <td><%= percen%></td>
+
+
                         </tr>
                 
-                        {{else}}
+                        <%}else{%>
                         <tr>
                         <th></th>
                         <th></th>
-                        <td>{{_id.studentDetail}}</td>
-                        <td>{{count}}</td>
-                        {{/if}}
-                        {{/each}}
+                        <td><%=docs[i].root[j]._id.studentDetail%></td>
+                        <td><%=docs[i].root[j].count%></td>
+
+                        <% percen = Math.round(docs[i].root[j].count * 100 / docs[i].sumOfYear)%>
+                        <td><%= percen%></td>
+
+                        <%}%>
+                        <%count++%>
+                        <%}%>
                         
                         
                         </tr>  
-                        {{/each}}
+                        <%}%>
                     </tbody>
 
                   </table>

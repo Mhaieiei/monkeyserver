@@ -18,20 +18,14 @@ var programSchema = mongoose.Schema({
 	structureOfCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'structure' }],
 	referenceCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'referenceCurriculum' }],
 	Responsibility: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Responsibility' }],
-	noOfStaff: [{ type: mongoose.Schema.Types.ObjectId, ref: 'noOfStaff' }],
+	
     Programmanagement : mongoose.Schema.Types.Mixed
 
 
 
 });
 
-var noOfStaffSchema = mongoose.Schema({
 
-    staff: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    academicYear: String,
-    program: String,
-    type:String //academic staff, support staff
-});
 
 var EvaluationMethodSchema = mongoose.Schema({
 
@@ -56,6 +50,5 @@ var StakeholderSchema = mongoose.Schema({
 var program = db.model('program', programSchema, 'program');
 program.Evaluation = db.model('EvaluationMethod', EvaluationMethodSchema, 'program');
 program.Stakeholder = db.model('stakeholder', StakeholderSchema, 'program');
-program.noOfStaff = db.model('noOfStaff', noOfStaffSchema, 'program');
 
 module.exports = program;

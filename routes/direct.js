@@ -2965,27 +2965,35 @@ module.exports = function(app, passport) {
 
                              console.log("REFFFF--USERR----activity-->>>", subs);
 
-                             Program.aggregate(
-                                [
-                            {
-                                $match: {
-                                    $and: [
-                                    { 'program': req.query.program },
-                                    //{ 'hour': 5 }
-                                    { 'type': "Academic Staff" }
-                                    ]
-                                }
-                            },
+                            
 
-                            {
-                                $project: {
-                                    "program": 1,
-                                    "academicYear":1,
-                                    "type":1,
-                                    countstaff: { $size: "$staff" }
-                                }
-                            }
-                                ],
+                            Role.aggregate(
+
+                            [
+                              {
+                                  $match: {
+                                      $and: [
+                                      { 'type': 'Academic Staff' },
+                                      { 'program': req.query.program },
+                                      {'position': 'Faculty Member'}
+
+                                      ]
+                                  }
+                              },
+                              {
+                                $unwind:  "$user"    
+                              },
+
+                              { 
+                                $group : { 
+                                  _id : {academicYear:"$academicYear"},
+                                  
+                                  count: { $sum: 1 }
+                              }
+
+                              }
+
+                              ],
                          function (err, noOfProgarm) {
 
                              console.log("REFFFF--USERR----noOfProgarm-->>>", noOfProgarm);
@@ -3123,133 +3131,138 @@ module.exports = function(app, passport) {
       console.log("careerDevelopment");
       console.log("Academictitle");
 
-      //referenceCurriculumSchema.find();
-      Program.aggregate(
-                                [
-                            {
-                                $match: {
-                                    $and: [
-                                    { 'program': req.query.program },
-                                    //{ 'hour': 5 }
-                                    { 'type': "Supporting Staff" }
-                                    ]
-                                }
-                            },
 
-                            {
-                                $project: {
-                                    "program": 1,
-                                    "type":1,
-                                    "academicYear":1,
-                                    countstaff: { $size: "$staff" }
-                                }
-                            }
-                                ],
-                         function (err, noOfProgarm) {
+      
+      Role.aggregate(
 
-                             console.log("REFFFF--Staff----noOfProgarm-->>>", noOfProgarm);
+        [
+          {
+              $match: {
+                  $and: [
+                  { 'type': 'Supporting Staff' },
+                  { 'program': req.query.program }
 
-                             Role.aggregate(
-                                [
-                            {
-                                $match: {
-                                    $and: [
-                                    { 'type': 'Advancement of career title' },
-                                    { 'program': req.query.program }
+                  ]
+              }
+          },
+          {
+            $unwind:  "$user"    
+          },
 
-                                    ]
-                                }
-                            },
-                            {
-                        $unwind:  "$user"    
-                    },
+          { 
+            $group : { 
+              _id : {academicYear:"$academicYear"},
+              
+              count: { $sum: 1 }
+          }
 
-                            { 
-                      $group : { 
-                        _id : {academicYear:"$academicYear" ,title:"$title"},
-                        
-                        count: { $sum: 1 }
-                      }
+          }
 
-                  },
-                  { 
-                      $group : { 
-                        _id : "$_id.academicYear",
-                        user: { $push: "$$ROOT" }
-                        
-                      }
+          ],function (err, noOfProgarm) {
 
+               console.log("REFFFF--Staff----noOfProgarm-->>>", noOfProgarm);
+
+               Role.aggregate(
+                  [
+              {
+                  $match: {
+                      $and: [
+                      { 'type': 'Advancement of career title' },
+                      { 'program': req.query.program }
+
+                      ]
                   }
+              },
+              {
+          $unwind:  "$user"    
+      },
 
-                            
-                                ],
-                         function (err, noOfStaffTitle) {
+              { 
+        $group : { 
+          _id : {academicYear:"$academicYear" ,title:"$title"},
+          
+          count: { $sum: 1 }
+        }
 
-                             console.log("REFFFF--Staff----noOfProgarm-->>>", noOfStaffTitle);
+    },
+    { 
+        $group : { 
+          _id : "$_id.academicYear",
+          user: { $push: "$$ROOT" }
+          
+        }
 
-                             Acyear.findOne({
-                                 $and: [
-                                        { 'program_name': req.query.program },
-                                        { 'academic_year': req.query.year }
-                                 ]
-                             }, function (err, programs) {
-                             Role.roleOfStaff.aggregate(
-                                             [
-                                         {
-                                             $match: {
-                                                 $and: [
-                                                     { "type": "Supporting Staff" },
-                                                    
-                                                     { "academicYear": req.query.year },
-                                        { "program": req.query.program }
+    }
 
-                                                 ]
+              
+                  ],
+           function (err, noOfStaffTitle) {
 
-                                             }
-                                         }]
-                                         , function (err, staff) {
-                                             Program.populate(staff, {
-                                                 path: 'user',
-                                                 model: 'User'
-                                             },
-                                         function (err, user) {
+               console.log("REFFFF--Staff----noOfProgarm-->>>", noOfStaffTitle);
 
-                                             Program.populate(user, {
-                                                 path: 'user.training',
-                                                 model: 'training'
-                                             }, function (err, usertraining) {
-                                                 Program.populate(usertraining, {
-                                                 path: 'user.training.academicYear',
-                                                 model: 'Acyear'
-                                             }, function (err, usertraining_acYear) {
-                                                 console.log("REFFFF----Faculty----Supporting Staff--usertraining->>>", usertraining_acYear);
-                                                 var index = 0;
-                                                 res.render('qa/qa-aun12.2.hbs', {
-                                          //    user: req.user,      
-                                          layout: "qaPage",
+               Acyear.findOne({
+                   $and: [
+                          { 'program_name': req.query.program },
+                          { 'academic_year': req.query.year }
+                   ]
+               }, function (err, programs) {
+               Role.roleOfStaff.aggregate(
+                               [
+                           {
+                               $match: {
+                                   $and: [
+                                       { "type": "Supporting Staff" },
+                                      
+                                       { "academicYear": req.query.year },
+                          { "program": req.query.program }
 
-                                          docs: usertraining_acYear,
-                                          noOfStaffTitle:noOfStaffTitle,
-                                          noOfStaff:noOfProgarm,
-                                          helpers: {
-                                            inc: function (value) { return parseInt(value) + 1; },
-                                            getyear: function (value) { return yearac[value]; },
-                                            getindex: function () { return ++index; }
-                                        }
+                                   ]
 
-                                       });
+                               }
+                           }]
+                           , function (err, staff) {
+                               Program.populate(staff, {
+                                   path: 'user',
+                                   model: 'User'
+                               },
+                           function (err, user) {
 
+                               Program.populate(user, {
+                                   path: 'user.training',
+                                   model: 'training'
+                               }, function (err, usertraining) {
+                                   Program.populate(usertraining, {
+                                   path: 'user.training.academicYear',
+                                   model: 'Acyear'
+                               }, function (err, usertraining_acYear) {
+                                   console.log("REFFFF----Faculty----Supporting Staff--usertraining->>>", usertraining_acYear);
+                                   var index = 0;
+                                   res.render('qa/qa-aun12.2.hbs', {
+                            //    user: req.user,      
+                            layout: "qaPage",
 
+                            docs: usertraining_acYear,
+                            noOfStaffTitle:noOfStaffTitle,
+                            noOfStaff:noOfProgarm,
+                            helpers: {
+                              inc: function (value) { return parseInt(value) + 1; },
+                              getyear: function (value) { return yearac[value]; },
+                              getindex: function () { return ++index; }
+                          }
 
-                        });
-                                             });
-                                         });
-
-
-                                         });
-                             });
                          });
-                         });
+
+
+
+          });
+                               });
+                           });
+
+
+                           });
+               });
+           });
+           });
 
 
   });
@@ -3386,7 +3399,7 @@ module.exports = function(app, passport) {
 
                              
                                 
-                                res.render('qa/qa-aun6.1.hbs', {
+                                res.render('qa/qa-aun6.1.ejs', {
                                    //    user: req.user,      
                                    layout: "qaPage",
 
@@ -3892,7 +3905,7 @@ User.aggregate(
 
             console.log("REFFFF---->>>", studentStatus);
 
-            res.render('qa/qa-aun14.1.hbs', {
+            res.render('qa/qa-aun14.1.ejs', {
                //    user: req.user,      
                layout: "qaPage",
 
@@ -4358,6 +4371,7 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
         
         if (assesment != null) {
           console.log("EDIT-------------------->:"+assesment);
+          console.log("EDIT-------req.query.program------------->:"+req.query.program);
           assesment.assesmentTool = req.body.assname;
           assesment.type = req.body.type;
           assesment.programname= req.query.program;
