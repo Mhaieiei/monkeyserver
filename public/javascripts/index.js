@@ -3198,19 +3198,6 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
     });
   }
 
-  assign(actions, {
-    'setting': {
-      group: 'edit',
-      className: 'icon-service',
-      title: 'Setting',
-      action: {
-          click: function(event, element) {
-            bpmnReplace.openChooser(getReplaceMenuPosition(element), element);
-          }
-        }
-    }
-  });
-
   // Delete Element Entry
   assign(actions, {
     'delete': {
