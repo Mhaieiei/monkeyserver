@@ -4679,11 +4679,14 @@ app.post('/edit_aun5-3',isLoggedIn,function(req,res){
 	app.get('/addthesis',isLoggedIn,function(req,res){
 		console.log("Add Thesis");
 		console.log(req.query.user);
-		res.render('profile/works/addthesis.hbs', {
-			layout: "homePage",
-            username : req.query.user // get the user out of session and pass to template			
-
-      });
+     Fac.find({},function(err,fac){
+          if(err) console.log('Cant query fac'+err);
+            res.render('profile/works/addthesis.hbs', {
+            layout: "homePage",
+            username : req.query.user, // get the user out of session and pass to template
+            faculty : fac     
+          });                        
+        });
     });   
 
     
@@ -4865,7 +4868,259 @@ app.post('/edit_aun5-3',isLoggedIn,function(req,res){
          }
         });
     
-     });       
+     }); 
+
+  app.get('/editthesis',isLoggedIn,function(req,res){    
+    console.log("[Get] Edit Thesis");
+    console.log(req.query.id);
+    console.log(req.query.user);
+
+    Work.Project.findById(req.query.id, function( err, project ) {
+        if( !err ) {
+        console.log(project);
+        Acyear.findById(project.acyear, function(err, ac) {            
+            if (err){console.log("Error ...1");}
+            // check to see if theres already a user with that email
+            if (ac!= null) {          
+             console.log(ac.academic_year);
+             console.log(ac.program_name);
+               Fac.find({},function(err,fac){
+                if(err) console.log('Cant query fac'+err);
+                 res.render('profile/works/editthesis.hbs', {
+                    layout: "homePage",
+                    project: project ,
+                    username: req.query.user,
+                    faculty: fac,
+                    idwork : req.query.id,
+                    acyear : ac.academic_year,
+                    program : ac.program_name,
+                    len : project.user.length,
+                     helpers: {
+                        inc: function (value) { return parseInt(value) + 1; },                        
+                    }          
+                  });                          
+               });
+            }         
+          });            
+        } else {
+            return console.log( "query thesis err"+err );
+          }
+      }); 
+  });
+
+app.post('/editthesis',isLoggedIn,function(req,res){
+    console.log("Posttt Edit thesis");
+    console.log(req.body.name);
+    console.log(req.body.username);
+    console.log(req.body.nameuser);
+    console.log(req.body.roleuser);
+    
+    console.log(req.body.program)
+    console.log(req.body.acyear);
+    
+    console.log(req.body.arrlen);
+        
+    var strlen = req.body.arrlen; 
+    var remainlen = req.body.remainuser;
+    var userdel = req.body.deluser;
+    var userarr = [];
+    var array = [];    
+    var useradd = [];
+    
+      //advisee
+      if(remainuser == strlen){
+        array = [];
+      }else{
+        remainlen +=1;
+        for(i= remainlen;i< strlen; i++){
+          if(strlen==1){
+            var userobj = {
+              'iduser': req.body.nameuser,
+              'typeuser' : req.body.roleuser
+            }
+            if(req.body.roleuser == 'advisee'){
+              var obj ={ 
+                      '_id' : req.body.nameuser,
+                      'education': [],
+                      'local': {
+                      'username': req.body.nameuser,
+                'name': req.body.nameuser,
+                'program' : "",
+                'role': "student"},
+                }                   
+            }else{
+              var obj = { 
+                      '_id' : req.body.nameuser,
+                      'education': [],
+                      'local': {
+                      'username': req.body.nameuser,
+                'name': req.body.nameuser,
+                'program' : "",
+                'role': "staff"}, 
+                }                 
+            }
+          }else{
+            var userobj = {
+              'iduser': req.body.nameuser[i],
+              'typeuser' : req.body.roleuser[i]
+            }
+            if(req.body.roleuser[i] == 'advisee'){
+              var obj ={ 
+                      '_id' : req.body.nameuser[i],
+                      'education': [],
+                      'local': {
+                      'username': req.body.nameuser[i],
+                'name': req.body.nameuser[i],
+                'program' : "",
+                'role': "student"},
+                }                   
+            }else{
+              var obj = { 
+                      '_id' : req.body.nameuser[i],
+                      'education': [],
+                      'local': {
+                      'username': req.body.nameuser[i],
+                'name': req.body.nameuser[i],
+                'program' : "",
+                'role': "staff"}, 
+                }                 
+            }
+          }
+          userarr.push(userobj);        
+          array.push(obj);
+        }
+
+      }
+        
+    console.log(userarr);
+    console.log(array); 
+    Acyear.findOne({ 
+        $and: [
+                   { 'program_name' :  req.body.program  },
+                   { 'academic_year' : req.body.acyear }
+                 ]
+        
+      }, function(err, ac) {
+          
+          if (err){
+        console.log("Error ...1");
+      }
+          // check to see if theres already a user with that email
+      if (ac!= null) {
+        console.log("There have table(s) to show");
+        console.log(ac);
+      Work.findById(req.body.idwork, function (err, rows) {
+              if(err){
+                console.log("Find thesis err"+err);
+              }
+              if(rows != null){
+                console.log("This work have already");
+                console.log(rows);
+                
+                var workobj = { 
+              'nametitle': req.body.name,
+              '_type' : 'advisingProject',            
+              'acyear' :  ac._id,
+              'user' : userarr
+              
+              }
+            //also add subject code to user
+                var newthesis       = new Work.Project(workobj);                    
+                // save the user
+                newthesis.save(function(err,thesis) {
+                    if (err){console.log('new Thesis save'+err);}
+                    else {
+                      console.log("Save new thesis already"+thesis);
+                      //set id of work to each user
+               async.eachSeries(array,function(item,callback) { 
+                 User.findOne({'_id': item._id},function(err,user){
+                  if(err){console.log("user can't find"+err);}
+                  if(user != null){
+                    user.advisingProject.push(thesis._id); //save id of project to user
+                    user.save(function(err,user) {
+                                if (err){console.log('user cant update work id'+err);}  
+                                else{
+                                  console.log("Update advisingProject succesful");
+                                  callback(err);  
+                                                    
+                                }                         
+                            });  
+                  }
+                  else{
+                    //can't find user, create new
+                     // create the user
+                           
+                      //also add subject code to user
+                      console.log(item);
+                            var newUser        = new User(item);
+                            newUser.advisingProject.push(thesis._id);                   
+                            // save the user
+                            newUser.save(function(err,user) {
+                                if (err){console.log('Cant save new user'+err);}
+                                else {
+                                  console.log("Insert new User already");
+                                  callback(err);       
+                                  }
+                                    
+                            });
+                            }
+                         });                            
+                        
+                  },function(err) {
+                      if (err) console.log('Async enroll err');
+                      res.redirect('/thesisinf?name='+req.body.username);
+                      console.log("done");
+                  });
+                      }
+                    });
+                
+              }
+              else{
+           
+                
+                
+              }
+              
+            });  
+        
+          } else {
+             console.log("There not have table to show,make new");
+             
+           }
+          });
+      
+       }); 
+
+
+  app.get('/delthesis',isLoggedIn,function(req,res){
+    console.log("Delete Thesis");
+    console.log(req.query.id);
+    console.log(req.query.user);
+    Work.Project.findOneAndUpdate({ '_id' : req.query.id },
+      {
+       "$pull" :  {
+        "user" :  {
+             "iduser": req.query.user
+            } //inserted data is the object to be inserted 
+          }
+        },function (err, useredit) {
+          if (err){console.log('Cant delete advising project of user'+err);}
+          else {console.log('Delete advising project of user already'+ useredit);}
+      });
+
+     User.findOneAndUpdate({ '_id' : req.query.user },
+      {
+       "$pull" : {
+        "advisingProject" : req.query.id
+           }
+        },function (err, useredit) {
+          if (err){console.log('Cant delete advising project of user'+err);}
+          else {console.log('Delete advising project of user already'+ useredit);}
+      });
+    res.redirect('/thesisinf?name='+ req.query.user);   
+    
+  });
+      
     
   
   //-----------------publication------------------------------------------------------------------
@@ -5154,6 +5409,7 @@ app.post('/edit_aun5-3',isLoggedIn,function(req,res){
                     acid : req.query.id,
                     acyear : ac.academic_year,
                     program : ac.program_name,
+                    len : public.user.length,
                      helpers: {
                         inc: function (value) { return parseInt(value) + 1; },                        
                     }          
@@ -5171,26 +5427,59 @@ app.post('/edit_aun5-3',isLoggedIn,function(req,res){
     console.log("Delete Publication");
     console.log(req.query.id);
     console.log(req.query.user);
-    Work.remove(
-          { '_id' : req.query.id },
-          function(err, results) {
-            if (err){console.log('delete public err'+err);}
-          else console.log("delete already");
-          }
-       );
-
-     User.findOneAndUpdate({ '_id' : req.query.user },
-      {
-       "$pull" : {
-        "publicResearch" : req.query.id
-           }
-        },function (err, useredit) {
-          if (err){console.log('Cant delete public of user'+err);}
-          else {console.log('Delete public of user already'+ useredit);}
-      });
-    res.redirect('/publicationinf?name='+ req.query.user);   
     
-  });
+     Work.findById(req.query.id, function(err, sub) {            
+            if (err){
+              console.log("Error ...1");
+            }
+            // check to see if theres already a user with that email
+            if (sub!=null) {
+               console.log("That code is already have");
+               console.log(sub.user);
+              async.eachSeries(sub.user,function(item,callback) {          
+                User.findOneAndUpdate({ '_id' : item.iduser },
+                {
+                 "$pull" : {
+                  "publicResearch" : req.query.id
+                     }
+                  },function (err, useredit) {
+                    if (err){console.log('Cant delete public of user'+err);}
+                    else {
+                      console.log('Delete public of user already'+ useredit);
+                      callback(err);
+                    }
+                });
+          },function(err) {
+              if (err) console.log('mhai_4');
+              Work.remove(
+                  { '_id' : req.query.id },
+                  function(err, results) {
+                    if (err){console.log('delete public err'+err);}
+                  else console.log("delete already");
+                  }
+               );
+               res.redirect('/publicationinf?name='+ req.query.user);   
+    
+              console.log("done");
+          });
+        }
+
+    // Work.Public.findOneAndUpdate({ '_id' : req.query.id },
+    //   {
+    //    "$pull" :  {
+    //     "user" :  {
+    //          "iduser": req.query.user
+    //         } //inserted data is the object to be inserted 
+    //       }
+    //     },function (err, useredit) {
+    //       if (err){console.log('Cant delete publication of user'+err);}
+    //       else {console.log('Delete publication of user already'+ useredit);}
+    //   });
+
+     
+   
+   });
+ });
 
 
 
