@@ -1,1 +1,27 @@
-In processing by ChinLI
+<h1>Roles</h1>
+
+
+<a href="/roleManagement/createRole"><ins><i>Create</i></ins></a>
+<br>
+<div class="table-responsive">
+  <table class="table">
+    <tr> <!-- row-->
+    	<td> <!--column -->
+    		<b>Role Name</b>
+    	</td>
+    	<td>
+    		<b>Description</b>
+    	</td>
+    </tr>
+    <tr>
+    	{{#each data}}
+    	<td>
+    		{{this.name}}
+    	</td>
+    	<td>
+    		{{this.description}}
+    	</td>
+    	{{/each}}
+    </tr>
+  </table>
+</div>
