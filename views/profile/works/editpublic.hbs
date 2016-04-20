@@ -110,6 +110,7 @@ $(document).ready(function() {
       document.getElementById('arrlen').value = rowind;
       console.log("value="+document.getElementById('arrlen').value);
    
+     
   }
   
   
@@ -124,6 +125,7 @@ $(document).ready(function() {
                    
            <p hidden>    
             <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>
+            <input type="text" tabindex="1"  name="userlen" id="userlen" value='{{len}}' readonly=""><br>
             <input type="text" class="form-control" name="username" id="inputType" value={{username}}>
              <input type="text" class="form-control" name="year" id="year" value={{acyear}}>
             <input type="text" class="form-control" name="program" id="programyear" value={{program}}>
@@ -222,8 +224,14 @@ $(document).ready(function() {
                             <td>
                               <div class="col-md-4">
                                 <select  id='userselect' class="form-control" style="width:100px" name="roleuser">
+                                {{#if advisor}}
+                                  <option value="advisee" selected="">advisee</option>
+                                   <option value="advisor">advisor</option> 
+                                {{else}}
                                   <option value="advisee">advisee</option>
-                                  <option value="advisor">advisor</option>                                     
+                                   <option value="advisor" selected="">advisor</option>                              
+                                
+                                {{/if}}
                                </select>
                             </div>
                             </td>

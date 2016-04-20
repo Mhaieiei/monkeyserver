@@ -47,6 +47,7 @@
                         <th><a href="javascript:table_sort('tab_2',3)">Advisee</a></th>
                         <th><a href="javascript:table_sort('tab_2',3)">Advisor</a></th>
                         <th><a href="javascript:table_sort('tab_2',4)">Co-advisor</a></th>
+                         <th><a href="javascript:table_sort('tab_2',6)">Edit</a></th>
                         <th><a href="javascript:table_sort('tab_2',6)">Delete</a></th>
                         </tr>
                     </thead>
@@ -68,7 +69,8 @@
                     				<%}
                     			}%>
                     		</td>
-                    		<td><a href='/delthesis?'>delete</a></td>
+                            <td><a href='/editthesis?id=<%= Userinfo.advisingProject[i].id %>&user=<%= user %>'>edit</a></td>
+                    		<td><a href='/delthesis?id=<%= Userinfo.advisingProject[i].id %>&user=<%= user %>'>delete</a></td>
                     	</tr>
                     	<%}%>
                         

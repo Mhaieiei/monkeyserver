@@ -1,14 +1,55 @@
 
 <script>
-	var array = [];
+
+	$(document).ready(function() {
+   	var getyear = document.getElementById('year').value;
+    var getprogram=document.getElementById('programyear').value;
+       
+    var mySelectYear = document.getElementById('acyear');
+    var mySelectProgram = document.getElementById('program');
+    
+    for(var i, j = 0; i = mySelectYear.options[j]; j++) {
+      if(i.value == getyear) {
+        mySelectYear.selectedIndex = j;
+        break;
+      }
+    }
+    for(var k, l = 0; k = mySelectProgram.options[l]; l++) {
+      if(k.value == getprogram) {
+        mySelectProgram.selectedIndex = l;
+        break;
+      }
+    }
+   
+});
+
+
+	var deluser = [];
 	var rowind = 1;
+	var remainuser = 1;
+	var userlen = 1;
+    
 	function deleteRow(row)
 	{
+
+		var x=document.getElementById('userTable');
 	    var i=row.parentNode.parentNode.rowIndex;
+	    var iduser = x.rows[i].cells[1].firstChild.value;
+	    if(iduser != ""){
+	    	deluser.push(iduser);
+	    }
+	    console.log('user'+iduser);
 	    document.getElementById('userTable').deleteRow(i);
-	    rowind--;
+	    rowind = i-1;
+	    remainsuer = document.getElementById('remainuser').value;
+	    userlen = document.getElementById('userlen').value;
+	    remainuser = userlen - deluser.length;
 	    document.getElementById('arrlen').value = rowind;
+	    document.getElementById('remainuser').value = remainuser;
+	    document.getElementById('deluser').value = deluser;
 	   	console.log("value="+document.getElementById('arrlen').value);
+	   	console.log("userdel="+document.getElementById('deluser').value);
+	   	console.log("remainuser length="+document.getElementById('remainuser').value);
 	}
 
 
@@ -27,15 +68,18 @@
 	    inp1.value = '';
 	    var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
 	    var inp3 = new_row.cells[3].getElementsByTagName('input')[0];
-	    // inp3.value = '';
-	    // var inp4 = new_row.cells[4].getElementsByTagName('input')[0];
-	    // inp4.value = '';
 	    console.log(new_row);
 	    y.appendChild( new_row );
 	   	rowind++;
 	   	console.log(rowind);
-	   	document.getElementById('arrlen').value = rowind;
+	   	document.getElementById('arrlen').value = len;
 	   	console.log("value="+document.getElementById('arrlen').value);
+
+	    // var idadd = olduser - deluser.length + 1;
+     //  	idadd +=1;
+     //  	document.getElementById('adduser').value = idadd;
+      	console.log("add user start="+document.getElementById('remainuser').value);
+
 	 
 	}
 	
@@ -50,17 +94,26 @@
                     </div>
                    
                     <p hidden>		
-					  <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>
+					  <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='{{len}}' readonly=""><br> <!-- num of array len -->
+					  <input type="text" tabindex="1"  name="remainuser" id="remainuser" value='{{len}}' readonly=""><br> <!-- num of remain user -->
+					   <input type="text" tabindex="1"  name="userlen" id="userlen" value='{{len}}' readonly=""><br> <!-- num of user length
+ -->
+
+					  <input type="text" tabindex="1"  name="deluser" id="deluser" value='1' readonly=""> <!-- array of delete user -->
+					  
 					  <input type="text" class="form-control" name="username" id="inputType" value={{username}}>
+					  <input type="text" class="form-control" name="year" id="year" value={{acyear}}>
+            		  <input type="text" class="form-control" name="program" id="programyear" value={{program}}>
+            		  <input type="text" class="form-control" name="idwork" id="idwork" value={{idwork}}>
 					</p>
 			        <label for="inputType" class="col-md-2 control-label">Name : </label>
 	                <div class="col-md-4">
-	                      <input type="text" class="form-control" name="name" id="inputType">
+	                      <input type="text" class="form-control" name="name" value={{project.nametitle}} id="inputType">
 	                </div>     
 	                <div class="form-group"> 
 	                     <label for="inputType" class="col-md-2 control-label">Program : </label>
 	                     <div class="col-md-4">
-	                        <select class="form-control" style="width:200px" id="sub_programs" name="program">
+	                        <select id='program' class="form-control" style="width:200px" id="sub_programs" name="program">
                                
                             {{#each faculty}} 
                                  {{#each sub_program}}
@@ -72,7 +125,7 @@
 	                      <label for="inputType" class="col-md-2 control-label">Acedamic Year : </label>
 	                      <div class="col-md-4">
 	                     
-	                        <select class="form-control" style="width:100px" name="acyear">
+	                        <select id='acyear' class="form-control" style="width:100px" name="acyear">
 	                                    <option value="2012">2012</option>
 	                                    <option value="2013">2013</option>
 	                                    <option value="2014">2014</option>
@@ -92,9 +145,10 @@
 	                        </tr>
 	                    </thead>
 	                    <tbody id = "usertbody">
+	                    {{#each project.user}}
 	                         <tr>
-					            <td>1</td>
-					            <td><input  type="text" name="nameuser" id="latbox"/></td>
+					            <td>{{inc @index}}</td>
+					            <td><input  type="text" name="nameuser" value="{{iduser}}" id="latbox"/></td>
 					            
 					            <td>
 					            	<div class="col-md-4">
@@ -114,7 +168,8 @@
 							          <span class="glyphicon glyphicon-trash"></span>
 							        </button>
 					            </td>	            
-					        </tr>                    
+					        </tr> 
+					       {{/each}}                   
 	                    </tbody>
                     </table>
                     </div>
