@@ -5704,11 +5704,19 @@ app.post('/editthesis',isLoggedIn,function(req,res){
       });
   });
   //===========================API=================================================================
-    app.get('/api/user/:id',function(req,res){
+    app.get('/api/users/:id',function(req,res){
       console.log("get api user id");
       var id = req.params.id;
       console.log(id);
       User.findById(id, function(err, result){
+        if(err){console.log("api err"+err);}
+        res.json(result);
+      }); 
+
+    });
+    app.get('/api/users',function(req,res){
+      console.log("get api users");
+      User.find({}, function(err, result){
         if(err){console.log("api err"+err);}
         res.json(result);
       }); 
