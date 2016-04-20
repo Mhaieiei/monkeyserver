@@ -12,6 +12,7 @@ var formController      = require('../lib/form');
 var workflowController  = require('../lib/workflow');
 var executionController = require('../lib/execution');
 var serviceController   = require('../lib/service');
+var roleManagementController = require('../lib/roleManagement');
 
 Handlebars.registerHelper('select', function( value, options ){
         var $el = $('<select />').html( options.fn(this) );
@@ -5392,7 +5393,7 @@ app.post('/edit_aun5-3',isLoggedIn,function(req,res){
   app.use('/execution', executionController );
   app.use('/form', formController);
   app.use('/service', serviceController );
-	
+	app.use('/roleManagement',roleManagementController);
   //==== end workflow module =========
 
 	//=====================================
