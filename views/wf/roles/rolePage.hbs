@@ -13,15 +13,15 @@
     		<b>Description</b>
     	</td>
     </tr>
+    {{#each data}}
     <tr>
-    	{{#each data}}
     	<td>
     		{{this.name}}
     	</td>
     	<td>
     		{{this.description}}
     	</td>
-    	{{/each}}
     </tr>
+    {{/each}}
   </table>
 </div>
