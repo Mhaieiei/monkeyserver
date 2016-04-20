@@ -21,9 +21,9 @@ var subjectSchema = mongoose.Schema({
 
 var ELOSchema = mongoose.Schema({
 	_id: Number,
-    title: String,
-    description: [String],
-    number:Number
+    description: String,
+    number:Number,
+    eloFromTQF:[String]
     
 });
 

@@ -4223,63 +4223,65 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
 
 //-------------------------------------------------add ELOs-aun 1.3-------------------------------------------------------
   app.get('/addelos',isLoggedIn,function(req,res){
-       res.render('qa/editqa/add_elos.hbs', {
-            layout: "qaPage"
-       });            
+
+    console.log("[GET] Add ELOs");
+    res.render('qa/editqa/add_elos.hbs', {
+        layout: "qaPage"
+    });            
             
     
   });
-  app.post('/addelos',isLoggedIn,function(req,res){
-    console.log("[POST] Add ELOs");
-    console.log(req.body.indicators);
-    console.log(req.body.target);
-    console.log(req.body.actions);
-    console.log(req.body.results);
-    console.log(req.body.program);
-    console.log(req.body.acid);
-    console.log(req.body.year);
-    console.log(req.body.arrlen);
+  // app.post('/addelos',isLoggedIn,function(req,res){
+  //   console.log("[POST] Add ELOs");
+  //   console.log(req.body.indicators);
+  //   console.log(req.body.target);
+  //   console.log(req.body.actions);
+  //   console.log(req.body.results);
+  //   console.log(req.body.program);
+  //   console.log(req.body.acid);
+  //   console.log(req.body.year);
+  //   console.log(req.body.arrlen);
         
-    var strlen = req.body.arrlen; 
-    var userarr = [];
-    var array = [];    
-    //advisee
-    Subject.ELO.findOne({'title' : req.body.elos_name}, function(err, elos){
-      if (err){ console.log("Cant find ELOs"+err); }        
-        if (fac != null) {
-          console.log(elos);
-          elos.ELO.id = req.body.elos_no;
-          elos.ELO.title = req.body.elos_name;
-          elos.ELO.description = req.body.elos_des;
-          elos.ELO.number = req.body.elos_no;
+  //   var strlen = req.body.arrlen; 
+  //   var userarr = [];
+  //   var array = [];    
+  //   //advisee
+  //   Subject.ELO.findOne({'title' : req.body.elos_name}, function(err, elos){
+  //     if (err){ console.log("Cant find ELOs"+err); }        
+  //       if (fac != null) {
+  //         console.log(elos);
+  //         elos.ELO.id = req.body.elos_no;
+  //         elos.ELO.title = req.body.elos_name;
+  //         elos.ELO.description = req.body.elos_des;
+  //         elos.ELO.number = req.body.elos_no;
          
-          elos.save(function(err, addelos) {
-            if (err){console.log('cant edit new ELOs'+err);}  
-            else{
-              console.log(addelos);
-              console.log("Update new ELOs");  
-              res.redirect('/addelos?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
-            }                         
-         });  
+  //         elos.save(function(err, addelos) {
+  //           if (err){console.log('cant edit new ELOs'+err);}  
+  //           else{
+  //             console.log(addelos);
+  //             console.log("Update new ELOs");  
+  //             res.redirect('/addelos?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
+  //           }                         
+  //        });  
 
-          } else {
-             var addElos = new Subject.ELO();
-              elos.ELO.title = req.body.elos_name;
-              elos.ELO.description = req.body.elos_des;
-              elos.ELO.number = req.body.elos_no;
-              addElos.save(function(err,addelos) {
-            if (err){console.log('cant make new program Management'+err);}  
-            else{
-              console.log(addelos);
-              console.log("Insert new program management succesful");  
-              res.redirect('/addelos?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
-            }                         
-         });  
+  //         } else {
+  //            var addElos = new Subject.ELO();
+  //             elos.ELO.title = req.body.elos_name;
+  //             elos.ELO.description = req.body.elos_des;
+  //             elos.ELO.number = req.body.elos_no;
+  //             addElos.save(function(err,addelos) {
+  //           if (err){console.log('cant make new program Management'+err);}  
+  //           else{
+  //             console.log(addelos);
+  //             console.log("Insert new program management succesful");  
+  //             res.redirect('/addelos?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
+  //           }                         
+  //        });  
 
              
-          }
-        });
-    });
+  //         }
+  //       });
+  //   });
     
 
 //---------------------------------------------add aun 5.3--------------------------------------------------------------------
