@@ -44,7 +44,7 @@ subjectSchema.methods.editSubject = function(request, response){
         }
 		
     });
-	response.redirect('/subjects');
+	response.redirect('/admin/subjects');
 
 
 };
