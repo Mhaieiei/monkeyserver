@@ -2714,67 +2714,119 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
     
   });
 
-//-------------------------------------------------add ELOs-aun 1.3-------------------------------------------------------
+//-------------------------------------------------add ELOs-------------------------------------------------------
   app.get('/addelos',isLoggedIn,function(req,res){
 
     console.log("[GET] Add ELOs");
     res.render('qa/editqa/add_elos.hbs', {
-        layout: "qaPage"
+        layout: "qaPage",
+        program: req.query.program
     });            
             
     
   });
-  // app.post('/addelos',isLoggedIn,function(req,res){
-  //   console.log("[POST] Add ELOs");
-  //   console.log(req.body.indicators);
-  //   console.log(req.body.target);
-  //   console.log(req.body.actions);
-  //   console.log(req.body.results);
-  //   console.log(req.body.program);
-  //   console.log(req.body.acid);
-  //   console.log(req.body.year);
-  //   console.log(req.body.arrlen);
+  app.post('/addelos',isLoggedIn,function(req,res){
+    console.log("[POST] Add ELOs");
+    
+   
+    console.log("elos_no: "+req.body.elos_no);
+    console.log("elos_des: "+req.body.elos_des);
+    console.log("arrlen: "+req.body.arrlen);
+
+
+    var strlen = req.body.arrlen; 
+    
+      var array = [];
+      var keepnameELO;
+      var check = 0;
+      var check_duplicate = 0;
+      for(var i=0;i< strlen;i++){
+        if(strlen==1){
+
+          var obj = req.body.nameELO[i];
+
+          array.push(obj);
+          
+        }else{
+          console.log('ARRAY ----req.body.nameELO[i]--- >'+req.body.nameELO[i]);
+          keepnameELO = req.body.nameELO[i];
+          for(var j=i+1;j< strlen;j++){
+
+            if(keepnameELO == req.body.nameELO[j]){
+
+              check =1;
+              check_duplicate = 1;
+            }
+
+
+          }
+          if(check == 0){
+
+            var obj = req.body.nameELO[i];
+            
+            array.push(obj);
+          }
+          else{
+
+          }
+
+          check = 0;
+        }        
+      }
+
+      if(check_duplicate == 0 ){
+
+      console.log('ARRAY ------- >'+array);
+
+    Subject.ELO.findOne({
+          $and: [
+                   { 'number': req.body.elos_no },
+                   { 'program': req.query.program }
+          ]
+      }, function(err, elo) {        
         
-  //   var strlen = req.body.arrlen; 
-  //   var userarr = [];
-  //   var array = [];    
-  //   //advisee
-  //   Subject.ELO.findOne({'title' : req.body.elos_name}, function(err, elos){
-  //     if (err){ console.log("Cant find ELOs"+err); }        
-  //       if (fac != null) {
-  //         console.log(elos);
-  //         elos.ELO.id = req.body.elos_no;
-  //         elos.ELO.title = req.body.elos_name;
-  //         elos.ELO.description = req.body.elos_des;
-  //         elos.ELO.number = req.body.elos_no;
-         
-  //         elos.save(function(err, addelos) {
-  //           if (err){console.log('cant edit new ELOs'+err);}  
-  //           else{
-  //             console.log(addelos);
-  //             console.log("Update new ELOs");  
-  //             res.redirect('/addelos?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
-  //           }                         
-  //        });  
+        if (elo != null) {
+          console.log("EDIT-------------------->:"+elo);
+          console.log("EDIT-------req.query.program------------->:"+req.query.program);
+          
+          elo.description = req.body.elos_des;
+          elo.number= req.body.elos_no;
+          elo.eloFromTQF = array;
+          elo.program = req.query.program;
 
-  //         } else {
-  //            var addElos = new Subject.ELO();
-  //             elos.ELO.title = req.body.elos_name;
-  //             elos.ELO.description = req.body.elos_des;
-  //             elos.ELO.number = req.body.elos_no;
-  //             addElos.save(function(err,addelos) {
-  //           if (err){console.log('cant make new program Management'+err);}  
-  //           else{
-  //             console.log(addelos);
-  //             console.log("Insert new program management succesful");  
-  //             res.redirect('/addelos?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
-  //           }                         
-  //        });  
+          elo.save(function (err) {
+            if(err) {
+                console.error('Cant update new facility');
+            }
+            
+          });
 
-             
-  //         }
-  //       });
-  //   });
+          // res.redirect('/aun5-3?program='+req.body.program);
+          
+
+        } 
+        else {
+            console.log("ADD NEWWWW");
+            //lhuer add course type t yung mai sed (array)
+            newElo = new Subject.ELO();
+            
+            newElo.description = req.body.elos_des;
+            newElo.number= req.body.elos_no;
+            newElo.eloFromTQF = array;
+            newElo.program = req.query.program;
+
+            newElo.save(function(err,add_elo) {
+            if (err){console.log('cant add new elo: '+err);}  
+            else{
+              console.log("add_elo"+add_elo);
+              console.log("Add new ELO succesful");     
+              //     res.redirect('/aun5-3?program='+req.body.program);                   
+            }                         
+            });  
+          }
+          });
+      }
+    });
     
 
 //---------------------------------------------add aun 5.3--------------------------------------------------------------------

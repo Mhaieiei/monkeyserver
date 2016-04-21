@@ -26,7 +26,7 @@
 
       var inp0 = new_row.cells[0].getElementsByTagName('input')[0];
       var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
-     
+      inp0.value = '';
       
       console.log(new_row);
       y.appendChild( new_row );
@@ -39,7 +39,7 @@
 </script>
 
 <div class="container">
-        <form class="form-horizontal" role="form"  action="/addelos" method="post" id = "myForm" > 
+        <form class="form-horizontal" role="form"  action="/addelos?program={{program}}" method="post" id = "myForm" > 
           
            
             <!--<form class="form-horizontal" role="form">-->
@@ -87,6 +87,10 @@
                   </div>
                 </div>
             </div>
+
+            <div class="form-group">
+                      <p align = "right"><button type="submit" class="btn btn-primary">Add</button></p>
+             </div>
 
             
 
