@@ -1,36 +1,9 @@
 
-<!-- {{#each faculty}}				
-	{{program_name}}
-	bb
-	mhai_eiei
-{{/each}} 
 
-{{#each year}}	
-	aa	
-	year {{@index}}		
-	{{this}}
-{{/each}}  
-
-{{year}} -->
 <script>
 
 
-// $(document).ready(function() {
-// 	$( "#head_programs" ).change(function() {
-// 		console.log("Mhai_eiei2");
-//     if ($(this).val() == "Software Engineering"){
-//         $("#sub_programs").val("mhai_eiei");
-//         console.log("Mhai_eiei3");
-//     }
-//     if ($(this).val() == "aaa"){
-//         $("#sub_programs").val("bb");
-//         console.log("Mhai_eiei4");
-//     }
-//     // if ($(this).val() == "Marketing"){
-//     //     $("#occupetion").val("Marketing");
-//     // }
-// 	});
-// });
+
 $(document).ready(function() {
 	$("#head_programs").change(function() { 
 	if($(this).data('options') == undefined){
@@ -44,38 +17,13 @@ $(document).ready(function() {
 });
 
 
-// $(document).ready(function() {
-// 	$("#select1").change(function() { 
-// 	if($(this).data('options') == undefined){
-// 	    /*Taking an array of all options-2 and kind of embedding it on the select1*/
-// 	    $(this).data('options',$('#select2 option').clone());
-// 	    } 
-// 	var id = $(this).val();
-// 	var options = $(this).data('options').filter('[value=' + id + ']');
-// 	$('#select2').html(options);
-// 	});
-// });
+
 
 </script>
 
-
-<!-- 
-{{#each faculty}}
-	
-	{{#each program }}
-		{{set @index}}
-		{{#each sub_program}}
-			{{get}}
-			{{@index}}
-			{{this}}				
-  		{{/each}}
- 	{{/each}}
-{{/each}} -->
-
-
 <h3>Select program </h3>
            
-                <form action="/programs" method="post" >
+                <form action="/admin/programs" method="post" >
                     <br>
                     <form class="form-horizontal" role="form">
                         <div class="form-group">
@@ -133,13 +81,13 @@ $(document).ready(function() {
 							
 							<tr>
 								<td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-								<td><a href='/editprogram?program={{ programname }}'>{{ programname }}</td>
+								<td><a href='/admin/editprogram?program={{ programname }}'>{{ programname }}</td>
 								<td>
 									{{#each sub_program}}
 										{{this}}<br>
 									{{/each}}
 								</td>
-								<td><a href='/delprogram?programname={{programname}}'>delete</a></td>
+								<td><a href='/admin/delprogram?programname={{programname}}'>delete</a></td>
 							</tr>				
 							
 						  {{/each}} 
@@ -156,7 +104,7 @@ $(document).ready(function() {
                     <div class="table-foot"> 
                     	<div class="pull-right">
 	                        <div class="btn-group">
-	                            <a href = "/addprogram"><button id="tab_2_add" class="btn btn-mini" type="button">Add Program</button></a>
+	                            <a href = "/admin/addprogram"><button id="tab_2_add" class="btn btn-mini" type="button">Add Program</button></a>
 	                        </div>
                         </div>
 

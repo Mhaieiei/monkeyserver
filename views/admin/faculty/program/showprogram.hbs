@@ -6,9 +6,9 @@
     //$('ul.nav-tabs li:eq(1)').tab('show');
     });
     </script>
-<script type="text/javascript" src="//code.jquery.com/jquery-2.1.0.js"></script>
-<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.0.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
 <br><br>
 <div class="tabs-container">
@@ -61,17 +61,17 @@
 				               
 				           
 							    <div class="btn-group">
-							   		 <a href = "/editsubprogram?id={{ac_id}}&year={{Year}}&semes={{semester}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>
+							   		 <a href = "/admin/editsubprogram?id={{ac_id}}&year={{Year}}&semes={{semester}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>
 								</div>
 								<div class="btn-group">
-							   		 <a href = "/delsubprogram?id={{_id}}&acid={{ac_id}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a>
+							   		 <a href = "/admin/delsubprogram?id={{_id}}&acid={{ac_id}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a>
 								</div>
 				 			</div>
 				 		</div>
 				 	<br><br>		 
 				 	{{/each}}  
 				 	 <div class="btn-group">
-					    <a href = "/addsubprogram?acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add Program Subjects</button></a>
+					    <a href = "/admin/addsubprogram?acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add Program Subjects</button></a>
 					</div>
 	            </form>
 	           <br><br>   
@@ -103,8 +103,8 @@
 							        <td>{{meetingDate}}</td>
 							        <td>{{noOfParticipation}}</td>
 							        <td>{{percentageOfParticipation}}</td>	
-							        <td><a href = "/editmeeting?id={{_id}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a></td>
-							        <td><a href = "/delmeeting?id={{_id}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a></td>	       
+							        <td><a href = "/admin/editmeeting?id={{_id}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a></td>
+							        <td><a href = "/admin/delmeeting?id={{_id}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a></td>	       
 						        </tr>
 						      	{{/each}}
 						   
@@ -115,7 +115,7 @@
 						<div class="table-foot"> 
 				        	<div class="pull-right">
 				                <div class="btn-group">
-								    <a href = "/addmeeting?acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add new meeting</button></a>
+								    <a href = "/admin/addmeeting?acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add new meeting</button></a>
 								</div>
 							    
 				 			</div>
