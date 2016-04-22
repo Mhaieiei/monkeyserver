@@ -8,11 +8,12 @@
             <tr>
                 
                 <tr>
-                        <td>Edit</td>
-                        <td>Delete</td>
+                        
                         <th>No.</a></th>
                         <th>Newly Specified ELOs</a></th>
                         <td>ELOs from TQF 2</a></td>
+                        <td>Edit</td>
+                        <td>Delete</td>
                         
                       
                 </tr>
@@ -28,9 +29,7 @@
                     <tr>
             			
 
-                        <td><a href = "/edit_elo?id={{_id}}&programname={{program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></td>
-
-                        <td><a href = "/del_elo?id={{_id}}&program={{program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></td>
+                        
                           
                         <th>{{inc @index}}</th>
 
@@ -40,7 +39,11 @@
             				
             			
                         
-                            <td>{{eloFromTQF}}</td>
+                        <td>{{eloFromTQF}}</td>
+
+                        <td><a href = "/edit_elo?id={{_id}}&programname={{program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></td>
+
+                        <td><a href = "/del_elo?id={{_id}}&program={{program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></td>
                             
                             
                     </tr>
@@ -58,7 +61,7 @@
                     
                     
          </tbody>
-          </table>
+         </table>
 
          <div class="table-foot "> 
                         

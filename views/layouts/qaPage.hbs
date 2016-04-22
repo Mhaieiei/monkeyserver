@@ -25,6 +25,13 @@
     <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     
     <title>Monkey Office</title>
+
+    <script type="text/javascript">
+        var program = document.getElementById('program').value;
+        var year = document.getElementById('year').value;
+        var acid = document.getElementById('acid').value;
+    </script>
+
    
 </head>
 
@@ -99,11 +106,11 @@
     </nav>
     </header>
 
-    <p hidden>     
+        
       <input type="text" tabindex="1"  name="program" id="program" value="{{programname}}"><br>
       <input type="text" tabindex="1" name="year" id="year" value="{{year}}"><br>
       <input type="text" tabindex="1" name="acid" id="acid" value="{{acid}}"><br>
-</p>
+
    <br>
   
   <aside>
@@ -214,7 +221,7 @@
   <section>
     <div class ="well">
         {{{body}}}  
-        <%= body%>
+
     </div>
   </section>
   
