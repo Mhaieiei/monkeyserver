@@ -2715,6 +2715,36 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
   });
 
 //-------------------------------------------------add ELOs-------------------------------------------------------
+  app.get('/qa-elo',isLoggedIn,function(req,res){
+
+    console.log("[GET] get ELOs");
+    Subject.ELO.find( {
+      $and: [
+                   { 'eloFromTQF': { $exists: true } },
+                   { 'program': req.query.program }
+          ]
+
+      
+
+
+    },function( err, elo ) {
+
+      console.log("[GET] get ELOs------->"+elo);
+
+
+      res.render('qa/qa-elo.hbs', {
+          layout: "qaPage",
+          program: req.query.program,
+          elo:elo,
+          helpers: {
+              inc: function (value) { return parseInt(value) + 1; },                        
+          } 
+      });
+    });            
+            
+    
+  });
+
   app.get('/addelos',isLoggedIn,function(req,res){
 
     console.log("[GET] Add ELOs");
@@ -2801,7 +2831,7 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
             
           });
 
-          // res.redirect('/aun5-3?program='+req.body.program);
+          res.redirect('/qa-elo?program='+req.query.program);
           
 
         } 
@@ -2820,13 +2850,92 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
             else{
               console.log("add_elo"+add_elo);
               console.log("Add new ELO succesful");     
-              //     res.redirect('/aun5-3?program='+req.body.program);                   
+              res.redirect('/qa-elo?program='+req.query.program);                   
             }                         
             });  
           }
           });
       }
     });
+
+  app.get('/del_elo',isLoggedIn,function(req,res){
+    console.log("Delete elo in elo schema.. not for another schema that have this");
+    console.log(req.query.id);
+    //console.log(req.query.email);
+
+    Subject.ELO.remove({ '_id' : req.query.id },function(err, results) {
+      if (err){console.log('Delete facility err'+err);}
+      else{
+         console.log("RESULT: "+results);
+
+         console.log("PROGRAMNAME--req.query.program-->"+req.query.program);
+
+         res.redirect('/qa-elo?program='+req.query.program);
+
+       //   Program.findOne({ '_id' :  req.query.program  }, function(err, program) {
+
+       //    console.log("PROGRAMNAME---->"+program.programname);
+
+       //   Program.update(
+       //      {"_id":req.query.programname}, 
+       //      { $pull: { "assesmentTool": req.query.id} }
+       //    , function(err, delete_ass_program) { 
+
+       //      if (err){console.log('cant edit new program Management'+err);}  
+       //      else{
+
+       //        console.log('delete from PROGRAM SUCCESSFUL : '+delete_ass_program);
+       //        res.redirect('/aun5-3?program='+program.programname);
+
+
+       //      }
+
+       //  });
+
+       // });
+         
+
+
+      }
+    });
+    
+  });
+
+
+  app.get('/edit_elo',isLoggedIn,function(req,res){
+    console.log("[GET] Edit Aun5.3");
+    console.log(req.query.id);
+    //console.log(req.query.email);
+
+    Subject.ELO.findOne({ '_id' : req.query.id },function(err, results) {
+      if (err){console.log('Edit Assessment tool err'+err);}
+      else{
+         console.log("ELO edit --->"+results);
+
+
+         // Program.findOne({ '_id' : req.query.programname },function(err, program) {
+        //   Program.find({'programname': { $exists: true }},function(err, program) {
+
+        //   console.log("program edit --->"+program);
+
+         res.render('qa/editqa/edit_elos.hbs', {
+            layout: "qaPage",
+            
+            elo : results,
+            len : results.eloFromTQF.length,
+            program:results.program
+            
+            });
+        // });
+
+         
+
+      }
+    });
+    
+  });
+
+
     
 
 //---------------------------------------------add aun 5.3--------------------------------------------------------------------
@@ -2851,6 +2960,8 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
           });
     
   });
+
+
 
 
   app.post('/add_aun5-3',isLoggedIn,function(req,res){
@@ -3443,7 +3554,7 @@ app.post('/edit_aun5-3',isLoggedIn,function(req,res){
                     acyear : ac.academic_year,
                     program : ac.program_name,
                     len : project.user.length,
-                     helpers: {
+                    helpers: {
                         inc: function (value) { return parseInt(value) + 1; },                        
                     }          
                   });                          

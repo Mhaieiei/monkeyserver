@@ -1,13 +1,15 @@
 <script type="text/javascript">
-    var array = [];
+    
     var rowind = 1;
-  
     function deleteRow(row)
     {
 
+
         var i=row.parentNode.parentNode.rowIndex;
+        var x=document.getElementById('ELO_TQFtable');
+        var len = x.rows.length - 1;
         document.getElementById('ELO_TQFtable').deleteRow(i);
-        rowind--;
+        rowind = len-1;
         document.getElementById('arrlen').value = rowind;
         console.log("value="+document.getElementById('arrlen').value);
     } 
@@ -15,7 +17,9 @@
     function insRow()
     {
 
-      var arr = []
+      
+      
+        var arr = []
       //console.log( 'hi');
       var x=document.getElementById('ELO_TQFtable');
       var y =document.getElementById('ELO_TQFbody');
@@ -32,14 +36,15 @@
       y.appendChild( new_row );
       rowind++;
       console.log(rowind);
-      document.getElementById('arrlen').value = rowind;
+      document.getElementById('arrlen').value = len;
       console.log("value="+document.getElementById('arrlen').value);
      
     }
 </script>
 
+
 <div class="container">
-        <form class="form-horizontal" role="form"  action="/addelos?program={{program}}" method="post" id = "myForm" > 
+        <form class="form-horizontal" role="form"  action="/addelos?program={{elo.program}}" method="post" id = "myForm" > 
           
            
             <!--<form class="form-horizontal" role="form">-->
@@ -49,12 +54,12 @@
           <div class="form-group">
             <label for="inputType" class="col-md-2 control-label">No. : </label>
               <div class="col-md-4">
-                  <input type="text" class="form-control" id="elos_no" width="50px;"maxlength="4" size="4" name="elos_no" required>
+                  <input type="text" class="form-control" id="elos_no" width="50px;"maxlength="4" size="4" name="elos_no" required value="{{elo.number}}">
               </div>
 
              <label for="inputType" class="col-md-2 control-label">Description : </label>
               <div class="col-md-4">
-                <textarea class="form-control" rows="5" id="elos_des" name="elos_des"></textarea>
+                <textarea class="form-control" rows="5" id="elos_des" name="elos_des" >{{elo.description}}</textarea>
               </div>
             
           </div>
@@ -75,8 +80,9 @@
                             <p hidden>    
                               <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>
                             </p>
+                            {{#each elo.eloFromTQF}}
                             <tr>
-                            <td><input  type="text" name="nameELO" id="nameELO"/></td>
+                            <td><input  type="text" name="nameELO" id="nameELO" value="{{this}}"></td>
                             <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
                             </td>  
 
@@ -86,7 +92,8 @@
                                 </td>
                             </div>  
                                   
-                            </tr>                    
+                            </tr>  
+                            {{/each}}                  
                         </tbody>
                       </table>
                   </div>

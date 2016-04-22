@@ -24,6 +24,7 @@
         var len = x.rows.length;
         var inp0 = new_row.cells[0].getElementsByTagName('input')[0];
         var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+        inp0.value = '';
         inp1.value = '';
         var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
         console.log(new_row);
@@ -35,7 +36,7 @@
      
     }
     </script>
-</head>
+
 
 
 
@@ -49,6 +50,12 @@
       
                 <h3>Mapped The expected learnig outcomes (ELOs)</h3>
                 <br>
+
+
+                <p hidden>    
+                  <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>
+                 
+                </p>
                
                     <div class="form-group">
 
@@ -88,17 +95,17 @@
                                     </tr>
                                 </thead>
                                 <tbody id = "Coursetbody">
-                                    <p hidden>    
-                                      <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>
-                                     
-                                    </p>
+                                    
                                     <tr>
                                     <td><input  type="text" name="nameCourse" id="nameCourse"/></td>
                                     <td><input  type="text" name="levelCourse" id="levelCourse"/></td>
                                     <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
                                     </td>    
-                                    <td> <button class="btn btn-xs btn-primary" id="insertbutton" value="Insert" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span></button>
-                                    </td>         
+                                    <div class="btn-group">
+                                       <td> <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()">
+                                          <span class="glyphicon glyphicon-plus"></span></button>
+                                        </td>
+                                    </div>         
                                     </tr>                    
                                 </tbody>
                             </table>
