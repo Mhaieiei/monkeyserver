@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
 	templateId: mongoose.Schema.Types.ObjectId,
-	currentTask: String,
+	currentElements: [String],
 	variables: [
 		{ 
 			name: { type: String }, 
