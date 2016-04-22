@@ -20,10 +20,11 @@ var subjectSchema = mongoose.Schema({
 });
 
 var ELOSchema = mongoose.Schema({
-	_id: Number,
+
     description: String,
     number:Number,
-    eloFromTQF:[String]
+    eloFromTQF:[String],
+    program:String
     
 });
 

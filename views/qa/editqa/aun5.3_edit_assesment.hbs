@@ -81,11 +81,7 @@
                          <div id="tab_2">
                          
 
-                          <div class="btn-group">
-                              <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()">
-                                <span class="glyphicon glyphicon-plus"></span>ADD
-                              </button>
-                          </div>
+                          
                         
                             <table id="CourseTable" class="tablesorter">
                                 <thead>
@@ -93,6 +89,7 @@
                                     <th ><a>Course name</a></th>
                                     <th><a>Level</a></th>
                                     <th><a>Delete</a></th>
+                                    <th><a>ADD</a></th>
                                    
                                     
                                     </tr>
@@ -105,7 +102,13 @@
                                       <td><input  type="text" name="nameCourse" id="nameCourse" value="{{subjectType}}"/></td>
                                       <td><input  type="text" name="levelCourse" id="levelCourse" value="{{followingReq}}"/></td>
                                       <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
-                                      </td>  
+                                      </td> 
+
+                                      <div class="btn-group">
+                                       <td> <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()">
+                                          <span class="glyphicon glyphicon-plus"></span></button>
+                                        </td>
+                                      </div> 
 
 
                                     </tr> 

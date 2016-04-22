@@ -1,0 +1,71 @@
+<div class="container">
+  <form class="form-horizontal" role="form"  action="//aun5-3" method="post" id = "myForm" >  
+
+    
+    <h3>AUN 1.1: The expected learning outcomes have been clearly formulated and translated into the programme</h3>
+    <h5>Table : Map of ELOs according to knowkedge, skills, attitude and life-long learning</h5>
+    <table id="rowspan" cellspacing="0" class="tablesorter">
+        <thead>
+            <tr>
+                
+                <tr>
+                        <td>Edit</td>
+                        <td>Delete</td>
+                        <th>No.</a></th>
+                        <th>Newly Specified ELOs</a></th>
+                        <td>ELOs from TQF 2</a></td>
+                        
+                      
+                </tr>
+                
+            
+            </tr>
+            
+        </thead>
+        <tbody>     
+
+    	{{#each elo}}
+    	
+                    <tr>
+            			
+
+                        <td><a href = "/edit_elo?id={{_id}}&programname={{programname}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></td>
+
+                        <td><a href = "/del_elo?id={{_id}}&program={{program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></td>
+                          
+                        <th>{{inc @index}}</th>
+
+        				
+
+                        <th>{{number}}</th>
+            				
+            			
+                        
+                            <td>{{eloFromTQF}}</td>
+                            
+                            
+                    </tr>
+    			 	
+    				
+    				
+    				
+    				
+    				
+         {{/each}}   
+
+                    
+
+                    
+                    
+                    
+         </tbody>
+         <a href = "/addelos?program={{program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add</button>
+
+     </table>
+
+
+
+
+    </form>
+</div>
+

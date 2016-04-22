@@ -8,6 +8,7 @@
     });
 
 </script>
+<<<<<<< HEAD
     <br>
    <section>
     <code>   
@@ -128,6 +129,127 @@
       
         </ul>
        
+=======
+<div class="main">
+    <form class="form-horizontal" role="form"  action="/tqf21?program={{program}}+&year={{year}}" method="post" id = "myForm" > 
+     <p hidden>     
+      <input type="text" tabindex="1"  name="program" id="program" value="{{programname}}"><br>
+      <input type="text" tabindex="1" name="year" id="year" value="{{year}}"><br>
+      <input type="text" tabindex="1" name="acid" id="acid" value="{{acid}}"><br>
+    </p>
+      <aside>
+        <div class="inner">
+          <div class="pusher">
+              <div class="ui vertical menu">
+              <div class="header item">
+                
+                TQF : Thai qualification framwork for higher education
+              </div>
+              <div class="menu">
+                <a class="item" href="/tqf21?program={{programname}}&year={{year}}">TQF1: Program faculty members</a>
+                <a class="item" href="/tqf22?program={{programname}}&year={{year}}&acid={{acid}}">TQF2: Lecturer and Instructors</a>
+                <a class="item" href="/tqf23?acid={{acid}}">TQF3: Thesis Advisors and Thesis Examination Committees</a>
+                <a class="item" href="/tqf24?acid={{acid}}">TQF4: Publications</a>
+                <a class="item" href="qa-tqf5.hbs">TQF5: Program management</a>
+              </div>
+              
+              <a class="header item">
+                AUN:
+              </a>
+              <div class="item">
+                AUN1: 
+                <div class="menu">
+
+                    <a class="item" href="/qa-elo?program={{programname}}&year={{year}}&acid={{acid}}">AUN 1.1 (ELO)</a>
+                    <a class="item" href="/aun1-3?program={{programname}}&year={{year}}&acid={{acid}}">AUN 1.3</a>
+                    <a class="item" href="/aun1-4?program={{programname}}&year={{year}}&acid={{acid}}">AUN 1.4</a>  
+                </div>
+              </div>
+              <div class="item">
+                AUN2: 
+                 <div class="menu">
+                    <a class="item" href="/aun2-1?program={{programname}}&year={{year}}&acid={{acid}}">AUN 2.1</a>
+                </div>
+              </div>
+              <div class="item">
+                AUN3: 
+                 <div class="menu">
+                <a class="item" href="/aun3-3?program={{programname}}&year={{year}}&acid={{acid}}">AUN 3.3</a>
+                </div>
+              </div>
+              <div class="item">
+                AUN5: 
+                 <div class="menu">
+                <a class="item" href="">AUN 5.2</a>
+                <a class="item" href="/aun5-3?program={{programname}}&year={{year}}&acid={{acid}}">AUN 5.3</a>
+                </div>
+              </div>
+              <div class="item">
+                AUN6: 
+                 <div class="menu">
+                <a class="item" href="/aun6-1?program={{programname}}&year={{year}}&acid={{acid}}">AUN 6.1</a>
+                <a class="item" href="/aun6-2?program={{programname}}&year={{year}}&acid={{acid}}">AUN 6.2</a>
+                <a class="item" href="">AUN 6.4</a>
+                <a class="item" href="/aun6-9?program={{programname}}&year={{year}}&acid={{acid}}">AUN 6.9</a>
+               </div>
+              </div>
+              <div class="item">
+                AUN7: 
+                 <div class="menu">
+                <a class="item" href="/aun7?program={{programname}}&year={{year}}&acid={{acid}}">AUN 7</a>
+                </div>
+              </div>
+              <div class="item">
+                AUN8: 
+                 <div class="menu">
+                <a class="item" href="/aun8-3?program={{programname}}&year={{year}}&acid={{acid}}">AUN 8.3</a>
+                </div>
+              </div>
+              <div class="item">
+                AUN10: 
+                 <div class="menu">
+                <a class="item" href="/aun10-1?program={{programname}}&year={{year}}&acid={{acid}}">AUN 10.1</a>
+              </div>
+              </div>
+              <div class="item">
+                AUN11: 
+                 <div class="menu">
+                <a class="item" href="/aun11-1?program={{programname}}&year={{year}}&acid={{acid}}">AUN 11.1</a>
+                 <a class="item" href="/aun11-4?program={{programname}}&year={{year}}&acid={{acid}}">AUN 11.4</a>
+              </div>
+              </div>
+               <div class="item">
+                AUN12: 
+                 <div class="menu">
+                <a class="item" href="/aun12-1?program={{programname}}&year={{year}}&acid={{acid}}">AUN 12.1</a>
+                <a class="item" href="/aun12-2?program={{programname}}&year={{year}}&acid={{acid}}">AUN 12.2</a>
+              </div>
+              </div>
+              <div class="item">
+                AUN13: 
+                 <div class="menu">
+                <a class="item" href="/aun13-2?program={{programname}}&year={{year}}&acid={{acid}}">AUN 13.2</a>
+              </div>
+              </div>
+               <div class="item">
+                AUN14: 
+                 <div class="menu">
+                    <a class="item" href="/aun14-1?program={{programname}}&year={{year}}&acid={{acid}}">AUN 14.1</a>
+                    <a class="item" href="/aun14-4?program={{programname}}&year={{year}}&acid={{acid}}">AUN 14.4</a>
+                </div>
+               </div>
+
+            
+            </div>
+        </div>
+      </aside>
+
+      <div class="content">
+        <div class="inner">
+           {{{body}}}
+        </div>
+      </div>
+>>>>>>> 64c9aebaab72f5fdc72a90118f578f4eb5c48bb5
     </div>
 
   </aside>
