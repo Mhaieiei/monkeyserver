@@ -516,32 +516,40 @@ aside {
 
 
 code {
-  background: #000;
-  margin: 10px
-  color: #fff;
+  background: #dddddd;
+  border: solid 1px #E1E1E1;
+  margin: 20px !important;
+  color: #000  !important;
   display: block;
-  font: 14px/24px "Source Code Pro", Inconsolata, "Lucida Console", Terminal, "Courier New", Courier;
-  padding: 10px 10px;
-  text-align: center;
+  font: 14px/24px "HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif !important;
+  padding: 20px 20px !important;
+  text-align: left;
 
 }
 header,
 section,
 aside,
 footer {
-  margin: 10 0.5% 10px 0.5%;
+  margin: 10 1.5% 10px 1.5%;
 }
 section {
   float: right;
-  width: 75%;
+  width: 83%;
 }
 aside {
   float: left;
-  width: 20%;
+  width: 15%;
 }
 footer {
   clear: both;
   margin-bottom: 0;
+}
+
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: 0;
+    margin-left: 0;
 }
 
 /*--------------
