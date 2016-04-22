@@ -2773,7 +2773,7 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
       for(var i=0;i< strlen;i++){
         if(strlen==1){
 
-          var obj = req.body.nameELO[i];
+          var obj = req.body.nameELO;
 
           array.push(obj);
           
