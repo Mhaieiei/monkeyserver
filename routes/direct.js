@@ -1804,24 +1804,78 @@ module.exports = function(app, passport) {
       //referenceCurriculumSchema.find();
 
 
-      Program.find({ 'programname': req.query.program })
-             .populate('stakeholder')
+      // Program.find({ 'programname': req.query.program })
+      //        .populate('stakeholder')
 
-             .exec(function (err, docs) {
-                 Program.populate(docs, {
-                     path: 'stakeholder.ELO',
-                     model: 'ELO'
-                 },
-                    function (err, subs) {
+      //        .exec(function (err, docs) {
+      //            Program.populate(docs, {
+      //                path: 'stakeholder.ELO',
+      //                model: 'ELO'
+      //            },
+      //               function (err, subs) {
 
 
-                        console.log("REFFFF---->>>", subs);
+      //                   console.log("REFFFF---->>>", subs);
 
-                        res.render('qa/qa-aun1.4.hbs', {
+      //                   res.render('qa/qa-aun1.4.hbs', {
+      //                       //    user: req.user,      
+      //                       layout: "qaPage",
+      //                       program:req.query.program,
+      //                       docs: subs,
+      //                       helpers: {
+      //                           inc: function (value) { return parseInt(value) + 1; },
+      //                           getyear: function (value) { return yearac[value]; },
+      //                           getindex: function () { return ++index; }
+      //                       }
+      //                   });
+
+
+      //               });
+
+
+      //        });
+
+
+      Program.Stakeholder.aggregate(
+                      [
+                    {
+                        $match: {
+                            'requirement' :{ $exists: true }
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: "$type",
+                            stk: { $push: "$$ROOT" }
+                            
+                       
+                       
+                      }
+                    }
+                    
+
+                    
+                    
+
+                  ]
+                  , function (err, be_stk) {
+
+
+                    Program.Stakeholder.populate(be_stk, {
+                         path: 'stk.ELO',
+                         model: 'ELO'
+                     },
+                    function (err, stk) {
+
+
+                    console.log("REFFFF--------stk-------->>>", stk);
+
+
+                    res.render('qa/qa-aun1.4.hbs', {
                             //    user: req.user,      
                             layout: "qaPage",
                             program:req.query.program,
-                            docs: subs,
+                            docs: stk,
                             helpers: {
                                 inc: function (value) { return parseInt(value) + 1; },
                                 getyear: function (value) { return yearac[value]; },
@@ -1829,11 +1883,13 @@ module.exports = function(app, passport) {
                             }
                         });
 
+                  });
 
-                    });
+
+                  });
 
 
-             });
+
 
   });
 
@@ -2810,10 +2866,11 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
       console.log('ARRAY ------- >'+array);
 
     Subject.ELO.findOne({
-          $and: [
-                   { 'number': req.body.elos_no },
-                   { 'program': req.query.program }
-          ]
+          // $and: [
+          //          { 'number': req.body.elos_no },
+          //          { 'program': req.query.program }
+          // ]
+          "_id":req.query.id
       }, function(err, elo) {        
         
         if (elo != null) {
@@ -2924,7 +2981,8 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
             
             elo : results,
             len : results.eloFromTQF.length,
-            program:results.program
+            program:results.program,
+            id:req.query.id
             
             });
         // });
@@ -2992,10 +3050,11 @@ app.post('/add_aun1-3',isLoggedIn,function(req,res){
     }
 
     Responsibility.findOne({
-          $and: [
-                   { 'program': req.query.program },
-                   { 'category': req.body.category }
-          ]
+          // $and: [
+          //          { 'program': req.query.program },
+          //          { 'category': req.body.category }
+          // ]
+          "_id":req.query.id
       }, function(err, respon) {        
         
         if (respon != null) {
@@ -3168,7 +3227,8 @@ app.get('/edit_aun1-3',isLoggedIn,function(req,res){
               respon : results,
               len : results.ELO.length,
               program:req.query.program,
-              elo:elo
+              elo:elo,
+              id:req.query.id
               
               });
         });
@@ -3240,12 +3300,14 @@ app.post('/add_aun1-4',isLoggedIn,function(req,res){
     console.log("arrlen: "+req.body.arrlen);
 
 
-    var strlen = req.body.arrlen; 
+    var strlen = req.body.req.length; 
     
       var array = [];
       var keepnameReq;
       var check = 0;
       var check_duplicate = 0;
+
+      console.log('ARRAY ----req.body.req.length--- >'+req.body.req.length);
       for(var i=0;i< strlen;i++){
         if(strlen==1){
 
@@ -3285,16 +3347,18 @@ app.post('/add_aun1-4',isLoggedIn,function(req,res){
       console.log('ARRAY ------- >'+array);
 
     Program.Stakeholder.findOne({
-          $and: [
-                   { 'title': req.body.sth_name },
-                   { 'program': req.query.program }
-          ]
+          // $and: [
+          //          { 'title': req.body.sth_name },
+          //          { 'program': req.query.program }
+          // ]
+          "_id":req.query.id
       }, function(err, require) {        
         
         if (require != null) {
           console.log("EDIT-------------------->:"+require);
           console.log("EDIT-------req.query.program------------->:"+req.query.program);
           console.log('ARRAY ---EDITTTT---- >'+array);
+          console.log('ARRAY ---EDITTTT--array_elo-- >'+array_elo);
           
           require.title = req.body.sth_name;
           require.type= req.body.type;
@@ -3304,7 +3368,7 @@ app.post('/add_aun1-4',isLoggedIn,function(req,res){
 
           require.save(function (err) {
             if(err) {
-                console.error('Cant update new facility');
+                console.error('Cant update new facility'+err);
             }
             
           });
@@ -3466,7 +3530,8 @@ app.get('/edit_aun1-4',isLoggedIn,function(req,res){
               stk : results,
               len : results.ELO.length,
               program:req.query.program,
-              elo:elo
+              elo:elo,
+              id:req.query.id
               
               });
         });

@@ -3,16 +3,18 @@
 
 <script type="text/javascript">
     var array = [];
-    var rowind = 1;
+    var rowind = 0;
   
     function deleteRow(row)
     {
 
         var i=row.parentNode.parentNode.rowIndex;
         var x=document.getElementById('req_table');
-        var len = x.rows.length - 1;
+        var len = x.rows.length -1;
+        console.log("len="+len);
         document.getElementById('req_table').deleteRow(i);
         rowind = len-1;
+        console.log("rowind="+rowind);
         document.getElementById('arrlen').value = rowind;
         console.log("value="+document.getElementById('arrlen').value);
     } 
@@ -29,25 +31,25 @@
       //console.log( 'new_row: '+new_row);
       var len = x.rows.length;
       //console.log( 'len: '+len);
-
+      rowind = len;
       var inp0 = new_row.cells[0].getElementsByTagName('input')[0];
       var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
       inp0.value = '';
       
-      console.log(new_row);
+      console.log("new_row:"+new_row);
       y.appendChild( new_row );
-      rowind++;
-      console.log(rowind);
+      
+      console.log("rowind:"+rowind);
       document.getElementById('arrlen').value = len;
       console.log("value="+document.getElementById('arrlen').value);
-     
+      rowind++;
     }
 
 </script>
 
 <div class="container">
            
-    <form class="form-horizontal" role="form"  action="/add_aun1-4?program=<%=program%>" method="post" id = "myForm" > 
+    <form class="form-horizontal" role="form"  action="/add_aun1-4?program=<%=program%>&id=<%=id%>" method="post" id = "myForm" > 
       
                 <h3>Mapped The expected learnig outcomes (ELOs)</h3>
                 <br>
