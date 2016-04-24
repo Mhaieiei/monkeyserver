@@ -8,7 +8,7 @@ var bcrypt   = require('bcrypt-nodejs');
 var programSchema = mongoose.Schema({
 
 	programname: String,
-	stakeholder: [{ type: mongoose.Schema.Types.ObjectId, ref: 'stakeholder' }],
+	stakeholder: [{ type: String, ref: 'stakeholder' }],
 	evaluation: [{
 	    stakeholder: { type: mongoose.Schema.Types.ObjectId, ref: 'stakeholder' },
 	    EvaluationMethod: [{ type: mongoose.Schema.Types.ObjectId, ref: 'EvaluationMethod' }]
@@ -38,7 +38,8 @@ var StakeholderSchema = mongoose.Schema({
     type: String,
     title: String,
     requirement: [String],
-    ELO: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ELO' }]
+    program:String,
+    ELO: [{ type: String, ref: 'ELO' }]
 
 });
 

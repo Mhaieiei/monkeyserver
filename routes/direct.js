@@ -1820,7 +1820,7 @@ module.exports = function(app, passport) {
                         res.render('qa/qa-aun1.4.hbs', {
                             //    user: req.user,      
                             layout: "qaPage",
-
+                            program:req.query.program,
                             docs: subs,
                             helpers: {
                                 inc: function (value) { return parseInt(value) + 1; },
@@ -3178,6 +3178,306 @@ app.get('/edit_aun1-3',isLoggedIn,function(req,res){
     });
     
   });
+
+//-------------------------------------------add aun 1.4----------------------------------------------------------------------
+
+app.get('/add_aun1-4',isLoggedIn,function(req,res){
+    console.log("[GET]add aun 1-4");
+    console.log("[GET] ELO");
+
+    
+    console.log("program: "+req.query.program);
+    
+      Subject.ELO.find( {
+      $and: [
+             { 'eloFromTQF': { $exists: true } },
+             { 'program': req.query.program }
+            ]
+      },function( err, elo ) { 
+
+        console.log("ELO-------------------->:"+elo);
+        console.log("ELO-------------------->:"+elo.length);
+        res.render('qa/editqa/add_stakeholders_req.hbs', {
+          layout: "qaPage",
+          program : req.query.program,
+          elo:elo,
+          len:elo.length
+            
+       
+      });
+    });
+    
+  });
+
+app.post('/add_aun1-4',isLoggedIn,function(req,res){
+    console.log("[POST] add aun 1.4");
+   
+    console.log("sth_name: "+req.body.sth_name);
+    console.log("type: "+req.body.type);
+ 
+      var array_elo = [];
+     
+    for(var j=0;j< req.body.elo.length;j++){
+      var temp = j;
+      var keep = temp.toString
+
+      console.log("req.body.elo.length: "+req.body.elo.length);
+      if(req.body.elo.length == 24){
+        array_elo.push(req.body.elo);
+        break;
+      }
+      else{
+
+      console.log("elo: "+req.body.elo[j]);
+
+      array_elo.push(req.body.elo[j]);
+      
+      }
+    }
+
+    console.log("array_elo: "+array_elo);
+
+    console.log("arrlen: "+req.body.arrlen);
+
+
+    var strlen = req.body.arrlen; 
+    
+      var array = [];
+      var keepnameReq;
+      var check = 0;
+      var check_duplicate = 0;
+      for(var i=0;i< strlen;i++){
+        if(strlen==1){
+
+          var obj = req.body.req;
+
+          array.push(obj);
+          
+        }else{
+          console.log('ARRAY ----req.body.req[i]--- >'+req.body.req[i]);
+          keepnameReq = req.body.req[i];
+          for(var j=i+1;j< strlen;j++){
+
+            if(keepnameReq == req.body.req[j]){
+
+              check =1;
+              check_duplicate = 1;
+            }
+
+
+          }
+          if(check == 0){
+
+            var obj = req.body.req[i];
+            
+            array.push(obj);
+          }
+          else{
+
+          }
+
+          check = 0;
+        }        
+      }
+
+      if(check_duplicate == 0 ){
+
+      console.log('ARRAY ------- >'+array);
+
+    Program.Stakeholder.findOne({
+          $and: [
+                   { 'title': req.body.sth_name },
+                   { 'program': req.query.program }
+          ]
+      }, function(err, require) {        
+        
+        if (require != null) {
+          console.log("EDIT-------------------->:"+require);
+          console.log("EDIT-------req.query.program------------->:"+req.query.program);
+          console.log('ARRAY ---EDITTTT---- >'+array);
+          
+          require.title = req.body.sth_name;
+          require.type= req.body.type;
+          require.requirement = array;
+          require.program = req.query.program;
+          require.ELO = array_elo;
+
+          require.save(function (err) {
+            if(err) {
+                console.error('Cant update new facility');
+            }
+            
+          });
+
+          res.redirect('/aun1-4?program='+req.query.program);
+          
+
+        } 
+        else {
+            console.log("ADD NEWWWW");
+            //lhuer add course type t yung mai sed (array)
+            newReq = new Program.Stakeholder();
+            
+            newReq.title = req.body.sth_name;
+            newReq.type= req.body.type;
+            newReq.requirement = array;
+            newReq.program = req.query.program;
+            newReq.ELO = array_elo;
+
+            newReq.save(function(err,add_req) {
+            if (err){console.log('cant add new elo: '+err);}  
+            else{
+              console.log("add_req"+add_req);
+              console.log("Add new REQ succesful");   
+
+              Program.findOne({'programname':req.query.program}, function(err, program) { 
+
+                if(program!=null){
+
+
+                  Program.Stakeholder.findOne({
+                  $and: [
+                           { 'program': req.query.program },
+                           { 'title': req.body.sth_name }
+                  ]
+                  }, function(err, require) {
+
+
+                    console.log("assesment_id: "+require.id);  
+
+                      Program.update(
+                        {"programname":req.query.program}, 
+                        { $push: { "stakeholder": require.id} }
+                      , function(err, add_stk_program) { 
+
+                        if (err){console.log('cant edit new program Management'+err);}  
+                        else{
+
+                          console.log('ADD add_stk_program TO PROGRAM SUCCESSFUL : '+add_stk_program)
+
+
+                        }
+
+                        });
+
+                  });
+
+                }
+                else{
+
+                  // var keepAssesmentTool = []
+                  // keepAssesmentTool.push(assesment.id);
+                  var managefac = new Program();
+                  managefac.programname = req.query.program;
+                  managefac.stakeholder.push(require.id);
+                  managefac.save(function(err,manage) {
+                    if (err){console.log('cant make new program Management'+err);}  
+                    else{
+                      console.log("ass"+manage);
+                      console.log("Insert new program management succesful");  
+                      res.redirect('/aun1-4?program='+req.query.program);                          
+                    }                         
+                  });
+
+
+
+                }
+
+
+                  res.redirect('/aun1-4?program='+req.query.program);  
+              });  
+                                 
+            }                         
+            });  
+          }
+          });
+      }
+
+    }); 
+
+
+app.get('/del_aun1-4',isLoggedIn,function(req,res){
+    console.log("Delete Aun1.3");
+    console.log(req.query.id);
+    //console.log(req.query.email);
+
+    Program.Stakeholder.remove({ '_id' : req.query.id },function(err, results) {
+      if (err){console.log('Delete Program.Stakeholder err'+err);}
+      else{
+         console.log(results);
+
+         console.log("PROGRAMNAME--req.query.program-->"+req.query.program);
+
+         Program.findOne({ 'programname' :  req.query.program  }, function(err, program) {
+
+          console.log("PROGRAMNAME---->"+program.programname);
+
+         Program.update(
+            {"programname":req.query.program}, 
+            { $pull: { "stakeholder": req.query.id} }
+          , function(err, delete_stk_program) { 
+
+            if (err){console.log('cant edit new program Management'+err);}  
+            else{
+
+              console.log('delete delete_stk_program from PROGRAM SUCCESSFUL : '+delete_stk_program);
+              res.redirect('/aun1-4?program='+program.programname);
+
+
+            }
+
+        });
+
+       });
+         
+
+
+      }
+    });
+    
+  });
+
+
+app.get('/edit_aun1-4',isLoggedIn,function(req,res){
+    console.log("[GET] Edit Aun1.4");
+    console.log(req.query.id);
+    //console.log(req.query.email);
+
+    Program.Stakeholder.findOne({ '_id' : req.query.id },function(err, results) {
+      if (err){console.log('Edit Responsibility tool err'+err);}
+      else{
+         console.log("Program.Stakeholder edit --->"+results);
+
+
+         Subject.ELO.find( {
+          $and: [
+                 { 'eloFromTQF': { $exists: true } },
+                 { 'program': req.query.program }
+                ]
+          },function( err, elo ) {
+
+
+            console.log("elo edit --->"+elo);
+
+         
+           res.render('qa/editqa/edit_add_stakeholders_req.ejs', {
+              layout: "qaPage",
+              
+              stk : results,
+              len : results.ELO.length,
+              program:req.query.program,
+              elo:elo
+              
+              });
+        });
+         
+
+      }
+    });
+    
+  });
+
+
 
 
 //---------------------------------------------add aun 5.3--------------------------------------------------------------------

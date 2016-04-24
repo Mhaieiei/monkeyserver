@@ -16,6 +16,8 @@
                   <table class="tablesorter">
                     <thead align="center">
                         <tr>
+                            <th>Edit</a></th>
+                            <th>Delete</a></th>
                             <th>Type</a></th>
                             <th>Stakeholders</a></th>
                             <th>Requirements</a></th>
@@ -31,6 +33,11 @@
 					{{#each docs}}
 					{{#each stakeholder}}
                         <tr>
+
+                        <td><a href = "/edit_aun1-4?id={{_id}}&program={{program}}"><button id="tab_2_submit" class=" btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-edit"></span></button></td>
+
+                        <td><a href = "/del_aun1-4?id={{_id}}&program={{program}}"><button id="tab_2_submit" class="btn btn-xs btn-danger" type="button"><span class="glyphicon glyphicon-trash"></span></button> </td>
+                        
                         <td>{{type}} </td>
                         <td>{{title}}</td>
                         <td>{{requirement}} </td>
@@ -41,6 +48,8 @@
                         {{/each}}
                         {{/each}}
                     </tbody>
+
+                    <a href = "/add_aun1-4?program={{program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add</button>
 					
                   </table>
                 </div>
