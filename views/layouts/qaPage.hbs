@@ -25,13 +25,6 @@
     <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     
     <title>Monkey Office</title>
-
-    <script type="text/javascript">
-        var program = document.getElementById('program').value;
-        var year = document.getElementById('year').value;
-        var acid = document.getElementById('acid').value;
-    </script>
-
    
 </head>
 
@@ -106,25 +99,25 @@
     </nav>
     </header>
 
-        
+    <p hidden>     
       <input type="text" tabindex="1"  name="program" id="program" value="{{programname}}"><br>
       <input type="text" tabindex="1" name="year" id="year" value="{{year}}"><br>
       <input type="text" tabindex="1" name="acid" id="acid" value="{{acid}}"><br>
-
+    </p>
    <br>
   
   <aside>
     <div id='cssmenu'>
         <ul>
-           <li class='active has-sub'><a href='#'><span> TQF : Thai qualification framwork for higher education </span></a>
+           <li class='active has-sub'><a href='#'><span> TQF: Thai qualification framwork for higher education </span></a>
               <ul>
 
 
-                <li><a href="/tqf21?program={{programname}}&year={{year}}"><span>TQF1: Program faculty members</span></a>
-                <li><a href="/tqf22?program={{programname}}&year={{year}}&acid={{acid}}"><span>TQF2: Lecturer and Instructors</span></a></li>
-                <li><a href="/tqf23?acid={{acid}}">TQF3: Thesis Advisors and Thesis Examination Committees</a></li>
-                <li><a href="/tqf24?acid={{acid}}">TQF4: Publications</a></li>
-                <li><a href="/tqf25?acid={{acid}}&year={{year}}&program={{programname}}">TQF5: Program management</a></li>
+                <li><a href="/tqf21?program={{programname}}&year={{year}}"><span>TQF 1: Program faculty members</span></a>
+                <li><a href="/tqf22?program={{programname}}&year={{year}}&acid={{acid}}"><span>TQF 2: Lecturer and Instructors</span></a></li>
+                <li><a href="/tqf23?acid={{acid}}">TQF 3: Thesis Advisors and Thesis Examination Committees</a></li>
+                <li><a href="/tqf24?acid={{acid}}">TQF 4: Publications</a></li>
+                <li><a href="/tqf25?acid={{acid}}&year={{year}}&program={{programname}}">TQF 5: Program management</a></li>
               </ul>
             <li>
             <li><a href='#'><span> AUN: </span></a>
