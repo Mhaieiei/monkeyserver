@@ -200,7 +200,6 @@ table.tablesorter thead tr td,
 table.tablesorter tbody tr td,
 table.tablesorter tfoot tr td { 
   width: 40px;
-  font-weight: bold;
   font-size: 15px;
   padding: 8px;
   line-height: 1.42857143;
@@ -218,7 +217,7 @@ table.tablesorter thead tr td {
     padding: 8px;
     line-height: 1.42857143;
     vertical-align: top;
-    border-top: 2px solid #ddd;
+    border-top: 2px tra;
 
 }
 
@@ -236,7 +235,7 @@ table.tablesorter tbody td {
 
     color: #3D3D3D;
     padding: 8px;
-    background-color: #FFF;
+    background-color: transparent;
     vertical-align: top;
     border-bottom: 2px
 }

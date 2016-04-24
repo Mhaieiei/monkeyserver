@@ -198,3 +198,6 @@ option:not(:checked) {
   display:block
 }
 
+.form-control {
+    color: #000000;
+}
