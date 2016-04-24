@@ -3098,6 +3098,178 @@ app.post('/add_aun1-3',isLoggedIn,function(req,res){
 
     }); 
 
+app.get('/del_aun1-3',isLoggedIn,function(req,res){
+    console.log("Delete Aun1.3");
+    console.log(req.query.id);
+    //console.log(req.query.email);
+
+    Responsibility.remove({ '_id' : req.query.id },function(err, results) {
+      if (err){console.log('Delete Responsibility err'+err);}
+      else{
+         console.log(results);
+
+         console.log("PROGRAMNAME--req.query.program-->"+req.query.program);
+
+         Program.findOne({ 'programname' :  req.query.program  }, function(err, program) {
+
+          console.log("PROGRAMNAME---->"+program.programname);
+
+         Program.update(
+            {"programname":req.query.program}, 
+            { $pull: { "Responsibility": req.query.id} }
+          , function(err, delete_res_program) { 
+
+            if (err){console.log('cant edit new program Management'+err);}  
+            else{
+
+              console.log('delete from PROGRAM SUCCESSFUL : '+delete_res_program);
+              res.redirect('/aun1-3?program='+program.programname);
+
+
+            }
+
+        });
+
+       });
+         
+
+
+      }
+    });
+    
+  });
+
+
+app.get('/edit_aun1-3',isLoggedIn,function(req,res){
+    console.log("[GET] Edit Aun1.3");
+    console.log(req.query.id);
+    //console.log(req.query.email);
+
+    Responsibility.findOne({ '_id' : req.query.id },function(err, results) {
+      if (err){console.log('Edit Responsibility tool err'+err);}
+      else{
+         console.log("Responsibility edit --->"+results);
+
+
+         Subject.ELO.find( {
+          $and: [
+                 { 'eloFromTQF': { $exists: true } },
+                 { 'program': req.query.program }
+                ]
+          },function( err, elo ) {
+
+
+            console.log("elo edit --->"+elo);
+
+         
+           res.render('qa/editqa/edit_elos_mapped.ejs', {
+              layout: "qaPage",
+              
+              respon : results,
+              len : results.ELO.length,
+              program:req.query.program,
+              elo:elo
+              
+              });
+        });
+         
+
+      }
+    });
+    
+  });
+
+
+app.post('/edit_aun1-3',isLoggedIn,function(req,res){
+    console.log("[POST] Edit Aun5.3");
+    console.log(req.query.id);
+    //console.log(req.query.email);
+
+    console.log("assname: "+req.body.assname);
+    console.log("TYPE: "+req.body.type);
+    console.log("arrlen: "+req.body.arrlen);
+
+
+    var strlen = req.body.arrlen; 
+    
+      var array = [];
+      var keepCourse;
+      var check = 0;
+      var check_duplicate = 0;
+      for(var i=0;i< strlen;i++){
+        if(strlen==1){
+          var obj = {
+            'subjectType': req.body.nameCourse,
+            'followingReq' : req.body.levelCourse
+          }
+          array.push(obj);
+          
+        }else{
+          keepCourse = req.body.nameCourse[i];
+          for(var j=i+1;j< strlen;j++){
+
+            if(keepCourse == req.body.nameCourse[j]){
+
+              check =1;
+              check_duplicate = 1;
+            }
+
+
+          }
+          if(check == 0){
+            var obj = {
+              'subjectType': req.body.nameCourse[i],
+              'followingReq' : req.body.levelCourse[i]
+            }
+            array.push(obj);
+          }
+          else{
+
+          }
+
+          check = 0;
+
+
+        }
+             
+        
+      }
+
+      if(check_duplicate == 0 ){
+
+      console.log('ARRAY ------- >'+array);
+
+    AssesmentTool.findOne({'_id':req.query.id  }, function(err, assesment) {        
+        
+        if (assesment != null) {
+          console.log("EDIT-------------------->:"+assesment);
+          console.log("EDIT-------req.query.program------------->:"+req.query.program);
+          assesment.assesmentTool = req.body.assname;
+          assesment.type = req.body.type;
+          assesment.programname= req.query.program;
+          assesment.subject = array;
+
+          assesment.save(function (err) {
+            if(err) {
+                console.error('Cant update new facility');
+            }
+            
+          });
+
+          res.redirect('/aun5-3?program='+req.body.program);
+
+          
+
+        } 
+        else {
+            console.log("ADD NEWWWW");
+            
+          }
+          });
+      }
+    
+  });
+
 //---------------------------------------------add aun 5.3--------------------------------------------------------------------
      
 
