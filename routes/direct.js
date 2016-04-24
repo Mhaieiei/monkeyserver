@@ -764,7 +764,7 @@ module.exports = function(app, passport) {
       //console.log(years[0]);
       return Fac.find( {},function( err, faculty ) {
         if( !err ) {
-      console.log(faculty);
+      console.log(faculty); 
             res.render("qa/qa.hbs", {
               layout: "homePage",
               user : req.user,
@@ -1782,6 +1782,7 @@ module.exports = function(app, passport) {
                             layout: "qaPage",
 
                             docs: subs,
+                            program:req.query.program,
                             helpers: {
                                 inc: function (value) { return parseInt(value) + 1; },
                                 getyear: function (value) { return yearac[value]; },
@@ -2935,8 +2936,167 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
     
   });
 
+//-------------------------------------------add aun 1.3----------------------------------------------------------------------
+app.get('/add_aun1-3',isLoggedIn,function(req,res){
+    console.log("[GET]add aun 1-3");
+    console.log("[GET] ELO");
 
     
+    console.log("program: "+req.query.program);
+    
+      Subject.ELO.find( {
+      $and: [
+             { 'eloFromTQF': { $exists: true } },
+             { 'program': req.query.program }
+            ]
+      },function( err, elo ) { 
+
+        console.log("ELO-------------------->:"+elo);
+        console.log("ELO-------------------->:"+elo.length);
+        res.render('qa/editqa/elos_mapped.hbs', {
+          layout: "qaPage",
+          program : req.query.program,
+          elo:elo,
+          len:elo.length
+            
+       
+      });
+    });
+    
+  });
+
+app.post('/add_aun1-3',isLoggedIn,function(req,res){
+    console.log("[POST] add aun 1.3");
+   
+    console.log("category: "+req.body.category);
+    console.log("description: "+req.body.description);
+ 
+      var array = [];
+     
+    for(var j=0;j< req.body.elo_tqf2.length;j++){
+      var temp = j;
+      var keep = temp.toString
+
+      console.log("req.body.elo_tqf2.length: "+req.body.elo_tqf2.length);
+      if(req.body.elo_tqf2.length == 24){
+        array.push(req.body.elo_tqf2);
+        break;
+      }
+      else{
+
+      console.log("elo: "+req.body.elo_tqf2[j]);
+
+      array.push(req.body.elo_tqf2[j]);
+      
+      }
+    }
+
+    Responsibility.findOne({
+          $and: [
+                   { 'program': req.query.program },
+                   { 'category': req.body.category }
+          ]
+      }, function(err, respon) {        
+        
+        if (respon != null) {
+          console.log("EDIT-------------------->:"+respon);
+          console.log("EDIT-------req.query.program------------->:"+req.query.program);
+          respon.category = req.body.category;
+          respon.description = req.body.description;
+          respon.program= req.query.program;
+          respon.ELO = array;
+
+          respon.save(function (err) {
+            if(err) {
+                console.error('Cant update new facility');
+            }
+            
+          });
+
+          res.redirect('/aun1-3?program='+req.query.program);
+          
+
+        } 
+        else {
+            console.log("ADD NEWWWW");
+            //lhuer add course type t yung mai sed (array)
+            newResponsibility = new Responsibility();
+            newResponsibility.category = req.body.category;
+            newResponsibility.description = req.body.description;
+            newResponsibility.program= req.query.program;
+            newResponsibility.ELO = array;
+
+            newResponsibility.save(function(err,add_respon) {
+            if (err){console.log('cant edit new program Management'+err);}  
+            else{
+              console.log("add_newResponsibility"+add_respon);
+              console.log("Add new assigment succesful");  
+              console.log("program------> "+req.query.program);
+              Program.findOne({'programname':req.query.program}, function(err, program) { 
+
+                if(program!=null){
+
+
+                  Responsibility.findOne({
+                  $and: [
+                           { 'program': req.query.program },
+                           { 'category': req.body.category }
+                  ]
+                  }, function(err, respon) {
+
+
+                    console.log("assesment_id: "+respon.id);  
+
+                      Program.update(
+                        {"programname":req.query.program}, 
+                        { $push: { "Responsibility": respon.id} }
+                      , function(err, add_respon_program) { 
+
+                        if (err){console.log('cant edit new program Management'+err);}  
+                        else{
+
+                          console.log('ADD TO PROGRAM SUCCESSFUL : '+add_respon_program)
+
+
+                        }
+
+                        });
+
+                  });
+
+                }
+                else{
+
+                  // var keepAssesmentTool = []
+                  // keepAssesmentTool.push(assesment.id);
+                  var managefac = new Program();
+                  managefac.programname = req.query.program;
+                  managefac.Responsibility.push(respon.id);
+                  managefac.save(function(err,manage) {
+                    if (err){console.log('cant make new program Management'+err);}  
+                    else{
+                      console.log("ass"+manage);
+                      console.log("Insert new program management succesful");  
+                      res.redirect('/aun1-3?program='+req.query.program);                          
+                    }                         
+                  });
+
+
+
+                }
+
+
+                  res.redirect('/aun1-3?program='+req.query.program);   
+              });                         
+            }                         
+            });  
+          }
+          });
+
+
+
+
+    }); 
 
 //---------------------------------------------add aun 5.3--------------------------------------------------------------------
      

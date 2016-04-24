@@ -38,21 +38,49 @@
     }
 </script>
 
-<body>
-
 <div class="container">
+        <form class="form-horizontal" role="form"  action="/addelos?program={{program}}" method="post" id = "myForm" > 
+          
+           
+            <!--<form class="form-horizontal" role="form">-->
         
-              <h3>Add new Expected Learning Outcomesz (ELOs)</h3>
-              <br>
+        <h3>Add new Expected Learning Outcomesz (ELOs)</h3>
+        <br>
+          <div class="form-group">
+            <label for="inputType" class="col-md-2 control-label">No. : </label>
+              <div class="col-md-4">
+                  <input type="text" class="form-control" id="elos_no" width="50px;"maxlength="4" size="4" name="elos_no" required>
+              </div>
 
+             <label for="inputType" class="col-md-2 control-label">Description : </label>
+              <div class="col-md-4">
+                <textarea class="form-control" rows="5" id="elos_des" name="elos_des"></textarea>
+              </div>
+            
+          </div>
+          <div class="form-group">
+            <label for="inputType" class="col-md-2 control-label">ELO from TQF2 </label>
+            <br>
+              <div class="col-md-4">
+                 <div id="tab_2">
+                    <table id="ELO_TQFtable" class="tablesorter">
+                        <thead>
+                            <tr>
+                            <th><a>ELO name</a></th>
+                            <th><a>Delete</a></th>
+                            <th><a>Add</a></th>
+                            </tr>
+                        </thead>
+                        <tbody id = "ELO_TQFbody">
+                            <p hidden>    
+                              <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>
+                            </p>
+                            <tr>
+                            <td><input  type="text" name="nameELO" id="nameELO"/></td>
+                            <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
+                            </td>  
 
-                <div class="form-group">
-                  <label for="inputType" class="col-md-2 control-label">No. : </label>
-                    <div class="col-md-2">
-                        <input type="text" class="form-control" id="elos_no" width="50px;"maxlength="4" size="4" name="elos_no" required>
-                    </div>
-                
-
+<<<<<<< HEAD
                    <label for="inputType" class="col-md-2 control-label">Description : </label>
                     <div class="col-md-4">
                       <textarea class="form-control" rows="5" id="elos_des" name="elos_des"></textarea>
@@ -104,15 +132,27 @@
                             
                             <p align = "right"><button type="submit" class="btn btn-primary">Add</button></p>
                      </div>
+=======
+                            <div class="btn-group">
+                               <td> <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()">
+                                  <span class="glyphicon glyphicon-plus"></span></button>
+                                </td>
+                            </div>  
+                                  
+                            </tr>                    
+                        </tbody>
+                      </table>
+>>>>>>> 1b10ea5d97b84592add108fbbe6cc1669e92b6d3
                   </div>
+                </div>
+            </div>
 
-                  
-
-             </div>
-             </div>
-             </div>
+            <div class="form-group">
+                      <p align = "right"><button type="submit" class="btn btn-primary">Add</button></p>
              </div>
 
+            
+
+        </form>
 
 </div>
-</body>
