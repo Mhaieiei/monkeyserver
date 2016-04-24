@@ -11,12 +11,12 @@
 // ----------------------------------------------------------------------------
 
 // Required libraries.
-var db = require('../lib/dbclient').db();
+var db = require('lib/dbclient').db();
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // key-valued options for configuring mongoose schema.
-var options = {discriminatorKey: 'department'}
+var options = {discriminatorKey: 'subtype'}
 
 var docSchema = new Schema({
 

@@ -1,6 +1,8 @@
 var rootpath = require('rootpath')();
 var expect = require('chai').expect;
 var assert = require('assert');
+var async = require('async');
+var helper = require('test/helperFunction');
 
 module.exports = function() {
 
@@ -8,26 +10,24 @@ module.exports = function() {
 	var doc1, doc2, doc3, doc4;
 	var document;
 	var userJoe;
+	User = require('model/user');
+	Doc = require('model/document/document');
 
 	before(function(done) {
-		User = require('model/user');
-		Doc = require('model/document');
 		userJoe = new User({
 			_id: 0,
 			local: {
 				name: 'joe'	
 			}
 		});
-		userJoe.save();
+
 		userDoe = new User({
 			_id: 1,
 			local: {
 				name: 'doe'	
 			}
 		});
-		userDoe.save(done);
 
-		// add dummy data
 		doc1 = new Doc({
 			'owner': userJoe,
 			'name': 'x_doc1',
@@ -38,8 +38,7 @@ module.exports = function() {
 			'name': 'x_doc2',
 		});
 
-		doc1.save(function(err){assert.ifError(err);});
-		doc2.save(function(err){assert.ifError(err);});
+		helper.saveMultipleItemsToDatabase([userJoe, userDoe, doc1, doc2], done);
 	});
 
 	describe('static methods', function() {

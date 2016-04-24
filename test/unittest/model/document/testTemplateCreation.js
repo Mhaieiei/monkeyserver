@@ -1,23 +1,23 @@
 var expect = require('chai').expect;
 
-var template = require('model/document/department/template');
+var templatePlain = require('model/document/template');
 var subtypeDocumentTester = require('./testDocumentSubType');
 
 module.exports = function() {
 	it('should set correct subtype on a correct field', function() {
 		var type = 'XX';
-		var Doc = template(type);
+		var Doc = new templatePlain(type).compile();
 
 		var xx = new Doc();
-		expect(xx.department).to.exist;
-		expect(xx.department).to.equals(type);
+		expect(xx.subtype).to.exist;
+		expect(xx.subtype).to.equals(type);
 	});
 
 	it("should include additional field if defined", function() {
 		var type = 'XY';
 		var additionalFields = {field1: Number, field2: Number, field3: Number};
 		var additionalFieldsValue = {field1: 1, field2: 2, field3: 3};
-		var Doc = template(type, additionalFields);
+		var Doc = new templatePlain(type, additionalFields).compile();
 		var DocWithAdditionalFields = new Doc(additionalFieldsValue);
 
 		DocWithAdditionalFields.save(function(err) {
@@ -36,7 +36,7 @@ module.exports = function() {
 		
 		typeName.forEach(function(param) {
 			describe('New sub type document: ' + param, function() {
-				var subDoc = template(param);
+				var subDoc = new templatePlain(param).compile();
 				subtypeDocumentTester(subDoc);
 			})
 		});
@@ -45,7 +45,14 @@ module.exports = function() {
 	
 	it('Should throw error on empty sub type name', function() {
 		expect(function() {
-			template('');
-		}).to.throw(Error);
+			new templatePlain('');
+		}).to.throw(Error, /invalid/i);
+	});
+
+	it('should throw error if the template is compiled when there is one already exists in mongoose#model', function() {
+		expect(function() {
+			var templateAA1 = new templatePlain('aa').compile();
+			var templateAA2 = new templatePlain('aa').compile();
+		}).to.throw(Error, /already exist/i);
 	});
 }
