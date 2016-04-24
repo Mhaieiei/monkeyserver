@@ -14,14 +14,15 @@
     	</td>
     </tr>
     {{#each data}}
-    <tr>
-    	<td>
-    		{{this.name}}
-    	</td>
-    	<td>
-    		{{this.description}}
-    	</td>
-    </tr>
+        <tr>
+        	<td>
+        		<a href="/roleManagement/save"> {{this.name}} </a>
+        	</td>
+        	<td>
+        		{{this.description}}
+        	</td>
+        </tr>
     {{/each}}
   </table>
 </div>
+
