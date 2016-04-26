@@ -33,6 +33,7 @@
     "npm": "^3.7.3",
     "passport": "~0.1.17",
     "passport-local": "~0.1.6",
+    "request": "^2.72.0",
     "rootpath": "^0.1.2",
     "serve-favicon": "~2.3.0",
     "xml2js": "^0.4.16"
