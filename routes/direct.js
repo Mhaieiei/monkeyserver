@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 var Handlebars = require('handlebars/runtime')['default'];
 var isLoggedIn = require('middleware/loginChecker');
 
+var apiCOntroller = require('../lib/apiHandler');
 var adminController     = require('../lib/admin');
 var formController      = require('../lib/form');
 var workflowController  = require('../lib/workflow');
@@ -4968,46 +4969,14 @@ app.post('/editthesis',isLoggedIn,function(req,res){
         layout: "homePage"
       });
   });
-  //===========================API=================================================================
-    app.get('/api/users/:id',function(req,res){
-      console.log("get api user id");
-      var id = req.params.id;
-      console.log(id);
-      User.findById(id, function(err, result){
-        if(err){console.log("api err"+err);}
-        res.json(result);
-      }); 
 
-    });
-    app.get('/api/users',function(req,res){
-      console.log("get api users");
-      User.find({}, function(err, result){
-        if(err){console.log("api err"+err);}
-        res.json(result);
-      }); 
+  //=====================================
+  // API. ==============================
+  // =====================================
 
-    });
+  app.use('/api',apiCOntroller);    
 
-    // app.put('/api/user/:id',isLoggedIn, function (req, res){
-    //   console.log( "Update userprofile");
-    //   console.log(req.body.username);
-    //   var leavestatic = req.query.leave; //localhost:5000/api/user/admin?leave=1
     
-    // User.findById(id, function(err, user) {
-    //       if (err){ 
-    //         console.log("Upload Failed!");
-    //         return done(err);}
-          
-    //       if (user){
-    //           console.log(user);
-    //           console.log("eiei");
-    //           user.updateLeave(leavestatic,req, res)              
-    //       }
-
-    //   });
-      
-      
-    // });
   
 
 };
