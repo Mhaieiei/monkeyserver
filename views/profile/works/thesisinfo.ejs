@@ -69,8 +69,8 @@
                     				<%}
                     			}%>
                     		</td>
-                            <td><a href='/editthesis?id=<%= Userinfo.advisingProject[i].id %>&user=<%= user %>'>edit</a></td>
-                    		<td><a href='/delthesis?id=<%= Userinfo.advisingProject[i].id %>&user=<%= user %>'>delete</a></td>
+                            <td><a href='/thesisinf/editthesis?id=<%= Userinfo.advisingProject[i].id %>&user=<%= user %>'>edit</a></td>
+                    		<td><a href='/thesisinf/delthesis?id=<%= Userinfo.advisingProject[i].id %>&user=<%= user %>'>delete</a></td>
                     	</tr>
                     	<%}%>
                         
@@ -90,7 +90,7 @@
                         </div>
                         
                         <div class="btn-group">
-                            <a href = "/addthesis?user=<%=user%>"><button id="tab_2_add" class="btn btn-mini" type="button">Add</button></a>
+                            <a href = "/thesisinf/addthesis?user=<%=user%>"><button id="tab_2_add" class="btn btn-mini" type="button">Add</button></a>
                         </div>
                         
                                     
