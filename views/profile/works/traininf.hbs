@@ -29,12 +29,12 @@
                                 <td>{{inc @index}}</td>
                                 <td>{{trainingCourse}}</td>
                                 <td>{{hour}}</td>
-                                <td><a href='/edittrain?id={{id}}&user={{getuser}}'>edit</a></td>  
-                                <td><a href='/deltrain?id={{id}}&user={{getuser}}'>delete</a></td>                      
+                                <td><a href='/traininf/edittrain?id={{id}}&user={{getuser}}'>edit</a></td>  
+                                <td><a href='/traininf/deltrain?id={{id}}&user={{getuser}}'>delete</a></td>                      
                             </tr>  
                         {{/each}}
                     </tbody>
 
                   </table>
-                   <a href = "/addtraining?username={{username}}"><button id="tab_2_submit" class="btn btn-mini" type="button">ADD new</button>
+                   <a href = "/traininf/addtraining?username={{username}}"><button id="tab_2_submit" class="btn btn-mini" type="button">ADD new</button>
                 </div>
