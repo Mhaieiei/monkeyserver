@@ -75,6 +75,8 @@
                     </thead>
 					
                     <tbody>
+                   
+                     
                     <% for(f=0;f< struc[k].structureOfCurriculum[g].knowledgeBlock.length;f++){%>
                     
                         <tr>
@@ -94,12 +96,13 @@
                 <%}%>
 
                 <h5>Table : Distribution of the curriculum</h5>
+                <% for(k=0;k< subs.length;k++){%>
                 <div id="tab_dis">
                   <table class="tablesorter">
                     <thead align="center">
-					{{#each subs}}
+					
                         <tr>
-                            <td colspan=3 >Semester {{semester}}</a></td>
+                            <td colspan=3 >Semester <%= subs[k].semester %></a></td>
                         </tr>
                         <tr>
                             <td>Code</td>
@@ -110,25 +113,32 @@
                     </thead>
                     <tbody>
                         <tr>
-						<td colspan=3>{{plan.plan}} : Year {{Year}}</td>
+                        
+						<td colspan=3> <%=subs[k].plan.plan%> : Year <%=subs[k].Year%></td>
+                    
 						</tr>
-						{{#each subject}}
-						{{#each subcode}}
+
+                        <% for(l=0;l< subs[k].subject.length;l++){%>
+
+
+
                         <tr>
 						
-
+                            <td><%= subs[k].subject[l].subcode.sub_code%> </td>
+                            <td><%= subs[k].subject[l].subcode.sub_name%> </td>
+                            <td><%= subs[k].subject[l].subcode.sub_credit%> </td>
 						
-                        <td>{{sub_code}}</td>
-                        <td>{{sub_name}}</td>
-                        <td>{{sub_credit}}</td>
+                       
 						
                         </tr>    
-                       {{/each}}
-					   {{/each}} 
+                      
+					   <%}%>
+
                     </tbody>
-					{{/each}}
+					
                   </table>
                 </div>
+                <%}%>
           
             </div>
             </div>

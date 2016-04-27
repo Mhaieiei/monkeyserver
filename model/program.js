@@ -15,7 +15,7 @@ var programSchema = mongoose.Schema({
 
 	}],
 	assesmentTool: [String],
-	structureOfCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'structure' }],
+	structureOfCurriculum: [{ type: String, ref: 'structure' }],
 	referenceCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'referenceCurriculum' }],
 	Responsibility: [{ type: String, ref: 'Responsibility' }],
 	

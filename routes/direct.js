@@ -1805,41 +1805,6 @@ module.exports = function(app, passport) {
   app.get('/aun1-4', isLoggedIn, function (req, res) {
       console.log("stakeholderReq");
 
-      //referenceCurriculumSchema.find();
-
-
-      // Program.find({ 'programname': req.query.program })
-      //        .populate('stakeholder')
-
-      //        .exec(function (err, docs) {
-      //            Program.populate(docs, {
-      //                path: 'stakeholder.ELO',
-      //                model: 'ELO'
-      //            },
-      //               function (err, subs) {
-
-
-      //                   console.log("REFFFF---->>>", subs);
-
-      //                   res.render('qa/qa-aun1.4.hbs', {
-      //                       //    user: req.user,      
-      //                       layout: "qaPage",
-      //                       program:req.query.program,
-      //                       docs: subs,
-      //                       helpers: {
-      //                           inc: function (value) { return parseInt(value) + 1; },
-      //                           getyear: function (value) { return yearac[value]; },
-      //                           getindex: function () { return ++index; }
-      //                       }
-      //                   });
-
-
-      //               });
-
-
-      //        });
-
-
       Program.Stakeholder.aggregate(
                       [
                     {
@@ -2932,29 +2897,48 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
 
          console.log("PROGRAMNAME--req.query.program-->"+req.query.program);
 
-         res.redirect('/qa-elo?program='+req.query.program);
 
-       //   Program.findOne({ '_id' :  req.query.program  }, function(err, program) {
+        
+         Responsibility.update(
+            {}, 
+            { $pull: { ELO: req.query.id} },
+            {multi: true}
+          , function(err, delete_elo_program) { 
 
-       //    console.log("PROGRAMNAME---->"+program.programname);
+            if (err){console.log('cant edit new program Management'+err);}  
+            else{
 
-       //   Program.update(
-       //      {"_id":req.query.programname}, 
-       //      { $pull: { "assesmentTool": req.query.id} }
-       //    , function(err, delete_ass_program) { 
-
-       //      if (err){console.log('cant edit new program Management'+err);}  
-       //      else{
-
-       //        console.log('delete from PROGRAM SUCCESSFUL : '+delete_ass_program);
-       //        res.redirect('/aun5-3?program='+program.programname);
+              console.log('delete elo from Responsibility SUCCESSFUL : '+delete_elo_program);
+              // res.redirect('/aun5-3?program='+program.programname);
 
 
-       //      }
+              Program.Stakeholder.update(
+                {"program":req.query.program}, 
+                { $pull: { "ELO": req.query.id} },
+                {multi: true}
+              , function(err, delete_stk_program) { 
 
-       //  });
+                if (err){console.log('cant edit new program Management'+err);}  
+                else{
 
-       // });
+                  console.log('delete delete_stk_program from PROGRAM SUCCESSFUL : '+delete_stk_program);
+                  
+
+
+                }
+
+            });
+              res.redirect('/qa-elo?program='+req.query.program);
+
+
+            }
+
+        });
+
+        
+
+
+      
          
 
 

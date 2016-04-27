@@ -18,16 +18,11 @@ var semesyearSchema = mongoose.Schema({
 var structureSchema = mongoose.Schema({
 
     plan: String,
-    knowledgeBlock: [{ 
-
-    	type: String,
-	    creditRequired: Number,
-	    subjectType: String 
-	}]
+    knowledgeBlock: mongoose.Schema.Types.Mixed,
+     program:String
 
 
 });
-
 
 
 var teaching_semester = db.model('Yearstudy', semesyearSchema, 'teaching_semester');
