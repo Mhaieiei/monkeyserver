@@ -1,4 +1,4 @@
-
+<%- include ../header.ejs %>
 
 <body>
 
@@ -29,36 +29,40 @@
                         </tr>
       
                     </thead>
-					 {{#each docs}}
+					 
                     <tbody>
-					{{#each referenceCurriculum}}
-					{{#each detail}}
+                    <% for(k=0;k< docs.length;k++){%>
+                    <% for(j=0;j< docs[k].referenceCurriculum.length;j++){%>
+					<% for(m=0;m< docs[k].referenceCurriculum[j].detail.length;m++){%>
+					
                         <tr>
-                        <td>{{getindex}} </td>
-                        <td> {{refProgramName}}</td>
-                        <td>{{degree}} </td>
-                        <td> {{university}}</td>
-                        <td> {{country}}</td>
-                        <td>{{website}} </td>
+                        <td><%= m+1 %> </td>
+                        <td> <%=docs[k].referenceCurriculum[j].detail[m].refProgramName %></td>
+                        <td><%=docs[k].referenceCurriculum[j].detail[m].degree%> </td>
+                        <td> <%=docs[k].referenceCurriculum[j].detail[m].university%></td>
+                        <td> <%=docs[k].referenceCurriculum[j].detail[m].country%></td>
+                        <td><%=docs[k].referenceCurriculum[j].detail[m].website%> </td>
                         
                         </tr>
-                       {{/each}}
-                        {{/each}}
+                       <%}%>
+                        <%}%>
+                        <%}%>
                     </tbody>
-					{{/each}} 
+					
                   </table>
                 </div>
 
 
-				{{#each docs}}
-				{{#each structureOfCurriculum}}
-                <h5>Table : Structure of the curriculum (Plan {{plan}})</h5>
+				<% for(k=0;k< struc.length;k++){%>
+                <% for(g=0;g< struc[k].structureOfCurriculum.length;g++){%>
+				
+                <h5>Table : Structure of the curriculum (Plan <%=struc[k].structureOfCurriculum[g].plan %>)</h5>
                 <div id="tab_structure">
                   <table class="tablesorter">
                     <thead align="center">
                         <tr>
                             <th>Knowledge Block</a></th>
-                            <td colspan=2 >{{plan}}</a></td>
+                            <td colspan=2 ><%=struc[k].structureOfCurriculum[g].plan %></a></td>
                         </tr>
                         <tr>
                             <td colspan=1></td>
@@ -69,23 +73,25 @@
                         </tr>
       
                     </thead>
-					{{#each knowledgeBlock}}
+					
                     <tbody>
+                    <% for(f=0;f< struc[k].structureOfCurriculum[g].knowledgeBlock.length;f++){%>
+                    
                         <tr>
-                        <td> {{subjectType}}</td>
+                        <td> <%=struc[k].structureOfCurriculum[g].knowledgeBlock[f].subjectType%></td>
                         <td> </td>
-                        <td>{{creditRequired}} </td>
+                        <td><%=struc[k].structureOfCurriculum[g].knowledgeBlock[f].creditRequired%> </td>
                         <td> </td>
                         
                         </tr>
                        
-                        
+                    <%}%>    
                     </tbody>
-					{{/each}}
+					
                   </table>
                 </div>
-				{{/each}}
-                {{/each}}
+				<%}%>
+                <%}%>
 
                 <h5>Table : Distribution of the curriculum</h5>
                 <div id="tab_dis">
@@ -137,3 +143,4 @@
          
 </body>
 
+<%- include ../footer.ejs %>

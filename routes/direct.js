@@ -1208,20 +1208,19 @@ module.exports = function(app, passport) {
       Program.find({ 'programname': req.query.program })
              .populate('referenceCurriculum')
             .populate('structureOfCurriculum')
-             .exec(function (err, docs) {
-                 Program.populate(docs, [{
+             .exec(function (err, struc) {
+
+              console.log("struc: "+struc);
+                 Program.populate(struc, {
                      path: 'referenceCurriculum.detail',
                      model: 'detail'
                  },
-                 {
-                     path: 'structureOfCurriculum.knowledgeBlock',
-                     model: 'KnowledgeBlock'
-                 }
-                 ],
+                 
+                 
                     function (err, subs) {
 
 
-                        console.log("REFFFF---->>>", subs);
+                        console.log("REFFFF--subs-->>>", subs);
 
 
                         Acyear.findOne({
@@ -1231,7 +1230,10 @@ module.exports = function(app, passport) {
                             ]
                         }, function (err, programs) {
                             if (!err) {
-                                console.log(programs._id);
+                              console.log("req.query.program: "+req.query.program);
+                              console.log("req.query.year: "+req.query.year);
+                              console.log("programs: "+programs);
+                                console.log("programs._id: "+programs._id);
                                 //referenceCurriculumSchema.find();
                                 Teach.find({ 'ac_id': programs._id }).sort({ "Year": 1 })
                                 .populate('plan')
@@ -1247,10 +1249,10 @@ module.exports = function(app, passport) {
                                         console.log("REFFFF--2-->>>", subs2);
 
                                         var index = 0;
-                                        res.render('qa/qa-aun2.1.hbs', {
+                                        res.render('qa/qa-aun2.1.ejs', {
                                             //    user: req.user,      
                                             layout: "qaPage",
-
+                                            struc:struc,
                                             docs: subs,
                                             subs:subs2,
                                             helpers: {

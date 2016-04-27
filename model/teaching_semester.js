@@ -18,21 +18,19 @@ var semesyearSchema = mongoose.Schema({
 var structureSchema = mongoose.Schema({
 
     plan: String,
-    knowledgeBlock: [{ type: mongoose.Schema.Types.ObjectId, ref: 'KnowledgeBlock' }]
+    knowledgeBlock: [{ 
+
+    	type: String,
+	    creditRequired: Number,
+	    subjectType: String 
+	}]
 
 
 });
 
-var KnowledgeBlockSchema = mongoose.Schema({
 
-    type: String,
-    creditRequired: Number,
-    subjectType: String
-
-});
 
 var teaching_semester = db.model('Yearstudy', semesyearSchema, 'teaching_semester');
-teaching_semester.KnowledgeBlock = db.model('KnowledgeBlock', KnowledgeBlockSchema, 'teaching_semester');
 teaching_semester.Structure = db.model('structure', structureSchema, 'teaching_semester');
 
 module.exports = teaching_semester;
