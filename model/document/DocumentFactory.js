@@ -48,11 +48,11 @@ module.exports = function(year) {
 		parcel: aquireTemplate('AD', year),
 		IT_KM: aquireTemplate('AE', year),
 
-		/* General Management 2 */
+	/* General Management 2 */
 		riskManagement: aquireTemplate('BA', year),
 		accounting: aquireTemplate('BB', year),
 		research: aquireTemplate('BC', year),
-		acadeicManagement: aquireTemplate('BD', year),
+		academicManagement: aquireTemplate('BD', year),
 
 		/* Academic */
 		academicAdministration: aquireTemplate('CA', year),
