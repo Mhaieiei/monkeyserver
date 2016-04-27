@@ -14,9 +14,9 @@ describe('Database Collections Entity Testing', function() {
 		describe('Document Sub Type Template Creator', require('./document/department/testTemplateCreation'));
 	});
 
-	after(function(done) {
-		dbMock.dropDb(done);
-	})
+	// after(function(done) {
+	// 	dbMock.dropDb(done);
+	// })
 })
 
 function makeSuite(name, tests) {
@@ -25,9 +25,9 @@ function makeSuite(name, tests) {
 		tests();
 
 		// shared after
-		after(function(done) {
-			dbMock.dropDb(done);
-		});		
+		// after(function(done) {
+		// 	dbMock.dropDb(done);
+		// });		
 
 	});
 }

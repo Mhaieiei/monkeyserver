@@ -51,7 +51,7 @@ module.exports = {
 	riskManagement: departmentDocTemplate('BA'),
 	accounting: departmentDocTemplate('BB'),
 	research: departmentDocTemplate('BC'),
-	acadeicManagement: departmentDocTemplate('BD'),
+	academicManagement: departmentDocTemplate('BD'),
 
 	/* Academic */
 	academicAdministration: departmentDocTemplate('CA'),
