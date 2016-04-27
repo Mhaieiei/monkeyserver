@@ -23,52 +23,50 @@ $(document).ready(function() {
 
 <h3>Select program </h3>
            
-                <form action="/admin/programs" method="post" >
+<form class="form-horizontal" action="/admin/programs" method="post" >
                     <br>
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                          <label for="inputType" class="col-md-2 control-label">Program : </label>
-                          <div class="col-md-4">
-                            <select class="form-control" style="width:200px" id="head_programs" name="head_programs">
-                            <option value='a'>--Select program--</option>
+        <div class="form-group">
+          <label for="inputType" class="col-md-2 control-label">Program : </label>
+          <div class="col-md-4">
+            <select class="form-control" style="width:200px" id="head_programs" name="head_programs">
+              <option value='a'>--Select program--</option>
 							{{#each faculty}}									
-									<option value="{{ @index}}">{{ programname }}</option>										
+							<option value="{{ @index}}">{{ programname }}</option>										
 							{{/each}} 
-                            </select>
-                          </div> 
-                       
-                        <label for="inputType" class="col-md-2 control-label">Program track : </label>
-                          <div class="col-md-4">
-                              <select class="form-control" style="width:200px" id="sub_programs" name="sub_programs">
-                                <option id='a'>-------</option>
+            </select>
+          </div> 
+       
+          <label for="inputType" class="col-md-2 control-label">Program track : </label>
+          <div class="col-md-4">
+              <select class="form-control" style="width:200px" id="sub_programs" name="sub_programs">
+                <option id='a'>-------</option>
 								{{#each faculty}}	
-									 {{set @index}}
+								  {{set @index}}
 										{{#each sub_program}}
 											<option id = "{{get}}" value="{{this}}">{{this}}</option>					
 								  		{{/each}}										 
 								{{/each}}
-                            </select>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                        <label for="inputType" class="col-md-2 control-label">Academic year: </label>
-                          <div class="col-md-4">
-                              <select class="form-control" style="width:100px" name="years">
-                               	{{#each year}}
-								  	<option value = "{{this}}">{{this}}</option>
-								{{/each}}
-                            </select>
-                          </div>
-                         
-                       	</div>
+              </select>
+          </div>
+        </div>
+        <div class="form-group">
+        <label for="inputType" class="col-md-2 control-label">Academic year: </label>
+          <div class="col-md-4">
+              <select class="form-control" style="width:100px" name="years">
+               	{{#each year}}
+						  	<option value = "{{this}}">{{this}}</option>
+						    {{/each}}
+              </select>
+          </div>
+       	</div>
                       
-                       <p align = "right"><button type="submit" class="btn btn-primary">Search</button></p>
-                    </form>
-
+        <p align = "right"><button type="submit" class="btn btn-primary">Search</button></p>
+                   
+          <h3>List of program track</h3>
 					<div id="tab_2"><table class="tablesorter">
                     <thead>
                         <tr>
-                        <th width="40"><a href="javascript:table_sort('tab_2',0)"></a></th>
+                        
                         <th><a href="javascript:table_sort('tab_2',1)">Program</a></th>
                         <th><a href="javascript:table_sort('tab_2',2)">Program track</a></th>
                                            
@@ -80,7 +78,6 @@ $(document).ready(function() {
                     	{{#each faculty}}			
 							
 							<tr>
-								<td><input type="checkbox" class="tab_2_check" data-row="0"></td>
 								<td><a href='/admin/editprogram?program={{ programname }}'>{{ programname }}</td>
 								<td>
 									{{#each sub_program}}
@@ -104,7 +101,7 @@ $(document).ready(function() {
                     <div class="table-foot"> 
                     	<div class="pull-right">
 	                        <div class="btn-group">
-	                            <a href = "/admin/addprogram"><button id="tab_2_add" class="btn btn-mini" type="button">Add Program</button></a>
+	                            <a href = "/admin/addprogram"><button id="tab_2_add" class="btn btn-primary" type="button">Add Program</button></a>
 	                        </div>
                         </div>
 
