@@ -48,19 +48,12 @@ module.exports = function(year) {
 		parcel: aquireTemplate('AD', year),
 		IT_KM: aquireTemplate('AE', year),
 
-<<<<<<< HEAD:model/document/department/DocumentFactory.js
 	/* General Management 2 */
-	riskManagement: departmentDocTemplate('BA'),
-	accounting: departmentDocTemplate('BB'),
-	research: departmentDocTemplate('BC'),
-	academicManagement: departmentDocTemplate('BD'),
-=======
-		/* General Management 2 */
-		riskManagement: aquireTemplate('BA', year),
-		accounting: aquireTemplate('BB', year),
-		research: aquireTemplate('BC', year),
-		acadeicManagement: aquireTemplate('BD', year),
->>>>>>> ea3a83ea9ba15b76f651931af664444f3a62ceb7:model/document/DocumentFactory.js
+	riskManagement: departmentDocTemplate('BA', year),
+	accounting: departmentDocTemplate('BB', year),
+	research: departmentDocTemplate('BC', year),
+	academicManagement: departmentDocTemplate('BD', year),
+
 
 		/* Academic */
 		academicAdministration: aquireTemplate('CA', year),
