@@ -8,6 +8,9 @@
 	border: 1px solid #ccc;
 	box-shadow: 0 0 5px 0;
 	padding: 10px;
-
 }
 
+.selected{
+  background: #337ab7;
+  color:#fff;
+}
