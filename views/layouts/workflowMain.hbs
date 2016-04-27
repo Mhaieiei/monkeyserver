@@ -1,19 +1,33 @@
 <!doctype html>
 <html>
 <head>
-  <title>Just Monkey</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-  <link rel="stylesheet" href="/stylesheets/workflow.css">
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="/stylesheets/diagram-js.css" />
+    <title>Monkey Office</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap Core CSS -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/stylesheets/dist/css/bootstrap-submenu.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css" type="text/css" id="" media="print, projection, screen" />   
+
+    <!-- Custom CSS -->
+    <link href="/stylesheets/modern-business.css" rel="stylesheet">
+    <link href="/stylesheets/tabs.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    
+    <!-- Workflow module CSS -->
+    <link rel="stylesheet" href="/stylesheets/diagram-js.css" />
     <link rel="stylesheet" href="/bpmn-font/css/bpmn-embedded.css" />
     <link rel="stylesheet" href="/stylesheets/app.css" />
-    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="/stylesheets/workflow.css" rel="stylesheet">
 </head>
 <body>
-  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+   <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -23,51 +37,41 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">Monkey Office</a>
+                <a class="navbar-brand" href="/home">Monkey Office</a>
             </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-               <ul class="nav navbar-nav navbar-left">
+            <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
                     <li>
-                        <a href="/workflow/execute">Workflow</a>
+                        <a href="/workflow">Workflow</a>
                     </li>
                     <li>
                         <a href="/qapage">QASS</a>
                     </li>
                     <li>
-                        <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="/workflow/create">Create Workflow</a>
-                                </li>
-                                <li>
-                                   <a class="trigger right-caret">Settings</a>
-                                    <ul class="dropdown-menu sub-menu">
-                                        <li><a href="/user">Users</a></li>
-                                        <li><a href="/programs">Programs</a></li>
-                                        <li><a href="/subjects">Subjects</a></li>
-                                        
-                                    </ul>
-                                </li>
-                                
-                                </li>
-                                
-                            </ul>
-                        </li>
-                        </ul>
-                       
-                    </li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
+                        <ul class="dropdown-menu multi-level">
+                            <li><a href="/workflow/create">Create Workflow</a></li>
+                            
+                            <li class="dropdown-submenu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/admin/user">Users</a></li>
+                                    <li><a href="/admin/programs">Programs</a></li>
+                                    <li><a href="/admin/subjects">Subjects</a></li>
                     
-                </ul>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+               
+            </ul>
                    
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Username <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li>
-                                <a href="/profile_inf" class= "glyphicon glyphicon-user"> Profile</a>
+                             <li>
+                                <a href="/profile_inf?role={{role}}" class= "glyphicon glyphicon-user"> Profile</a>
                             </li>
                             <li>
                                 <a href="#" class= "glyphicon glyphicon-bell"> Notifications</a>
@@ -76,7 +80,7 @@
                                 <a href="edit_user-staff_profile.hbs" class = "glyphicon glyphicon-wrench"> Settings </a>
                             </li>
                             <li>
-                                <a href="#" class = "glyphicon glyphicon-log-out"> Logout </a>
+                                <a href="/" class = "glyphicon glyphicon-log-out"> Logout </a>
                             </li>
                         </ul>
                     </li>
@@ -85,7 +89,8 @@
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
-  </nav>
+    </nav>
+
   {{{body}}}
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>

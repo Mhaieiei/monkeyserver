@@ -20,7 +20,7 @@
 
       
       
-        console.log( 'hi');
+        //console.log( 'hi');
         var x=document.getElementById('CourseTable');
         var y =document.getElementById('Coursetbody');
 
@@ -71,6 +71,7 @@
                       <label for="inputType" class="col-md-1 control-label">Type: </label>
                       <div class="col-md-4">
                           <select class="form-control" style="width:200px" id="type" name="type">
+                          <option selected="selected" value="{{assessment.type}}">{{assessment.type}} Measures</option>
                               <option value="Direct">Direct Measures</option>
                               <option value="Indirect">Indirect Measures</option>
                           </select>
@@ -81,11 +82,7 @@
                          <div id="tab_2">
                          
 
-                          <div class="btn-group">
-                              <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()">
-                                <span class="glyphicon glyphicon-plus"></span>ADD
-                              </button>
-                          </div>
+                          
                         
                             <table id="CourseTable" class="tablesorter">
                                 <thead>
@@ -93,6 +90,7 @@
                                     <th ><a>Course name</a></th>
                                     <th><a>Level</a></th>
                                     <th><a>Delete</a></th>
+                                    <th><a>ADD</a></th>
                                    
                                     
                                     </tr>
@@ -105,7 +103,13 @@
                                       <td><input  type="text" name="nameCourse" id="nameCourse" value="{{subjectType}}"/></td>
                                       <td><input  type="text" name="levelCourse" id="levelCourse" value="{{followingReq}}"/></td>
                                       <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
-                                      </td>  
+                                      </td> 
+
+                                      <div class="btn-group">
+                                       <td> <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()">
+                                          <span class="glyphicon glyphicon-plus"></span></button>
+                                        </td>
+                                      </div> 
 
 
                                     </tr> 

@@ -5,10 +5,50 @@
     $('a[href="#passive_order_categories"]').tab('show');
     //$('ul.nav-tabs li:eq(1)').tab('show');
     });
-    </script>
-<script type="text/javascript" src="//code.jquery.com/jquery-2.1.0.js"></script>
-<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+</script>
+<script>
+	var rowind = 1;
+	function deleteRow(row)
+	{
+	    var i=row.parentNode.parentNode.rowIndex;
+	    document.getElementById('lecTable').deleteRow(i);
+	    rowind--;
+        document.getElementById('arrlen').value = rowind;
+        console.log("value="+document.getElementById('arrlen').value);
+	}
+
+
+	function insRow()
+	{
+		
+	    console.log( 'hi');
+	    var x=document.getElementById('knowledgetab');
+	    var y=document.getElementById('knowledgetbody');
+	    var new_row = x.rows[1].cloneNode(true);
+	    var len = x.rows.length;
+
+	    // var lec = document.getElementById("lecTable").rows[len-1].cells[1].firstChild.value;
+	    // console.log("mhai_eiei"+lec);
+	    // array.push(lec);
+	    //new_row.cells[0].innerHTML = len;
+      var inp0 = new_row.cells[0].getElementsByTagName('input')[0];
+      var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+      var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
+      
+      
+      console.log(new_row);
+      y.appendChild( new_row );
+      rowind++;
+      console.log(rowind);
+      document.getElementById('arrlen').value = rowind;
+      console.log("value="+document.getElementById('arrlen').value);
+	 
+	}
+</script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.0.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
 <br><br>
 <div class="tabs-container">
@@ -16,6 +56,9 @@
         <li class="active"><a data-toggle="tab" href="#active_order_categories" aria-expanded="true">Subjects</a>
         </li>
         <li class=""><a data-toggle="tab" href="#passive_order_categories" aria-expanded="false">Meetings</a>
+        </li>
+        <li class=""><a data-toggle="tab" href="#passive_order_categories2" aria-expanded="false">Structure of Curriculum </a>
+        <li class=""><a data-toggle="tab" href="#passive_order_categories3" aria-expanded="false">Structure of Curriculum Edit</a>
         </li>
     </ul>
     <div class="tab-content">
@@ -61,17 +104,17 @@
 				               
 				           
 							    <div class="btn-group">
-							   		 <a href = "/editsubprogram?id={{ac_id}}&year={{Year}}&semes={{semester}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>
+							   		 <a href = "/admin/editsubprogram?id={{ac_id}}&year={{Year}}&semes={{semester}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>
 								</div>
 								<div class="btn-group">
-							   		 <a href = "/delsubprogram?id={{_id}}&acid={{ac_id}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a>
+							   		 <a href = "/admin/delsubprogram?id={{_id}}&acid={{ac_id}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a>
 								</div>
 				 			</div>
 				 		</div>
 				 	<br><br>		 
 				 	{{/each}}  
 				 	 <div class="btn-group">
-					    <a href = "/addsubprogram?acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add Program Subjects</button></a>
+					    <a href = "/admin/addsubprogram?acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add Program Subjects</button></a>
 					</div>
 	            </form>
 	           <br><br>   
@@ -103,8 +146,8 @@
 							        <td>{{meetingDate}}</td>
 							        <td>{{noOfParticipation}}</td>
 							        <td>{{percentageOfParticipation}}</td>	
-							        <td><a href = "/editmeeting?id={{_id}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a></td>
-							        <td><a href = "/delmeeting?id={{_id}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a></td>	       
+							        <td><a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a></td>
+							        <td><a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a></td>	       
 						        </tr>
 						      	{{/each}}
 						   
@@ -115,19 +158,91 @@
 						<div class="table-foot"> 
 				        	<div class="pull-right">
 				                <div class="btn-group">
-								    <a href = "/addmeeting?acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add new meeting</button></a>
+								    <a href = "/admin/addmeeting?acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add new meeting</button></a>
 								</div>
 							    
 				 			</div>
 				 		</div>
 				 	<br><br>		 
-
-
 	            </form>
+            </div>
+        </div>
 
+        <div id="passive_order_categories2" class="tab-pane">
+            <div class="panel-body">
+            	<form class="form-horizontal" role="form">
+	              
+					<p> Plan </p>
+					<table class="tablesorter">
+					    <thead>
+					        <tr>
+					        <th><a>Knowledge Block</a></th>
+					        <th><a>Credit required</a></th>
+					        </tr>
+					    </thead>
+						 <tbody>
+					        <tr>
+						        <td></td>
+						        <td></td>    
+					        </tr>
 
+						   </tbody>
+						 </table>
+						<!-- end: table full--> 
+						<div class="table-foot"> 
+				        	<div class="pull-right">
+				                <div class="btn-group">
+				                	<a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>
+								</div>
+							    
+				 			</div>
+				 		</div>
+				 	<br><br>		 
+	            </form>
+            </div>
+        </div>
 
+        <div id="passive_order_categories3" class="tab-pane">
+            <div class="panel-body">
+            	<form class="form-horizontal" role="form"> 
+					<p> Plan </p>
+					<table class="tablesorter" id="knowledgetab">
+					    <thead>
+					        <tr>
+					        <th><a>Knowledge Block</a></th>
+					        <th><a>Credit required</a></th>
+					        <th><a>Add</a></th>
+					        <th><a>Delete</a></th>
+					        </tr>
+					    </thead>
+						 <tbody id ="knowledgetbody">
+					        <tr>
+						        <td><input width="300" type="text" name="knowledgebox" value="" ></td>
+						        <td><input width="300" type="text" name="creaditreq" value="" ></td>
+						        <td><button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span></button></td>   
+						        <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></td> 
+					        </tr>
+
+						   </tbody>
+						 </table>
+						<!-- end: table full--> 
+						<div class="table-foot"> 
+				        	<div class="pull-right">
+				                <div class="btn-group">
+								    <a href = ""><button id="tab_submit" class="btn btn-primary" type="button">Submit</button></a>
+								</div>
+							    
+				 			</div>
+				 		</div>
+				 	<br><br>		 
+	            </form>
             </div>
         </div>
     </div>
 </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> 
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> 
+<script src="/javascripts/file-tree.min.js"></script>

@@ -1,0 +1,65 @@
+<%- include ../../header.ejs %>
+<div class="container">       
+    <form class="form-horizontal" role="form"  action="/add_aun1-3?program=<%=program%>&id=<%= id%>" method="post" id = "myForm" > 
+                
+          <h3>Mapped The expected learnig outcomes (ELOs)</h3>
+          <br>
+              <div class="form-group">
+                
+                
+               <label for="inputType" class="col-md-2 control-label">Category: </label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="inputType" placeholder="Enter categoey" name="category" required value = "<%=respon.category%>">
+                </div>  
+              </div>
+              <div class="form-group">
+                <label for="inputType" class="col-md-2 control-label">Description: </label>
+                <div class="col-md-4">
+                    <textarea class="form-control" rows="5" id="des" name='description'><%=respon.description%></textarea>
+                </div>
+                <label for="inputType" class="col-md-2 control-label">ELOs: </label>
+                
+                
+                <div class="col-md-4">
+
+                <%check = 0%>
+
+                <% for(i=0;i< elo.length;i++){%>
+
+                <%check = 0%>
+
+                <% for(j=0;j< respon.ELO.length;j++){%>
+
+                <%if(elo[i]._id == respon.ELO[j]){%>
+
+                           
+                  <input type="checkbox" name="elo_tqf2" value="<%= elo[i]._id%>" checked> <%= elo[i].number%><br>
+                  <%check = 1%>
+
+                  <%}%>
+                <%}%>
+
+                <%if(check == 0){%>
+                <input type="checkbox" name="elo_tqf2" value="<%= elo[i]._id%>"> <%= elo[i].number%><br>
+                <%}%>
+                <%}%>
+
+                </div>
+                  
+
+                  
+               
+
+                
+              </div>
+
+              <div class="form-group">
+                      <p align = "right"><button type="submit" class="btn btn-primary">Add</button></p>
+             </div>
+              
+
+
+     </form>
+</div>
+
+<%- include ../../footer.ejs %>

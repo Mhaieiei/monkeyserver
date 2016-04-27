@@ -1,0 +1,110 @@
+<%- include ../header.ejs %>
+
+<body>
+
+    
+        <td>
+            <div class="container-fluid">
+            <div class="row-fluid">
+            <div class="span15">
+            <div class="col-md-15"> 
+           
+            <!--<form class="form-horizontal" role="form">-->
+                
+                <h3>AUN 14.1: The pass rate is satisfactory and dropout rate is of acceptable level</h3>
+                <h5>Table : Continuity in studying and graduation</h5>
+                <div id="tab_aun14.1.1">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                            <th>Academic Year</a></th>
+                            <th>No. of Students</a></th>
+                            <td colspan=3>Student Status</a></td>
+                            
+                            
+                            
+                           
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <th>Type</th>
+                            <th>Qty</th>
+                            <th>%</th>
+                           
+                            
+                        </tr>
+                       
+                       
+
+                   
+                    </thead>
+                    <tbody>
+                    
+
+
+                        <%count = 0%>
+                      
+                       <% for(i=0;i< docs.length;i++){%>
+                       <%count = 0%>
+                        <tr>
+                        
+                        <td><%=docs[i]._id%></td>
+                        <td><%=docs[i].sumOfYear%></td>
+                        <% for(j=0;j< docs[i].root.length;j++){%>
+                        <% if(count == 0){ %>
+                        <td><%=docs[i].root[j]._id.studentDetail%></td>
+                        <td><%=docs[i].root[j].count%></td>
+
+                        <% percen = Math.round(docs[i].root[j].count * 100 / docs[i].sumOfYear)%>
+
+
+                        <td><%= percen%></td>
+
+
+                        </tr>
+                
+                        <%}else{%>
+                        <tr>
+                        <th></th>
+                        <th></th>
+                        <td><%=docs[i].root[j]._id.studentDetail%></td>
+                        <td><%=docs[i].root[j].count%></td>
+
+                        <% percen = Math.round(docs[i].root[j].count * 100 / docs[i].sumOfYear)%>
+                        <td><%= percen%></td>
+
+                        <%}%>
+                        <%count++%>
+                        <%}%>
+                        
+                        
+                        </tr>  
+                        <%}%>
+                    </tbody>
+
+                  </table>
+
+                </div>
+
+                
+
+
+       
+            </div>
+            </div>
+            </div>
+            </div>
+            
+
+        </td>
+
+
+
+         
+</body>
+
+
+
+<%- include ../footer.ejs %>

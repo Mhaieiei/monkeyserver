@@ -1,0 +1,114 @@
+<script type="text/javascript">
+    
+    var rowind = 1;
+    function deleteRow(row)
+    {
+
+
+        var i=row.parentNode.parentNode.rowIndex;
+        var x=document.getElementById('ELO_TQFtable');
+        var len = x.rows.length - 1;
+        document.getElementById('ELO_TQFtable').deleteRow(i);
+        rowind = len-1;
+        document.getElementById('arrlen').value = rowind;
+        console.log("value="+document.getElementById('arrlen').value);
+    } 
+
+    function insRow()
+    {
+
+      
+      
+        var arr = []
+      //console.log( 'hi');
+      var x=document.getElementById('ELO_TQFtable');
+      var y =document.getElementById('ELO_TQFbody');
+      var new_row = x.rows[1].cloneNode(true);
+      //console.log( 'new_row: '+new_row);
+      var len = x.rows.length;
+      //console.log( 'len: '+len);
+
+      var inp0 = new_row.cells[0].getElementsByTagName('input')[0];
+      var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+      inp0.value = '';
+      
+      console.log(new_row);
+      y.appendChild( new_row );
+      rowind++;
+      console.log(rowind);
+      document.getElementById('arrlen').value = len;
+      console.log("value="+document.getElementById('arrlen').value);
+     
+    }
+</script>
+
+
+<div class="container">
+        <form class="form-horizontal" role="form"  action="/addelos?program={{elo.program}}&id={{id}}" method="post" id = "myForm" > 
+          
+           
+            <!--<form class="form-horizontal" role="form">-->
+        
+        <h3>Add new Expected Learning Outcomesz (ELOs)</h3>
+        <br>
+          <div class="form-group">
+            <label for="inputType" class="col-md-1 control-label">No. : </label>
+              <div class="col-md-2">
+                  <input type="text" class="form-control" id="elos_no" width="50px;"maxlength="4" size="4" name="elos_no" required value="{{elo.number}}">
+              </div>
+
+             <label for="inputType" class="col-md-3 control-label">Description : </label>
+              <div class="col-md-4">
+                <textarea class="form-control" rows="5" id="elos_des" name="elos_des" >{{elo.description}}</textarea>
+              </div>
+            
+          </div>
+          <div class="form-group">
+            <label for="inputType" class="col-md-1 control-label">ELO from TQF2: </label>
+              <div class="col-md-5">
+                 <div id="tab_2">
+                    <table id="ELO_TQFtable" class="tablesorter">
+                        <thead>
+                            <tr>
+                            <th><a>ELO name</a></th>
+                            <th><a>Delete</a></th>
+                            <th><a>Add</a></th>
+                            </tr>
+                        </thead>
+                        <tbody id = "ELO_TQFbody">
+                            <p hidden>    
+                              <input type="text" tabindex="1"  name="arrlen" id="arrlen" value="{{len}}" readonly=""><br>
+                            </p>
+                            {{#each elo.eloFromTQF}}
+                            <tr>
+                            <td><input  type="text" name="nameELO" id="nameELO" value="{{this}}"></td>
+                            <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
+                            </td>  
+
+                            <div class="btn-group">
+                               <td> <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()">
+                                  <span class="glyphicon glyphicon-plus"></span></button>
+                                </td>
+                            </div>  
+                                  
+                            </tr>  
+                            {{/each}}                  
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+             <div class="col-md-4">
+                  <div class="pull-right">
+                        <br>
+                        <br>
+                        <br>
+                      <p align = "right"><button type="submit" class="btn btn-primary">Add</button></p>
+                   </div>
+             </div>
+          </div>
+
+            
+
+        </form>
+
+</div>

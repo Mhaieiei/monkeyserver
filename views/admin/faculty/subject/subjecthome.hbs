@@ -12,7 +12,7 @@
 
 
 <div class="btn-group">
-    <button id="tab_2_submit" class="btn btn-mini" type="button"><a href = "/addsubjects">ADD Subjects</button><br/></a>
+    <button id="tab_2_submit" class="btn btn-mini" type="button"><a href = "/admin/addsubjects">ADD Subjects</button><br/></a>
 </div>
 <br><br>
 
@@ -45,7 +45,7 @@
                             
                         {{/each}}
                     </td>    
-                    <td><a href='/enroll?acid={{getac}}&sub_id={{subcode._id}}&year={{getyear}}&semes={{getsemes}}'>Enroll</a></td>            
+                    <td><a href='/admin/enroll?acid={{getac}}&sub_id={{subcode._id}}&year={{getyear}}&semes={{getsemes}}'>Enroll</a></td>            
                 </tr>
                 {{/each}}            
             {{/each}}          

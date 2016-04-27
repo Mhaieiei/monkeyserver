@@ -3,7 +3,8 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
 	templateId: mongoose.Schema.Types.ObjectId,
-	currentTask: String,
+	runningElements: [String],
+	waitingElements: [String],
 	variables: [
 		{ 
 			name: { type: String }, 
@@ -11,8 +12,8 @@ var schema = new mongoose.Schema({
 			value: { type: String } 
 		}
 	],
-	elements: mongoose.Schema.Types.Mixed,
-	handler:  mongoose.Schema.Types.Mixed
+	details: mongoose.Schema.Types.Mixed,
+	handlers:  mongoose.Schema.Types.Mixed
 });
 
 module.exports = db.model('WorkflowExecution', schema);

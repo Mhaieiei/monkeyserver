@@ -1,7 +1,7 @@
 var express = require('express');
 var path = require('path');
 var router = express.Router();
-var Document = require('model/document');
+var Document = require('model/document/document');
 
 router.get('/document/:file', isGranted, function(req, res) {
 	var file = path.resolve('uploads/document/' + req.params.file);

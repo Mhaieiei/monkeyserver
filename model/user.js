@@ -20,7 +20,7 @@ var userSchema = new mongoose.Schema({
         yearattend : Number,
         bankAccount : String,
         email: String,
-        role: String,   //staff,student,external
+        role: String,   //staff,student,external 
         careerOrHigherStudying: String, //for external user
         graduatedIn: Number,            //for external user
         program: String,

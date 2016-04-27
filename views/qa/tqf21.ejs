@@ -1,74 +1,192 @@
 <%- include ../header.ejs %>
+<script type="text/javascript">
+$( document ).ready(function() {
+$('#cssmenu li.has-sub>a').on('click', function(){
+    $(this).removeAttr('href');
+    var element = $(this).parent('li');
+    if (element.hasClass('open')) {
+      element.removeClass('open');
+      element.find('li').removeClass('open');
+      element.find('ul').slideUp();
+    }
+    else {
+      element.addClass('open');
+      element.children('ul').slideDown();
+      element.siblings('li').children('ul').slideUp();
+      element.siblings('li').removeClass('open');
+      element.siblings('li').find('li').removeClass('open');
+      element.siblings('li').find('ul').slideUp();
+    }
+  });
+});
+</script>
+<p hidden>     
+      <input type="text" tabindex="1"  name="program" id="program" value="{{programname}}"><br>
+      <input type="text" tabindex="1" name="year" id="year" value="{{year}}"><br>
+      <input type="text" tabindex="1" name="acid" id="acid" value="{{acid}}"><br>
+</p>
+<aside>
+    <div id='cssmenu'>
+        <ul>
+           <li class='active has-sub'><a href='#'><span> TQF : Thai qualification framwork for higher education </span></a>
+              <ul>
 
 
+                <li><a href="/tqf21?program={{programname}}&year={{year}}"><span>TQF1: Program faculty members</span></a>
+                <li><a href="/tqf22?program={{programname}}&year={{year}}&acid={{acid}}"><span>TQF2: Lecturer and Instructors</span></a></li>
+                <li><a href="/tqf23?acid={{acid}}">TQF3: Thesis Advisors and Thesis Examination Committees</a></li>
+                <li><a href="/tqf24?acid={{acid}}">TQF4: Publications</a></li>
+                <li><a href="/tqf25?acid={{acid}}&year={{year}}&program={{programname}}">TQF5: Program management</a></li>
+              </ul>
+            <li>
+            <li><a href='#'><span> AUN: </span></a>
+                <li class='active has-sub'><a href='#'><span> AUN 1: Expected Learing Outcomes</span></a>
+                <ul>
+                    <li><a href="/qa-elo?program={{programname}}&year={{year}}&acid={{acid}}">AUN 1.1 (ELO)</a></li>
+                    <li><a href="/aun1-3?program={{programname}}&year={{year}}&acid={{acid}}">AUN 1.3: The expected learning outcomes cover both generic and specialised skills and knowledge</a></li>
+                    <li><a href="/aun1-4?program={{programname}}&year={{year}}&acid={{acid}}">AUN 1.4: The expected learning outcomes clearly reflect the requirements of the stakeholders </a></li>
+                </ul>
+                </li>
+                <li class='has-sub'><a href='#'><span>AUN 2: Program Specification</span></a>
+                    <ul>
+                       <li> <a href="/aun2-1??program={{programname}}&year={{year}}&acid={{acid}}">AUN 2.1: The university uses program specification</a></li>
+                    </ul>
+                 </li>
+                <li class='has-sub'><a href='#'><span>AUN 3: Program Structure and Content </span></a>
+                    <ul>
+                        <li><a href="/aun3-3?program={{programname}}&year={{year}}&acid={{acid}}">AUN 3.3: The contribution made by each course to achieving the learning outcomes is clear</a></li>
+                    </ul>
+                <li>
+                <li class='has-sub'><a href='#'><span>AUN 5: Student Assessment </span></a>
+                    <ul>
+                        <li><a href="">AUN 5.2: The assessment is criterion-referenced</a>
+                        <li><a class="item" href="/aun5-3?program={{programname}}&year={{year}}&acid={{acid}}">AUN 5.3: Student assessment uses a variety of methods</a></li>   
+                    </ul>
+                <li>
 
-	<table width="100%" border="0">
+                <li class='has-sub'><a href='#'><span>AUN 6: Staff Quality </span></a>
+                    <ul>
+                        <li><a  href="/aun6-1?program={{programname}}&year={{year}}&acid={{acid}}">AUN 6.1:  The staff are competent for their tasks</a></li>
+                        <li><a  href="/aun6-2?program={{programname}}&year={{year}}&acid={{acid}}">AUN 6.2: The staff are sufficient to deliver the curriculum adequately</a></li>
+                        <li><a  href="">AUN 6.4: The roles and relationship of staff members are well defined and understood</a></li>
+                        <li><a  href="">AUN 6.9: Termination and retiremnet are planned and well implemented</a></li>
+                       
+                    </ul>
+                <li>
 
-                    <td>
-                         <div class="container-fluid">
-                        <div class="row-fluid">
-                        <div class="span15">
-                        <div class="col-md-15"> 
-                            <div id="tab_tqf1"><table class="table muffin">
-                            <thead align="center">
-                                <tr>
-                                    <th width="40"><a href="javascript:table_sort('tab_2',0)">No.</a></th>
-                                    <th><a href="javascript:table_sort('tab_tqf1',1)">Title</a></th>
-                                    <th><a href="javascript:table_sort('tab_tqf1',2)">Name-Surname</a></th>
-                                    <th colspan=4><a href="javascript:table_sort('tab_tqf1',3)">Education</a></th>
-                                </tr>
-								
-                                <tr>
-                                  <th colspan=1></th>
-                                  <th colspan=1></th>
-                                  <th colspan=1></th>
-                                  <th>Level</th>
-                                  <th>Degree</th>
-                                  <th>University</th>
-                                  <th>Year</th>
-                                </tr>
+                <li class='has-sub'><a href='#'><span>AUN 7: Support Staff Quality </span></a>
+                    <ul>
+                        <li><a href="/aun7?program={{programname}}&year={{year}}&acid={{acid}}">AUN 7: Support Staff Quality</a></li>
+                       
+                    </ul>
+                <li>
+
+                <li class='has-sub'><a href='#'><span>AUN8 : Student Quality </span></a>
+                    <ul>
+                         <li><a href="/aun8-3?program={{programname}}&year={{year}}&acid={{acid}}">AUN 8.3: The actual study load is in line with the prescribed load</a></li>
+                      
+                    </ul>
+                <li>
+
+                
+
+                <li class='has-sub'><a href='#'><span>AUN10 : Facilities and Infrastructure </span></a>
+                    <ul>
+                        <li><a href="/aun10-1?program={{programname}}&year={{year}}&acid={{acid}}">AUN 10.1: The lecture facilities(lecture halls, small course rooms) are adequate</a></li>
+                    </ul>
+                <li>
+
+                <li class='has-sub'><a href='#'><span>AUN 11: Quality Assurence of Teching and Learning Process</span></a>
+                    <ul>
+                        <li><a href="/aun11-1?program={{programname}}&year={{year}}&acid={{acid}}">AUN 11.1: The curriculum is developed by all teaching staff members</a></li>
+                        <li><a href="/aun11-4?program={{programname}}&year={{year}}&acid={{acid}}">AUN 11.4: The curriculum is regurly evaluated at reasonable time periods</a></li>
+                        
+                    </ul>
+                <li>
+
+                <li class='has-sub'><a href='#'><span>AUN 12: Staff Development Activites</span></a>
+                    <ul>
+                         <li><a href="/aun12-1?program={{programname}}&year={{year}}&acid={{acid}}">AUN 12.1: There is a clear plan on the needs for training and developement of both academic and support staff </a></li>
+                        <li><a href="/aun12-2?program={{programname}}&year={{year}}&acid={{acid}}">AUN 12.2: The training and development activites for both academic and support staff are adequate to the identified needs</a></li>
+                    </ul>
+                <li>
+
+                <li class='has-sub'><a href='#'><span>AUN 13: Stakeholders Feedback </span></a>
+                    <ul>
+                         <li><a href="/aun13-2?program={{programname}}&year={{year}}&acid={{acid}}">AUN 13.2: There is adequate structured feedback from the students and alumni</a></li>
+
+                        
+                    </ul>
+                <li>
+                <li class='has-sub'><a href='#'><span>AUN 14: Output </span></a>
+                    <ul>
+                        <li><a href="/aun14-1?program={{programname}}&year={{year}}&acid={{acid}}">AUN 14.1: The pass rate is satisfactory and dropout rate is of acceptable level</a>
+                        <li><a  href="/aun14-4?program={{programname}}&year={{year}}&acid={{acid}}">AUN 14.4: The level of research activies by academic staff and students is satisfactory</a></li>
+
+                    </ul>
+                </li>
+            </li>
+        </ul>
+     </div>
+  </aside>
+
+  <section>
+    <div class ="well">
+        
+   
+  
+	     <table width="100%" border="0">
+                <div id="tab_tqf1"><table class="tablesorter">
+                <thead align="center">
+                    <tr>
+                        <th width="40"><a href="javascript:table_sort('tab_2',0)">No.</a></th>
+                        <th><a href="javascript:table_sort('tab_tqf1',1)">Title</a></th>
+                        <th><a href="javascript:table_sort('tab_tqf1',2)">Name-Surname</a></th>
+                        <th colspan=4><a href="javascript:table_sort('tab_tqf1',3)">Education</a></th>
+                    </tr>
+		
+                    <tr>
+                      <th colspan=1></th>
+                      <th colspan=1></th>
+                      <th colspan=1></th>
+                      <th>Level</th>
+                      <th>Degree</th>
+                      <th>University</th>
+                      <th>Year</th>
+                    </tr>
 
 
-							
-                            </thead>
-                            <tbody>
+	
+                </thead>
+                <tbody>
                             	<% var i,j;
-								for(i=0;i< clients.length;i++){
-									for(j=0;j< clients[i].education.length;j++){%>
-									<tr>
-									   
-									   <% if(j==0) {%>
-									   <td><%= i+1%></td>
-									   <td><%= clients[i].local.title %></td>
-									   <td><%= clients[i].local.name %></td>
-									   <%} else {%>
-									   <td></td>
-									   <td></td>
-									   <td></td>
-									   <%}%>
-									   <td><%= clients[i].education[j].level %></td>
-									   <td><%= clients[i].education[j].degree %></td>
-									   <td><%= clients[i].education[j].university %></td>
-									   <td><%= clients[i].education[j].year %></td>
-									</tr>
-								<%}
-								}%>
-                              
-                                
-                            </tbody>
-                            </table>
-                            </div>
-                        </form>
-                        </div>
-                    </td>
-
-
-         </br>
-            
-            
-          </div>
-            </div>
-      </div>
-    </div>
+            		for(i=0;i< clients.length;i++){
+            			for(j=0;j< clients[i].education.length;j++){%>
+            			<tr>
+            			   
+            			   <% if(j==0) {%>
+            			   <td><%= i+1%></td>
+            			   <td><%= clients[i].local.title %></td>
+            			   <td><%= clients[i].local.name %></td>
+            			   <%} else {%>
+            			   <td></td>
+            			   <td></td>
+            			   <td></td>
+            			   <%}%>
+            			   <td><%= clients[i].education[j].level %></td>
+            			   <td><%= clients[i].education[j].degree %></td>
+            			   <td><%= clients[i].education[j].university %></td>
+            			   <td><%= clients[i].education[j].year %></td>
+            			</tr>
+            		<%}
+            		}%>
+                  
+                    
+                </tbody>
+                </div>
+      </table>
+                         
+     </div>
+  </section>
 	
 <%- include ../footer.ejs %>

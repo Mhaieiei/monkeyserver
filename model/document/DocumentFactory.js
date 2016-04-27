@@ -37,23 +37,54 @@
  * | Student Affairs         |      CB      |
  * ------------------------------------------
  */
-var departmentDocTemplate = require('./template');
+var Template = require('./templateByYear');
 
-module.exports = {
-	/* General Management 1 */
-	archive: departmentDocTemplate('AA'),
-	humanResource: departmentDocTemplate('AB'),
-	qualityAssurance: departmentDocTemplate('AC'),
-	parcel: departmentDocTemplate('AD'),
-	IT_KM: departmentDocTemplate('AE'),
+module.exports = function(year) {
+	var ICDocuments = {
+		/* General Management 1 */
+		archive: aquireTemplate('AA', year),
+		humanResource: aquireTemplate('AB', year),
+		qualityAssurance: aquireTemplate('AC', year),
+		parcel: aquireTemplate('AD', year),
+		IT_KM: aquireTemplate('AE', year),
 
+<<<<<<< HEAD:model/document/department/DocumentFactory.js
 	/* General Management 2 */
 	riskManagement: departmentDocTemplate('BA'),
 	accounting: departmentDocTemplate('BB'),
 	research: departmentDocTemplate('BC'),
 	academicManagement: departmentDocTemplate('BD'),
+=======
+		/* General Management 2 */
+		riskManagement: aquireTemplate('BA', year),
+		accounting: aquireTemplate('BB', year),
+		research: aquireTemplate('BC', year),
+		acadeicManagement: aquireTemplate('BD', year),
+>>>>>>> ea3a83ea9ba15b76f651931af664444f3a62ceb7:model/document/DocumentFactory.js
 
-	/* Academic */
-	academicAdministration: departmentDocTemplate('CA'),
-	studentAffairs: departmentDocTemplate('CB')
+		/* Academic */
+		academicAdministration: aquireTemplate('CA', year),
+		studentAffairs: aquireTemplate('CB', year)
+	}
+
+	return ICDocuments;
+}
+
+function aquireTemplate(ICDocumentType, year) {
+	try {
+		var documentTemplate = new Template(ICDocumentType, year);
+		return documentTemplate.compile();
+	} catch(error) {
+		var errorMessageRegularExpression = /discriminator/ig;
+		var discriminatorError = error.message.search(errorMessageRegularExpression) > -1;
+		if(!discriminatorError)
+			throw error;
+
+		return getAlreadyCompiledSchemaModel(documentTemplate.getSubtypeName());
+	} 
+}
+
+function getAlreadyCompiledSchemaModel(modelName) {
+	var databaseConnection = require('lib/dbclient').db();
+	return databaseConnection.model(modelName);
 }

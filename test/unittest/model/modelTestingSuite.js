@@ -10,8 +10,10 @@ describe('Database Collections Entity Testing', function() {
 	})
 
 	makeSuite('Document Model', function() {
-		describe('Base Schema', require('./testDocumentModel'));
-		describe('Document Sub Type Template Creator', require('./document/department/testTemplateCreation'));
+		describe('Base Schema', require('./document/testDocumentModel'));
+		describe('Document Sub Type Template Creator', require('./document/testTemplateCreation'));
+		describe('Document Sub Type Template Creator constructed by year', require('./document/testTemplateCreationByYear'));
+		describe('IC Documents', require('./document/testICDocuments'));
 	});
 
 	// after(function(done) {

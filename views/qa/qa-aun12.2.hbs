@@ -1,32 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-    <title>Monkey Office</title>
 
-        <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="dist/css/bootstrap-submenu.min.css">
-
-    <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css" id="" media="print, projection, screen" />
-    <script type="text/javascript" src="js/jquery-latest.js"></script> 
-    <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
-
-    <!-- Custom CSS -->
-    <link href="css/modern-business.css" rel="stylesheet">
-    <link href="css/file-tree.min.css" rel="stylesheet"
-    <script type="text/javascript" src="../jquery-latest.js"></script>
-    <script type="text/javascript" src="../jquery.tablesorter.js"></script>
-    <script type="text/javascript">
-    $(function() {
-        $("table").tablesorter({debug: true});
-    });
-    </script>
-</head>
 
 <body>
 
@@ -109,8 +81,8 @@
                     <tbody> 
                         {{#each noOfStaff}}
                         <tr>
-                        <td>{{academicYear}}</td>
-                        <td>{{countstaff}}</td>
+                        <td>{{_id.academicYear}}</td>
+                        <td>{{count}}</td>
                         
                         </tr>  
                         {{/each}}
@@ -193,4 +165,3 @@
 
 
 
-</html>

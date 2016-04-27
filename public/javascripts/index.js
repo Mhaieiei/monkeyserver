@@ -3198,19 +3198,6 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
     });
   }
 
-  assign(actions, {
-    'setting': {
-      group: 'edit',
-      className: 'icon-service',
-      title: 'Setting',
-      action: {
-          click: function(event, element) {
-            bpmnReplace.openChooser(getReplaceMenuPosition(element), element);
-          }
-        }
-    }
-  });
-
   // Delete Element Entry
   assign(actions, {
     'delete': {
@@ -23273,10 +23260,27 @@ ContextPad.prototype.getPopup = function(element){
   currentElementId = element.id;
 
   var mappingHtml = '';     
-  mappingHtml += '<div><b>Input Mapping</b><button onclick="startMap(\'Input\')" data-toggle="modal" data-target="#mainPopup">Add new mapping</button></div>';
+  /*mappingHtml += '<div><b>Input Mapping</b><button onclick="startMap(\'Input\')" data-toggle="modal" data-target="#mainPopup">Add new mapping</button></div>';
   mappingHtml += '<div id="input-mapping-list">' + getMappingList(currentElementId, 'inputMappings') + '</div>';
   mappingHtml += '<div><b>Output Mapping</b><button onclick="startMap(\'Output\')" data-toggle="modal" data-target="#mainPopup">Add new mapping</button></div>';
   mappingHtml += '<div id="output-mapping-list">' + getMappingList(currentElementId, 'outputMappings') + '</div>';
+  */
+
+  mappingHtml += '<div><ul class="nav nav-tabs" role="tablist">';
+  mappingHtml += '<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Input</a></li>';
+  mappingHtml += '<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Output</a></li></ul>';
+  mappingHtml += '<div class="tab-content">';
+  
+  mappingHtml += '<div role="tabpanel" class="tab-pane active" id="home">';
+  mappingHtml += '<div><button onclick="startMap(\'Input\')" data-toggle="modal" data-target="#mainPopup">Add new mapping</button></div>';
+  mappingHtml += '<div id="input-mapping-list">' + getMappingList(currentElementId, 'inputMappings') + '</div></div>';
+
+  mappingHtml += '<div role="tabpanel" class="tab-pane" id="profile">';
+  mappingHtml += '<div><button onclick="startMap(\'Output\')" data-toggle="modal" data-target="#mainPopup">Add new mapping</button></div>';
+  mappingHtml += '<div id="output-mapping-list">' + getMappingList(currentElementId, 'outputMappings') + '</div></div>';
+
+  mappingHtml += '</div></div>';
+
 
   if( element.type === 'bpmn:ServiceTask'){
     html += '<p><b>Service</b>';
@@ -23305,11 +23309,11 @@ ContextPad.prototype.getPopup = function(element){
       currentFormName = myElements[currentElementId].form.name;
     }
 
-    html += '<p><b>Form</b>';
+    html += '<div><b>Form</b>';
+    html += '<button onclick="startSelectForm()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#mainPopup">Select form</button>';
+    html += '<a class="btn btn-default btn-sm" href="/form/create" target="_blank">Create new form</a></div>';
     html += '<div class="selected-form">' + currentFormName + '</div>';
     html += '<input class="selected-form-id" type="hidden"></input>';
-    html += '<div><button onclick="startSelectForm()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#mainPopup">Select form</button>';
-    html += '<a class="btn btn-default btn-sm" href="/form/create" target="_blank">Create new form</a></div>';
     html += mappingHtml;
 
   }
@@ -23318,9 +23322,8 @@ ContextPad.prototype.getPopup = function(element){
 }
 
 ContextPad.prototype.open = function(element, force) {
-  console.log('ContextPad.open');
-  $('.setting-popup').html( this.getPopup(element) );
-  $('.setting-popup').show();
+  console.log('start ContextPad.open');
+
   if (this._current && this._current.open) {
 
     if (force !== true && this._current.element === element) {
@@ -23346,8 +23349,11 @@ ContextPad.prototype._setPopup = function(html, element){
 
 
 ContextPad.prototype._updateAndOpen = function(element) {
-  ///console.log('Start: ContextPad._updateAndOpen');
-  //console.log(this._overlays);
+  console.log('Start: ContextPad._updateAndOpen');
+  
+  $('.setting-popup').html( this.getPopup(element) );
+  $('.setting-popup').show();
+
   var entries = this.getEntries(element),
       pad = this.getPad(element, 'context-pad'),
       popup = this.getPad(element, 'popup'),
@@ -23395,7 +23401,7 @@ ContextPad.prototype._updateAndOpen = function(element) {
   };
 
   this._eventBus.fire('contextPad.open', { current: this._current });
-  //console.log('End: ContextPad._updateAndOpen');
+  console.log('End: ContextPad._updateAndOpen');
 };
 
 ContextPad.prototype.getPad = function(element, type) {
@@ -23455,6 +23461,7 @@ ContextPad.prototype.getPad = function(element, type) {
  * Close the context pad
  */
 ContextPad.prototype.close = function() {
+  console.log('ContextPad.close');
   var html, html2;
 
   if (this._current) {
@@ -23466,6 +23473,7 @@ ContextPad.prototype.close = function() {
     }
 
     this._current.open = false;
+
     $('.setting-popup').hide(); 
 
     this._eventBus.fire('contextPad.close', { current: this._current });
