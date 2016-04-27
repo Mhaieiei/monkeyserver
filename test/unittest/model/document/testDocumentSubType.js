@@ -2,9 +2,6 @@ var rootpath = require('rootpath')();
 var expect = require('chai').expect;
 const assert = require('assert');
 
-var dbMock = require('test/dbTestConfig');
-var app = require('app')(dbMock);
-
 module.exports = function(SubTypeDoc) {
 
 	var doc1, doc2;

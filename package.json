@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon server.js",
-    "test": "./node_modules/.bin/mocha \"test/**/*.js\" --timeout 8000"
+    "test": "./node_modules/.bin/mocha test/boot.js \"test/**/*.js\" --timeout 8000"
   },
   "dependencies": {
     "async": "^1.5.2",

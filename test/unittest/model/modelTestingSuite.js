@@ -5,10 +5,6 @@ var dbMock = require('test/dbTestConfig');
 
 describe('Database Collections Entity Testing', function() {
 
-	before(function() {
-		var app = require('app')(dbMock);
-	})
-
 	makeSuite('Document Model', function() {
 		describe('Base Schema', require('./document/testDocumentModel'));
 		describe('Document Sub Type Template Creator', require('./document/testTemplateCreation'));
