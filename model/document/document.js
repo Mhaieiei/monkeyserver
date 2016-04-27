@@ -18,6 +18,7 @@ var Schema = mongoose.Schema;
 // key-valued options for configuring mongoose schema.
 var options = {discriminatorKey: 'subtype'}
 
+var schemaName = 'Document';
 var docSchema = new Schema({
 
 	/*
@@ -82,7 +83,15 @@ var docSchema = new Schema({
 	 */
 	relate2docs: [{
 		type: Schema.Types.ObjectId,
-		ref: 'document'
+		ref: schemaName
+	}],
+
+	/*
+	 * Attachment of this document.
+	 */
+	attachments: [{
+		type: Schema.Types.ObjectId,
+		ref: schemaName
 	}],
 
 	includeInWorkflow: [{
@@ -144,6 +153,17 @@ docSchema.methods.assignees = function() {
 	return this._assignees;
 };
 
-module.exports = db.model('Document', docSchema);
+/**
+ * Get related documents in relate2docs field.
+ */
+ docSchema.methods.getRelatedDocuments = function() {
+ 	return this.relate2docs;
+ }
+
+docSchema.methods.getAttachments = function() {
+	return this.attachments;
+}
+
+module.exports = db.model(schemaName, docSchema);
 
 

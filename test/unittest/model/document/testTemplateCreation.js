@@ -1,7 +1,6 @@
 var expect = require('chai').expect;
 
 var templatePlain = require('model/document/template');
-var subtypeDocumentTester = require('./testDocumentSubType');
 
 module.exports = function() {
 	it('should set correct subtype on a correct field', function() {
@@ -30,17 +29,7 @@ module.exports = function() {
 		})
 	});
 
-	describe('Document running number', function() {
-
-		var typeName = ['@@', '123', 'A', ' B', 'C '];
-		
-		typeName.forEach(function(param) {
-			describe('New sub type document: ' + param, function() {
-				var subDoc = new templatePlain(param).compile();
-				subtypeDocumentTester(subDoc);
-			})
-		});
-	});
+	testDocumentRunningNumber();
 
 	
 	it('Should throw error on empty sub type name', function() {
@@ -54,5 +43,34 @@ module.exports = function() {
 			var templateAA1 = new templatePlain('aa').compile();
 			var templateAA2 = new templatePlain('aa').compile();
 		}).to.throw(Error, /already exist/i);
+	});
+}
+
+var testDocumentRunningNumber = function() {
+
+	describe('Document running number', function() {
+
+		var doc1, doc2;
+
+		before(function(done) {
+			var SubDoc = new templatePlain('mm').compile();
+			doc1 = new SubDoc();
+			doc2 = new SubDoc();
+			doc1.save(function(error) {
+				if(error) done(error);
+				doc2.save(function(error) {
+					if(error) done(error);
+					done();
+				})
+			})
+		})
+
+		it('documentID should start at 1', function() {
+			expect(doc1.docNum).to.equals(1);
+		});
+
+		it('documentID should increment by 1', function() {
+			expect(doc2.docNum).to.equals(2);
+		})
 	});
 }

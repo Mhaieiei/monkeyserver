@@ -2,6 +2,7 @@ var rootpath = require('rootpath')();
 var expect = require('chai').expect;
 var assert = require('assert');
 var dbMock = require('test/dbTestConfig');
+var app = require('app')(dbMock);
 
 describe('Database Collections Entity Testing', function() {
 
