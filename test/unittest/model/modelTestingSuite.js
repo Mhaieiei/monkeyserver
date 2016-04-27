@@ -16,9 +16,9 @@ describe('Database Collections Entity Testing', function() {
 		describe('IC Documents', require('./document/testICDocuments'));
 	});
 
-	// after(function(done) {
-	// 	dbMock.dropDb(done);
-	// })
+	after(function(done) {
+		dbMock.dropDb(done);
+	})
 })
 
 function makeSuite(name, tests) {
@@ -27,9 +27,9 @@ function makeSuite(name, tests) {
 		tests();
 
 		// shared after
-		// after(function(done) {
-		// 	dbMock.dropDb(done);
-		// });		
+		after(function(done) {
+			dbMock.dropDb(done);
+		});		
 
 	});
 }

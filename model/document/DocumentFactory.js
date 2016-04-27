@@ -49,11 +49,10 @@ module.exports = function(year) {
 		IT_KM: aquireTemplate('AE', year),
 
 	/* General Management 2 */
-	riskManagement: departmentDocTemplate('BA', year),
-	accounting: departmentDocTemplate('BB', year),
-	research: departmentDocTemplate('BC', year),
-	academicManagement: departmentDocTemplate('BD', year),
-
+		riskManagement: aquireTemplate('BA', year),
+		accounting: aquireTemplate('BB', year),
+		research: aquireTemplate('BC', year),
+		academicManagement: aquireTemplate('BD', year),
 
 		/* Academic */
 		academicAdministration: aquireTemplate('CA', year),
