@@ -1,6 +1,6 @@
 
 
-<%- include ../header.ejs %>
+<%- include ../headerqa.ejs %>
 
 <%if(Thesis.length >0){ %>
 <%
@@ -39,6 +39,9 @@
 	}
 	
 %>	
+<section>
+    <div class ="well">
+
 		 <td>
 		 
 		
@@ -52,7 +55,7 @@
                 <h4>Thesis Advisors, Co-Advisors, and Thesis Topic</h4>
                 <br>
 				<h5>Table : List of thesis advisors, advisees and theses’ topics</h5>
-                <div id="tab_tqf3"><table class="table muffin">
+                <div id="tab_tqf3"><table class="tablesorter">
                 <thead align="center">
                     <tr>
                         <th width="40"><a href="javascript:table_sort('tab_tqf3',0)">No.</a></th>
@@ -168,7 +171,7 @@
                             </tbody>
                             </table>
                             </div>
-                    <h5>Table : Qualifications and workloads of advisors , co-advisors and thesis examination committees in CiES program, <%= acyear %></h5>
+                    <h5>Table : Qualifications and workloads of advisors , co-advisors and thesis examination committees in CiES program, <%= year %></h5>
 		                <div id="tab_tqf3-2"><table class="table muffin">
 		                <thead align="center">
 		                    <tr>
@@ -225,6 +228,8 @@
             </div>
       </div>
     </div>
+   </div>
+  </section>
             
 <%}%>
 
