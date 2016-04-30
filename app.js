@@ -1,4 +1,6 @@
-module.exports = function(database) {
+var database =  require('./lib/dmsDb');
+
+module.exports = function() {
 
   var rootpath = require('rootpath')();
 
@@ -24,8 +26,6 @@ module.exports = function(database) {
   require('./config/passport')(passport); // pass passport for configuration
   //var routes = require('./routes/index');
   //var users = require('./routes/users');
-
-
 
 
 
@@ -60,8 +60,13 @@ module.exports = function(database) {
   app.use(flash()); // use connect-flash for flash messages stored in session
 
   app.use('/download', require('./routes/download/download'));
+
+  // middleware for all api
   app.use('/api', require('./routes/api'));
+
+  // all routes in the application
   require('./routes/direct.js')(app, passport);
+  
   //app.use('/', routes);
   //app.use('/users', users);
 

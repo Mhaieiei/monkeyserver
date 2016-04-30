@@ -1,10 +1,10 @@
 var express 			= require('express');
 var router  			= express.Router();
-var WorkflowExecution 	= require('../model/WorkflowExecution.model');
-var WorkflowTask		= require('../model/WorkflowTask.model');
-var workflowRunner		= require('./workflowRunner');
-var Form				= require('../model/form.model');
-var runner				= require('./runner');
+var WorkflowExecution 	= require('../../model/WorkflowExecution.model');
+var WorkflowTask		= require('../../model/WorkflowTask.model');
+var workflowRunner		= require('../../lib/workflowRunner');
+var Form				= require('../../model/form.model');
+var runner				= require('../../lib/runner');
 
 router.get('/', function(req, res){
 

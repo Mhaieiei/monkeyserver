@@ -14,10 +14,10 @@ var thesisController    = require('../lib/thesisHandler');
 var publicController    = require('../lib/publicHandler');
 var trainController    = require('../lib/trainHandler');
 
-var formController      = require('../lib/form');
-var workflowController  = require('../lib/workflow');
-var executionController = require('../lib/execution');
-var serviceController   = require('../lib/service');
+var formController      = require('./wf/form');
+var workflowController  = require('./wf/workflow');
+var executionController = require('./wf/execution');
+var serviceController   = require('./wf/service');
 var roleManagementController = require('../lib/roleManagement');
 
 Handlebars.registerHelper('select', function( value, options ){
