@@ -1,13 +1,13 @@
 
 <script>
-   
+   var rowind = 1;
 
     function deleteRow(row)
     {
 
         var i=row.parentNode.parentNode.rowIndex;
         document.getElementById('devcomtable').deleteRow(i);
-        var rowind = i-1;
+        rowind--;
         console.log(rowind);
         document.getElementById('arrlen').value = rowind;
         console.log("value="+document.getElementById('arrlen').value);
@@ -24,18 +24,22 @@
         console.log(new_row);
         var len = x.rows.length;
 
-        new_row.cells[0].innerHTML = len;
+        // new_row.cells[0].innerHTML = len;
         console.log(len);
-        var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+        var inp1 = new_row.cells[0].getElementsByTagName('input')[0];
         
-        var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
+        var inp2 = new_row.cells[1].getElementsByTagName('input')[0];
       
-        var inp3 = new_row.cells[3].getElementsByTagName('input')[0];
+        var inp3 = new_row.cells[2].getElementsByTagName('input')[0];
         
-        var inp4 = new_row.cells[4].getElementsByTagName('input')[0];
+        var inp4 = new_row.cells[3].getElementsByTagName('input')[0];
        
-        var inp5 = new_row.cells[5].getElementsByTagName('input')[0];
-        var inp6 = new_row.cells[6].getElementsByTagName('input')[0];
+        var inp5 = new_row.cells[4].getElementsByTagName('input')[0];
+        var inp6 = new_row.cells[5].getElementsByTagName('input')[0];
+      inp2.value = '';
+      inp3.value = '';
+      inp4.value = '';
+      inp5.value = '';
       
       y.appendChild( new_row );
       rowind++;
@@ -49,7 +53,7 @@
 </script>
 
 
-<form class="form-horizontal" role="form" action="" method="post">
+<form class="form-horizontal" role="form" action="/add_aun11-1?program={{program}}&year={{year}}" method="post">
     <h3>Edit Program development committe</h3>
     <p hidden> 
     
@@ -65,25 +69,34 @@
             <tr>
             <th>No.</a></th>     
             <th>Academic Title</a></th>
-            <th>Name-Surname</a></th>
+            <th>Name</a></th>
+            <th>Surname</a></th>
             <th>Position</a></th>
             <th>Add</a></th>          
             <th>Delete</a></th>                    
             </tr>
         </thead>
         <tbody id="devcombody">
+                <p hidden>    
+                  <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>
+                </p>
                 <tr>
                 <td></td>
-                <td><input type="text" id="subject_code" name="subject_code" value= ""></td>
-                <td><input width="300" type="text" name="subject_name" value=""></td>
-                <td><input type="text" name="subject_lec" placeholder="" value="" ></td>
-                <td> <button class="btn btn-xs btn-primary" value="Add" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span> </button></td>
+                <td><input type="text" id="academicTitle" name="academicTitle" value= ""></td>
+                <td><input width="300" type="text" name="name" value=""></td>
+                <td><input width="300" type="text" name="surname" value=""></td>
+                <td><input type="text" name="position" placeholder="" value="" ></td>
+                <div class="btn-group">
+                   <td> <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()">
+                      <span class="glyphicon glyphicon-plus"></span></button>
+                    </td>
+                </div> 
                 <td>
                     <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span>
                     </button>
                 </td>
                 </tr>
-            {{/each}}
+            
             
         </tbody>
         </table>
@@ -107,9 +120,9 @@
         </div>
                     
        
-        <div class="btn-group">
-            <button id="tab_2_submit" class="btn btn-primary" type="submit">Submit</button>
-        </div>
+        <div class="form-group">
+                      <p align = "right"><button type="submit" class="btn btn-primary">Submit</button></p>
+             </div>
         </div>  
         
    
