@@ -415,28 +415,6 @@
   	}
 
 
-  $("#done-add-variable-btn").click(function(){
-	myVariables.push({ 
-	  name: $("#variable-name").val(),
-	  type: $("#variable-type").val(),
-	  value: $("#variable-value").val()
-	});
-
-	// clear add variable inputs when added
-	$("#variable-name").val("");
-	$("#variable-type").val("Text");
-	$("#variable-value").val("");
-	console.log(myVariables);
-	updateVariableList();
-
-	/*var currentVar = myVariables[ myVariables.length - 1 ];
-	console.log( myVariables );
-	$("#variable-list")
-	  .append( '<li class="list-group-item">' + currentVar.name + " : " + currentVar.value 
-		+ '<span style="float: right"><button onclick="deleteVariable(this)" class="variable-delete" id="' + (myVariables.length - 1) +'">delete</button></span></li>' );*/
-  });
-
-
   function selectService(){
 
 	 $.ajax({

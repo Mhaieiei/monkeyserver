@@ -1,17 +1,14 @@
 var express 			= require('express');
 var router  			= express.Router();
-var TemplateWorkflow	= require('../model/TemplateWorkflow');
-var WorkflowExecution	= require('../model/WorkflowExecution.model');
-var WorkflowHandler		= require('./WorkflowHandler');
+var TemplateWorkflow	= require('../../model/TemplateWorkflow');
+var WorkflowExecution	= require('../../model/WorkflowExecution.model');
+var WorkflowHandler		= require('../../lib/WorkflowHandler');
 var parseString 		= require('xml2js').parseString;
-var runner				= require('./runner');
-var workflowRunner		= require('./workflowRunner');
+var runner				= require('../../lib/runner');
+var workflowRunner		= require('../../lib/workflowRunner');
 var Promise				= require('bluebird');
 
 
-router.get('/test', function(req, res){
-	
-});
 
 router.get('/', function(req, res){
 	
@@ -23,6 +20,8 @@ router.get('/', function(req, res){
 	});
 });
 
+
+
 router.get('/create', function(req, res){
 	res.render('wf/create.hbs', { layout:"workflowMain" } );
 });
@@ -33,6 +32,7 @@ router.post('/save', function(req, res){
 		name: req.body.name, 
 		description: req.body.description,
 		xml: req.body.xml,
+		variables: req.body.variables,
 		elements: req.body.elements
 	});
 	
@@ -54,8 +54,8 @@ router.get('/:id/profile', function(req, res){
 
 	res.render('wf/single/profile.hbs', 
 		{ layout:"workflowMain",workflow: result } );
-	});	
 
+	});	
 });
 
 

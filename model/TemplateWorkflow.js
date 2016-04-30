@@ -6,9 +6,10 @@ var schema = new mongoose.Schema({
 	description: String,
 	xml: String,
 	variables: [
-		{ 	name: String,
-			type: String, 
-			value: String
+		{ 
+			name: { type: String }, 
+			type: { type: String }, 
+			value: { type: String } 
 		}
 	],
 	elements: mongoose.Schema.Types.Mixed

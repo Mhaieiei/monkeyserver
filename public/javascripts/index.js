@@ -125,7 +125,7 @@ $(document).on('ready', function() {
     
     var saveVariables = []
     saveDiagram(function(err, xml) {
-     
+     console.log(myVariables);
       var posting = $.post( '/workflow/save', 
         { 
           name: workflowName.val(),
