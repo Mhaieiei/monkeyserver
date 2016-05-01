@@ -15,6 +15,10 @@
                   <table class="tablesorter">
                     <thead align="center">
                         <tr>
+
+
+                            <th>Edit</a></th>
+                            <th>Delete</a></th>
                             
                             <th>No.</a></th>
                             <th>Position</a></th>
@@ -29,12 +33,18 @@
 
                    
                     </thead>
+
+                   
 					{{#each docs}}
                     <tbody>
                         
                       
                        
                         <tr>
+                        <td><a href = ""><button id="tab_2_submit" class=" btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-edit"></span></button></td>
+
+                        <td><a href = "/aun/aun11-1/del_aun11-1?id={{_id}}&academicYear={{academicYear}}&program={{programname}}&year={{year}}"><button id="tab_2_submit" class="btn btn-xs btn-danger" type="button"><span class="glyphicon glyphicon-trash"></span></button> </td>
+                       
 						<td>{{getindex}}</td>
 						<td>{{position}}</td>
 						{{#each user}}
@@ -47,6 +57,8 @@
                 <tr>
                 <th></th>
 				<th></th>
+                <th></th>
+                <th></th>
                 <td>{{local.title}}</td>
                         <td>{{local.name}} {{local.surname}}</td>
 				{{/if}}
