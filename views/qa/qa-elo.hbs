@@ -22,8 +22,8 @@
                         <th>{{inc @index}}</th>
                         <th>{{number}}</th>
                         <td>{{eloFromTQF}}</td>
-                        <td><a href = "/aun/aun1-1/edit_elo?id={{_id}}&programname={{program}}"><button id="tab_2_submit" class=" btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-edit"></span></button></td>
-                        <td><a href = "/aun/aun1-1/del_elo?id={{_id}}&program={{program}}"><button id="tab_2_submit" class="btn btn-xs btn-danger" type="button"><span class="glyphicon glyphicon-trash"></span></button></td>
+                        <td><a href = "/aun/aun1-1/edit_elo?id={{_id}}&program={{programname}}&year={{year}}&acid={{acid}}"><button id="tab_2_submit" class=" btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-edit"></span></button></td>
+                        <td><a href = "/aun/aun1-1/del_elo?id={{_id}}&program={{programname}}&year={{year}}&acid={{acid}}"><button id="tab_2_submit" class="btn btn-xs btn-danger" type="button"><span class="glyphicon glyphicon-trash"></span></button></td>
                     </tr>
 
              {{/each}}   
@@ -35,7 +35,7 @@
     <div class="form-group">
         <div class="pull-right">
              <div class="btn-group">
-                <a href = "/aun/aun1-1/addelos?program={{program}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Add</button>
+                <a href = "/aun/aun1-1/addelos?program={{programname}}&year={{year}}&acid={{acid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Add</button>
             </div>
         </div>
     </div>

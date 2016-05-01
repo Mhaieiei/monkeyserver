@@ -1,8 +1,10 @@
 <div class="container">
            
-    <form class="form-horizontal" role="form"  action="/editaun10_1" method="post" id = "myForm" > 
+    <form class="form-horizontal" role="form"  action="/aun/aun10-1/editaun10_1" method="post" id = "myForm" > 
          <p hidden>              
             <input type="text" tabindex="1"  name="acid" id="acid"  value="{{facility.programAndAcYear}}"><br> 
+            <input type="text" tabindex="1"  name="program" id="program"  value="{{programname}}"><br> 
+            <input type="text" tabindex="1"  name="year" id="year"  value="{{year}}"><br> 
             <input type="text" tabindex="1"  name="facilityid"  value="{{facility._id}}"><br>         
         </p>  
                 <h3>Mapped The expected learnig outcomes (ELOs)</h3>
@@ -30,6 +32,6 @@
                       </div>
                     </div>
                     
-                   <p align = "right"><button type="submit" class="btn btn-primary">Submit</button></p>
+                   <button type="submit" class="btn btn-primary">Submit</button>
      </form>
 </div>
