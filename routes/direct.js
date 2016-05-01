@@ -8,7 +8,6 @@ var mongoose = require('mongoose');
 var Handlebars = require('handlebars/runtime')['default'];
 var isLoggedIn = require('middleware/loginChecker');
 
-var apiCOntroller       = require('../lib/apiHandler');
 var adminController     = require('../lib/admin');
 var thesisController    = require('../lib/thesisHandler');
 var publicController    = require('../lib/publicHandler');
@@ -3014,9 +3013,6 @@ app.get('/edit_aun1-4',isLoggedIn,function(req,res){
   // API. ==============================
   // =====================================
 
-  app.use('/api',apiCOntroller);    
-
-    
   
 
 };

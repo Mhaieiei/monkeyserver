@@ -1,0 +1,31 @@
+var router = require('express').Router();
+var User = require('model/user');
+
+router.get('/:id',function(req,res, next){
+      console.log("get api user id");
+      var id = req.params.id;
+      console.log(id);
+      User.findById(id, function(err, result){
+        if(err){
+            console.log("api err"+err);
+            return next(err);
+        }
+        res.json(result);
+      }); 
+
+});
+
+router.get('/',function(req,res, next){
+  console.log("get api users");
+  User.find({}, function(err, result){
+    if(err){
+        console.log("api err"+err);
+        return next(err);
+    }
+    res.json(result);
+  }); 
+
+});
+
+
+module.exports = router;
