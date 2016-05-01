@@ -17,6 +17,7 @@
         console.log("rowind="+rowind);
         document.getElementById('arrlen').value = rowind;
         console.log("value="+document.getElementById('arrlen').value);
+        document.getElementById('count').value = 1;
     } 
 
 
@@ -41,6 +42,7 @@
       
       console.log("rowind:"+rowind);
       document.getElementById('arrlen').value = len;
+      document.getElementById('count').value = 1;
       console.log("value="+document.getElementById('arrlen').value);
       rowind++;
     }
@@ -81,6 +83,10 @@
                         <tbody id = "req_body">
                             <p hidden>    
                               <input type="text" tabindex="1"  name="arrlen" id="arrlen" value="<%=len%>" readonly=""><br>
+                            </p>
+
+                            <p hidden>    
+                              <input type="text" tabindex="1"  name="count" id="count" value="0" readonly=""><br>
                             </p>
                             
                             <% for(k=0;k< stk.requirement.length;k++){%>
