@@ -36,8 +36,8 @@
                             <td>{{floor}}</td>
                             <td>{{building}}</td>
                             <td>{{numberOfSeat}}</td>
-                            <td><a href = "/editaun10_1?id={{_id}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></td>
-                            <td><a href = "/delaun10_1?id={{_id}}&acid={{getacyear}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></td>
+                            <td><a href = "/aun/aun10-1/editaun10_1?id={{_id}}&program={{programname}}&year={{year}}&acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></td>
+                            <td><a href = "/aun/aun10-1/delaun10_1?id={{_id}}&program={{programname}}&year={{year}}&acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></td>
                         </tr>  
                         {{/each}}   
                     </tbody>
@@ -50,7 +50,7 @@
                         
             <div class="pull-right">
              <div class="btn-group">
-               <a href = "/addaun10_1?acid={{acid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">ADD new</button>
+               <a href = "/aun/aun10-1/addaun10_1?program={{programname}}&year={{year}}&acid={{acid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">ADD new</button>
             </div>
             </div>
                 
