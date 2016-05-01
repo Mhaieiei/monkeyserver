@@ -39,16 +39,16 @@
 </script>
 
 <div class="container">
-        <form class="form-horizontal" role="form"  action="/aun/aun1-1/addelos?program={{programname}}&year={{year}}&acid={{acid}}" method="post" id = "myForm" > 
+        <form class="form-horizontal" role="form"  action="/addelos?program={{program}}" method="post" id = "myForm" > 
           
            
             <!--<form class="form-horizontal" role="form">-->
         
-        <h3>Add new Expected Learning Outcomesz (ELOs)</h3>
+   <h3>Add new Expected Learning Outcomesz (ELOs)</h3>
         <br>
           <div class="form-group">
-            <label for="inputType" class="col-md-2 control-label">No. : </label>
-              <div class="col-md-4">
+            <label for="inputType" class="col-md-1 control-label">No. : </label>
+              <div class="col-md-3">
                   <input type="text" class="form-control" id="elos_no" width="50px;"maxlength="4" size="4" name="elos_no" required>
               </div>
 
@@ -59,7 +59,7 @@
             
           </div>
           <div class="form-group">
-            <label for="inputType" class="col-md-2 control-label">ELO from TQF2 </label>
+            <label for="inputType" class="col-md-1 control-label">ELO from TQF2 </label>
             <br>
               <div class="col-md-4">
                  <div id="tab_2">
@@ -67,8 +67,8 @@
                         <thead>
                             <tr>
                             <th><a>ELO name</a></th>
-                            <th><a>Delete</a></th>
                             <th><a>Add</a></th>
+                            <th><a>Delete</a></th>
                             </tr>
                         </thead>
                         <tbody id = "ELO_TQFbody">
@@ -77,13 +77,13 @@
                             </p>
                             <tr>
                             <td><input  type="text" name="nameELO" id="nameELO"/></td>
-                            <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
-                            </td>  
+                            <td> <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span></button>
+                            </td>
+                              
 
                             <div class="btn-group">
-                               <td> <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()">
-                                  <span class="glyphicon glyphicon-plus"></span></button>
-                                </td>
+                              <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
+                            </td>
                             </div>  
                                   
                             </tr>                    
@@ -91,14 +91,20 @@
                       </table>
                   </div>
                 </div>
+              <div class="col-md-4">
+                      <br>
+                      <br>
+                      <br>
+                      <p align = "right"><button type="submit" class="btn btn-primary">Add</button></p>
+              </div>
             </div>
 
-            <div class="form-group">
-                      <p align = "right"><button type="submit" class="btn btn-primary">Add</button></p>
-             </div>
+            
 
             
 
         </form>
 
 </div>
+
+
