@@ -8,17 +8,19 @@ var mongoose = require('mongoose');
 var Handlebars = require('handlebars/runtime')['default'];
 var isLoggedIn = require('middleware/loginChecker');
 
-var apiCOntroller       = require('../lib/apiHandler');
 var adminController     = require('../lib/admin');
 var thesisController    = require('../lib/thesisHandler');
 var publicController    = require('../lib/publicHandler');
 var trainController    = require('../lib/trainHandler');
 
-var formController      = require('../lib/form');
-var workflowController  = require('../lib/workflow');
-var executionController = require('../lib/execution');
-var serviceController   = require('../lib/service');
+var formController      = require('./wf/form');
+var workflowController  = require('./wf/workflow');
+var executionController = require('./wf/execution');
+var serviceController   = require('./wf/service');
 var roleManagementController = require('../lib/roleManagement');
+
+var tqfController       = require('../lib/tqfHandler');
+var aunController       = require('../lib/aunHandler');
 
 Handlebars.registerHelper('select', function( value, options ){
         var $el = $('<select />').html( options.fn(this) );
@@ -814,247 +816,11 @@ module.exports = function(app, passport) {
     } 
   });
 });
-    app.get('/tqf21',function(req,res){
-      console.log('Get TQF21');
-      console.log(req.query.program);
-      console.log(req.query.year);
-      var a=1;
-      var b=0;
-      var fact=true;
-      return User.find({ $and: [
-              { 'local.program' : req.query.program },
-              { 'local.role' : 'staff' }
-            ]}, function( err, clients ){
-        if( !err ) {
-      console.log(clients);
-            res.render("qa/tqf21.ejs", {
-              user : req.user,
-              clients: clients,
-              fact : fact,
-              helpers: {
-              inc: function (value) { return parseInt(value) + 1; },
-              set: function (value) { a = value; },
-              get: function(){return a;},
-              setindex: function(value){
-                b = value;
-                if(value==0) fact=true;
-                else fact = "";
-                
-              },
-              getindex: function(){return b; } ,
-              isfirst: function(){                
-                if(b == 0) return 'true';
-                else return 'false';
-              },
-              notfirst: function(){               
-                if(b != 0) return true;
-                else return false;
-              }
-          }
-          });
-        } else {
-            return console.log( err+"mhaieiei" );
-          }
-      });
+
+app.use('/tqf', tqfController ); //tqf handler
+app.use('/aun', aunController ); //tqf handler
+
     
-    
-  });
-    
-  
-  app.get( '/tqf22',isLoggedIn, function( req, res ) {
-    console.log( "Get TQF22");
-    console.log(req.query.acid);
-    console.log(req.query.year);
-    
-    
-    var index = 1;
-    var acyear_1 = req.query.year;
-      var acyear_2 = acyear_1-1;
-      var yearac = [];
-       yearac[0] = acyear_1.toString();
-       yearac[1] = acyear_2.toString();
-       yearac[2] = "<"+acyear_2.toString();
-       yearac[3] = ">"+acyear_1.toString();
-         
-         
-    
-          Teach
-      .find({'ac_id': req.query.acid})
-      .populate('subject.subcode')
-      .exec(function(err, docs) {
-        if(err) return callback(err);
-        Teach.populate(docs, {
-          path: 'subject.subcode.sub_lecter',
-          model: 'User'
-        },
-        function(err, subs) {
-          if(err) console.log("find teach err"+err);
-            // This object should now be populated accordingly.
-            console.log(subs);
-            res.render('qa/tqf22.hbs', {
-              layout: "qaPage",
-            user : req.user,
-                  program: subs,                 
-                  year: req.query.year,
-                  helpers: {
-                  inc: function (value) { return parseInt(value) + 1; },
-                  getyear:function(value) {return yearac[value];},
-                  getindex:function() {return index++;}}
-
-                });
-        }); 
-      });           
-      
-      
-   
-  });
-  
-
-  app.get('/tqf23',isLoggedIn,function(req,res){
-    console.log("tqf23");
-    console.log("change state");
-    console.log(req.query.acid);
-    //console.log(req.query.program);
-    //var id = mongoose.Types.ObjectId('56d14d1c8393baa816709274');
-    Work.Project.aggregate([
-        {
-            $match:  { $and: [
-              { 'acyear' : req.query.acid },
-              { '_type' : 'advisingProject' }
-           ]}                   
-        },
-       { 
-          $unwind: "$user"
-       },
-       {
-           $group: {
-           _id: "$user.iduser",
-           works: { $addToSet: { workid: '$_id',roleuser:"$user.typeuser"} }
-     }
-
-     }], function( e, result ) {
-        console.log("The result after aggregate is "+result);
-        //console.log(result[0].works);
-        //console.log(result[1].works);
-        Work.Project.populate(result,{path:'_id',model:'User'},function(err,userwork){
-          if(err){console.log("first populate is err"+err);}
-          console.log(userwork);
-          //console.log(userwork[0].works[0].roleuser);
-          Work.Project
-        .find({ $and: [
-              { 'acyear' : req.query.acid  },
-              { '_type' : 'advisingProject' }
-        ]})
-        .populate({
-          path:'user.iduser',
-          model : 'User'
-        }).exec(function(err, works) {
-            if(err) console.log("find teach err"+err);
-              // This object should now be populated accordingly.
-              console.log("The lastest result"+works);
-              
-              res.render('qa/tqf23.ejs', {
-                //layout: "qaPage",
-              user : req.user,
-              examiner : userwork,
-              acyear : req.query.year,
-             Thesis: works,                
-                  
-
-                  }); 
-        });   
-
-        });
-        
-           
-      });
-
-  });
-
-  app.get('/tqf24',isLoggedIn,function(req,res){
-    console.log("tqf24 publications of advisors");
-    console.log(req.query.acid);
-    //console.log(req.query.program);
-    //var id = mongoose.Types.ObjectId('56d14d1c8393baa816709274');
-    Work.Project.aggregate([
-        {
-            $match: { $and: [
-              { 'acyear' : req.query.acid },
-              { '_type' : 'publicResearch' }
-           ]}            
-        },
-       { 
-          $unwind: "$user"
-       },
-       {
-           $group: {
-           _id: "$user.iduser",
-           works: { $addToSet: { workid: '$_id',roleuser:"$user.typeuser"} }
-     }
-
-     }], function( e, result ) {
-        console.log(result);
-        //console.log(result[0].works);
-        //console.log(result[1].works);
-        Work.Public.populate(result,[{path:'_id',model:'User'},{path:'works.workid',model:'Public'}],function(err,userwork){
-          if(err){console.log("first populate is err"+err);}
-          console.log("Userwork is"+userwork);
-           Work.Project
-        .find({'acyear': req.query.acid})
-        .populate({
-          path:'user.iduser',
-          model : 'User'
-        }).exec(function(err, works) {
-            if(err) console.log("find teach err"+err);
-              // This object should now be populated accordingly.
-              //console.log(works);
-              //console.log(works[0].nametitle);
-              //console.log(works[0].user[0].iduser.local.username);
-              res.render('qa/tqf24.ejs', {
-              user : req.user,
-              examiner : userwork,
-              Thesis: works,                
-                  }); 
-        });   
-
-        });
-        
-           
-      });
-
-  });
-
-  app.get('/tqf25',isLoggedIn,function(req,res){
-    console.log("tqf25 Program Management");
-    console.log(req.query.acid);
-    console.log(req.query.program);
-    var acyear =  req.query.year;
-    Work.Meeting.find( { 
-          $and: [
-                     { '_type' :  'meetingOfProgram' },
-                     {  'acyear' : req.query.acid}
-               ]      
-        }, function (err, meeting) {
-          if(err) console.log("query meetings err"+err);
-          console.log(meeting);
-          Program.findOne({ 'programname' :  req.query.program  }, function(err, manage) {        
-              if (err){ console.log("Cant find factory management"+err); } 
-               res.render("qa/tqf25.hbs", {
-                  layout: "qaPage",
-                  meetings : meeting,
-                  acid : req.query.acid,
-                  program: req.query.program,
-                  manage : manage,
-                  helpers: {
-                  inc: function (value) { return parseInt(value) + 1; },
-                  getyear: function () { return acyear; }
-                 } 
-               });
-            });              
-        });
-         
-  });
-
 
 
   
@@ -1078,58 +844,7 @@ module.exports = function(app, passport) {
 
   });
 
-  app.get('/aun3-3', isLoggedIn, function (req, res) {
-      console.log("knowledgeAndSkill");
-
-      //referenceCurriculumSchema.find();
-
-      Acyear.findOne({
-          $and: [
-                   { 'program_name': req.query.program },
-                   { 'academic_year': req.query.year }
-          ]
-      }, function (err, programs) {
-          if (!err) {
-              console.log(programs._id);
-              //referenceCurriculumSchema.find();
-              Teach.find({
-                  $and: [
-                    { 'ac_id': programs._id },
-                  { 'plan': { $exists: true } }
-                  ]
-              })
-                .populate('plan')
-                .populate('subject.subcode')
-                .exec(function (err, docs) {
-                    Teach.populate(docs, {
-                        path: 'subject.subcode.ELO.ELO',
-                        model: 'Subject'
-                    },
-                    function (err, subs) {
-
-
-                        console.log("REFFFF---->>>", subs);
-
-                        res.render('qa/qa-aun3.3.hbs', {
-                            //    user: req.user,      
-                            layout: "qaPage",
-
-                            docs: subs
-
-                        });
-
-                        //, function (err, docs) {
-
-
-                    });
-                });
-          } else {
-              //res.redirect('/fachome');
-              return console.log(err + "mhaieiei");
-          }
-      });
-  });
-
+ 
   app.get('/aun5-3', isLoggedIn, function (req, res) {
       console.log("assesmentTool");
 
@@ -1203,89 +918,6 @@ module.exports = function(app, passport) {
 
   
 
-  app.get('/aun2-1', isLoggedIn, function (req, res) {
-      console.log("aun21-refCurriculum");
-
-      
-
-      Program.find({ 'programname': req.query.program })
-             .populate('referenceCurriculum')
-            .populate('structureOfCurriculum')
-             .exec(function (err, struc) {
-
-              console.log("struc: "+struc);
-                 Program.populate(struc, {
-                     path: 'referenceCurriculum.detail',
-                     model: 'detail'
-                 },
-                 
-                 
-                    function (err, subs) {
-
-
-                        console.log("REFFFF--subs-->>>", subs);
-
-
-                        Acyear.findOne({
-                            $and: [
-                                   { 'program_name': req.query.program },
-                                   { 'academic_year': req.query.year }
-                            ]
-                        }, function (err, programs) {
-                            if (!err) {
-                              console.log("req.query.program: "+req.query.program);
-                              console.log("req.query.year: "+req.query.year);
-                              console.log("programs: "+programs);
-                                console.log("programs._id: "+programs._id);
-                                //referenceCurriculumSchema.find();
-                                Teach.find({ 'ac_id': programs._id }).sort({ "Year": 1 })
-                                .populate('plan')
-                                .populate('subject.subcode')
-                                .exec(function (err, docs) {
-                                    Teach.populate(docs, {
-                                        path: 'subject.subcode',
-                                        model: 'Subject'
-                                    },
-                                    function (err, subs2) {
-
-
-                                        console.log("REFFFF--2-->>>", subs2);
-
-                                        var index = 0;
-                                        res.render('qa/qa-aun2.1.ejs', {
-                                            //    user: req.user,      
-                                            layout: "qaPage",
-                                            struc:struc,
-                                            docs: subs,
-                                            subs:subs2,
-                                            helpers: {
-                                                inc: function (value) { return parseInt(value) + 1; },
-                                                getyear: function (value) { return yearac[value]; },
-                                                getindex: function () { return ++index; }
-                                            }
-                                        });
-
-
-                                        //, function (err, docs) {
-
-
-                                    });
-                                });
-                            } else {
-                                //res.redirect('/fachome');
-                                return console.log(err + "mhaieiei");
-                            }
-                        });
-
-                        
-
-                    });
-
-
-             });
-
-  });
-
   app.get('/aun11-4', isLoggedIn, function (req, res) {
       console.log("evaluationMethod");
 
@@ -1343,12 +975,13 @@ module.exports = function(app, passport) {
         .populate('user')
         .exec(function (err, docs) {
 
-            console.log("REFFFF---->>>", docs);
+            // console.log("REFFFF---->>>", docs);
             var index = 0;
             res.render('qa/qa-aun11.1.hbs', {
                 //    user: req.user,      
                 layout: "qaPage",
-
+                year:req.query.year,
+                program:req.query.program,
                 docs: docs,
                 helpers: {
                     inc: function (value) { return parseInt(value) + 1; },
@@ -1676,24 +1309,24 @@ module.exports = function(app, passport) {
               },
               {
           $unwind:  "$user"    
-      },
+            },
 
-              { 
-        $group : { 
-          _id : {academicYear:"$academicYear" ,title:"$title"},
-          
-          count: { $sum: 1 }
-        }
+                    { 
+              $group : { 
+                _id : {academicYear:"$academicYear" ,title:"$title"},
+                
+                count: { $sum: 1 }
+              }
 
-    },
-    { 
-        $group : { 
-          _id : "$_id.academicYear",
-          user: { $push: "$$ROOT" }
-          
-        }
+          },
+          { 
+              $group : { 
+                _id : "$_id.academicYear",
+                user: { $push: "$$ROOT" }
+                
+              }
 
-    }
+          }
 
               
                   ],
@@ -1768,372 +1401,7 @@ module.exports = function(app, passport) {
 
   });
 
-  app.get('/aun1-3', isLoggedIn, function (req, res) {
-      console.log("mapELOAndKnowledge");
-
-      Program.find({ 'programname': req.query.program })
-             .populate('Responsibility')
-
-             .exec(function (err, docs) {
-                 Program.populate(docs, {
-                     path: 'Responsibility.ELO',
-                     model: 'ELO'
-                 },
-                    function (err, subs) {
-
-
-                        console.log("REFFFF---->>>", subs);
-
-                        res.render('qa/qa-aun1.3.hbs', {
-                            //    user: req.user,      
-                            layout: "qaPage",
-
-                            docs: subs,
-                            program:req.query.program,
-                            helpers: {
-                                inc: function (value) { return parseInt(value) + 1; },
-                                getyear: function (value) { return yearac[value]; },
-                                getindex: function () { return ++index; }
-                            }
-                        });
-
-
-                    });
-
-
-             });
-
-  });
-
-  app.get('/aun1-4', isLoggedIn, function (req, res) {
-      console.log("stakeholderReq");
-
-      Program.Stakeholder.aggregate(
-                      [
-                    {
-                        $match: {
-                            'requirement' :{ $exists: true }
-                        }
-                    },
-                    {
-                        $group: {
-                            _id: "$type",
-                            stk: { $push: "$$ROOT" }
-                            
-                       
-                       
-                      }
-                    }
-                    
-
-                    
-                    
-
-                  ]
-                  , function (err, be_stk) {
-
-
-                    Program.Stakeholder.populate(be_stk, {
-                         path: 'stk.ELO',
-                         model: 'ELO'
-                     },
-                    function (err, stk) {
-
-
-                    console.log("REFFFF--------stk-------->>>", stk);
-
-
-                    res.render('qa/qa-aun1.4.hbs', {
-                            //    user: req.user,      
-                            layout: "qaPage",
-                            program:req.query.program,
-                            docs: stk,
-                            helpers: {
-                                inc: function (value) { return parseInt(value) + 1; },
-                                getyear: function (value) { return yearac[value]; },
-                                getindex: function () { return ++index; }
-                            }
-                        });
-
-                  });
-
-
-                  });
-
-
-
-
-  });
-
-  app.get('/aun6-1', isLoggedIn, function (req, res) {
-      console.log("listOfLecturer");
-
-      //referenceCurriculumSchema.find();
-      Acyear.findOne({
-          $and: [
-                   { 'program_name': req.query.program },
-                   { 'academic_year': req.query.year }
-          ]
-      }, function (err, programs) {
-          if (!err) {
-              console.log("REFFFF--programs._id-->>>", programs._id);
-              
-
-                  Role.roleOfStaff.aggregate(
-                      [
-                    {
-                        $match: {
-                            $and: [
-                                { "type": "Academic Staff" },
-                                { "academicYear": req.query.year },
-                                        { "program": req.query.program }
-
-                            ]
-
-                        }
-                    },
-                    {
-                        $unwind:  "$user"    
-                    },
-                    { 
-                      $group : { 
-                        _id : "$position" ,
-                        user: { $push: "$user" }
-                      }
-
-                  }
-
-                    ]
-                  , function (err, staff) {
-                    console.log("REFFFF----Faculty-----staff->>>", staff);
-                      Program.populate(staff, {
-                          path: 'user',
-                          model: 'User'
-                      },
-                    function (err, user) {
-                      console.log("REFFFF----Faculty-----user->>>", user);
-                        Program.populate(user, {
-                            path: 'user.publicResearch',
-                            model: 'Public'
-                        },function (err, userPublic) {
-                            console.log("REFFFF----Faculty----Academic Staff--userPublic->>>", userPublic);
-
-                          
-
-                             
-                                
-                                res.render('qa/qa-aun6.1.ejs', {
-                                   //    user: req.user,      
-                                   layout: "qaPage",
-
-                                   docs: userPublic,
-                                   helpers: {
-                                       inc: function (value) { return parseInt(value) + 1; },
-                                       getyear: function (value) { return yearac[value]; },
-                                       getindex: function () { return ++index; }
-                                   }
-                                });
-
-
-                   
-                    
-
-                
-                    });
-                  });
-              });
-          } else {
-              //res.redirect('/fachome');
-              return console.log(err + "mhaieiei");
-          }
-      });
-
-  });
-
-  app.get('/aun6-2', isLoggedIn, function (req, res) {
-      console.log("tab 3.11 rankingOfstaff");
-
-      //referenceCurriculumSchema.find();
-
-
-      Acyear.findOne({
-          $and: [
-                   { 'program_name': req.query.program },
-                   { 'academic_year': req.query.year }
-          ]
-      }, function (err, programs) {
-          if (!err) {
-              console.log("REFFFF--programs._id-->>>", programs._id);
-              
-                  
-                  Role.roleOfStaff.aggregate(
-                      [
-                    {
-                        $match: {
-                            $and: [
-                                        { "type": "Academic title" },
-                                        
-                                        { "academicYear": req.query.year },
-                                        { "program": req.query.program }
-
-                                    ]
-                        }
-                    },
-                    {
-                        $unwind:  "$user"    
-                    },
-                    {
-                        $group: {
-                            _id: {role:"$role", type: "$title" },
-                            user: { $push: "$$ROOT" },
-                            count: { $sum: 1 }
-                       
-                       
-                      }
-                    },
-                    {
-                        $group: {
-                            _id: "$_id.role",
-                            groupOftype: { $push: "$$ROOT" },
-                            sunOfYear: { $sum: "$count" }
-
-                        }
-                    }
-
-                    
-                    
-
-                  ]
-                  , function (err, staff) {
-                   
-                      console.log("REFFFF-staff1--->>>", staff);
-                      
-                  // docs[i].groupOftype[j].user[k].user
-                          User.populate(staff, {
-                      path: 'groupOftype.user.user',
-                      model: 'User'
-                  },
-                         function (err, pop_user) {
-
-                          console.log("REFFFF-pop user--->>>", pop_user);
-
-                                Role.roleOfStaff.aggregate(
-                                [
-                            {
-                                $match: {
-                               /* $and: [
-                                {*/
-                                  // $or: [
-                                 //    { "type": "Academic Staff" },
-                                 //    { 'type': "Student" }
-                                   
-
-                                  // ]
-                                  "type": "Academic Staff" 
-                            }
-
-                            },
-                            
-
-                            {
-                                $unwind:  "$user"    
-                            },
-                                {
-                                    $group: {
-                                        _id: {academicYear:"$academicYear", type: "$position" },
-                                        count: { $sum: 1 }
-                                   
-                                   
-                                }
-                                },
-                                {
-                                    $group: {
-                                        _id: "$_id.academicYear",
-                                        groupOftype: { $push: "$$ROOT" },
-                                        sunOfYear: { $sum: "$count" }
-
-                                    }
-                                }
-
-                            
-                                ]
-                            , function (err, user) {
-
-                              console.log("REFFFF---user--->>>", user);
-
-                              Role.roleOfStaff.aggregate(
-                                [
-                            {
-                                $match: {
-                               /* $and: [
-                                {*/
-                                  // $or: [
-                                 //    { "type": "Academic Staff" },
-                                 //    { 'type': "Student" }
-                                   
-
-                                  // ]
-                                  "type": "Student" 
-                            }
-
-                            },
-                            
-
-                            {
-                                $unwind:  "$user"    
-                            },
-                                {
-                                    $group: {
-                                        _id: {academicYear:"$academicYear", type: "$position" },
-                                        count: { $sum: 1 }
-                                   
-                                   
-                                }
-                                },
-                                {
-                                    $group: {
-                                        _id: "$_id.academicYear",
-                                        groupOftype: { $push: "$$ROOT" },
-                                        sunOfYear: { $sum: "$count" }
-
-                                    }
-                                }
-
-                            
-                                ]
-                            , function (err, student) {
-
-                                console.log("REFFFF---student--->>>", student);
-                        res.render('qa/qa-aun6.2.ejs', {
-                           //    user: req.user,      
-                           layout: "qaPage",
-
-                           docs: pop_user,
-                           roleOfuser:user,
-                           student:student,
-                           helpers: {
-                               inc: function (value) { return parseInt(value) + 1; },
-                               getyear: function (value) { return yearac[value]; },
-                               getindex: function () { return ++index; }
-                           }
-                        });
-
-
-                       });
-
-                           });
-                     // });
-
-                    });
-              });
-          } else {
-              //res.redirect('/fachome');
-              return console.log(err + "mhaieiei");
-          }
-      });
-
-    });
-
+  
   app.get('/aun8-3', isLoggedIn, function (req, res) {
       console.log("nationalityOfStudent");
 
@@ -2201,54 +1469,54 @@ module.exports = function(app, passport) {
       console.log("REFFFF---->>>", student );
             //referenceCurriculumSchema.find();
 
-User.aggregate(
+        User.aggregate(
 
-            [
-                    {
-                        $match: {
-                            $and: [
-                                { 'local.role': 'student' },
-                                { 'local.program': req.query.program },
-                                { 'detail.status': {$ne:"Drop Out"} }
+                    [
+                            {
+                                $match: {
+                                    $and: [
+                                        { 'local.role': 'student' },
+                                        { 'local.program': req.query.program },
+                                        { 'detail.status': {$ne:"Drop Out"} }
 
-                            ]
+                                    ]
 
-                        }
-                    },
-                    {
-                        $group: {
-                            _id: { yearAttend: "$detail.academicYear" },
-                            count: { $sum: 1 }
-                        }
-                    }
+                                }
+                            },
+                            {
+                                $group: {
+                                    _id: { yearAttend: "$detail.academicYear" },
+                                    count: { $sum: 1 }
+                                }
+                            }
 
+                            
+
+              ]
+                ,function (err, student_academicYear) {
+
+                  console.log("REFFFF--student_academicYear-->>>", student_academicYear );
                     
 
-      ]
-        ,function (err, student_academicYear) {
+                    res.render('qa/qa-aun8.3.ejs', {
+                        //    user: req.user,      
+                        layout: "qaPage",
 
-          console.log("REFFFF--student_academicYear-->>>", student_academicYear );
-            
-
-            res.render('qa/qa-aun8.3.ejs', {
-                //    user: req.user,      
-                layout: "qaPage",
-
-                docs: Nationality,
-                student:student,
-                student_academicYear:student_academicYear,
-                helpers: {
-                    inc: function (value) { return parseInt(value) + 1; },
-                    getyear: function (value) { return yearac[value]; },
-                    getindex: function () { return ++index; }
-                }
-            });
+                        docs: Nationality,
+                        student:student,
+                        student_academicYear:student_academicYear,
+                        helpers: {
+                            inc: function (value) { return parseInt(value) + 1; },
+                            getyear: function (value) { return yearac[value]; },
+                            getindex: function () { return ++index; }
+                        }
+                    });
 
 
 
-});
+        });
 
- });
+         });
         });
 
   });
@@ -2542,10 +1810,10 @@ User.aggregate(
                  }
               });
 
-});
-});
+            });
+            });
 
-        });
+          });
 
           });
         });
@@ -2555,104 +1823,7 @@ User.aggregate(
   // Edit QA ==============================
   // =====================================
 
-  //------------------------edit tqf 25 ----------------------------------------------------------------------
-  app.get('/edittqf25',isLoggedIn,function(req,res){
-    console.log("[GET]Edit tqf 25");
-    console.log(req.query.name);
-    console.log(req.query.acid);
-    console.log(req.query.year);
-    console.log(req.query.program);
-    Program.findOne({ 'programname' :  req.query.program  }, function(err, manage) {        
-        if (err){ console.log("Cant find factory management"+err); }        
-        if (manage != null) {
-          console.log("Edit"+manage);
-          res.render('qa/editqa/tqf25edit.hbs', {
-            layout: "qaPage",
-            acid : req.query.acid,
-            year : req.query.year,
-            program : req.query.program,
-            manage : manage,
-            len : manage.Programmanagement.length
-            });
-
-        } else {
-            console.log("Insert new");
-            res.render('qa/editqa/tqf25new.hbs', {
-            layout: "qaPage",
-            acid : req.query.acid,
-            year : req.query.year,
-            program : req.query.program          
-            });            
-        }
-    });
-    
-  });
-  app.post('/edittqf25',isLoggedIn,function(req,res){
-    console.log("[POST] Edit tqf 25");
-    console.log(req.body.indicators);
-    console.log(req.body.target);
-    console.log(req.body.actions);
-    console.log(req.body.results);
-    console.log(req.body.program);
-    console.log(req.body.acid);
-    console.log(req.body.year);
-    console.log(req.body.arrlen);
-        
-    var strlen = req.body.arrlen; 
-    var userarr = [];
-    var array = [];    
-    //advisee
-    for(var i=0;i< strlen;i++){
-      if(strlen == 1){
-         var obj = {
-          'indicators' : req.body.indicators,
-          'target' : req.body.target,
-          'actions' : req.body.actions,
-          'results' : req.body.results
-        }       
-      }else{
-         var obj = {
-          'indicators' : req.body.indicators[i],
-          'target' : req.body.target[i],
-          'actions' : req.body.actions[i],
-          'results' : req.body.results[i]
-        }     
-      }
-              
-        array.push(obj);
-     }       
-    Program.findOne({ 'programname' :  req.body.program  }, function(err, fac) {        
-        if (err){ console.log("Cant find faculty management"+err); }        
-        if (fac != null) {
-          console.log(fac);
-          fac.Programmanagement = array;
-          fac.save(function(err,manage) {
-            if (err){console.log('cant edit new program Management'+err);}  
-            else{
-              console.log(manage);
-              console.log("Update new program management succesful");  
-              res.redirect('/tqf25?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
-            }                         
-         });  
-
-          } else {
-             var managefac = new Program();
-                managefac.programname = req.body.program;
-                managefac.Programmanagement = array;
-            managefac.save(function(err,manage) {
-            if (err){console.log('cant make new program Management'+err);}  
-            else{
-              console.log(manage);
-              console.log("Insert new program management succesful");  
-              res.redirect('/tqf25?acid='+req.body.acid+'&year='+req.body.year+'&program='+req.body.program);                          
-            }                         
-            });  
-
-             
-          }
-        });
-    
-     });       
+  
 
   //---------------------------edit aun 10.1 ----------------------------------------------------------------------
   app.get('/addaun10_1',isLoggedIn,function(req,res){
@@ -2743,795 +1914,9 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
     
   });
 
-//-------------------------------------------------add ELOs-------------------------------------------------------
-  app.get('/qa-elo',isLoggedIn,function(req,res){
 
-    console.log("[GET] get ELOs");
-    Subject.ELO.find( {
-      $and: [
-                   { 'eloFromTQF': { $exists: true } },
-                   { 'program': req.query.program }
-          ]
 
-      
 
-
-    },function( err, elo ) {
-
-      console.log("[GET] get ELOs------->"+elo);
-
-
-      res.render('qa/qa-elo.hbs', {
-          layout: "qaPage",
-          program: req.query.program,
-          elo:elo,
-          helpers: {
-              inc: function (value) { return parseInt(value) + 1; },                        
-          } 
-      });
-    });            
-            
-    
-  });
-
-  app.get('/addelos',isLoggedIn,function(req,res){
-
-    console.log("[GET] Add ELOs");
-    res.render('qa/editqa/add_elos.hbs', {
-        layout: "qaPage",
-        program: req.query.program
-    });            
-            
-    
-  });
-  app.post('/addelos',isLoggedIn,function(req,res){
-    console.log("[POST] Add ELOs");
-    
-   
-    console.log("elos_no: "+req.body.elos_no);
-    console.log("elos_des: "+req.body.elos_des);
-    console.log("arrlen: "+req.body.arrlen);
-
-
-    var strlen = req.body.arrlen; 
-    
-      var array = [];
-      var keepnameELO;
-      var check = 0;
-      var check_duplicate = 0;
-      for(var i=0;i< strlen;i++){
-        if(strlen==1){
-
-          var obj = req.body.nameELO;
-
-          array.push(obj);
-          
-        }else{
-          console.log('ARRAY ----req.body.nameELO[i]--- >'+req.body.nameELO[i]);
-          keepnameELO = req.body.nameELO[i];
-          for(var j=i+1;j< strlen;j++){
-
-            if(keepnameELO == req.body.nameELO[j]){
-
-              check =1;
-              check_duplicate = 1;
-            }
-
-
-          }
-          if(check == 0){
-
-            var obj = req.body.nameELO[i];
-            
-            array.push(obj);
-          }
-          else{
-
-          }
-
-          check = 0;
-        }        
-      }
-
-      if(check_duplicate == 0 ){
-
-      console.log('ARRAY ------- >'+array);
-
-    Subject.ELO.findOne({
-          // $and: [
-          //          { 'number': req.body.elos_no },
-          //          { 'program': req.query.program }
-          // ]
-          "_id":req.query.id
-      }, function(err, elo) {        
-        
-        if (elo != null) {
-          console.log("EDIT-------------------->:"+elo);
-          console.log("EDIT-------req.query.program------------->:"+req.query.program);
-          
-          elo.description = req.body.elos_des;
-          elo.number= req.body.elos_no;
-          elo.eloFromTQF = array;
-          elo.program = req.query.program;
-
-          elo.save(function (err) {
-            if(err) {
-                console.error('Cant update new facility');
-            }
-            
-          });
-
-          res.redirect('/qa-elo?program='+req.query.program);
-          
-
-        } 
-        else {
-            console.log("ADD NEWWWW");
-            //lhuer add course type t yung mai sed (array)
-            newElo = new Subject.ELO();
-            
-            newElo.description = req.body.elos_des;
-            newElo.number= req.body.elos_no;
-            newElo.eloFromTQF = array;
-            newElo.program = req.query.program;
-
-            newElo.save(function(err,add_elo) {
-            if (err){console.log('cant add new elo: '+err);}  
-            else{
-              console.log("add_elo"+add_elo);
-              console.log("Add new ELO succesful");     
-              res.redirect('/qa-elo?program='+req.query.program);                   
-            }                         
-            });  
-          }
-          });
-      }
-    });
-
-  app.get('/del_elo',isLoggedIn,function(req,res){
-    console.log("Delete elo in elo schema.. not for another schema that have this");
-    console.log(req.query.id);
-    //console.log(req.query.email);
-
-    Subject.ELO.remove({ '_id' : req.query.id },function(err, results) {
-      if (err){console.log('Delete facility err'+err);}
-      else{
-         console.log("RESULT: "+results);
-
-         console.log("PROGRAMNAME--req.query.program-->"+req.query.program);
-
-
-        
-         Responsibility.update(
-            {}, 
-            { $pull: { ELO: req.query.id} },
-            {multi: true}
-          , function(err, delete_elo_program) { 
-
-            if (err){console.log('cant edit new program Management'+err);}  
-            else{
-
-              console.log('delete elo from Responsibility SUCCESSFUL : '+delete_elo_program);
-              // res.redirect('/aun5-3?program='+program.programname);
-
-
-              Program.Stakeholder.update(
-                {"program":req.query.program}, 
-                { $pull: { "ELO": req.query.id} },
-                {multi: true}
-              , function(err, delete_stk_program) { 
-
-                if (err){console.log('cant edit new program Management'+err);}  
-                else{
-
-                  console.log('delete delete_stk_program from PROGRAM SUCCESSFUL : '+delete_stk_program);
-                  
-
-
-                }
-
-            });
-              res.redirect('/qa-elo?program='+req.query.program);
-
-
-            }
-
-        });
-
-        
-
-
-      
-         
-
-
-      }
-    });
-    
-  });
-
-
-  app.get('/edit_elo',isLoggedIn,function(req,res){
-    console.log("[GET] Edit Aun5.3");
-    console.log(req.query.id);
-    //console.log(req.query.email);
-
-    Subject.ELO.findOne({ '_id' : req.query.id },function(err, results) {
-      if (err){console.log('Edit Assessment tool err'+err);}
-      else{
-         console.log("ELO edit --->"+results);
-
-
-         // Program.findOne({ '_id' : req.query.programname },function(err, program) {
-        //   Program.find({'programname': { $exists: true }},function(err, program) {
-
-        //   console.log("program edit --->"+program);
-
-         res.render('qa/editqa/edit_elos.hbs', {
-            layout: "qaPage",
-            
-            elo : results,
-            len : results.eloFromTQF.length,
-            program:results.program,
-            id:req.query.id
-            
-            });
-        // });
-
-         
-
-      }
-    });
-    
-  });
-
-//-------------------------------------------add aun 1.3----------------------------------------------------------------------
-app.get('/add_aun1-3',isLoggedIn,function(req,res){
-    console.log("[GET]add aun 1-3");
-    console.log("[GET] ELO");
-
-    
-    console.log("program: "+req.query.program);
-    
-      Subject.ELO.find( {
-      $and: [
-             { 'eloFromTQF': { $exists: true } },
-             { 'program': req.query.program }
-            ]
-      },function( err, elo ) { 
-
-        console.log("ELO-------------------->:"+elo);
-        console.log("ELO-------------------->:"+elo.length);
-        res.render('qa/editqa/elos_mapped.hbs', {
-          layout: "qaPage",
-          program : req.query.program,
-          elo:elo,
-          len:elo.length
-            
-       
-      });
-    });
-    
-  });
-
-app.post('/add_aun1-3',isLoggedIn,function(req,res){
-    console.log("[POST] add aun 1.3");
-   
-    console.log("category: "+req.body.category);
-    console.log("description: "+req.body.description);
- 
-      var array = [];
-     
-    for(var j=0;j< req.body.elo_tqf2.length;j++){
-      var temp = j;
-      var keep = temp.toString
-
-      console.log("req.body.elo_tqf2.length: "+req.body.elo_tqf2.length);
-      if(req.body.elo_tqf2.length == 24){
-        array.push(req.body.elo_tqf2);
-        break;
-      }
-      else{
-
-      console.log("elo: "+req.body.elo_tqf2[j]);
-
-      array.push(req.body.elo_tqf2[j]);
-      
-      }
-    }
-
-    Responsibility.findOne({
-          // $and: [
-          //          { 'program': req.query.program },
-          //          { 'category': req.body.category }
-          // ]
-          "_id":req.query.id
-      }, function(err, respon) {        
-        
-        if (respon != null) {
-          console.log("EDIT-------------------->:"+respon);
-          console.log("EDIT-------req.query.program------------->:"+req.query.program);
-          respon.category = req.body.category;
-          respon.description = req.body.description;
-          respon.program= req.query.program;
-          respon.ELO = array;
-
-          respon.save(function (err) {
-            if(err) {
-                console.error('Cant update new facility');
-            }
-            
-          });
-
-          res.redirect('/aun1-3?program='+req.query.program);
-          
-
-        } 
-        else {
-            console.log("ADD NEWWWW");
-            //lhuer add course type t yung mai sed (array)
-            newResponsibility = new Responsibility();
-            newResponsibility.category = req.body.category;
-            newResponsibility.description = req.body.description;
-            newResponsibility.program= req.query.program;
-            newResponsibility.ELO = array;
-
-            newResponsibility.save(function(err,add_respon) {
-            if (err){console.log('cant edit new program Management'+err);}  
-            else{
-              console.log("add_newResponsibility"+add_respon);
-              console.log("Add new assigment succesful");  
-              console.log("program------> "+req.query.program);
-              Program.findOne({'programname':req.query.program}, function(err, program) { 
-
-                if(program!=null){
-
-
-                  Responsibility.findOne({
-                  $and: [
-                           { 'program': req.query.program },
-                           { 'category': req.body.category }
-                  ]
-                  }, function(err, respon) {
-
-
-                    console.log("assesment_id: "+respon.id);  
-
-                      Program.update(
-                        {"programname":req.query.program}, 
-                        { $push: { "Responsibility": respon.id} }
-                      , function(err, add_respon_program) { 
-
-                        if (err){console.log('cant edit new program Management'+err);}  
-                        else{
-
-                          console.log('ADD TO PROGRAM SUCCESSFUL : '+add_respon_program)
-
-
-                        }
-
-                        });
-
-                  });
-
-                }
-                else{
-
-                  // var keepAssesmentTool = []
-                  // keepAssesmentTool.push(assesment.id);
-                  var managefac = new Program();
-                  managefac.programname = req.query.program;
-                  managefac.Responsibility.push(respon.id);
-                  managefac.save(function(err,manage) {
-                    if (err){console.log('cant make new program Management'+err);}  
-                    else{
-                      console.log("ass"+manage);
-                      console.log("Insert new program management succesful");  
-                      res.redirect('/aun1-3?program='+req.query.program);                          
-                    }                         
-                  });
-
-
-
-                }
-
-
-                  res.redirect('/aun1-3?program='+req.query.program);   
-              });                         
-            }                         
-            });  
-          }
-          });
-
-
-
-
-    }); 
-
-app.get('/del_aun1-3',isLoggedIn,function(req,res){
-    console.log("Delete Aun1.3");
-    console.log(req.query.id);
-    //console.log(req.query.email);
-
-    Responsibility.remove({ '_id' : req.query.id },function(err, results) {
-      if (err){console.log('Delete Responsibility err'+err);}
-      else{
-         console.log(results);
-
-         console.log("PROGRAMNAME--req.query.program-->"+req.query.program);
-
-         Program.findOne({ 'programname' :  req.query.program  }, function(err, program) {
-
-          console.log("PROGRAMNAME---->"+program.programname);
-
-         Program.update(
-            {"programname":req.query.program}, 
-            { $pull: { "Responsibility": req.query.id} }
-          , function(err, delete_res_program) { 
-
-            if (err){console.log('cant edit new program Management'+err);}  
-            else{
-
-              console.log('delete from PROGRAM SUCCESSFUL : '+delete_res_program);
-              res.redirect('/aun1-3?program='+program.programname);
-
-
-            }
-
-        });
-
-       });
-         
-
-
-      }
-    });
-    
-  });
-
-
-app.get('/edit_aun1-3',isLoggedIn,function(req,res){
-    console.log("[GET] Edit Aun1.3");
-    console.log(req.query.id);
-    //console.log(req.query.email);
-
-    Responsibility.findOne({ '_id' : req.query.id },function(err, results) {
-      if (err){console.log('Edit Responsibility tool err'+err);}
-      else{
-         console.log("Responsibility edit --->"+results);
-
-
-         Subject.ELO.find( {
-          $and: [
-                 { 'eloFromTQF': { $exists: true } },
-                 { 'program': req.query.program }
-                ]
-          },function( err, elo ) {
-
-
-            console.log("elo edit --->"+elo);
-
-         
-           res.render('qa/editqa/edit_elos_mapped.ejs', {
-              layout: "qaPage",
-              
-              respon : results,
-              len : results.ELO.length,
-              program:req.query.program,
-              elo:elo,
-              id:req.query.id
-              
-              });
-        });
-         
-
-      }
-    });
-    
-  });
-
-//-------------------------------------------add aun 1.4----------------------------------------------------------------------
-
-app.get('/add_aun1-4',isLoggedIn,function(req,res){
-    console.log("[GET]add aun 1-4");
-    console.log("[GET] ELO");
-
-    
-    console.log("program: "+req.query.program);
-    
-      Subject.ELO.find( {
-      $and: [
-             { 'eloFromTQF': { $exists: true } },
-             { 'program': req.query.program }
-            ]
-      },function( err, elo ) { 
-
-        console.log("ELO-------------------->:"+elo);
-        console.log("ELO-------------------->:"+elo.length);
-        res.render('qa/editqa/add_stakeholders_req.hbs', {
-          layout: "qaPage",
-          program : req.query.program,
-          elo:elo,
-          len:elo.length
-            
-       
-      });
-    });
-    
-  });
-
-app.post('/add_aun1-4',isLoggedIn,function(req,res){
-    console.log("[POST] add aun 1.4");
-   
-    console.log("sth_name: "+req.body.sth_name);
-    console.log("type: "+req.body.type);
- 
-      var array_elo = [];
-     
-    for(var j=0;j< req.body.elo.length;j++){
-      var temp = j;
-      var keep = temp.toString
-
-      console.log("req.body.elo.length: "+req.body.elo.length);
-      if(req.body.elo.length == 24){
-        array_elo.push(req.body.elo);
-        break;
-      }
-      else{
-
-      console.log("elo: "+req.body.elo[j]);
-
-      array_elo.push(req.body.elo[j]);
-      
-      }
-    }
-
-    console.log("array_elo: "+array_elo);
-
-    console.log("arrlen: "+req.body.arrlen);
-
-
-    var strlen = req.body.req.length; 
-    
-      var array = [];
-      var keepnameReq;
-      var check = 0;
-      var check_duplicate = 0;
-
-      console.log('ARRAY ----req.body.req.length--- >'+req.body.req.length);
-      for(var i=0;i< strlen;i++){
-        if(strlen==1){
-
-          var obj = req.body.req;
-
-          array.push(obj);
-          
-        }else{
-          console.log('ARRAY ----req.body.req[i]--- >'+req.body.req[i]);
-          keepnameReq = req.body.req[i];
-          for(var j=i+1;j< strlen;j++){
-
-            if(keepnameReq == req.body.req[j]){
-
-              check =1;
-              check_duplicate = 1;
-            }
-
-
-          }
-          if(check == 0){
-
-            var obj = req.body.req[i];
-            
-            array.push(obj);
-          }
-          else{
-
-          }
-
-          check = 0;
-        }        
-      }
-
-      if(check_duplicate == 0 ){
-
-      console.log('ARRAY ------- >'+array);
-
-    Program.Stakeholder.findOne({
-          // $and: [
-          //          { 'title': req.body.sth_name },
-          //          { 'program': req.query.program }
-          // ]
-          "_id":req.query.id
-      }, function(err, require) {        
-        
-        if (require != null) {
-          console.log("EDIT-------------------->:"+require);
-          console.log("EDIT-------req.query.program------------->:"+req.query.program);
-          console.log('ARRAY ---EDITTTT---- >'+array);
-          console.log('ARRAY ---EDITTTT--array_elo-- >'+array_elo);
-          
-          require.title = req.body.sth_name;
-          require.type= req.body.type;
-          require.requirement = array;
-          require.program = req.query.program;
-          require.ELO = array_elo;
-
-          require.save(function (err) {
-            if(err) {
-                console.error('Cant update new facility'+err);
-            }
-            
-          });
-
-          res.redirect('/aun1-4?program='+req.query.program);
-          
-
-        } 
-        else {
-            console.log("ADD NEWWWW");
-            //lhuer add course type t yung mai sed (array)
-            newReq = new Program.Stakeholder();
-            
-            newReq.title = req.body.sth_name;
-            newReq.type= req.body.type;
-            newReq.requirement = array;
-            newReq.program = req.query.program;
-            newReq.ELO = array_elo;
-
-            newReq.save(function(err,add_req) {
-            if (err){console.log('cant add new elo: '+err);}  
-            else{
-              console.log("add_req"+add_req);
-              console.log("Add new REQ succesful");   
-
-              Program.findOne({'programname':req.query.program}, function(err, program) { 
-
-                if(program!=null){
-
-
-                  Program.Stakeholder.findOne({
-                  $and: [
-                           { 'program': req.query.program },
-                           { 'title': req.body.sth_name }
-                  ]
-                  }, function(err, require) {
-
-
-                    console.log("assesment_id: "+require.id);  
-
-                      Program.update(
-                        {"programname":req.query.program}, 
-                        { $push: { "stakeholder": require.id} }
-                      , function(err, add_stk_program) { 
-
-                        if (err){console.log('cant edit new program Management'+err);}  
-                        else{
-
-                          console.log('ADD add_stk_program TO PROGRAM SUCCESSFUL : '+add_stk_program)
-
-
-                        }
-
-                        });
-
-                  });
-
-                }
-                else{
-
-                  // var keepAssesmentTool = []
-                  // keepAssesmentTool.push(assesment.id);
-                  var managefac = new Program();
-                  managefac.programname = req.query.program;
-                  managefac.stakeholder.push(require.id);
-                  managefac.save(function(err,manage) {
-                    if (err){console.log('cant make new program Management'+err);}  
-                    else{
-                      console.log("ass"+manage);
-                      console.log("Insert new program management succesful");  
-                      res.redirect('/aun1-4?program='+req.query.program);                          
-                    }                         
-                  });
-
-
-
-                }
-
-
-                  res.redirect('/aun1-4?program='+req.query.program);  
-              });  
-                                 
-            }                         
-            });  
-          }
-          });
-      }
-
-    }); 
-
-
-app.get('/del_aun1-4',isLoggedIn,function(req,res){
-    console.log("Delete Aun1.3");
-    console.log(req.query.id);
-    //console.log(req.query.email);
-
-    Program.Stakeholder.remove({ '_id' : req.query.id },function(err, results) {
-      if (err){console.log('Delete Program.Stakeholder err'+err);}
-      else{
-         console.log(results);
-
-         console.log("PROGRAMNAME--req.query.program-->"+req.query.program);
-
-         Program.findOne({ 'programname' :  req.query.program  }, function(err, program) {
-
-          console.log("PROGRAMNAME---->"+program.programname);
-
-         Program.update(
-            {"programname":req.query.program}, 
-            { $pull: { "stakeholder": req.query.id} }
-          , function(err, delete_stk_program) { 
-
-            if (err){console.log('cant edit new program Management'+err);}  
-            else{
-
-              console.log('delete delete_stk_program from PROGRAM SUCCESSFUL : '+delete_stk_program);
-              res.redirect('/aun1-4?program='+program.programname);
-
-
-            }
-
-        });
-
-       });
-         
-
-
-      }
-    });
-    
-  });
-
-
-app.get('/edit_aun1-4',isLoggedIn,function(req,res){
-    console.log("[GET] Edit Aun1.4");
-    console.log(req.query.id);
-    //console.log(req.query.email);
-
-    Program.Stakeholder.findOne({ '_id' : req.query.id },function(err, results) {
-      if (err){console.log('Edit Responsibility tool err'+err);}
-      else{
-         console.log("Program.Stakeholder edit --->"+results);
-
-
-         Subject.ELO.find( {
-          $and: [
-                 { 'eloFromTQF': { $exists: true } },
-                 { 'program': req.query.program }
-                ]
-          },function( err, elo ) {
-
-
-            console.log("elo edit --->"+elo);
-
-         
-           res.render('qa/editqa/edit_add_stakeholders_req.ejs', {
-              layout: "qaPage",
-              
-              stk : results,
-              len : results.ELO.length,
-              program:req.query.program,
-              elo:elo,
-              id:req.query.id
-              
-              });
-        });
-         
-
-      }
-    });
-    
-  });
 
 
 
@@ -3539,7 +1924,7 @@ app.get('/edit_aun1-4',isLoggedIn,function(req,res){
 //---------------------------------------------add aun 5.3--------------------------------------------------------------------
      
 
-     app.get('/add_aun5-3',isLoggedIn,function(req,res){
+app.get('/add_aun5-3',isLoggedIn,function(req,res){
     console.log("[GET]add aun 5.3");
 
     console.log("program: "+req.query.program);
@@ -3894,36 +2279,385 @@ app.post('/edit_aun5-3',isLoggedIn,function(req,res){
 
 
 
+//-------------------------------------add aun 11.1------------------------------------------------------------------------------------
+
+app.get('/add_aun11-1',isLoggedIn,function(req,res){
+    console.log("[GET]add aun 11-1");
+    console.log("[GET] User [Academic staff] ");
+
+    
+    console.log("program: "+req.query.program);
+    console.log("year: "+req.query.year);
+    
+      Role.find( {
+      $and: [
+             { 'type': "Academic Staff" },
+             { 'academicYear': req.query.year },
+             { 'program': req.query.program }
+            ]
+      })
+      .populate('user')
+      .exec(function (err, docs) {
+
+       
+        res.render('qa/editqa/aun11.1_adddevcom.hbs', {
+          layout: "qaPage",
+          program : req.query.program,
+          year:req.query.year,
+          user:docs,
+          len:docs.length
+            
+       
+      });
+    });
+    
+  });
+
+app.post('/add_aun11-1',isLoggedIn,function(req,res){
+    console.log("[POST] add aun 11.1");
+ 
+    var strlen = req.body.arrlen; 
+    
+      var array = [];
+      var keepName;
+      var keepSurname;
+      var check = 0;
+      var check_duplicate = 0;
+      for(var i=0;i< strlen;i++){
+        if(strlen!=1){ 
+          keepName = req.body.name[i];
+          keepSurname = req.body.surname[i];
+          for(var j=i+1;j< strlen;j++){
+
+            if(keepName == req.body.name[j] && keepSurname == req.body.surname[j]){             
+              check_duplicate = 1;
+            }
+          }  
+        
+        }
+      } 
+
+      if(check_duplicate == 0 ){
+
+        
+        Acyear.findOne({
+            $and: [
+                     { 'academic_year': req.query.year },
+                     { 'program_name': req.query.program }
+            ]
+        }, function(err, acyear) {
+
+         
+          var keepPosition = [];
+          var keepName = [];
+          var keepSurname = [];
+          var keepDev = {};
+          var array_k = [];
+          for(var i=0;i< strlen;i++){
+
+            if(strlen==1){
+              keepPosition.push(req.body.position);
+              keepName.push(req.body.name);
+              keepSurname.push(req.body.surname);
+              
+            }else{
+              keepPosition.push(req.body.position[i]);
+              keepName.push(req.body.name[i]);
+              keepSurname.push(req.body.surname[i]);
+
+              
+                
+            }
+
+            console.log("keepPosition--ARRAY---i : "+keepPosition[i]);  
+            console.log("keepSurname---ARRAY--i: "+keepSurname[i]);  
+            console.log("keepName----ARRAY------i: "+keepName[i]);  
+            console.log("keepPosition--LENGTH---i : "+keepPosition.length);  
+            console.log("keepSurname---LENGTH--i: "+keepSurname.length);  
+            console.log("keepName----LENGTH------i: "+keepName.length); 
+
+            keepDev = {'position':keepPosition[i],'name':keepName[i],'surname':keepSurname[i]}
+
+            array_k.push(keepDev);
+
+
+            }
+
+           console.log("array_k---->: "+array_k); 
+
+            array_k.forEach(function(k_dev) {
+              
+            
+
+              Role.roleOfProgram.findOne({
+                    $and: [
+                             { 'type': "Development Committee" },
+                             { 'academicYear': acyear.id },
+                             { 'position': k_dev["position"] }
+                    ]
+              }, function(err, role) {        
+          
+                  if (role != null) {
+
+                    
+
+                    User.findOne({ 
+                            $and:[
+
+                            {'local.name' :  k_dev["name"] },
+                            {'local.surname':k_dev["surname"]}
+                            ]
+
+                          }, function(err, user) {
+
+                          console.log("USER-------->"+user);
+
+                          if(user!=null){
+
+                              console.log("user_id: "+user.id);  
+
+                                Role.roleOfProgram.update({"_id":role.id},
+                                  { $push: { "user": user.id} }
+                                , function(add_ass_program) { 
+
+                                  
+
+                                    console.log('ADD TO ROLE OF PROGRAM SUCCESSFUL : '+add_ass_program);
+                                    User.update({"_id":user.id},
+                                      { $push: { "roleOfProgram": role.id} }
+                                      , function(err, user) {
+
+                                        if (err){console.log('cant edit new program Management'+err);}  
+                                        else{
+
+                                          console.log('ADD ROLE OF PROGRAM TO user SUCCESSFUL : '+user);
+
+                                        }
+
+                                      });
+
+                                  
+                            });
+
+                          }
+                          else{
+
+                            console.log('This user does not exist in this program');
+                          }
+                          
+                          
+
+                        });    
+                    
+
+                  } 
+
+                  else {
+
+                   
+                      console.log("ADD NEWWWW");
+                      //lhuer add course type t yung mai sed (array)
+                      newRole = new Role.roleOfProgram();
+                      newRole.type = "Development Committee";
+                      newRole.academicYear = acyear.id;
+                      newRole.position= k_dev["position"];
+
+                      console.log("keepPosition: "+k_dev["position"]); 
+
+                      var array = [];
+
+                      newRole.save(function(err,add_asses) {
+                      if (err){console.log('cant edit new program Management'+err);}  
+                      else{
+                        console.log("Add new succesful: "+add_asses);
+                                            
+                        console.log("keepName: "+k_dev["name"]);  
+                        console.log("keepSurname: "+k_dev["surname"]);  
+                        
+                          User.findOne({ 
+                            $and:[
+
+                            {'local.name' :  k_dev["name"] },
+                            {'local.surname':k_dev["surname"]}
+                            ]
+
+                          }, function(err, user) {
+
+                          console.log("USER-------->"+user);
+
+                          if(user!=null){
+
+                              console.log("user_id: "+user.id);  
+
+                                Role.roleOfProgram.update({
+                                  $and: [
+                                   { 'type': "Development Committee" },
+                                   { 'academicYear': acyear.id },
+                                   { 'position': k_dev["position"] }
+                                  ]},
+                                  { $push: { "user": user.id} },function(err, add_ass_program){ 
+
+                                  if (err){console.log('cant edit new program Management'+err);}  
+                                  else{
+
+                                    console.log('ADD TO ROLE OF PROGRAM SUCCESSFUL : '+add_ass_program);
+
+                                    Role.roleOfProgram.findOne({
+                                      $and: [
+                                       { 'type': "Development Committee" },
+                                       { 'academicYear': acyear.id },
+                                       { 'position': k_dev["position"] }
+                                      ]}
+                                      
+                                    , function(err, role) {
+
+                                      console.log('role: '+role);
+
+                                      User.update({ 
+                                        $and:[
+
+                                        {'local.name' :  k_dev["name"] },
+                                        {'local.surname':k_dev["surname"]}
+                                        ]
+
+                                      },
+                                      { $push: { "roleOfProgram": role.id} }
+                                      , function(err, user) {
+
+                                        if (err){console.log('cant edit new program Management'+err);}  
+                                        else{
+
+                                          console.log('ADD ROLE OF PROGRAM TO user SUCCESSFUL : '+user);
+
+                                        }
+
+                                      });
+
+                                    });
+                                  }
+                            });
+
+                          }
+                          else{
+
+                            console.log('This user does not exist in this program');
+                          }
+
+                        });                         
+                      }
+                      
+                        
+                                        
+                    });  
+                      
+                    }
+                });
+            
+         
+          }); //for each
+
+          res.redirect('/aun11-1?program='+req.query.program+"&year="+req.query.year);
+        });
+      }
+
+  }); 
+
+
+app.get('/del_aun11-1',isLoggedIn,function(req,res){
+    console.log("Delete Aun1.3");
+    console.log(req.query.id);
+    //console.log(req.query.email);
+
+    Program.Stakeholder.remove({ '_id' : req.query.id },function(err, results) {
+      if (err){console.log('Delete Program.Stakeholder err'+err);}
+      else{
+         console.log(results);
+
+         console.log("PROGRAMNAME--req.query.program-->"+req.query.program);
+
+         Program.findOne({ 'programname' :  req.query.program  }, function(err, program) {
+
+          console.log("PROGRAMNAME---->"+program.programname);
+
+         Program.update(
+            {"programname":req.query.program}, 
+            { $pull: { "stakeholder": req.query.id} }
+          , function(err, delete_stk_program) { 
+
+            if (err){console.log('cant edit new program Management'+err);}  
+            else{
+
+              console.log('delete delete_stk_program from PROGRAM SUCCESSFUL : '+delete_stk_program);
+              res.redirect('/aun1-4?program='+program.programname);
+
+
+            }
+
+        });
+
+       });
+         
+
+
+      }
+    });
+    
+  });
+
+
+app.get('/edit_aun1-4',isLoggedIn,function(req,res){
+    console.log("[GET] Edit Aun1.4");
+    console.log(req.query.id);
+    //console.log(req.query.email);
+
+    Program.Stakeholder.findOne({ '_id' : req.query.id },function(err, results) {
+      if (err){console.log('Edit Responsibility tool err'+err);}
+      else{
+         console.log("Program.Stakeholder edit --->"+results);
+
+
+         Subject.ELO.find( {
+          $and: [
+                 { 'eloFromTQF': { $exists: true } },
+                 { 'program': req.query.program }
+                ]
+          },function( err, elo ) {
+
+
+            console.log("elo edit --->"+elo);
+
+         
+           res.render('qa/editqa/edit_add_stakeholders_req.ejs', {
+              layout: "qaPage",
+              
+              stk : results,
+              len : results.ELO.length,
+              program:req.query.program,
+              elo:elo,
+              id:req.query.id
+              
+              });
+        });
+         
+
+      }
+    });
+    
+  });
+
+
 
 //----------------------------------------------------------------------------------------------------------------------------
   //=====================================
-    // Get Work Info.(Student) ==============================
-    // =====================================
+  // Get Work Info.(Student) ==============================
+  // =====================================
 
-  //-------------------thesis---------------------------------------------------------------------------
-  app.use('/thesisinf', thesisController );     
+  
+  app.use('/thesisinf', thesisController );     //thesis 
+  app.use('/publicationinf', publicController ); //publication  
+  app.use('/traininf',trainController);  //Training Courses
+
     
-  
-  //-----------------publication------------------------------------------------------------------
-  app.use('/publicationinf', publicController ); 
-
-  //--------------------Training Courses------------------------------------------------------------
-  app.use('/traininf',trainController);
-  
-
-
-
-  
-  
-  
-  //=====================================
-    // Get Course Info. ==============================
-    // =====================================
-	app.get('/course_inf',function(req,res){
-		res.render('profile_inf.ejs', { message: req.flash('profile') });
-	});
-	
-
   //==== workflow module =========
 
   app.use('/workflow', workflowController );
@@ -3956,9 +2690,6 @@ app.post('/edit_aun5-3',isLoggedIn,function(req,res){
   // API. ==============================
   // =====================================
 
-  app.use('/api',apiCOntroller);    
-
-    
   
 
 };

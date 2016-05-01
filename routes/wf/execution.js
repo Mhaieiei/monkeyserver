@@ -1,9 +1,10 @@
 var express 			= require('express');
 var router  			= express.Router();
-var WorkflowExecution 	= require('../model/WorkflowExecution.model');
-var WorkflowTask		= require('../model/WorkflowTask.model');
-var Form				= require('../model/form.model');
-var runner				= require('./runner');
+var WorkflowExecution 	= require('../../model/WorkflowExecution.model');
+var WorkflowTask		= require('../../model/WorkflowTask.model');
+var workflowRunner		= require('../../lib/workflowRunner');
+var Form				= require('../../model/form.model');
+var runner				= require('../../lib/runner');
 
 router.get('/', function(req, res){
 
@@ -30,7 +31,10 @@ router.get('/tasks/:id', function(req, res){
 			Form.findOne({ '_id': taskResult.details.form.id }, function(err, formResult){
 				
 				console.log(formResult);
-
+				var inputResults = {};
+				if( taskResult.details.inputResults != undefined ){
+					inputResults = taskResult.details.inputResults;
+				}
 				var elements = [];
 				if( formResult.elements !== null ) {
 					elements = formResult.elements;
@@ -40,10 +44,10 @@ router.get('/tasks/:id', function(req, res){
 				var formHtml = '<form method="post" action="/execution/tasks/' + taskResult._id + '">';
 		
 				for(var i = 0; i < elements.length; i++){
-					formHtml += '<div>' + getHtmlElement( elements[i] ) + '</div>';
+					formHtml += '<div>' + getHtmlElement( elements[i], inputResults ) + '</div>';
 				}
 				
-				formHtml += '<input type="submit" value="Submit">';
+				formHtml += '<input type="submit" name="submit" value="Submit">';
 
 				res.render('wf/task/one', { layout: 'homePage', html: formHtml });
 			});
@@ -58,7 +62,23 @@ router.get('/tasks/:id', function(req, res){
 });
 
 router.post('/tasks/:id', function(req, res){
-	res.end("POST " + req.params.id );
+
+	WorkflowTask.findOne({'_id': req.params.id }, function(err, taskResult){
+		
+		var executionId = taskResult.workflowExecutionId;
+
+		WorkflowExecution.findOne({'_id': executionId }, function(err, execution){
+			var newDetails = execution.details;
+			newDetails[taskResult.elementId].submitResults = req.body;
+			execution.runningElements.push( taskResult.elementId );
+
+			WorkflowTask.remove({ '_id': taskResult._id }, function(err){
+				workflowRunner.run(execution, res);
+			});
+			
+		});
+		
+	});
 
 });
 
@@ -133,9 +153,13 @@ router.post('/:id', function(req, res){
 
 });
 
-function getHtmlElement( element ){
+function getHtmlElement( element, inputResults ){
 
 	var html = "";
+
+	if( inputResults[element.name] != undefined ){
+		element.value = inputResults[element.name];
+	}
 
 	if( element.type === "label" ){
 		html += "<b>" + element.value + "</b>";

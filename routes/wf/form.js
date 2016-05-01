@@ -1,6 +1,6 @@
 var express 			= require('express');
 var router  			= express.Router();
-var Form				= require('../model/form.model');
+var Form				= require('../../model/form.model');
 
 router.get('/create', function(req, res){
 	res.render('wf/form/create',  { layout: 'homePage' } );

@@ -14,7 +14,7 @@ var roleOfProgramSchema = mongoose.Schema({
     "type": String,//development  committee
     "academicYear": String,
     "position": String,//chairman...
-    "user": [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+    "user": [{ type: String, ref: 'User' }]
 
 
 });
@@ -26,7 +26,7 @@ var roleOfStaffSchema = mongoose.Schema({
     "academicYear": String,
     "position": String,//faculty member,visiting member, accountance, normal master student
     "program": String,
-    "user": [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    "user": [{ type: String, ref: 'User' }],
     "jobDescription":[String],
     "timeOfWork":String
 
@@ -40,7 +40,7 @@ var specialTitleSchema = mongoose.Schema({
     "academicYear": String,
     "program": String,
     "role":String, // Faculty Member,Visiting Member, Supporting Staff
-    "user": [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+    "user": [{ type: String, ref: 'User' }]
 
 
 });

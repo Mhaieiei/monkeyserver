@@ -1,6 +1,6 @@
 var express 			= require('express');
 var router  			= express.Router();
-var Service				= require('../model/service.model');
+var Service				= require('../../model/service.model');
 
 router.get('/all', function(req, res){
 

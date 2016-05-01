@@ -1,11 +1,11 @@
 var express 			= require('express');
 var router  			= express.Router();
-var TemplateWorkflow	= require('../model/TemplateWorkflow');
-var WorkflowExecution	= require('../model/WorkflowExecution.model');
-var WorkflowHandler		= require('./WorkflowHandler');
+var TemplateWorkflow	= require('../../model/TemplateWorkflow');
+var WorkflowExecution	= require('../../model/WorkflowExecution.model');
+var WorkflowHandler		= require('../../lib/WorkflowHandler');
 var parseString 		= require('xml2js').parseString;
-var runner				= require('./runner');
-var workflowRunner		= require('./workflowRunner');
+var runner				= require('../../lib/runner');
+var workflowRunner		= require('../../lib/workflowRunner');
 var Promise				= require('bluebird');
 
 
