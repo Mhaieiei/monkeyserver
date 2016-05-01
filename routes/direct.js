@@ -970,89 +970,6 @@ app.use('/aun', aunController ); //tqf handler
 
   
 
-  app.get('/aun2-1', isLoggedIn, function (req, res) {
-      console.log("aun21-refCurriculum");
-
-      
-
-      Program.find({ 'programname': req.query.program })
-             .populate('referenceCurriculum')
-            .populate('structureOfCurriculum')
-             .exec(function (err, struc) {
-
-              console.log("struc: "+struc);
-                 Program.populate(struc, {
-                     path: 'referenceCurriculum.detail',
-                     model: 'detail'
-                 },
-                 
-                 
-                    function (err, subs) {
-
-
-                        console.log("REFFFF--subs-->>>", subs);
-
-
-                        Acyear.findOne({
-                            $and: [
-                                   { 'program_name': req.query.program },
-                                   { 'academic_year': req.query.year }
-                            ]
-                        }, function (err, programs) {
-                            if (!err) {
-                              console.log("req.query.program: "+req.query.program);
-                              console.log("req.query.year: "+req.query.year);
-                              console.log("programs: "+programs);
-                                console.log("programs._id: "+programs._id);
-                                //referenceCurriculumSchema.find();
-                                Teach.find({ 'ac_id': programs._id }).sort({ "Year": 1 })
-                                .populate('plan')
-                                .populate('subject.subcode')
-                                .exec(function (err, docs) {
-                                    Teach.populate(docs, {
-                                        path: 'subject.subcode',
-                                        model: 'Subject'
-                                    },
-                                    function (err, subs2) {
-
-
-                                        console.log("REFFFF--2-->>>", subs2);
-
-                                        var index = 0;
-                                        res.render('qa/qa-aun2.1.ejs', {
-                                            //    user: req.user,      
-                                            layout: "qaPage",
-                                            struc:struc,
-                                            docs: subs,
-                                            subs:subs2,
-                                            helpers: {
-                                                inc: function (value) { return parseInt(value) + 1; },
-                                                getyear: function (value) { return yearac[value]; },
-                                                getindex: function () { return ++index; }
-                                            }
-                                        });
-
-
-                                        //, function (err, docs) {
-
-
-                                    });
-                                });
-                            } else {
-                                //res.redirect('/fachome');
-                                return console.log(err + "mhaieiei");
-                            }
-                        });
-
-                        
-
-                    });
-
-
-             });
-
-  });
-
   app.get('/aun11-4', isLoggedIn, function (req, res) {
       console.log("evaluationMethod");
 
@@ -1444,24 +1361,24 @@ app.use('/aun', aunController ); //tqf handler
               },
               {
           $unwind:  "$user"    
-      },
+            },
 
-              { 
-        $group : { 
-          _id : {academicYear:"$academicYear" ,title:"$title"},
-          
-          count: { $sum: 1 }
-        }
+                    { 
+              $group : { 
+                _id : {academicYear:"$academicYear" ,title:"$title"},
+                
+                count: { $sum: 1 }
+              }
 
-    },
-    { 
-        $group : { 
-          _id : "$_id.academicYear",
-          user: { $push: "$$ROOT" }
-          
-        }
+          },
+          { 
+              $group : { 
+                _id : "$_id.academicYear",
+                user: { $push: "$$ROOT" }
+                
+              }
 
-    }
+          }
 
               
                   ],
@@ -1876,54 +1793,54 @@ app.use('/aun', aunController ); //tqf handler
       console.log("REFFFF---->>>", student );
             //referenceCurriculumSchema.find();
 
-User.aggregate(
+        User.aggregate(
 
-            [
-                    {
-                        $match: {
-                            $and: [
-                                { 'local.role': 'student' },
-                                { 'local.program': req.query.program },
-                                { 'detail.status': {$ne:"Drop Out"} }
+                    [
+                            {
+                                $match: {
+                                    $and: [
+                                        { 'local.role': 'student' },
+                                        { 'local.program': req.query.program },
+                                        { 'detail.status': {$ne:"Drop Out"} }
 
-                            ]
+                                    ]
 
-                        }
-                    },
-                    {
-                        $group: {
-                            _id: { yearAttend: "$detail.academicYear" },
-                            count: { $sum: 1 }
-                        }
-                    }
+                                }
+                            },
+                            {
+                                $group: {
+                                    _id: { yearAttend: "$detail.academicYear" },
+                                    count: { $sum: 1 }
+                                }
+                            }
 
+                            
+
+              ]
+                ,function (err, student_academicYear) {
+
+                  console.log("REFFFF--student_academicYear-->>>", student_academicYear );
                     
 
-      ]
-        ,function (err, student_academicYear) {
+                    res.render('qa/qa-aun8.3.ejs', {
+                        //    user: req.user,      
+                        layout: "qaPage",
 
-          console.log("REFFFF--student_academicYear-->>>", student_academicYear );
-            
-
-            res.render('qa/qa-aun8.3.ejs', {
-                //    user: req.user,      
-                layout: "qaPage",
-
-                docs: Nationality,
-                student:student,
-                student_academicYear:student_academicYear,
-                helpers: {
-                    inc: function (value) { return parseInt(value) + 1; },
-                    getyear: function (value) { return yearac[value]; },
-                    getindex: function () { return ++index; }
-                }
-            });
+                        docs: Nationality,
+                        student:student,
+                        student_academicYear:student_academicYear,
+                        helpers: {
+                            inc: function (value) { return parseInt(value) + 1; },
+                            getyear: function (value) { return yearac[value]; },
+                            getindex: function () { return ++index; }
+                        }
+                    });
 
 
 
-});
+        });
 
- });
+         });
         });
 
   });
@@ -2217,10 +2134,10 @@ User.aggregate(
                  }
               });
 
-});
-});
+            });
+            });
 
-        });
+          });
 
           });
         });
@@ -2331,7 +2248,7 @@ app.post('/addaun10_1',isLoggedIn,function(req,res){
 //---------------------------------------------add aun 5.3--------------------------------------------------------------------
      
 
-     app.get('/add_aun5-3',isLoggedIn,function(req,res){
+app.get('/add_aun5-3',isLoggedIn,function(req,res){
     console.log("[GET]add aun 5.3");
 
     console.log("program: "+req.query.program);
@@ -3056,33 +2973,15 @@ app.get('/edit_aun1-4',isLoggedIn,function(req,res){
 
 //----------------------------------------------------------------------------------------------------------------------------
   //=====================================
-    // Get Work Info.(Student) ==============================
-    // =====================================
+  // Get Work Info.(Student) ==============================
+  // =====================================
 
-  //-------------------thesis---------------------------------------------------------------------------
-  app.use('/thesisinf', thesisController );     
+  
+  app.use('/thesisinf', thesisController );     //thesis 
+  app.use('/publicationinf', publicController ); //publication  
+  app.use('/traininf',trainController);  //Training Courses
+
     
-  
-  //-----------------publication------------------------------------------------------------------
-  app.use('/publicationinf', publicController ); 
-
-  //--------------------Training Courses------------------------------------------------------------
-  app.use('/traininf',trainController);
-  
-
-
-
-  
-  
-  
-  //=====================================
-    // Get Course Info. ==============================
-    // =====================================
-	app.get('/course_inf',function(req,res){
-		res.render('profile_inf.ejs', { message: req.flash('profile') });
-	});
-	
-
   //==== workflow module =========
 
   app.use('/workflow', workflowController );
