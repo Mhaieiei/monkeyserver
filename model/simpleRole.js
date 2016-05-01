@@ -11,4 +11,4 @@ var schema = new mongoose.Schema({
 	]
 });
 
-module.exports = db.model('RoleManagement', schema);
+module.exports = db.model('SimpleRole', schema);

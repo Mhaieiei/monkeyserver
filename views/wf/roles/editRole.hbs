@@ -20,7 +20,7 @@
       </table>      
     </div>
     <div class="col-xs-6 col-sm-4">
-      <a class="btn btn-default btn-block" href="#" role="button">Add</a>
+      <a onclick="addMembers()" class="btn btn-default btn-block" role="button">Add</a>
     </div>
 
     <div class="col-xs-6 col-sm-4">
@@ -29,7 +29,7 @@
       <table class="table table-hover result">
         {{#each result}}
         <tr>
-          <td class="fucker" onclick="clickRow('{{this._id}}')" >
+          <td id = "{{this._id}}" class="choosed" onclick="clickRow('{{this._id}}')">
             {{this._id}}
           </td>
         </tr>
@@ -62,14 +62,27 @@
 </form>
 
 <script>
-  $(function() {  
-    $('.fucker').click(function(){
+  var members = [];
+  //change row color when selected in processing  
+  /*$(function() {  
+    $('.choosed').click(function(){
       $(this).toggleClass('selected');
-     // alert("MEK IS FUCKING GOOD");
     });
+  });*/
+  function clickRow(id){
+    var index = members.indexOf(id);
+    if(index === -1){
+      members.push(id);
+      alert('Add to array members');
+    }
+    else{
+      alert('Existing members');
+    }
+  }
 
-      
-  });
+  function addMembers(){
+    alert("Add member to role already");
 
+  }
 </script>
 
