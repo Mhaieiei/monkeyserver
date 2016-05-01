@@ -1,0 +1,119 @@
+<script type="text/javascript">
+    
+    var rowind = 1;
+    function deleteRow(row)
+    {
+        var i=row.parentNode.parentNode.rowIndex;
+        console.log("row(i): "+i);
+        var x=document.getElementById('staffTable');
+        var len = x.rows.length - 1;
+        console.log("before delete(len)="+len);
+        document.getElementById('staffTable').deleteRow(i);
+        var rowind = len-1;
+        console.log("after delete(rowind)="+rowind);
+        document.getElementById('arrlen').value = rowind;
+        console.log("value="+document.getElementById('arrlen').value);
+    } 
+
+    function insRow()
+    {
+
+      
+      
+        //console.log( 'hi');
+        var x=document.getElementById('staffTable');
+        var y =document.getElementById('staffBody');
+
+
+        var new_row = x.rows[1].cloneNode(true);
+        var len = x.rows.length;
+        var inp0 = new_row.cells[0].getElementsByTagName('input')[0];
+        inp0.value= '';
+        var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+        inp1.value = '';
+        var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
+        console.log(new_row);
+        y.appendChild( new_row );
+        rowind++;
+        console.log(rowind);
+        document.getElementById('arrlen').value = len;
+        console.log("value="+document.getElementById('arrlen').value);
+     
+    }
+</script>
+<div class="container">
+           
+    <form class="form-horizontal" role="form"  action="/aun/aun11-1/edit_aun11-1?id={{role._id}}&academicYear={{role.academicYear}}&program={{programname}}&year={{year}}" method="post" id = "myForm" > 
+      
+                <h3>AUN 11.1: The curriculum is developed by all teaching staff members</h3>
+                <h5>Table : program development committee</h5>
+                <br>
+                      <p hidden>    
+                        <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='{{len}}' readonly=""><br>
+                       
+                      </p>
+                    <div class="form-group">
+
+                      
+                      <label for="inputType" class="col-md-1 control-label">Position: </label>
+                      <div class="col-md-4">
+                         <input type="text" class="form-control" id="assname" name="position" value="{{role.position}}">
+                      </div>
+                     
+                    </div>
+                    <div class="form-group">
+                      
+                      
+                      <label for="inputType" class="col-md-1 control-label">Staff </label>
+                      <div class="col-md-4">
+                         <div id="tab_2">
+                         
+
+                          
+                        
+                            <table id="staffTable" class="tablesorter">
+                                <thead>
+                                    <tr>
+                                    <th ><a>Name</a></th>
+                                    <th><a>Surname</a></th>
+                                    <th><a>Delete</a></th>
+                                    <th><a>ADD</a></th>
+                                   
+                                    
+                                    </tr>
+                                </thead>
+                               
+                                <tbody id = "staffBody">
+                                  
+                                    {{#each role.user}}
+                                    <tr>
+                                      <td><input  type="text" name="name" id="name" value="{{local.name}}"/></td>
+                                      <td><input  type="text" name="surname" id="surname" value="{{local.surname}}"/></td>
+                                      <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
+                                      </td> 
+
+                                      <div class="btn-group">
+                                       <td> <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()">
+                                          <span class="glyphicon glyphicon-plus"></span></button>
+                                        </td>
+                                      </div> 
+
+
+                                    </tr> 
+                                      {{/each}}
+
+                                </tbody>
+                                
+                                
+                            </table>
+                             
+                        </div>
+                      </div>
+                    </div>
+
+                   <div class="form-group">
+                      <p align = "right"><button type="submit" class="btn btn-primary">Add</button></p>
+                   </div>
+
+     </form>
+</div>

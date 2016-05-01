@@ -41,7 +41,7 @@
                       
                        
                         <tr>
-                        <td><a href = ""><button id="tab_2_submit" class=" btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-edit"></span></button></td>
+                        <td><a href = "/aun/aun11-1/edit_aun11-1?id={{_id}}&academicYear={{academicYear}}&program={{programname}}&year={{year}}"><button id="tab_2_submit" class=" btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-edit"></span></button></td>
 
                         <td><a href = "/aun/aun11-1/del_aun11-1?id={{_id}}&academicYear={{academicYear}}&program={{programname}}&year={{year}}"><button id="tab_2_submit" class="btn btn-xs btn-danger" type="button"><span class="glyphicon glyphicon-trash"></span></button> </td>
                        
@@ -49,7 +49,7 @@
 						<td>{{position}}</td>
 						{{#each user}}
                         {{#if @first}} 
-                <td>{{local.title}}</td>
+                        <td>{{local.title}}</td>
                         <td>{{local.name}} {{local.surname}}</td>
                 </tr>
 			 	
