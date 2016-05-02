@@ -16,6 +16,7 @@
   <div class="row">
     <div class="col-xs-6 col-sm-4">
     	<center><label> Members </label></center>
+
       <table class="table table-hover">
       </table>      
     </div>
@@ -29,7 +30,7 @@
       <table class="table table-hover result">
         {{#each result}}
         <tr>
-          <td class="choosed" onclick="clickRow('{{this._id}}')">
+          <td id="{{this._id}}" class="choosed" onclick="clickRow('{{this._id}}')">
             {{this._id}}
           </td>
         </tr>
@@ -69,6 +70,19 @@
       $(this).toggleClass('selected');
     });
   });*/
+  /*$("submit").click(function(){
+    $.ajax({
+      url: "/save",
+          type: "POST",
+          data: { 
+        //data bab json naja
+        members:members;
+      },
+          success: function( data ) {
+            alert('success saving data');
+          }
+    });
+  }*/
   function clickRow(id){
     var index = members.indexOf(id);
     if(index === -1){
@@ -79,11 +93,9 @@
       alert('Existing members');
     }
   }
+  //function addMembers(){
+  //  alert("Add member to role already");
+  //}
 
-  function addMembers(){
-    alert("Add member to role already");
-
-
-  }
 </script>
 
