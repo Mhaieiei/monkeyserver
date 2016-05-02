@@ -175,9 +175,12 @@ router.get('/:id/profile', function(req, res){
 		res.render('workflow/single/profile', { layout:"workflowMain",workflow: result } );
 	});
 
-	
-	
+});
 
+router.get('/:id/edit', function(req, res){
+	TemplateWorkflow.findOne( { "_id" : req.params.id }, function(err, result){
+		res.render('workflow/single/profile', { layout:"workflowMain",workflow: result } );
+	});
 });
 
 

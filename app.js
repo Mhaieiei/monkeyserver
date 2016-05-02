@@ -67,7 +67,7 @@ module.exports = function(database) {
 
   // catch 404 and forward to error handler
   app.use(function(req, res, next) {
-    var err = new Error('Not Found');
+    var err = new Error('PAGE NOT FOUND');
     err.status = 404;
     next(err);
   });
@@ -80,7 +80,7 @@ module.exports = function(database) {
     app.use(function(err, req, res, next) {
       res.status(err.status || 500);
       res.render('error_dev', {
-        layout: 'profilePage',
+        layout: 'homePage',
         message: err.message,
         error: err
       });
@@ -92,7 +92,7 @@ module.exports = function(database) {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
-      layout: 'profilePage',
+      layout: 'homePage',
       message: err.message,
       error: {}
     });

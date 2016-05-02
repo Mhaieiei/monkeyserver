@@ -97,13 +97,16 @@ if (!window.FileList || !window.FileReader) {
 // bootstrap diagram functions
 
 $(document).on('ready', function() {
+  
 
+  
   $('#js-create-diagram').click(function(e) {
     e.stopPropagation();
     e.preventDefault();
 
     createNewDiagram();
   });
+
 
   var downloadLink = $('#js-download-diagram');
   var downloadSvgLink = $('#js-download-svg');
@@ -173,7 +176,13 @@ $(document).on('ready', function() {
   }, 500);
 
   renderer.on('commandStack.changed', exportArtifacts);
+
+
+  var targetDiagramXML = loadedDiagramXML || newDiagramXML;
+  openDiagram(targetDiagramXML);
 });
+
+
 },{"bpmn-js/lib/Modeler":2,"jquery":266,"lodash":291}],2:[function(require,module,exports){
 'use strict';
 
