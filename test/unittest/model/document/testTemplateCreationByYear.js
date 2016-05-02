@@ -108,5 +108,15 @@ module.exports = function() {
 				done();
 			})
 		});
+
+		it('should include ID after the name of the document', function(done) {
+			var documentXX4 = new SubtypeXX({name: 'documentXX4'});
+			var documentXX5WithExtension = new SubtypeXX({name: 'documentXX5.doc'});
+			helper.saveMultipleItemsToDatabase([documentXX4, documentXX5WithExtension], function() {
+				expect(documentXX4.name).to.have.string(documentXX4.id);
+				expect(documentXX5WithExtension.name).to.have.string(documentXX5WithExtension.id);
+				done();
+			});
+		})
 	});
 }
