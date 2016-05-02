@@ -37,8 +37,7 @@ function compileDocumentIdBeforeSave(schema) {
 	schema.add({id: String});
 	schema.pre('save', function(next) {
 		this.id = this.subtype.concat(fillLeadingZeros(this.docNum, 4));
-		if(this.name)
-			this.name = includeIdAfterFilename(this.name, this.id);
+		this.name = includeIdAfterFilename(this.name, this.id);
 		this.filepath = 'download/document/' + this.name;
 		next();
 	});

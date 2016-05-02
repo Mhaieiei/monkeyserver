@@ -73,10 +73,10 @@ module.exports = function() {
 		});
 
 		it('should reset auto-incrementing number to 1 when new year of the same subtype begins', function(done) { 
-			var documentXX1 = new SubtypeXX();
-			var documentXX2 = new SubtypeXX();
+			var documentXX1 = new SubtypeXX({name: 'documentXX1'});
+			var documentXX2 = new SubtypeXX({name: 'documentXX2'});
 
-			var documentXXNewYear = new SubtypeXXNewYear();
+			var documentXXNewYear = new SubtypeXXNewYear({name: 'documentXXNewYear'});
 
 			var items = [documentXX1, documentXX2, documentXXNewYear];
 			var whenAllDone = function() {
@@ -100,7 +100,7 @@ module.exports = function() {
 		});
 
 		it('should have document ID in a correct format', function(done) {
-			var documentXX3 = new SubtypeXX();
+			var documentXX3 = new SubtypeXX({name: 'documentXX3'});
 			helper.saveMultipleItemsToDatabase([documentXX3], function() {
 				var uppercaseTemplateName = templateName.toUpperCase();
 				expect(documentXX3.id).to.exist;

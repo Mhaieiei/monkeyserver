@@ -198,7 +198,7 @@ function includeOneRelatedDocument(callback) {
 	var Template = new TemplateByYear('zz', 2001);
 	var DocXXType = Template.compile();
 
-	var relatedDocument1 = new DocXXType();
+	var relatedDocument1 = new DocXXType({name: 'relatedDocument'});
 
 	var doc = [relatedDocument1];
 	helper.saveMultipleItemsToDatabase(doc, function() {

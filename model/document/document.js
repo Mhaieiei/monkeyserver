@@ -42,7 +42,10 @@ var docSchema = new Schema({
 	 * It is the original filename that user uploaded.
 	 * If it is a by-product from the workflow, the system automatically generates it.
 	 */
-	name: String,
+	name: {
+		type: String,
+		required: true
+	},
 
 	/*
 	 * A boolean indicates whether this document is created by the system.
