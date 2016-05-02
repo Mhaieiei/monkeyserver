@@ -54,8 +54,8 @@ var testDocumentRunningNumber = function() {
 
 		before(function(done) {
 			var SubDoc = new templatePlain('mm').compile();
-			doc1 = new SubDoc();
-			doc2 = new SubDoc();
+			doc1 = new SubDoc({name: 'doc1'});
+			doc2 = new SubDoc({name: 'doc2'});
 			doc1.save(function(error) {
 				if(error) done(error);
 				doc2.save(function(error) {

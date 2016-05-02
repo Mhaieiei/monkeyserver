@@ -73,10 +73,10 @@ module.exports = function() {
 		});
 
 		it('should reset auto-incrementing number to 1 when new year of the same subtype begins', function(done) { 
-			var documentXX1 = new SubtypeXX();
-			var documentXX2 = new SubtypeXX();
+			var documentXX1 = new SubtypeXX({name: 'documentXX1'});
+			var documentXX2 = new SubtypeXX({name: 'documentXX2'});
 
-			var documentXXNewYear = new SubtypeXXNewYear();
+			var documentXXNewYear = new SubtypeXXNewYear({name: 'documentXXNewYear'});
 
 			var items = [documentXX1, documentXX2, documentXXNewYear];
 			var whenAllDone = function() {
@@ -100,7 +100,7 @@ module.exports = function() {
 		});
 
 		it('should have document ID in a correct format', function(done) {
-			var documentXX3 = new SubtypeXX();
+			var documentXX3 = new SubtypeXX({name: 'documentXX3'});
 			helper.saveMultipleItemsToDatabase([documentXX3], function() {
 				var uppercaseTemplateName = templateName.toUpperCase();
 				expect(documentXX3.id).to.exist;
@@ -108,5 +108,15 @@ module.exports = function() {
 				done();
 			})
 		});
+
+		it('should include ID after the name of the document', function(done) {
+			var documentXX4 = new SubtypeXX({name: 'documentXX4'});
+			var documentXX5WithExtension = new SubtypeXX({name: 'documentXX5.doc'});
+			helper.saveMultipleItemsToDatabase([documentXX4, documentXX5WithExtension], function() {
+				expect(documentXX4.name).to.have.string(documentXX4.id);
+				expect(documentXX5WithExtension.name).to.have.string(documentXX5WithExtension.id);
+				done();
+			});
+		})
 	});
 }

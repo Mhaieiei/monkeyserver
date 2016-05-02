@@ -37,9 +37,19 @@ function compileDocumentIdBeforeSave(schema) {
 	schema.add({id: String});
 	schema.pre('save', function(next) {
 		this.id = this.subtype.concat(fillLeadingZeros(this.docNum, 4));
+		this.name = includeIdAfterFilename(this.name, this.id);
+		this.filepath = 'download/document/' + this.name;
 		next();
 	});
 
+}
+
+function includeIdAfterFilename(filename, id) {
+	var hasFileExtension = filename.search(/\./) > -1;
+	if(hasFileExtension)
+		return filename.replace('.', '_' + id + '.');
+	else
+		return filename.concat('_' + id);
 }
 
 function validateParameters(subtypeName, year) {
