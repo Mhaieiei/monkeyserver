@@ -20,7 +20,7 @@
       </table>      
     </div>
     <div class="col-xs-6 col-sm-4">
-      <a onclick="addMembers()" class="btn btn-default btn-block" role="button">Add</a>
+      <a onclick="addMembers" class="btn btn-default btn-block" role="button">Add</a>
     </div>
 
     <div class="col-xs-6 col-sm-4">
@@ -29,7 +29,7 @@
       <table class="table table-hover result">
         {{#each result}}
         <tr>
-          <td id = "{{this._id}}" class="choosed" onclick="clickRow('{{this._id}}')">
+          <td class="choosed" onclick="clickRow('{{this._id}}')">
             {{this._id}}
           </td>
         </tr>
@@ -82,6 +82,7 @@
 
   function addMembers(){
     alert("Add member to role already");
+
 
   }
 </script>
