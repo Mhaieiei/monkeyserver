@@ -4,7 +4,6 @@ var WorkflowExecution 	= require('../../model/WorkflowExecution.model');
 var WorkflowTask		= require('../../model/WorkflowTask.model');
 var workflowRunner		= require('../../lib/workflowRunner');
 var Form				= require('../../model/form.model');
-var runner				= require('../../lib/runner');
 
 router.get('/', function(req, res){
 
@@ -86,46 +85,9 @@ router.get('/:id', function(req, res){
 
 	WorkflowExecution.findOne( { "_id" : req.params.id }, function(err, execution){
 
-		if(err) console.log(err);
+		if(err) return next(err);
 
-
-		var currentElementId = execution.handler.currentTask.id;
-		var currentElement = execution.elements[currentElementId];
-		var inputMappings = [];
-		
-		
-		if( currentElement.inputMappings !== undefined ){
-			inputMappings = currentElement.inputMappings;
-		}
-
-		if( execution.handler.currentTask.type === 'service' ){
-
-			res.end("Service");
-			return;
-		} 
-		Form.findOne({ "_id": currentElement.form.id }, function(err, result){
-
-			var elements = [];
-			if( result.elements !== null ) elements = result.elements;
-
-			for(var i = 0; i < inputMappings.length; i++){
-				for( var j = 0; j < elements.length; j++ ){
-					if( inputMappings[i].first === elements[j].name ){
-						elements[j].value = inputMappings[i].value;
-					}
-				}
-			}
-
-			var formHtml = '<form method="post" action="/execution/' + execution._id + '">';
-		
-			for(var i = 0; i < elements.length; i++){
-				formHtml += '<div>' + getHtmlElement( elements[i] ) + '</div>';
-			}
-			
-			formHtml += '<input type="submit" value="Submit">';
-
-			res.render('execution/one', { html: formHtml });
-		});		
+		res.end(execution.name);
 	});
 
 });

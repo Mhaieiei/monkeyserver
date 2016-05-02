@@ -4,7 +4,6 @@ var TemplateWorkflow	= require('../../model/TemplateWorkflow');
 var WorkflowExecution	= require('../../model/WorkflowExecution.model');
 var WorkflowHandler		= require('../../lib/WorkflowHandler');
 var parseString 		= require('xml2js').parseString;
-var runner				= require('../../lib/runner');
 var workflowRunner		= require('../../lib/workflowRunner');
 var Promise				= require('bluebird');
 
@@ -15,7 +14,7 @@ router.get('/', function(req, res){
 	TemplateWorkflow.find({}, function(err, result){
 		if(err) console.log(err);
 
-		res.render('wf/execute', { layout: "homePage",workflows : result } );
+		res.render('wf/execute', { layout: "homePage", workflows : result } );
 
 	});
 });
@@ -79,14 +78,14 @@ router.get('/:id/profile', function(req, res){
 		
 	TemplateWorkflow.findOne( { "_id" : req.params.id }, function(err, result){
 
-	res.render('wf/single/profile.hbs', 
-		{ layout:"workflowMain",workflow: result } );
+	res.render('wf/single/profile', 
+		{ layout:"homePage",workflow: result } );
 
 	});	
 });
 
 
-router.get('/:id/execute', function(req, res){
+router.get('/:id/execute', function(req, res, next){
 
 	TemplateWorkflow.findOne( { "_id" : req.params.id }, function(err, result){
 
@@ -128,6 +127,10 @@ router.get('/:id/execute', function(req, res){
 
 router.post('/:id/execute', function(req, res){
 	res.end("DONE");
+});
+
+router.use( function(err, req, res, next){
+	return next(err);
 });
 
 module.exports = router;
