@@ -67,6 +67,8 @@
             	
 	            	<form class="form-horizontal" role="form">
 	                {{#each teachsemes}}
+	                <h5>Plan: {{_id}}</h5>
+	                {{#each teach}}
 					<label for="inputType" class="col-md-2 control-label">Year: {{Year}} Semester:{{semester}}</label>
 					<table class="tablesorter">
 					    <thead>
@@ -111,10 +113,11 @@
 								</div>
 				 			</div>
 				 		</div>
-				 	<br><br>		 
+				 	<br><br>
+				 	{{/each}}  		 
 				 	{{/each}}  
 				 	 <div class="btn-group">
-					    <a href = "/admin/addsubprogram?acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add Program Subjects</button></a>
+					    <a href = "/admin/addsubprogram?acid={{acid}}&program={{program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add Program Subjects</button></a>
 					</div>
 	            </form>
 	           <br><br>   

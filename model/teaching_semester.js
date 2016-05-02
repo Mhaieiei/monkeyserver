@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var semesyearSchema = mongoose.Schema({
 
     ac_id: String,
-    plan: { type: mongoose.Schema.Types.ObjectId, ref: 'structure' },
+    plan: String,
 	Year : Number,
 	semester : Number,
 	subject : [{
