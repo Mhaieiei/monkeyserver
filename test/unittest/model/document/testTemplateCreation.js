@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
 
-var templatePlain = require('model/document/template');
+var templatePlain = require('model/document/DocumentTemplate');
 
 module.exports = function() {
 	it('should set correct subtype on a correct field', function() {

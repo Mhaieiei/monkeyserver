@@ -1,6 +1,6 @@
 'use strict';
 var inherit = require('inherit');
-var Template = require('./template');
+var DocumentTemplate = require('./DocumentTemplate');
 
 /**
  * This module creates subtype document by year.
@@ -20,7 +20,7 @@ var Template = require('./template');
  * @throws error if the subtype name is already exists in mongoose.
  */
 
-var TemplateByYear = {
+var OfficialDocumentTemplate = {
 	__constructor: function(subtypeName, year, additionalFields) {
 		validateParameters(subtypeName, year);
 		var subtypeWithYear = subtypeName.toUpperCase().concat(year);
@@ -74,4 +74,4 @@ function fillLeadingZeros(num, size) {
     return s;
 }
 
-module.exports = exports = inherit(Template, TemplateByYear);
+module.exports = exports = inherit(DocumentTemplate, OfficialDocumentTemplate);

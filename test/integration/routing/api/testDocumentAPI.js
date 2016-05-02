@@ -10,7 +10,7 @@ var express = require('express');
 
 var dbMock = require('test/dbTestConfig');
 var helper = require('test/helperFunction');
-var TemplateByYear = require('model/document/templateByYear');
+var TemplateByYear = require('model/document/OfficialDocumentTemplate');
 
 describe('REST Document API', function() {
 
