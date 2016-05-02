@@ -18,6 +18,7 @@
                
                 <br>
 				<h5>Table : Referenved curriculums from the world recognized universities</h5>
+                <a href = "/aun/aun2-1/addaun2-1?program=<%=programname%>&year=<%=year%>&acid=<%=acid%>"><button id="tab_2_submit" class="btn btn-primary" type="button">Add</button></a>
                 <div id="tab_ref">
                   <table class="tablesorter">
                     <thead align="center">
@@ -28,28 +29,32 @@
                             <th>University</a></th>
                             <th>Country</a></th>
                             <th>Websites</a></th>
+                            <th>Edit </th>
+                            <th>Delete</th>
 
                         </tr>
       
                     </thead>
 					 
                     <tbody>
-                    <% for(k=0;k< docs.length;k++){%>
-                    <% for(j=0;j< docs[k].referenceCurriculum.length;j++){%>
-					<% for(m=0;m< docs[k].referenceCurriculum[j].detail.length;m++){%>
+                    <% for(k=0;k< struc.length;k++){%>
+                        <% for(j=0;j< struc[k].referenceCurriculum.length;j++){%>
+					       
 					
                         <tr>
-                        <td><%= m+1 %> </td>
-                        <td> <%=docs[k].referenceCurriculum[j].detail[m].refProgramName %></td>
-                        <td><%=docs[k].referenceCurriculum[j].detail[m].degree%> </td>
-                        <td> <%=docs[k].referenceCurriculum[j].detail[m].university%></td>
-                        <td> <%=docs[k].referenceCurriculum[j].detail[m].country%></td>
-                        <td><%=docs[k].referenceCurriculum[j].detail[m].website%> </td>
+                        <td><%= j+1 %> </td>
+                        <td> <%=struc[k].referenceCurriculum[j].refProgramName %></td>
+                        <td><%=struc[k].referenceCurriculum[j].degree%> </td>
+                        <td> <%=struc[k].referenceCurriculum[j].university%></td>
+                        <td> <%=struc[k].referenceCurriculum[j].country%></td>
+                        <td><%=struc[k].referenceCurriculum[j].website%> </td>
+                        <td>Edit </td>
+                        <td>Delete</td>
                         
                         </tr>
-                       <%}%>
-                        <%}%>
-                        <%}%>
+                      
+                     <%}%>
+                  <%}%>
                     </tbody>
 					
                   </table>
@@ -151,7 +156,7 @@
             <div class="form-group">
                 <div class="pull-right">
                      <div class="btn-group">
-                        <a href = ""><button id="tab_2_submit" class="btn btn-primary" type="button">Add</button>
+                        
                     </div>
                 </div>
             </div>
