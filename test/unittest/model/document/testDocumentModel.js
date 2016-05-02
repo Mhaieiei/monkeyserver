@@ -88,5 +88,10 @@ module.exports = function() {
 			document.done();
 			expect(document.getStatus()).to.equal('done');
 		});
+
+		it('Should set document\'s status to "waiting for approval"', function() {
+			document.waitApprove();
+			expect(document.getStatus()).to.equal('waiting approval');
+		});
 	});
 };

@@ -37,7 +37,7 @@
  * | Student Affairs         |      CB      |
  * ------------------------------------------
  */
-var Template = require('./templateByYear');
+var Template = require('./OfficialDocumentTemplate');
 
 module.exports = function(year) {
 	var ICDocuments = {

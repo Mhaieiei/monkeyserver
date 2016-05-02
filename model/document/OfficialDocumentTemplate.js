@@ -1,6 +1,6 @@
 'use strict';
 var inherit = require('inherit');
-var Template = require('./template');
+var Template = require('./DocumentTemplate');
 
 /**
  * This module creates subtype document by year.

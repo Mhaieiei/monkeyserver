@@ -59,14 +59,15 @@ var docSchema = new Schema({
 	 * Status:
 	 *    - create: The document has just created. 
 	 *              It doesn't go throguh any workflow yet.
-	 *    - inprogress: The document is still processing inside the workflow.
+	 *    - in progress: The document is still processing inside the workflow.
 	 *    - done: The document has complete the execution inside the workflow. 
 	 *            Since during a workflow execution can produce multiple documents.
 	 *            Those documents will also have this status set as well.
+	 *    - waiting approval: The document require user to approve or reject.
 	 */
 	status: {
 		type: String,
-		enum: ['create', 'inprogress', 'done'],
+		enum: ['create', 'inprogress', 'done', 'waiting approval'],
 		default: 'create'
 	},
 	
@@ -79,7 +80,8 @@ var docSchema = new Schema({
 	}],
 
 	/*
-	 * Other required documents or other dependent documents.
+	 * Additional documents that involved with this document.
+	 * If this document refer to other documents, put them here
 	 */
 	relate2docs: [{
 		type: Schema.Types.ObjectId,
@@ -87,7 +89,7 @@ var docSchema = new Schema({
 	}],
 
 	/*
-	 * Attachment of this document.
+	 * Other required documents or other dependent documents.
 	 */
 	attachments: [{
 		type: Schema.Types.ObjectId,
@@ -136,6 +138,13 @@ docSchema.methods.inProgress = function() {
 docSchema.methods.done = function() {
 	this.status = this.schema.path('status').enumValues[2];
 };
+
+/**
+ * Set document's status as waiting approval
+ */
+docSchema.methods.waitApprove = function() {
+	this.status = this.schema.path('status').enumValues[3];
+}
 
 /**
  * Get the current status on this document.

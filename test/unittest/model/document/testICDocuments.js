@@ -6,7 +6,7 @@ const assert = require('assert');
 
 var async = require('async');
 
-var IC = require('model/document/DocumentFactory');
+var IC = require('model/document/ICDocuments');
 var dbMock = require('test/dbTestConfig');
 
 module.exports = function() {

@@ -7,7 +7,7 @@ var helper = require('test/helperFunction');
 like = require('chai-like');
 chai.use(like);
 
-var TemplateByYear = require('model/document/templateByYear');
+var TemplateByYear = require('model/document/OfficialDocumentTemplate');
 
 module.exports = function() {
 	describe('Parameter validations', function() {
