@@ -1,14 +1,13 @@
 <link rel="stylesheet" href="/stylesheets/workflow.css">
 <h1>Role configuration</h1>
 
-<form action="save" method="post">
   <div class="form-group">
     <label for="roleName">Role Name</label>
-    <input type="text" name="name" class="form-control" placeholder="Role name">
+    <input type="text" id="role-name" name="name" class="form-control" placeholder="Role name">
   </div>
   <div class="form-group">
   	<label for="description">Description</label>
-  	<input type="text" name="description" class="form-control" placeholder="Description"> 
+  	<input type="text" id="role-description" name="description" class="form-control" placeholder="Description"> 
   </div>
  
 
@@ -56,11 +55,10 @@
     <div class="col-xs-6 col-sm-3">
     </div>
     <div class="col-xs-6 col-sm-3">
-      <input type="submit" class="btn btn-default btn-block" value="Save">
+      <button onclick="saveRole()" class="btn btn-default btn-block">Save</button>
     </div>
 
   </div>
-</form>
 
 <script>
   var members = [];
@@ -70,19 +68,23 @@
       $(this).toggleClass('selected');
     });
   });*/
-  $("submit").click(function(){
+
+  function saveRole(){
     $.ajax({
-      url: "/save",
+      url: "/rolemanagement/save",
           type: "POST",
           data: { 
-        //data bab json naja
-        members:members;
-      },
+            name: $('#role-name').val(),
+            description: $('#role-description').val(),
+            members:members
+          },
           success: function( data ) {
             alert('success saving data');
           }
     });
   }
+
+
   function clickRow(id){
     var index = members.indexOf(id);
     if(index === -1){

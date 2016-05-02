@@ -22,8 +22,11 @@ router.get('/', function(req, res){
 
 
 
-router.get('/create', function(req, res){
-	res.render('wf/create.hbs', { layout:"workflowMain" } );
+router.get('/new', function(req, res){
+	res.render('wf/create', { 
+		layout:"workflowMain",
+		loadedDiagramXML: '""'
+	});
 });
 
 router.post('/save', function(req, res){
@@ -47,6 +50,30 @@ router.post('/save', function(req, res){
 		}
 	});
 });
+
+router.get('/:id/edit', function(req, res){
+
+	TemplateWorkflow.findOne({ '_id': req.params.id }, function(err, result){
+		console.log(result.variables);
+		res.render('wf/create', { 
+			layout:"workflowMain", 
+			wfName: result.name,
+			wfDescription: result.description,
+			wfVariables: JSON.stringify(result.variables),
+			wfDetails: JSON.stringify(result.elements),
+			loadedDiagramXML : '`' + result.xml + '`' 
+		});
+	});
+
+});
+
+router.get('/:id/delete', function(req, res){
+	
+	TemplateWorkflow.remove({'_id': req.params.id}, function(err){
+		res.redirect('/workflow');
+	});
+});
+
 
 router.get('/:id/profile', function(req, res){
 		

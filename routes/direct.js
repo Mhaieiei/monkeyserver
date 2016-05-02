@@ -8,10 +8,10 @@ var mongoose = require('mongoose');
 var Handlebars = require('handlebars/runtime')['default'];
 var isLoggedIn = require('middleware/loginChecker');
 
-var adminController     = require('../lib/admin');
-var thesisController    = require('../lib/thesisHandler');
-var publicController    = require('../lib/publicHandler');
-var trainController    = require('../lib/trainHandler');
+var adminController     = require('lib/admin');
+var thesisController    = require('lib/thesisHandler');
+var publicController    = require('lib/publicHandler');
+var trainController    = require('lib/trainHandler');
 
 var formController      = require('./wf/form');
 var workflowController  = require('./wf/workflow');
@@ -19,8 +19,8 @@ var executionController = require('./wf/execution');
 var serviceController   = require('./wf/service');
 var roleManagementController = require('../lib/roleManagement');
 
-var tqfController       = require('../lib/tqfHandler');
-var aunController       = require('../lib/aunHandler');
+var tqfController       = require('lib/tqfHandler');
+var aunController       = require('lib/aunHandler');
 
 Handlebars.registerHelper('select', function( value, options ){
         var $el = $('<select />').html( options.fn(this) );
@@ -39,7 +39,6 @@ Handlebars.registerHelper('select', function( value, options ){
     // Setting Workflow ========
     // =====================================
 var parseString     = require('xml2js').parseString;
-var WorkflowHandler   = require('./WorkflowHandler');
 var years = [2012,2013,2014,2015,2016];
 var yearlevel = [1,2,3,4];
 

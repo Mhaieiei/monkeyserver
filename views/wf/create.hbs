@@ -6,11 +6,11 @@
 	  <h3>Workflow config</h3>
 	  <div style="margin-top: 10px">
 		<b>Name</b><br>
-		<input type="text" class="form-control" id="workflow-name">
+		<input type="text" class="form-control" id="workflow-name" value="{{wfName}}">
 	  </div>
 	  <div style="margin-top: 10px">
 		<b>Description</b><br>
-		<input type="text" class="form-control" id="workflow-description">
+		<input type="text" class="form-control" id="workflow-description" value="{{wfDescription}}">
 	  </div>
 	  <div style="margin-top: 10px">
 		<b>Workflow variables</b>
@@ -83,12 +83,18 @@
 		SVG image
 	  </a>
 	</li>
+	<li>
+	  <a id="load-diagram" href title="Load diagram">
+		Load diagram
+	  </a>
+	</li>
   </ul>
 <script>
-  
-	var myVariables = [];
+  	
+  	var loadedDiagramXML = {{{loadedDiagramXML}}};
+	var myVariables = {{{wfVariables}}};
 	var currentElementId = null;
-	var myElements = {};	
+	var myElements = {{{wfDetails}}};
 	var currentVariableId = -1;
 
 	var popupHeaderPrefix = '<button type="button" class="close" data-dismiss="modal">&times;</button>';
@@ -382,11 +388,13 @@
   	}
 
   	function getConditionList(elementId, type){
-
+  		
 		if( myElements[currentElementId].conditions === undefined ){
   			myElements[currentElementId].conditions = [];
   		}
 
+  		console.log( myElements["ExclusiveGateway_0k8nz2v"] );
+  		console.log( myElements[currentElementId].conditions );
   		var conditionList = myElements[currentElementId].conditions;
   		var html = '';
 
