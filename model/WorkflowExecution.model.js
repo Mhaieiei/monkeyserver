@@ -13,7 +13,8 @@ var schema = new mongoose.Schema({
 		}
 	],
 	details: mongoose.Schema.Types.Mixed,
-	handlers:  mongoose.Schema.Types.Mixed
+	handlers:  mongoose.Schema.Types.Mixed,
+	status: Number
 });
 
 

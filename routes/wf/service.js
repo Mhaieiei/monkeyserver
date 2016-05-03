@@ -12,6 +12,7 @@ router.get('/all', function(req, res){
 
 });
 
+
 router.get('/create', function(req, res){
 	res.render('wf/service/create', { layout: 'homePage' } );
 });

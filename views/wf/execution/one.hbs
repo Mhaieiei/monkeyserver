@@ -1,3 +1,9 @@
 <div style="margin-left:40px; margin-top: 80px;">
-	{{{html}}}
+	<h3>{{data.name}}</h3>
+	{{#if data.status}}
+    	<button class="btn btn-info">Done</button>
+  	{{else}}
+    	<button class="btn btn-info">In progress</button>
+  	{{/if}}
+	Created at 10/10/2016 
 </div>

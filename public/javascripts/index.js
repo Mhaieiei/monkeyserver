@@ -98,7 +98,7 @@ if (!window.FileList || !window.FileReader) {
 
 $(document).on('ready', function() {
   
-
+  updateVariableList();
   
   $('#js-create-diagram').click(function(e) {
     e.stopPropagation();
@@ -124,12 +124,22 @@ $(document).on('ready', function() {
 
     e.preventDefault();
 
-    console.log( myElements );
-    
+   // console.log( myElements );
+    var baseUrl = window.location.pathname.toLowerCase();
+    var targetUrl = '/workflow/save'
+  
+    if( baseUrl != '/workflow/new' ){
+      var splitUrls = baseUrl.split('/');
+      if( splitUrls[3] === 'edit' ){
+        targetUrl = '/workflow/' + splitUrls[2] + '/update';
+      }
+
+    }
+
     var saveVariables = []
     saveDiagram(function(err, xml) {
      console.log(myVariables);
-      var posting = $.post( '/workflow/save', 
+      var posting = $.post( targetUrl, 
         { 
           name: workflowName.val(),
           description: workflowDescription.val(),
@@ -138,12 +148,10 @@ $(document).on('ready', function() {
           elements: myElements
         });
 
-      posting.done(function( data ) {
-          
+      posting.done(function( data ) {        
           alert( "save successful" );
 
       });
-
     });
 
   });
@@ -19905,12 +19913,21 @@ Canvas.prototype._addElement = function(type, element, parent, parentIndex) {
   eventBus.fire(type + '.added', { element: element, gfx: gfx });
 
   console.log( "=== Begin Canvas.addElement ===");
-  var eggElement = {};
-  eggElement.inputMappings = [];
-  eggElement.outputMappings = [];
-  myElements[element.id] = eggElement;
+  if( myElements[element.id] === undefined ){
+      var eggElement = {};
+      eggElement.inputMappings = [];
+      eggElement.outputMappings = [];
+      myElements[element.id] = eggElement;
+  }
 
-  console.log(myElements);
+  if( myElements[element.id].inputMappings === undefined ){
+    myElements[element.id].inputMappings = [];
+  }
+
+  if( myElements[element.id].outputMappings === undefined ){
+    myElements[element.id].outputMappings = [];
+  }
+
   console.log( "=== End Canvas.addElement ===");
 
   return element;
@@ -23274,26 +23291,33 @@ ContextPad.prototype.getPopup = function(element){
   mappingHtml += '<div><b>Output Mapping</b><button onclick="startMap(\'Output\')" data-toggle="modal" data-target="#mainPopup">Add new mapping</button></div>';
   mappingHtml += '<div id="output-mapping-list">' + getMappingList(currentElementId, 'outputMappings') + '</div>';
   */
+  if( element.type === 'bpmn:ServiceTask' || element.type === 'bpmn:UserTask' ){
 
-  mappingHtml += '<div><ul class="nav nav-tabs" role="tablist">';
-  mappingHtml += '<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Input</a></li>';
-  mappingHtml += '<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Output</a></li></ul>';
-  mappingHtml += '<div class="tab-content">';
-  
-  mappingHtml += '<div role="tabpanel" class="tab-pane active" id="home">';
-  mappingHtml += '<div><button onclick="startMap(\'Input\')" data-toggle="modal" data-target="#mainPopup">Add new mapping</button></div>';
-  mappingHtml += '<div id="input-mapping-list">' + getMappingList(currentElementId, 'inputMappings') + '</div></div>';
+    mappingHtml += '<div><ul class="nav nav-tabs" role="tablist">';
+    mappingHtml += '<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Input</a></li>';
+    mappingHtml += '<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Output</a></li></ul>';
+    mappingHtml += '<div class="tab-content">';
+    
+    mappingHtml += '<div role="tabpanel" class="tab-pane active" id="home">';
+    mappingHtml += '<div><button onclick="startMap(\'Input\')" data-toggle="modal" data-target="#mainPopup">Add new mapping</button></div>';
+    mappingHtml += '<div id="input-mapping-list">' + getMappingList(currentElementId, 'inputMappings') + '</div></div>';
 
-  mappingHtml += '<div role="tabpanel" class="tab-pane" id="profile">';
-  mappingHtml += '<div><button onclick="startMap(\'Output\')" data-toggle="modal" data-target="#mainPopup">Add new mapping</button></div>';
-  mappingHtml += '<div id="output-mapping-list">' + getMappingList(currentElementId, 'outputMappings') + '</div></div>';
+    mappingHtml += '<div role="tabpanel" class="tab-pane" id="profile">';
+    mappingHtml += '<div><button onclick="startMap(\'Output\')" data-toggle="modal" data-target="#mainPopup">Add new mapping</button></div>';
+    mappingHtml += '<div id="output-mapping-list">' + getMappingList(currentElementId, 'outputMappings') + '</div></div>';
 
-  mappingHtml += '</div></div>';
+    mappingHtml += '</div></div>';
+  }
 
 
   if( element.type === 'bpmn:ServiceTask'){
+    var serviceName = '';
+    if( myElements[currentElementId].service != undefined && 
+        myElements[currentElementId].service.name != undefined ){
+      serviceName = myElements[currentElementId].service.name;
+    }
     html += '<p><b>Service</b>';
-    html += '<div class="selected-service">' + myElements[currentElementId].serviceId + '</div>';
+    html += '<div><a class="selected-service" onclick="viewService()" href="javascript:void(0)" data-toggle="modal" data-target="#mainPopup">' + serviceName + '</a></div>';
     html += '<input class="selected-service-id" type="hidden"></input>';
     html += '<p><b>Setting</b></p>';
     html += '<button onclick="startSelectService()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#mainPopup">Select service</button>';
@@ -23302,6 +23326,7 @@ ContextPad.prototype.getPopup = function(element){
 
   }
   else if( element.type === 'bpmn:SequenceFlow' ){
+    console.log( myElements[currentElementId] );
     html += '<p><b>Condition name</b></p>';
     html += '<input type="text" id="condition-name" value="' + getConditionName() + '">';
     html += '<button onclick="saveCondition()">Save</button>';

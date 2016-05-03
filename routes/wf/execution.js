@@ -2,6 +2,7 @@ var express 			= require('express');
 var router  			= express.Router();
 var WorkflowExecution 	= require('../../model/WorkflowExecution.model');
 var WorkflowTask		= require('../../model/WorkflowTask.model');
+var TemplateWorkflow	= require('../../model/TemplateWorkflow');
 var workflowRunner		= require('../../lib/workflowRunner');
 var Form				= require('../../model/form.model');
 
@@ -87,7 +88,15 @@ router.get('/:id', function(req, res){
 
 		if(err) return next(err);
 
-		res.end(execution.name);
+		TemplateWorkflow.findOne( { "_id": execution.templateId }, function(err, template){
+			if(err) return next(err);
+
+			var data = {};
+			data.name = template.name;
+			data.status = execution.status || 0;
+
+			res.render('wf/execution/one', { layout: 'homePage', data: data });
+		});
 	});
 
 });

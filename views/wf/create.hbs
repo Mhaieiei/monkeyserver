@@ -168,6 +168,12 @@
 			footer: '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'
 		},
 
+		'viewService': {
+			header: 'View service detail',
+			body: '<div class="service-detail"></div>',
+			footer: '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'
+		},
+
 		'addCondition': {
 			header: 'Add condition',
 			body: `	<div>
@@ -356,8 +362,18 @@
   	}
 
   	function doSelectService(element){
-  		myElements[currentElementId].serviceId = element.id;
-    	$(".selected-service").html( element.id );
+  		
+
+    	$.ajax({
+			url: "/api/services/" + element.id,
+			type: "GET",
+			dataType : "json",
+			success: function( data ) {
+				myElements[currentElementId].service = data;
+			  	$(".selected-service").html( data.name );
+			  	console.log(data);
+			}
+	  	});
   	}
 
   	function startAddCondition(){
@@ -420,6 +436,18 @@
   		} 
 
   		return myElements[currentElementId].conditionName;
+  	}
+
+  	function viewService(){
+  		setPopupDialog('viewService');
+
+  		var thisService = myElements[currentElementId].service;
+
+  		var html = '<div>Name: ' + thisService.name +'</div>';
+  		html += '<div>Description: ' + thisService.description +' </div>';
+  		html += '<div>Script: ' + thisService.script + '</div>';
+
+  		$('.service-detail').html( html );
   	}
 
 

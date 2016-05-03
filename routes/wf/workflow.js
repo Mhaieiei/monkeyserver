@@ -24,6 +24,10 @@ router.get('/', function(req, res){
 router.get('/new', function(req, res){
 	res.render('wf/create', { 
 		layout:"workflowMain",
+		wfName: '',
+		wfDescription: '',
+		wfVariables: JSON.stringify([]),
+		wfDetails: JSON.stringify({}),
 		loadedDiagramXML: '""'
 	});
 });
@@ -50,10 +54,10 @@ router.post('/save', function(req, res){
 	});
 });
 
-router.get('/:id/edit', function(req, res){
+router.get('/:id/edit', function(req, res, next){
 
 	TemplateWorkflow.findOne({ '_id': req.params.id }, function(err, result){
-		console.log(result.variables);
+
 		res.render('wf/create', { 
 			layout:"workflowMain", 
 			wfName: result.name,
@@ -65,6 +69,23 @@ router.get('/:id/edit', function(req, res){
 	});
 
 });
+
+router.post('/:id/update', function(req, res, next){
+	TemplateWorkflow.update( { '_id': req.params.id },
+		{
+			name: req.body.name, 
+			description: req.body.description,
+			xml: req.body.xml,
+			variables: req.body.variables,
+			elements: req.body.elements
+		},
+		function(err){
+			if(err) res.end("FAILED");
+			else res.end("succesful");
+		}
+	);
+});
+
 
 router.get('/:id/delete', function(req, res){
 	
@@ -105,7 +126,8 @@ router.get('/:id/execute', function(req, res, next){
 				waitingElements: [],
 				variables: result.variables,
 				details: result.elements,
-				handlers: handler.elements
+				handlers: handler.elements,
+				status: 0
 			});
 
 			execution.save(function (err) {
