@@ -22,6 +22,8 @@ var roleManagementController = require('../lib/roleManagement');
 var tqfController       = require('lib/tqfHandler');
 var aunController       = require('lib/aunHandler');
 
+var request = require('request');
+
 Handlebars.registerHelper('select', function( value, options ){
         var $el = $('<select />').html( options.fn(this) );
         $el.find('[value="' + value + '"]').attr({'selected':'selected'});
@@ -153,6 +155,19 @@ module.exports = function(app, passport) {
     // =====================================
        app.get('/home', isLoggedIn, function(req, res) {
         
+        //get workflow list 
+        request('http://localhost:5000/api/workflow/workflowexecutions',function(error1,response1,body1){
+          //get task workflow list
+          request('http://localhost:5000/api/workflow/tasks',function(error2,response2,body2){ 
+            var json = JSON.parse(body2);
+            console.log(body2);
+            console.log(body1);
+            console.log(typeof json);
+          });
+          json = JSON.parse(body1)
+        });
+
+
         var query = Doc.findByUser(req.user);
         var date= [];
         query.exec(function(err,_docs) {
