@@ -21,7 +21,7 @@ router.get('/tasks', function(req, res, next){
 });
 
 router.get('/workflowexecutions', function(req, res, next){
-	WorkflowTask.find({}, function(err, result){
+	WorkflowExecution.find({}, function(err, result){
 		if(err) return res.json({ message : 'error' });
 		res.json(result);
 	})
