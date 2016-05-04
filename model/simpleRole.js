@@ -4,11 +4,7 @@ var mongoose = require('mongoose');
 var schema = new mongoose.Schema({
 	name: String,
 	description: String,
-	members: [
-		{
-			_id:{type: String}
-		}
-	]
+	members: [String]
 });
 
 module.exports = db.model('SimpleRole', schema);
