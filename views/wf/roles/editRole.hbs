@@ -8,9 +8,6 @@
   	<label for="description">Description</label>
   	<input type="text" id="role-description" name="description" class="form-control" placeholder="Description"> 
   </div>
- 
-
-
   <div class="row">
     <div class="col-xs-6 col-sm-4">
     	<center><label> Members </label></center>
@@ -24,7 +21,7 @@
     <div class="col-xs-6 col-sm-4">
       <center><label> All users </label></center>
       
-      <table class="table table-hover result">
+      <table id="table-all-users" class="table table-hover result">
         {{#each result}}
         <tr>
           <td id="{{this._id}}" class="all-users" onclick="clickRow('{{this._id}}')">
@@ -55,7 +52,6 @@
     <div class="col-xs-6 col-sm-3">
       <button onclick="saveRole()" class="btn btn-default btn-block">Save</button>
     </div>
-
   </div>
 
 <script>
@@ -79,11 +75,11 @@
             members:members
           },
           success: function( data ) {
-            alert('success saving data');
+            //alert('success saving data');
+            window.location.replace("/roleManagement");
           }
     });
   }
-
 
   function clickRow(id){
     var index = tempmembers.indexOf(id);
@@ -98,25 +94,31 @@
   }
 
   function addMembers(){
+    var indexOfMembers = [];
     for(var i = 0;i < tempmembers.length; i++){
       var index = members.indexOf(tempmembers[i]);
       if (index === -1){
         members.push(tempmembers[i]);
+        indexOfMembers.push(i);
       }
     }
+    alert(members.length);
     tempmembers = [];
     updateMembers();
-    updateAllUser(members);
+    updateAllUser(indexOfMembers);
   }
-  function updateAllUser(members){
-    for(var i=0;i < members.length;i++){
-      $('#members'+[i]+'').remove();
-    }
+
+  function updateAllUser(indexOfMembers){
+    //update all user
+    //for(var i=0;i < indexOfMembers.length;i++){
+      //document.getElementById("table-all-users").deleteRow(indexOfMembers(i));
+//
   }
 
   function selectedRowForDelete(){
 
   }
+
   function updateMembers(){
     $("#members-list").html("");
     for(var i = 0;i < members.length; i++){
