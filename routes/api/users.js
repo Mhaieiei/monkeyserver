@@ -17,7 +17,14 @@ router.get('/:id',function(req,res, next){
 
 router.get('/',function(req,res, next){
   console.log("get api users");
-  User.find({}, function(err, result){
+
+  console.log( req.query.fields );
+  var fields = '';
+  if( req.query.fields ){
+    fields = req.query.fields;
+  }
+
+  User.find({}, fields, function(err, result){
     if(err){
         console.log("api err"+err);
         return next(err);

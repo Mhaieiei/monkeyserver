@@ -22,13 +22,6 @@
       <center><label> All users </label></center>
       
       <table id="table-all-users" class="table table-hover result">
-        {{#each result}}
-        <tr>
-          <td id="{{this._id}}" class="all-users" onclick="clickRow('{{this._id}}')">
-            {{this._id}}
-          </td>
-        </tr>
-        {{/each}}
       </table>
     </div>
   </div>
@@ -55,8 +48,10 @@
   </div>
 
 <script>
+  
+  var allUsers = {{{users}}};
   var members = [];
-  var tempmembers = [];
+  var tempMembers = [];
 
   //change row color when selected in processing  
   $(function() {  
@@ -81,12 +76,14 @@
     });
   }
 
-  function clickRow(id){
-    var index = tempmembers.indexOf(id);
-    
+  function clickRow(element){
+    var id = element.id;
+    var index = tempMembers.indexOf(id);
+
     if(index === -1){
-      tempmembers.push(id);
+      tempMembers.push(id);
       //alert('Add to array members');
+      alert( tempMembers );
     }
     else{
       alert('Existing members');
@@ -94,25 +91,40 @@
   }
 
   function addMembers(){
-    var indexOfMembers = [];
-    for(var i = 0;i < tempmembers.length; i++){
-      var index = members.indexOf(tempmembers[i]);
+    /*var indexOfMembers = [];
+    for(var i = 0;i < tempMembers.length; i++){
+      var index = members.indexOf(tempMembers[i]);
       if (index === -1){
-        members.push(tempmembers[i]);
+        members.push(tempMembers[i]);
         indexOfMembers.push(i);
       }
     }
     alert(members.length);
-    tempmembers = [];
+    tempMembers = [];*/
+
+    for(var i = 0; i < tempMembers.length; i++ ){
+      var index = members.indexOf( tempMembers[i] );
+      if( index != -1 ){
+        members.push( tempMembers[i] );
+        allUsers.splice( index, 1 );
+      }
+    }
+    console.log( members );
+    tempMembers = [];
     updateMembers();
-    updateAllUser(indexOfMembers);
+    updateAllUsers();
   }
 
-  function updateAllUser(indexOfMembers){
-    //update all user
-    //for(var i=0;i < indexOfMembers.length;i++){
-      //document.getElementById("table-all-users").deleteRow(indexOfMembers(i));
-//
+
+
+  function updateAllUsers(){
+      $("#table-all-users").html("");
+      var html = "";
+      for(var i = 0; i < allUsers.length; i++ ){
+        html += '<tr><td id="' + allUsers[i]._id + '" class="all-users" onclick="clickRow(this)">';
+        html +=  allUsers[i]._id + '</td></tr>';
+      }
+      $("#table-all-users").html(html);
   }
 
   function selectedRowForDelete(){
@@ -132,6 +144,10 @@
     }
 
   }
+
+  $(document).ready(function(){
+    updateAllUsers();
+  });
 
 </script>
 
