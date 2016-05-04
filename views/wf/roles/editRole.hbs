@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="/stylesheets/workflow.css">
 <h1>Role configuration</h1>
 
   <div class="form-group">
@@ -15,12 +14,11 @@
   <div class="row">
     <div class="col-xs-6 col-sm-4">
     	<center><label> Members </label></center>
-
-      <table class="table table-hover">
+      <table id="members-list" class="table table-hover">
       </table>      
     </div>
     <div class="col-xs-6 col-sm-4">
-      <a onclick="addMembers" class="btn btn-default btn-block" role="button">Add</a>
+      <button onclick="addMembers()" class="btn btn-default btn-block" role="button">Add</button>
     </div>
 
     <div class="col-xs-6 col-sm-4">
@@ -29,7 +27,7 @@
       <table class="table table-hover result">
         {{#each result}}
         <tr>
-          <td id="{{this._id}}" class="choosed" onclick="clickRow('{{this._id}}')">
+          <td id="{{this._id}}" class="all-users" onclick="clickRow('{{this._id}}')">
             {{this._id}}
           </td>
         </tr>
@@ -62,12 +60,14 @@
 
 <script>
   var members = [];
+  var tempmembers = [];
+
   //change row color when selected in processing  
-  /*$(function() {  
-    $('.choosed').click(function(){
+  $(function() {  
+    $('.all-users').click(function(){
       $(this).toggleClass('selected');
     });
-  });*/
+  });
 
   function saveRole(){
     $.ajax({
@@ -86,18 +86,50 @@
 
 
   function clickRow(id){
-    var index = members.indexOf(id);
+    var index = tempmembers.indexOf(id);
+    
     if(index === -1){
-      members.push(id);
-      alert('Add to array members');
+      tempmembers.push(id);
+      //alert('Add to array members');
     }
     else{
       alert('Existing members');
     }
   }
-  //function addMembers(){
-  //  alert("Add member to role already");
-  //}
+
+  function addMembers(){
+    for(var i = 0;i < tempmembers.length; i++){
+      var index = members.indexOf(tempmembers[i]);
+      if (index === -1){
+        members.push(tempmembers[i]);
+      }
+    }
+    tempmembers = [];
+    updateMembers();
+    updateAllUser();
+  }
+  function updateAllUser(){
+//
+  }
+
+  function selectedRowForDelete(){
+
+  }
+  function updateMembers(){
+    $("#members-list").html("");
+    for(var i = 0;i < members.length; i++){
+      var currentVar = members[i];
+
+      var htmlText = '<tr onclick="selectedRowForDelete(this)" data-id="'+i+'">';
+      htmlText += '<td>' + currentVar+ '</td>';
+      htmlText += '</tr>';
+
+      $("#members-list").append(htmlText);
+    }
+
+
+
+  }
 
 </script>
 
