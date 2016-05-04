@@ -106,10 +106,12 @@
     }
     tempmembers = [];
     updateMembers();
-    updateAllUser();
+    updateAllUser(members);
   }
-  function updateAllUser(){
-//
+  function updateAllUser(members){
+    for(var i=0;i < members.length;i++){
+      $('#members'+[i]+'').remove();
+    }
   }
 
   function selectedRowForDelete(){
@@ -126,8 +128,6 @@
 
       $("#members-list").append(htmlText);
     }
-
-
 
   }
 
