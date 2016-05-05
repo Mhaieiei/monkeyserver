@@ -163,11 +163,12 @@ module.exports = function(app, passport) {
             console.log(body2);
             console.log(body1);
             console.log(typeof json);
+             res.render('home.hbs',{layout: 'homePage',result:json});
           });
-          json = JSON.parse(body1)
+          
         });
 
-
+        /*
         var query = Doc.findByUser(req.user);
         var date= [];
         query.exec(function(err,_docs) {
@@ -222,7 +223,7 @@ module.exports = function(app, passport) {
           
           
         });
-
+        */
         
 
   
