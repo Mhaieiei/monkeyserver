@@ -118,10 +118,9 @@
 
         <div class="tabs">
             <ul class="tab-links">
-                <li class="active"><a href="#tab1" >Documents</a></li>
-                <li><a href="#tab2">Workflow</a></li>
-                <li><a href="#tab3">In progress</a></li>
-                <li><a href="#tab4">Waiting for approval</a></li>
+                <li class="active"><a href="#tab1" >Workflows</a></li>
+                <li><a href="#tab2">In progress</a></li>
+                <li><a href="#tab3">Waiting for approval</a></li>
                 
             </ul>
  
@@ -384,101 +383,6 @@
                 </div>
 
 
-                <div id="tab4" class="tab">
-                        <form class="form-horizontal" role="form">
-                        <table id="table_pending" class="table muffin table-striped table-hover margin-bottom0">
-                                <thead>
-                                    <tr>
-                                    <th width="40"><a href="javascript:table_sort('tab_2',0)"></a></th>
-                                    <th><a href="javascript:table_sort('tab_2',1)">ID</a></th>
-                                    <th><a href="javascript:table_sort('tab_2',2)">Workflow name</a></th>
-                                    <th><a href="javascript:table_sort('tab_2',3)">Author</a></th>
-                                    <th><a href="javascript:table_sort('tab_2',4)">Date_created</a></th>
-                                    <th><a href="javascript:table_sort('tab_2',5)">Status</a></th>
-                                    
-                                    </tr>
-                                    
-                                    
-                                    {{#each docs}}
-                                    <tr class="each-doc">
-                                    <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                      <td>{{this.id}}</td>
-                                      <td><a href="#">{{this.name}}</a></td>
-
-                                      <td>{{this.author}}</td>
-                                      <td>{{getdate @index}}</td>
-                                      <td><font color="red">{{this.status}}</td>
-
-                                    </tr>
-                                  {{/each}}
-
-                                </thead>
-                         <!--        <tbody>
-                                    <tr>
-                                    <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                    <td> <div class="col-md-5">D01082016T0322</div></td>
-                                    <td><a href="doc_wf.asp">DOC1</a> </td>
-                                    <td> <div class="col-md-5">Prem_Tester</div></td>
-                                    <td> <div class="col-md-5">01/08/2016</div></td>
-                                    <td> <div class="col-md-5"><font color="green">DONE</div></td>
-                                    </tr>
-
-                                </tbody>
-                                <tbody>
-                                    <tr>
-                                    <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                    <td> <div class="col-md-5">D06092016T0313</div></td>
-                                    <td><a href="doc_wf.asp">DOC2</a> </td>
-                                    <td> <div class="col-md-5">Mek_mek</div></td>
-                                    <td> <div class="col-md-5">06/09/2016</div></td>
-                                    <td> <div class="col-md-5"><font color="blue">INPROGRESS</div></td>
-                                    </tr>
-                                    
-                                    
-                                </tbody>
-
-                                <tbody>
-                                    <tr>
-                                    <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                    <td> <div class="col-md-5">D12112016T0400</div></td>
-                                    <td><a href="doc_wf.asp">DOC3</a> </td>
-                                    <td> <div class="col-md-5">Kamphan</div></td>
-                                    <td> <div class="col-md-5">12/11/2016</div></td>
-                                    <td> <div class="col-md-5"><font color="red">CREATED</div></td>
-                                    </tr>
-                                 </tbody>  
-                                     -->
-                               
-
-
-                                <table id="choice-btn">
-
-                                    <td>
-                                    <div class="pull-right"> 
-
-                                        <div class="btn-group">
-                                            <button id="tab_2_selectall" name="tab_2_selectall" class="btn btn-mini" type="button" ><i class="glyphicon glyphicon-ok" onClick="checkAll(this)"></i> Select All</button>
-                                        </div>
-
-                                        <div class="btn-group">
-                                            <button id="tab_2_unselect" name="tab_2_unselect" class="btn btn-mini" type="button"><i class="glyphicon glyphicon-remove" onClick="unSelectAll()"></i> Unselect</button>
-                                        </div>
-                                       <!--  <div class="btn-group">
-                                            <button id="add_row" class="btn btn-mini" type="button"><i class="glyphicon glyphicon-remove" onClick="Add()"></i>Add</button>
-                                        </div> -->
-
-                                    </div>
-                                      </td>
-                                </table>
-
-
-                            
-                        </table>
-                    
-                          
-                    </form>
-                </div>
-         
 
             </div>
         </div>
