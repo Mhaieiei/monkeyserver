@@ -29,8 +29,8 @@
     <div class="col-xs-6 col-sm-4">
     </div>
     <div class="col-xs-6 col-sm-4">
-    <a class="btn btn-default btn-block" href="#" role="button">Remove</a>
-  </div>
+        <button onclick="removeMembers()" class="btn btn-default btn-block" role="button">Remove</button>
+    </div>
   </div>
 
   <br><br>
@@ -52,6 +52,7 @@
   var allUsers = {{{users}}};
   var members = [];
   var tempMembers = [];
+  var tempDeleteMembers = [];
 
   //change row color when selected in processing  
   $(function() {  
@@ -77,43 +78,95 @@
   }
 
   function clickRow(element){
-    var id = element.id;
-    var index = tempMembers.indexOf(id);
+    var id = $(element).attr('data-id');
 
-    if(index === -1){
-      tempMembers.push(id);
-      //alert('Add to array members');
-      alert( tempMembers );
+    tempDeleteMembers = [];
+
+    // not selected yet
+    if( findIndexById( tempMembers, id ) === -1 ){
+        tempMembers.push( allUsers[ findIndexById( allUsers, id ) ] );
     }
+    // already selected
     else{
-      alert('Existing members');
+        tempMembers.splice( findIndexById( tempMembers, id ), 1 );
     }
+
+    updateView();
+
   }
 
-  function addMembers(){
-    /*var indexOfMembers = [];
-    for(var i = 0;i < tempMembers.length; i++){
-      var index = members.indexOf(tempMembers[i]);
-      if (index === -1){
-        members.push(tempMembers[i]);
-        indexOfMembers.push(i);
-      }
-    }
-    alert(members.length);
-    tempMembers = [];*/
+    function updateView(){
+        console.log( members );
+        $("#table-all-users").html("");
+        var htmlAllUsers = "";
+        for(var i = 0; i < allUsers.length; i++ ){
 
-    for(var i = 0; i < tempMembers.length; i++ ){
-      var index = members.indexOf( tempMembers[i] );
-      if( index != -1 ){
-        members.push( tempMembers[i] );
-        allUsers.splice( index, 1 );
+            var extendedClass = '';
+            if( findIndexById( tempMembers, allUsers[i]._id ) != -1 ){
+                extendedClass = ' selected';
+            }
+
+            htmlAllUsers += '<tr><td data-id="' + allUsers[i]._id + '" class="all-users' + extendedClass + '" onclick="clickRow(this)">';
+            htmlAllUsers +=  allUsers[i]._id + '</td></tr>';
+
+         }
+        $("#table-all-users").html(htmlAllUsers);
+
+        var htmlMembers = "";
+        $("#members-list").html("");
+
+        for(var i = 0;i < members.length; i++){
+
+            var extendedClass = '';
+            if( findIndexById( tempDeleteMembers, members[i]._id ) != -1 ){
+                extendedClass = ' selected';
+            }
+
+            htmlMembers += '<tr><td onclick="selectRowForDelete(this)" class="all-users' + extendedClass + '" data-id="'+members[i]._id+'">';
+            htmlMembers += members[i]._id + '</td>';
+            htmlMembers += '</tr>';
+        }      
+        $("#members-list").html(htmlMembers);
+
+
+    }
+
+  function findIndexById( list, id ){
+    var index = -1;
+    for( var i = 0; i < list.length; i++ ){
+        console.log( typeof id );
+      if( list[i]._id === id ){
+        return i;
       }
     }
-    console.log( members );
-    tempMembers = [];
-    updateMembers();
-    updateAllUsers();
+    return index;
   }
+
+    function addMembers(){
+    
+        for( var i = 0; i < tempMembers.length; i++ ){
+            var user = allUsers.splice( findIndexById( allUsers, tempMembers[i]._id ), 1 );
+            if( user ){
+                members.push( user[0] );
+            }
+        }
+        tempMembers = [];
+
+        updateView();
+    }
+
+    function removeMembers(){
+        for( var i = 0; i < tempDeleteMembers.length; i++ ){
+            var user = members.splice( findIndexById( members, tempDeleteMembers[i]._id ), 1 );
+            if( user ){
+                allUsers.push( user[0] );
+            }
+        }
+        tempDeleteMembers = [];
+
+        updateView();
+
+    }
 
 
 
@@ -127,8 +180,21 @@
       $("#table-all-users").html(html);
   }
 
-  function selectedRowForDelete(){
+  function selectRowForDelete(element){
+    var id =  $(element).attr('data-id');
 
+    tempMembers = [];
+
+    // not selected yet
+    if( findIndexById( tempDeleteMembers, id ) === -1 ){
+        tempDeleteMembers.push( members[ findIndexById( members, id ) ] );
+    }
+    // already selected
+    else{
+        tempDeleteMembers.splice( findIndexById( tempDeleteMembers, id ), 1 );
+    }
+
+    updateView();
   }
 
   function updateMembers(){
@@ -146,7 +212,7 @@
   }
 
   $(document).ready(function(){
-    updateAllUsers();
+    updateView();
   });
 
 </script>
