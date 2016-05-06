@@ -58,12 +58,23 @@ router.get('/:id/edit', function(req, res, next){
 
 	TemplateWorkflow.findOne({ '_id': req.params.id }, function(err, result){
 
+		var wfVariables = '[]';
+		if( result.variables ){
+			wfVariables = JSON.stringify(result.variables);
+		}
+
+		var wfDetails = '{}';
+		if( result.elements ){
+			wfDetails = JSON.stringify(result.elements);
+		}
+
+
 		res.render('wf/create', { 
 			layout:"workflowMain", 
 			wfName: result.name,
 			wfDescription: result.description,
-			wfVariables: JSON.stringify(result.variables),
-			wfDetails: JSON.stringify(result.elements),
+			wfVariables: wfVariables,
+			wfDetails: wfDetails,
 			loadedDiagramXML : '`' + result.xml + '`' 
 		});
 	});
@@ -114,13 +125,18 @@ router.get('/:id/execute', function(req, res, next){
 
 		parseString(xml, function(er, strResult){
 
-			var elements = strResult["bpmn2:definitions"]["bpmn2:process"][0];
+			var collaboration = strResult["bpmn2:definitions"]["bpmn2:collaboration"];
+			var process = strResult["bpmn2:definitions"]["bpmn2:process"];
 
 			var handler = new WorkflowHandler();
 
-			handler.magic( elements );
+			handler.parse( process, collaboration );
+			//handler.magic( elements );
 
-			var execution = new WorkflowExecution({
+			//console.log( handler.elements );
+			res.end("Very Bad Programmer");
+
+			/*var execution = new WorkflowExecution({
 				templateId: result.id,
 				runningElements: handler.currentElements,
 				waitingElements: [],
@@ -139,7 +155,7 @@ router.get('/:id/execute', function(req, res, next){
 					console.log(err);
 					res.end('failed');
 				}
-			});
+			});*/
 
 		});
 	});

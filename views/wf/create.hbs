@@ -184,6 +184,12 @@
 				  	</div>`,
 			footer: `	<button type="button" onclick="doAddCondition()" class="btn btn-default" data-dismiss="modal">Add</button>
 			  			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>`
+		},
+
+		'selectRole': {
+			header: 'Select role',
+			body: '<div class="role-list"></div>',
+			footer: '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'
 		}
 
 	}
@@ -363,7 +369,6 @@
 
   	function doSelectService(element){
   		
-
     	$.ajax({
 			url: "/api/services/" + element.id,
 			type: "GET",
@@ -450,6 +455,51 @@
   		$('.service-detail').html( html );
   	}
 
+  	function startSelectRole(){
+  		setPopupDialog('selectRole');
+  		loadRoles();
+  	}
+
+  	function loadRoles(){
+  		$.ajax({
+			url: "/api/workflow/simpleroles",
+			type: "GET",
+			dataType : "html",
+			success: function( data ) {
+			  	var myjson = JSON.parse(data);
+			  	var roleHtml = "";
+			  	
+			  	for( var i = 0; i < myjson.length; i++ ){
+					roleHtml += '<div>';
+					roleHtml += '<b>' + myjson[i].name + '</b><br>';
+					roleHtml += myjson[i].description + '<br>';
+					roleHtml += '<button data-dismiss="modal" onclick="doSelectRole(this)" data-id="' + myjson[i]._id + '" class="btn btn-default btn-sm">Select</button>';
+					roleHtml += "</div>";
+			  	}
+			  	$('.role-list').html(roleHtml);
+			}
+	  	});
+  	}
+
+  	function doSelectRole(element){
+  		
+  		var myRole = {};
+		myRole.id = element.getAttribute("data-id");
+		myElements[currentElementId].role = myRole;
+		
+		$(".selected-role").html( myRole.id );
+
+		console.log( myElements[currentElementId] );
+  	}
+
+  	function getRole(){
+
+  		if( myElements[currentElementId].role ){
+  			return myElements[currentElementId].role.id;
+  		}
+
+  		return '';
+  	}
 
   function selectService(){
 

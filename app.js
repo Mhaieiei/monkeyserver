@@ -14,7 +14,6 @@ module.exports = function(database) {
   //Add new
   var passport = require('passport');
   var flash = require('connect-flash');
-  var morgan = require('morgan');
   var session = require('express-session');
   var exphbs = require('express3-handlebars');  //handle bars
 
@@ -40,7 +39,7 @@ module.exports = function(database) {
 
   // set up our express application
   //app.use(session({secret:'mhai_fat'}));
-  app.use(morgan('dev')); // log every request to the console
+  app.use(logger('dev')); // log every request to the console
   app.use(cookieParser()); // read cookies (needed for auth)
 
   app.use(bodyParser.json());
@@ -50,7 +49,6 @@ module.exports = function(database) {
   app.use(busboy());
   // uncomment after placing your favicon in /public
   //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-  app.use(logger('dev'));
   app.use(express.static(path.join(__dirname, 'public')));
 
   // required for passport

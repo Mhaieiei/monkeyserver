@@ -23351,6 +23351,10 @@ ContextPad.prototype.getPopup = function(element){
     html += mappingHtml;
 
   }
+  else if( element.type === 'bpmn:Participant'){
+    html += '<div class="selected-role">' + getRole() +'</div>';
+    html += '<button onclick="startSelectRole()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#mainPopup">Select role</button>';
+  }
 
   return html;
 }
