@@ -1,6 +1,17 @@
 <div class="content" style="margin-top: 100px">
 	<h1>Form Creator</h1>
 
+
+	Name:
+	<input type="text" id="form-name">
+
+	<br>
+
+	Description:
+	<input type="text" id="form-description">
+
+	<br>
+
 	<button type="button" id="preview-button" class="btn btn-success" data-toggle="modal" data-target="#previewFormPopup">Preview form</button>
       <!-- Modal -->
       <div id="previewFormPopup" class="modal fade" role="dialog">
@@ -56,14 +67,14 @@
         </div>
       </div>
     
-	<form action="/form/create" method="post">
+	<div>
 		<div class="form-body" style="margin-top: 30px; margin-bottom: 20px">
 			<div id="type-column" class="myfont" style="margin-left: 100px; width: 200px; position: absolute">Type</div>
 			<div id="name-column" class="myfont" style="margin-left: 300px; width: 200px; position: absolute">Name</div>
 			<div id="value-column" class="myfont" style="margin-left: 500px; width: 200px; position: absolute">Value</div>
 		</div>
-	<button class="btn btn-warning save-button">Save</button>
-	</form>
+	<button id="save-button" class="btn btn-warning">Save</button>
+	</div>
 	
 </div>
 
@@ -106,7 +117,22 @@
 			$("#preview-form-body").html( htmlForm );
 	
 		});
-	
+ 
+		$("#save-button").click(function(){
+			$.ajax({
+		        url: "/form/create",
+		        type: "POST",
+		        data: {	
+					name: $("#form-name").val(),
+					description: $("#form-description").val(),
+					elements: elementList
+				},
+		        success: function( data ) {
+		        	
+		         	alert(data);
+		        }
+		     });
+		});
 	});
 </script>
 

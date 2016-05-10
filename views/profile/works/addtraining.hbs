@@ -1,0 +1,68 @@
+
+<div class="container">
+ <form class="form-horizontal" role="form"  action="/traininf/addtraining" method="post" id = "myForm" > 
+      
+          <p hidden>    
+            <input type="text" class="form-control" name="username" id="inputType" value={{username}}>
+          </p>
+           <h3>Add new training course</h3>
+          <div class="form-group"> 
+              <label for="inputType" class="col-md-2 control-label">Name of Traning course: </label>
+              <div class="col-md-4">
+                    <input type="text" class="form-control" name="nametrain" id="inputType">
+              </div>     
+                  
+              <label for="inputType" class="col-md-1 control-label">Hours: </label>
+              <div class="col-md-4">
+                 <input type="text" class="form-control" id="inputType" name="hour">
+              </div>
+
+          </div>
+
+          <div class="form-group">
+                      <label for="inputType" class="col-md-2 control-label">Acedamic Year : </label>
+                      <div class="col-md-4">        
+                      <select class="form-control" style="width:100px" name="acyear">
+                                  <option value="2012">2012</option>
+                                  <option value="2013">2013</option>
+                                  <option value="2014">2014</option>
+                                  <option value="2015">2015</option>
+                                  <option value="2016">2016</option>
+                      </select> 
+                      </div>
+                      <label for="inputType" class="col-md-1 control-label">Program: </label>
+                      <div class="col-md-4">
+                        <select class="form-control" style="width:200px" id="sub_programs" name="subprogram">
+                               
+                            {{#each faculty}} 
+                                 {{#each sub_program}}
+                                  <option  value="{{this}}">{{this}}</option>         
+                                  {{/each}}                    
+                            {{/each}}
+                        </select>
+                      </div>
+
+                     
+                     
+                      
+                      <div class="table-foot muffin"> 
+                        
+                        
+                      </div>
+                      </div>
+                     </div>
+            </div>
+          </div>
+           <div class="form-group">      
+              
+                  <p align = "right"><button id="tab_2_submit" class="btn btn-primary" type="submit">Submit</button></p>
+              
+
+          </div>
+
+</form>
+             
+</div>  
+  
+   
+

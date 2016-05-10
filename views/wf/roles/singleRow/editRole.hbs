@@ -1,0 +1,71 @@
+<br><br><br>
+
+<h1>Role configuration</h1>
+
+  <div class="form-group">
+    <label for="roleName">Role Name</label>
+    <br>
+    {{allData.data1.name}}
+  </div>
+  <div class="form-group">
+  	<label for="description">Description</label>
+    <br>
+  	{{allData.data1.description}}
+  </div>
+<form action="#" method="update">
+  <div class="row">
+    <div class="col-xs-6 col-sm-4">
+    	<center><label> Members </label></center>
+      <table class="table table-hover">
+        {{#each allData.data1.members}}
+        <tr>
+          <td id="{{this}}" class="choosed">
+            {{this}}
+          </td>
+        </tr>
+        {{/each}}
+      </table>
+      
+    </div>
+    <div class="col-xs-6 col-sm-4">
+      <a class="btn btn-default btn-block" href="#" role="button">Add</a>
+    </div>
+
+    <div class="col-xs-6 col-sm-4">
+      <center><label> All users </label></center>
+      <table class="table table-hover">
+        {{#each allData.data2}}
+        <tr>
+          <td id="{{this._id}}" class="all-users">
+            {{this._id}}
+          </td>
+        </tr>
+        {{/each}}
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-6 col-sm-4">
+    </div>
+    <div class="col-xs-6 col-sm-4">
+    <a class="btn btn-default btn-block" href="#" role="button">Remove</a>
+  </div>
+  </div>
+
+  <br><br>
+  <div class="row">
+    <div class="col-xs-6 col-sm-3">
+      <a class="btn btn-default btn-block" href="/roleManagement" role="button">Cancel</a>
+    </div>
+    <div class="col-xs-6 col-sm-3">
+    </div>
+    <div class="col-xs-6 col-sm-3">
+      <a class="btn btn-default btn-block" href="/roleManagement/{{allData.data1._id}}/delete">Delete</a>
+    </div>
+    <div class="col-xs-6 col-sm-3">
+      <input type="submit" class="btn btn-default btn-block" value="Save">
+    </div>
+
+  </div>
+</form>
+

@@ -50,11 +50,23 @@
            
                 
                     <br>
-                        <form class="form-horizontal" role="form" action="/addsubprogram" method="post">
+                        <form class="form-horizontal" role="form" action="/admin/addsubprogram" method="post">
                             <p hidden> 
                             <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>    
                             <input type="text" tabindex="1"  name="acid" value ="{{acid}}" readonly=""><br>
                             </p>
+
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Plan : </label>
+                              <div class="col-md-4">
+                                <select class="form-control" style="width:100px" name="plan">
+                                    {{#each plan}}
+                                        <option value="{{plan}}">{{plan}}</option>
+                                    {{/each}}
+                                </select>
+                              </div>
+                              
+                            </div>
 
                             <div class="form-group">
                               <label for="inputType" class="col-md-2 control-label">Year Level : </label>
@@ -75,9 +87,7 @@
                                 </select>
                               </div>
                            
-                     <div class="btn-group">
-                        <button id="tab_2_submit" class="btn btn-mini" type="button" onclick="insRow()">Insert</button>
-                    </div>
+                     
                   <div class="row content">       
                         <div id="tab_2"><table class="table muffin table-striped table-hover margin-bottom0" id="subjecttable">
                         <thead>
@@ -87,7 +97,8 @@
                             <th><a href="javascript:table_sort('tab_2',2)">Subject name</a></th>
                             <th><a href="javascript:table_sort('tab_2',3)">Subject Lecturer</a></th>
                             <th><a href="javascript:table_sort('tab_2',4)">Subject Credits</a></th>
-                            <th><a href="javascript:table_sort('tab_2',4)">Delete</a></th>                            
+                            <th><a href="javascript:table_sort('tab_2',5)">Add</a></th>
+                            <th><a href="javascript:table_sort('tab_2',6)">Delete</a></th>                            
                             </tr>
                         </thead>
                         <tbody id="subjectbody">
@@ -97,6 +108,11 @@
                             <td><input type="text" name="subject_name"></td>
                             <td><input type="text" name="subject_lec"></td>
                             <td><input type="text" name="subject_credit"> </td>
+
+                            <div class="btn-group">
+                               <td> <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span></button>
+                                </td>
+                              </div> 
                             <td>
                                 <button class="btn btn-xs btn-warning" id="delPOIbutton" value="Delete" onclick="deleteRow(this)">
                                 

@@ -1,0 +1,28 @@
+<h1>Roles</h1>
+
+
+<a href="/roleManagement/createRole"><ins><i>Create</i></ins></a>
+<br>
+<div class="table-responsive">
+  <table class="table">
+    <tr> <!-- row-->
+    	<td> <!--column -->
+    		<b>Role Name</b>
+    	</td>
+    	<td>
+    		<b>Description</b>
+    	</td>
+    </tr>
+    {{#each data}}
+        <tr>
+        	<td>
+        		<a href="/roleManagement/{{this._id}}/editRole">{{this.name}}</a>
+        	</td>
+        	<td>
+        		{{this.description}}
+        	</td>
+        </tr>
+    {{/each}}
+  </table>
+</div>
+

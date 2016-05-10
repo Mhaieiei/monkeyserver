@@ -1,40 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang=''>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 
-    <title>Monkey Office</title>
+   <!-- Custom CSS -->
+   <link href="/stylesheets/style.css" rel="stylesheet">
+   <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+   <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">-->
+   <link href="/stylesheets/semantic.css" rel="stylesheet">
+   <link href="/stylesheets/modern-business.css" rel="stylesheet">
+   <!--<link href="/stylesheets/file-tree.min.css" rel="stylesheet">-->
+   <!--<link href="/stylesheets/tabs.css" rel="stylesheet">-->
     
-    <!-- Bootstrap Core CSS -->
-	
-    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
-    <!-- <link rel="stylesheet" href="/stylesheets/bootstrap-submenu.min.css">-->
-	
-
-    <!-- Custom CSS -->
-    <link href="/stylesheets/semantic.css" rel="stylesheet">
-    <link href="/stylesheets/modern-business.css" rel="stylesheet">
-    <link href="/stylesheets/file-tree.min.css" rel="stylesheet">
-    <link href="/stylesheets/tabs.css" rel="stylesheet">
-    <link rel="stylesheet" href="/stylesheets/style.css" type="text/css" id="" media="print, projection, screen" />
 	  <!-- <script type="text/javascript" src="/javascripts/jquery-latest.js"></script> 
     <script type="text/javascript" src="/javascripts/jquery.tablesorter.js"></script> -->
-    
 
+    <script type="text/javascript" src="/javascripts/sidebar.js"></script>
+    
     <!-- Custom Fonts -->
     <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript">
-    $(function() {
-        $("table").tablesorter({debug: true});
-    });
-    </script>
+    
+    <title>Monkey Office</title>
+   
 </head>
+
 
 <body>
 
@@ -69,9 +62,9 @@
                         <li class="dropdown-submenu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings</a>
                             <ul class="dropdown-menu">
-                                <li><a href="/user">Users</a></li>
-                                <li><a href="/programs">Programs</a></li>
-                                <li><a href="/subjects">Subjects</a></li>
+                                <li><a href="/admin/user">Users</a></li>
+                                <li><a href="/admin/programs">Programs</a></li>
+                                <li><a href="/admin/subjects">Subjects</a></li>
                 
                             </ul>
                         </li>
@@ -106,145 +99,137 @@
     </nav>
     </header>
 
-    <!-- <div class="main">
-      <aside>
-        <div class="inner">
-          <div class="pusher">
-              <div class="ui vertical menu">
-              <div class="header item">
+    <p hidden>     
+      <input type="text" tabindex="1"  name="program" id="program" value="{{programname}}"><br>
+      <input type="text" tabindex="1" name="year" id="year" value="{{year}}"><br>
+      <input type="text" tabindex="1" name="acid" id="acid" value="{{acid}}"><br>
+    </p>
+   <br>
+  
+  <aside>
+    <div id='cssmenu'>
+        <ul>
+           <li class='active has-sub'><a href='#'><span> TQF: Thai qualification framwork for higher education </span></a>
+              <ul>
+
+
+                <li><a href="/tqf/tqf21?program={{programname}}&year={{year}}&acid={{acid}}"><span>TQF 1: Program faculty members</span></a>
+                <li><a href="/tqf/tqf22?program={{programname}}&year={{year}}&acid={{acid}}"><span>TQF 2: Lecturer and Instructors</span></a></li>
+                <li><a href="/tqf/tqf23?program={{programname}}&year={{year}}&acid={{acid}}">TQF 3: Thesis Advisors and Thesis Examination Committees</a></li>
+                <li><a href="/tqf/tqf24?program={{programname}}&year={{year}}&acid={{acid}}">TQF 4: Publications</a></li>
+                <li><a href="/tqf/tqf25?program={{programname}}&year={{year}}&acid={{acid}}">TQF 5: Program management</a></li>
+              </ul>
+            <li>
+            <li><a href='#'><span> AUN: </span></a>
+                <li class='active has-sub'><a href='#'><span> AUN 1: Expected Learing Outcomes</span></a>
+                <ul>
+                    <li><a href="/aun/aun1-1?program={{programname}}&year={{year}}&acid={{acid}}">AUN 1.1 (ELO)</a></li>
+                    <li><a href="/aun/aun1-3?program={{programname}}&year={{year}}&acid={{acid}}">AUN 1.3: The expected learning outcomes cover both generic and specialised skills and knowledge</a></li>
+                    <li><a href="/aun/aun1-4?program={{programname}}&year={{year}}&acid={{acid}}">AUN 1.4: The expected learning outcomes clearly reflect the requirements of the stakeholders </a></li>
+                </ul>
+                </li>
+                <li class='has-sub'><a href='#'><span>AUN 2: Program Specification</span></a>
+                    <ul>
+                       <li> <a href="/aun/aun2-1?program={{programname}}&year={{year}}&acid={{acid}}">AUN 2.1: The university uses program specification</a></li>
+                    </ul>
+                 </li>
+                <li class='has-sub'><a href='#'><span>AUN 3: Program Structure and Content </span></a>
+                    <ul>
+                        <li><a href="/aun/aun3-3?program={{programname}}&year={{year}}&acid={{acid}}">AUN 3.3: The contribution made by each course to achieving the learning outcomes is clear</a></li>
+                    </ul>
+                <li>
+                <li class='has-sub'><a href='#'><span>AUN 5: Student Assessment </span></a>
+                    <ul>
+                        <li><a href="">AUN 5.2: The assessment is criterion-referenced</a>
+                        <li><a class="item" href="/aun/aun5-3?program={{programname}}&year={{year}}&acid={{acid}}">AUN 5.3: Student assessment uses a variety of methods</a></li>   
+                    </ul>
+                <li>
+
+                <li class='has-sub'><a href='#'><span>AUN 6: Staff Quality </span></a>
+                    <ul>
+                        <li><a  href="/aun/aun6-1?program={{programname}}&year={{year}}&acid={{acid}}">AUN 6.1:  The staff are competent for their tasks</a></li>
+                        <li><a  href="/aun/aun6-2?program={{programname}}&year={{year}}&acid={{acid}}">AUN 6.2: The staff are sufficient to deliver the curriculum adequately</a></li>
+                        <li><a  href="">AUN 6.4: The roles and relationship of staff members are well defined and understood</a></li>
+                        <li><a  href="/aun/aun6-9?program={{programname}}&year={{year}}&acid={{acid}}">AUN 6.9: Termination and retiremnet are planned and well implemented</a></li>
+                       
+                    </ul>
+                <li>
+
+                <li class='has-sub'><a href='#'><span>AUN 7: Support Staff Quality </span></a>
+                    <ul>
+                        <li><a href="/aun/aun7?program={{programname}}&year={{year}}&acid={{acid}}">AUN 7: Support Staff Quality</a></li>
+                       
+                    </ul>
+                <li>
+
+                <li class='has-sub'><a href='#'><span>AUN8 : Student Quality </span></a>
+                    <ul>
+                         <li><a href="/aun/aun8-3?program={{programname}}&year={{year}}&acid={{acid}}">AUN 8.3: The actual study load is in line with the prescribed load</a></li>
+                      
+                    </ul>
+                <li>
+
                 
-                TQF : Thai qualification framwork for higher education
-              </div>
-              <div class="menu">
-                <a class="item" href="/tqf21?program='+program+'&year='+year">TQF1: Program faculty members</a>
-                <a class="item" href="/tqf22?program='+program+'&year='+year+'&acid='+acid">TQF2: Lecturer and Instructors</a>
-                <a class="item" href="/tqf23?acid='+acid">TQF3: Thesis Advisors and Thesis Examination Committees</a>
-                <a class="item" href="/tqf24?acid='+acid">TQF4: Publications</a>
-                <a class="item" href="qa-tqf5.hbs">TQF5: Program management</a>
-              </div>
-              
-              <a class="header item">
-                AUN:
-              </a>
-              <div class="item">
-                AUN1: 
-                <div class="menu">
-                    <a class="item" href="/aun1-3?program='+program+'&year='+year+'&acid='+acid">AUN 1.3</a>
-                    <a class="item" href="/aun1-4?program='+program+'&year='+year+'&acid='+acid">AUN 1.4</a>  
-                </div>
-              </div>
-              <div class="item">
-                AUN2: 
-                 <div class="menu">
-                    <a class="item" href="/aun2-1?program='+program+'&year='+year+'&acid='+acid">AUN 2.1</a>
-                </div>
-              </div>
-              <div class="item">
-                AUN3: 
-                 <div class="menu">
-                <a class="item" href="/aun3-3?program='+program+'&year='+year+'&acid='+acid">AUN 3.3</a>
-                </div>
-              </div>
-              <div class="item">
-                AUN5: 
-                 <div class="menu">
-                <a class="item" href="">AUN 5.2</a>
-                <a class="item" href="/aun5-3?program='+program+'&year='+year+'&acid='+acid">AUN 5.3</a>
-                </div>
-              </div>
-              <div class="item">
-                AUN6: 
-                 <div class="menu">
-                <a class="item" href="/aun6-1?program='+program+'&year='+year+'&acid='+acid">AUN 6.1</a>
-                <a class="item" href="/aun6-2?program='+program+'&year='+year+'&acid='+acid">AUN 6.2</a>
-                <a class="item" href="">AUN 6.4</a>
-                <a class="item" href="">AUN 6.9</a>
-               </div>
-              </div>
-              <div class="item">
-                AUN7: 
-                 <div class="menu">
-                <a class="item" href="/aun7?program='+program+'&year='+year+'&acid='+acid">AUN 7</a>
-                </div>
-              </div>
-              <div class="item">
-                AUN8: 
-                 <div class="menu">
-                <a class="item" href="/aun8-3?program='+program+'&year='+year+'&acid='+acid">AUN 8.3</a>
-                </div>
-              </div>
-              <div class="item">
-                AUN10: 
-                 <div class="menu">
-                <a class="item" href="/aun10-1?program='+program+'&year='+year+'&acid='+acid">AUN 10.1</a>
-              </div>
-              </div>
-              <div class="item">
-                AUN11: 
-                 <div class="menu">
-                <a class="item" href="/aun11-1?program='+program+'&year='+year+'&acid='+acid">AUN 11.1</a>
-                 <a class="item" href="/aun11-4?program='+program+'&year='+year+'&acid='+acid">AUN 11.4</a>
-              </div>
-              </div>
-               <div class="item">
-                AUN12: 
-                 <div class="menu">
-                <a class="item" href="/aun12-1?program='+program+'&year='+year+'&acid='+acid">AUN 12.1</a>
-                <a class="item" href="">AUN 12.2</a>
-              </div>
-              </div>
-              <div class="item">
-                AUN13: 
-                 <div class="menu">
-                <a class="item" href="">AUN 13.2</a>
-              </div>
-              </div>
-               <div class="item">
-                AUN14: 
-                 <div class="menu">
-                    <a class="item" href="/aun12-1?program='+program+'&year='+year+'&acid='+acid">AUN 14.1</a>
-                    <a class="item" href="">AUN 14.4</a>
-                </div>
-               </div>
 
-            
-            </div>
+                <li class='has-sub'><a href='#'><span>AUN10 : Facilities and Infrastructure </span></a>
+                    <ul>
+                        <li><a href="/aun/aun10-1?program={{programname}}&year={{year}}&acid={{acid}}">AUN 10.1: The lecture facilities(lecture halls, small course rooms) are adequate</a></li>
+                    </ul>
+                <li>
+
+                <li class='has-sub'><a href='#'><span>AUN 11: Quality Assurence of Teching and Learning Process</span></a>
+                    <ul>
+                        <li><a href="/aun/aun11-1?program={{programname}}&year={{year}}&acid={{acid}}">AUN 11.1: The curriculum is developed by all teaching staff members</a></li>
+                        <li><a href="/aun/aun11-4?program={{programname}}&year={{year}}&acid={{acid}}">AUN 11.4: The curriculum is regurly evaluated at reasonable time periods</a></li>
+                        
+                    </ul>
+                <li>
+
+                <li class='has-sub'><a href='#'><span>AUN 12: Staff Development Activites</span></a>
+                    <ul>
+                         <li><a href="/aun/aun12-1?program={{programname}}&year={{year}}&acid={{acid}}">AUN 12.1: There is a clear plan on the needs for training and developement of both academic and support staff </a></li>
+                        <li><a href="/aun/aun12-2?program={{programname}}&year={{year}}&acid={{acid}}">AUN 12.2: The training and development activites for both academic and support staff are adequate to the identified needs</a></li>
+                    </ul>
+                <li>
+
+                <li class='has-sub'><a href='#'><span>AUN 13: Stakeholders Feedback </span></a>
+                    <ul>
+                         <li><a href="/aun/aun13-2?program={{programname}}&year={{year}}&acid={{acid}}">AUN 13.2: There is adequate structured feedback from the students and alumni</a></li>
+
+                        
+                    </ul>
+                <li>
+                <li class='has-sub'><a href='#'><span>AUN 14: Output </span></a>
+                    <ul>
+                        <li><a href="/aun/aun14-1?program={{programname}}&year={{year}}&acid={{acid}}">AUN 14.1: The pass rate is satisfactory and dropout rate is of acceptable level</a>
+                        <li><a  href="/aun/aun14-4?program={{programname}}&year={{year}}&acid={{acid}}">AUN 14.4: The level of research activies by academic staff and students is satisfactory</a></li>
+
+                    </ul>
+                </li>
+            </li>
+        </ul>
+     </div>
+  </aside>
+
+  <section>
+     <div class="span3">
+        <div class ="well">
+            {{{body}}}  
+
         </div>
-      </aside>
+    </div>
+  </section>
+  
 
-      <div class="content">
-        <div class="inner">
-           
-        </div>
-      </div>
-    </div>   
-  </div>  -->
 
-<div id="qass-search" class="container">
-          <header><h2>QASS</h2></header>
-          <table width="100%" border="0">
-                 <tr valign="top">
-                    <td width="30%">
-                      <div class="container-fluid">
-                          <div class="row-fluid">
-                              <div class="span10">
-                                  <div class="col-md-10">           
-                                      <div id="sortable-tree"></div>
-                                  </div>
-                              </div><!--/span-->
-                          </div><!--row-->
-                      </div><!--fluid-->
-                    </td>
-                </tr>  
-           </table>
-  </div>
+
       
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> 
 <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> 
 <script src="/javascripts/file-tree.min.js"></script>
-{{{body}}}
+
 
 
 

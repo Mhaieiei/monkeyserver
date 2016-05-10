@@ -1,198 +1,171 @@
-
-
-<%- include ../header.ejs %>
-
+<%- include ../headerqa.ejs %>
 <%if(examiner.length > 0){%>
 <%
-	var m,n;
-	var conworks =[[],[]];
-	var jourworks =[[],[]];
-	for(m=0;m< examiner.length;m++){
-		for(n=0; n< examiner[m].works.length; n++){
-			conworks.push([]);
-			jourworks.push([]);
-			if(examiner[m].works[n].workid.typepublic == 'intercon'){
-				conworks[m].push(examiner[m].works[n]);
-			}
-			else{
-				jourworks[m].push(examiner[m].works[n]);
-			}
-			
-		}	
-	}
-	
-%>	
-	
-	
-
-<body>
-        <td>
-            <div class="container-fluid">
-            <div class="row-fluid">
-            <div class="span12">
-            <div class="col-md-12"> 
-           
+   var m,n;
+   var conworks =[[],[]];
+   var jourworks =[[],[]];
+   for(m=0;m< examiner.length;m++){
+    for(n=0; n< examiner[m].works.length; n++){
+      conworks.push([]);
+      jourworks.push([]);
+      if(examiner[m].works[n].workid.typepublic == 'intercon'){
+        conworks[m].push(examiner[m].works[n]);
+      }
+      else{
+        jourworks[m].push(examiner[m].works[n]);
+      }
+      
+    } 
+   }
+   
+   %> 
+<section>
+   <div class ="well">
+   <body>
+      <td>
+         <div class="container-fluid">
+         <div class="row-fluid">
+         <div class="span12">
+         <div class="col-md-12">
             <!--<form class="form-horizontal" role="form">-->
-                <h3>Publications</h3>
-                <h4>Publications of Advisors</h4>
-                <h5>Table : List of selected advisors' recent publication</h5>
-                <br>
-                <div id="tab_tqf4"><table class="table muffin">
-                <thead align="center">
-                    <tr>
+            <h3>Publications</h3>
+            <h4>Publications of Advisors</h4>
+            <h5>Table : List of selected advisors' recent publication</h5>
+            <br>
+            <div id="tab_tqf4">
+               <table class="table muffin">
+                  <thead align="center">
+                     <tr>
                         <th width="40"><a href="javascript:table_sort('tab_tqf4',0)">No.</a></th>
                         <th><a href="javascript:table_sort('tab_tqf4',1)">Title</a></th>
                         <th><a href="javascript:table_sort('tab_tqf4',2)">Name-Surname</a></th>
-						<th><a href="javascript:table_sort('tab_tqf4',3)">Type of Publication</a></th>
-						<th><a href="javascript:table_sort('tab_tqf4',3)">Selected Publications</a></th>
-                    </tr> 
-
-
-					<tr>
+                        <th><a href="javascript:table_sort('tab_tqf4',3)">Type of Publication</a></th>
+                        <th><a href="javascript:table_sort('tab_tqf4',3)">Selected Publications</a></th>
+                     </tr>
+                     <tr>
                         <th ></th>
                         <th></a></th>
                         <th></th>
-							<th></th>
-						<th></th>
                         <th></th>
-					
-						<th></th>
-                    </tr> 
-					
-                </thead>
-          <%if(examiner.length >0){%>
-              <% var index=0,i=0,j=0,k=0;
-              	for(i=0;i< examiner.length;i++){ 
-              	if(examiner[i]._id.local.role == "staff"){%>
-              	  
-                <tbody>
-                    <tr>
-                    <td><%= ++index %></td>
-                    <td><%= examiner[i]._id.local.title %></td>
-                    <td><%= examiner[i]._id.local.name %> <%= examiner[i]._id.local.surname %></td>
-                    <td>International Conferences</td>
-                    <td>
-                     <%for(j=0;j< conworks[i].length;j++){%>
-                     	[<%= j+1 %>]
-                     	"<%= conworks[i][j].workid.namepublic %>," <%= conworks[i][j].workid.nameconfer %>,
-                     	 <%= conworks[i][j].workid.page %>,<%= conworks[i][j].workid.location %>,
-                     	 <%= conworks[i][j].workid.datenum %><br>
-              	      <%}%>
-                    </td>
-                    </tr>
-                   
-                </tbody>
-                <tbody>
-                    <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>International Journals</td>
-                    <td><%for(k=0;k< jourworks[i].length;k++){%>
-                    	[<%= k+1 %>]
-              	         "<%= jourworks[i][k].workid.namepublic %>," <%= jourworks[i][k].workid.namejournal %>,
-              	         <%= jourworks[i][k].workid.vol %>,<%= jourworks[i][k].workid.issue %>,
-              	         <%= jourworks[i][k].workid.datenum %>, <%= jourworks[i][k].workid.page %>,
-              	         <%= jourworks[i][k].workid.article %> <br>
-              	        <%}%>
-              	     </td>
-                    </tr>
-                   
-                </tbody>
-
-
-
-             <% } 
-             }
-             }
-             %>	
-                </table>
-                <br>
-                <br>
-                <h5>Table : List of publication of graduated student</h5>
-                <br>
-                <div id="tab_tqf4"><table class="table muffin">
-                <thead align="center">
-                    <tr>
-                        <th width="40"><a href="javascript:table_sort('tab_tqf4',0)">No.</a></th>
-                        <th><a href="javascript:table_sort('tab_tqf4',1)">Title</a></th>
-                        <th><a href="javascript:table_sort('tab_tqf4',2)">Name-Surname</a></th>
-						<th><a href="javascript:table_sort('tab_tqf4',3)">Type of Publication</a></th>
-						<th><a href="javascript:table_sort('tab_tqf4',3)">Selected Publications</a></th>
-                    </tr> 
-
-
-					<tr>
-                        <th ></th>
-                        <th></a></th>
                         <th></th>
-							<th></th>
-						<th></th>
                         <th></th>
-					
-						<th></th>
-                    </tr> 
-					
-                </thead>
-          <%if(examiner.length >0){%>
-              <% var index=0,i=0,j=0,k=0;
-              	for(i=0;i< examiner.length;i++){ 
-              	if(examiner[i]._id.local.role == "student"){%>
-              	  
-                <tbody>
-                    <tr>
-                    <td><%= ++index %></td>
-                    <td><%= examiner[i]._id.local.title %></td>
-                    <td><%= examiner[i]._id.local.name %> <%= examiner[i]._id.local.surname %></td>
-                    <td>International Conferences</td>
-                    <td>
-                     <%for(j=0;j< conworks[i].length;j++){%>
-                     	[<%= j+1 %>]
-                     	"<%= conworks[i][j].workid.namepublic %>," <%= conworks[i][j].workid.nameconfer %>,
-                     	 <%= conworks[i][j].workid.page %>,<%= conworks[i][j].workid.location %>,
-                     	 <%= conworks[i][j].workid.datenum %><br>
-              	      <%}%>
-                    </td>
-                    </tr>
-                   
-                </tbody>
-                <tbody>
-                    <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>International Journals</td>
-                    <td><%for(k=0;k< jourworks[i].length;k++){%>
-                    	[<%= k+1 %>]
-              	        "<%= jourworks[i][k].workid.namepublic %>," <%= jourworks[i][k].workid.namejournal %>,
-              	         <%= jourworks[i][k].workid.vol %>,<%= jourworks[i][k].workid.issue %>,
-              	         <%= jourworks[i][k].workid.datenum %>, <%= jourworks[i][k].workid.page %>,
-              	         <%= jourworks[i][k].workid.article %> <br>
-              	        <%}%>
-              	     </td>
-                    </tr>
-                   
-                </tbody>
-
-
-
-             <% } 
-             }
-             }
-             %>	
-                </table>
-                <br>
-                <br>
-                </div>
-            </form>
+                        <th></th>
+                     </tr>
+                  </thead>
+                  <%if(examiner.length >0){%>
+                  <% var index=0,i=0,j=0,k=0;
+                     for(i=0;i< examiner.length;i++){ 
+                     if(examiner[i]._id.local.role == "staff"){%>
+                  <tbody>
+                     <tr>
+                        <td><%= ++index %></td>
+                        <td><%= examiner[i]._id.local.title %></td>
+                        <td><%= examiner[i]._id.local.name %> <%= examiner[i]._id.local.surname %></td>
+                        <td>International Conferences</td>
+                        <td>
+                           <%for(j=0;j< conworks[i].length;j++){%>
+                           [<%= j+1 %>]
+                           "<%= conworks[i][j].workid.namepublic %>," <%= conworks[i][j].workid.nameconfer %>,
+                           <%= conworks[i][j].workid.page %>,<%= conworks[i][j].workid.location %>,
+                           <%= conworks[i][j].workid.datenum %><br>
+                           <%}%>
+                        </td>
+                     </tr>
+                  </tbody>
+                  <tbody>
+                     <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>International Journals</td>
+                        <td><%for(k=0;k< jourworks[i].length;k++){%>
+                           [<%= k+1 %>]
+                           "<%= jourworks[i][k].workid.namepublic %>," <%= jourworks[i][k].workid.namejournal %>,
+                           <%= jourworks[i][k].workid.vol %>,<%= jourworks[i][k].workid.issue %>,
+                           <%= jourworks[i][k].workid.datenum %>, <%= jourworks[i][k].workid.page %>,
+                           <%= jourworks[i][k].workid.article %> <br>
+                           <%}%>
+                        </td>
+                     </tr>
+                  </tbody>
+                  <% } 
+                     }
+                     }
+                     %> 
+               </table>
+               <br>
+               <br>
+               <h5>Table : List of publication of graduated student</h5>
+               <br>
+               <div id="tab_tqf4">
+                  <table class="table muffin">
+                     <thead align="center">
+                        <tr>
+                           <th width="40"><a href="javascript:table_sort('tab_tqf4',0)">No.</a></th>
+                           <th><a href="javascript:table_sort('tab_tqf4',1)">Title</a></th>
+                           <th><a href="javascript:table_sort('tab_tqf4',2)">Name-Surname</a></th>
+                           <th><a href="javascript:table_sort('tab_tqf4',3)">Type of Publication</a></th>
+                           <th><a href="javascript:table_sort('tab_tqf4',3)">Selected Publications</a></th>
+                        </tr>
+                        <tr>
+                           <th ></th>
+                           <th></a></th>
+                           <th></th>
+                           <th></th>
+                           <th></th>
+                           <th></th>
+                           <th></th>
+                        </tr>
+                     </thead>
+                     <%if(examiner.length >0){%>
+                     <% var index=0,i=0,j=0,k=0;
+                        for(i=0;i< examiner.length;i++){ 
+                        if(examiner[i]._id.local.role == "student"){%>
+                     <tbody>
+                        <tr>
+                           <td><%= ++index %></td>
+                           <td><%= examiner[i]._id.local.title %></td>
+                           <td><%= examiner[i]._id.local.name %> <%= examiner[i]._id.local.surname %></td>
+                           <td>International Conferences</td>
+                           <td>
+                              <%for(j=0;j< conworks[i].length;j++){%>
+                              [<%= j+1 %>]
+                              "<%= conworks[i][j].workid.namepublic %>," <%= conworks[i][j].workid.nameconfer %>,
+                              <%= conworks[i][j].workid.page %>,<%= conworks[i][j].workid.location %>,
+                              <%= conworks[i][j].workid.datenum %><br>
+                              <%}%>
+                           </td>
+                        </tr>
+                     </tbody>
+                     <tbody>
+                        <tr>
+                           <td></td>
+                           <td></td>
+                           <td></td>
+                           <td>International Journals</td>
+                           <td><%for(k=0;k< jourworks[i].length;k++){%>
+                              [<%= k+1 %>]
+                              "<%= jourworks[i][k].workid.namepublic %>," <%= jourworks[i][k].workid.namejournal %>,
+                              <%= jourworks[i][k].workid.vol %>,<%= jourworks[i][k].workid.issue %>,
+                              <%= jourworks[i][k].workid.datenum %>, <%= jourworks[i][k].workid.page %>,
+                              <%= jourworks[i][k].workid.article %> <br>
+                              <%}%>
+                           </td>
+                        </tr>
+                     </tbody>
+                     <% } 
+                        }
+                        }
+                        %>  
+                  </table>
+                  <br>
+                  <br>
+               </div>
+               </form>
             </div>
-        </td>
-
-
-</body>	
-
+      </td>
+   </body>
+   </div>
+</section>
 <%}%>
-
-	
-	
 <%- include ../footer.ejs %>

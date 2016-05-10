@@ -1,0 +1,219 @@
+<h1>Role configuration</h1>
+
+  <div class="form-group">
+    <label for="roleName">Role Name</label>
+    <input type="text" id="role-name" name="name" class="form-control" placeholder="Role name">
+  </div>
+  <div class="form-group">
+  	<label for="description">Description</label>
+  	<input type="text" id="role-description" name="description" class="form-control" placeholder="Description"> 
+  </div>
+  <div class="row">
+    <div class="col-xs-6 col-sm-4">
+    	<center><label> Members </label></center>
+      <table id="members-list" class="table table-hover">
+      </table>      
+    </div>
+    <div class="col-xs-6 col-sm-4">
+      <button onclick="addMembers()" class="btn btn-default btn-block" role="button">Add</button>
+    </div>
+
+    <div class="col-xs-6 col-sm-4">
+      <center><label> All users </label></center>
+      
+      <table id="table-all-users" class="table table-hover result">
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-6 col-sm-4">
+    </div>
+    <div class="col-xs-6 col-sm-4">
+        <button onclick="removeMembers()" class="btn btn-default btn-block" role="button">Remove</button>
+    </div>
+  </div>
+
+  <br><br>
+  <div class="row">
+    <div class="col-xs-6 col-sm-3">
+      <a class="btn btn-default btn-block" href="/roleManagement" role="button">Cancel</a>
+    </div>
+    <div class="col-xs-6 col-sm-3">
+    </div>
+    <div class="col-xs-6 col-sm-3">
+    </div>
+    <div class="col-xs-6 col-sm-3">
+      <button onclick="saveRole()" class="btn btn-default btn-block">Save</button>
+    </div>
+  </div>
+
+<script>
+  
+  var allUsers = {{{users}}};
+  var members = [];
+  var tempMembers = [];
+  var tempDeleteMembers = [];
+
+  //change row color when selected in processing  
+  $(function() {  
+    $('.all-users').click(function(){
+      $(this).toggleClass('selected');
+    });
+  });
+
+  function saveRole(){
+    $.ajax({
+      url: "/rolemanagement/save",
+          type: "POST",
+          data: { 
+            name: $('#role-name').val(),
+            description: $('#role-description').val(),
+            members:members
+          },
+          success: function( data ) {
+            //alert('success saving data');
+            window.location.replace("/roleManagement");
+          }
+    });
+  }
+
+  function clickRow(element){
+    var id = $(element).attr('data-id');
+
+    tempDeleteMembers = [];
+
+    // not selected yet
+    if( findIndexById( tempMembers, id ) === -1 ){
+        tempMembers.push( allUsers[ findIndexById( allUsers, id ) ] );
+    }
+    // already selected
+    else{
+        tempMembers.splice( findIndexById( tempMembers, id ), 1 );
+    }
+
+    updateView();
+
+  }
+
+    function updateView(){
+        console.log( members );
+        $("#table-all-users").html("");
+        var htmlAllUsers = "";
+        for(var i = 0; i < allUsers.length; i++ ){
+
+            var extendedClass = '';
+            if( findIndexById( tempMembers, allUsers[i]._id ) != -1 ){
+                extendedClass = ' selected';
+            }
+
+            htmlAllUsers += '<tr><td data-id="' + allUsers[i]._id + '" class="all-users' + extendedClass + '" onclick="clickRow(this)">';
+            htmlAllUsers +=  allUsers[i]._id + '</td></tr>';
+
+         }
+        $("#table-all-users").html(htmlAllUsers);
+
+        var htmlMembers = "";
+        $("#members-list").html("");
+
+        for(var i = 0;i < members.length; i++){
+
+            var extendedClass = '';
+            if( findIndexById( tempDeleteMembers, members[i]._id ) != -1 ){
+                extendedClass = ' selected';
+            }
+
+            htmlMembers += '<tr><td onclick="selectRowForDelete(this)" class="all-users' + extendedClass + '" data-id="'+members[i]._id+'">';
+            htmlMembers += members[i]._id + '</td>';
+            htmlMembers += '</tr>';
+        }      
+        $("#members-list").html(htmlMembers);
+
+
+    }
+
+  function findIndexById( list, id ){
+    var index = -1;
+    for( var i = 0; i < list.length; i++ ){
+        console.log( typeof id );
+      if( list[i]._id === id ){
+        return i;
+      }
+    }
+    return index;
+  }
+
+    function addMembers(){
+    
+        for( var i = 0; i < tempMembers.length; i++ ){
+            var user = allUsers.splice( findIndexById( allUsers, tempMembers[i]._id ), 1 );
+            if( user ){
+                members.push( user[0] );
+            }
+        }
+        tempMembers = [];
+
+        updateView();
+    }
+
+    function removeMembers(){
+        for( var i = 0; i < tempDeleteMembers.length; i++ ){
+            var user = members.splice( findIndexById( members, tempDeleteMembers[i]._id ), 1 );
+            if( user ){
+                allUsers.push( user[0] );
+            }
+        }
+        tempDeleteMembers = [];
+
+        updateView();
+
+    }
+
+
+
+  function updateAllUsers(){
+      $("#table-all-users").html("");
+      var html = "";
+      for(var i = 0; i < allUsers.length; i++ ){
+        html += '<tr><td id="' + allUsers[i]._id + '" class="all-users" onclick="clickRow(this)">';
+        html +=  allUsers[i]._id + '</td></tr>';
+      }
+      $("#table-all-users").html(html);
+  }
+
+  function selectRowForDelete(element){
+    var id =  $(element).attr('data-id');
+
+    tempMembers = [];
+
+    // not selected yet
+    if( findIndexById( tempDeleteMembers, id ) === -1 ){
+        tempDeleteMembers.push( members[ findIndexById( members, id ) ] );
+    }
+    // already selected
+    else{
+        tempDeleteMembers.splice( findIndexById( tempDeleteMembers, id ), 1 );
+    }
+
+    updateView();
+  }
+
+  function updateMembers(){
+    $("#members-list").html("");
+    for(var i = 0;i < members.length; i++){
+      var currentVar = members[i];
+
+      var htmlText = '<tr onclick="selectedRowForDelete(this)" data-id="'+i+'">';
+      htmlText += '<td>' + currentVar+ '</td>';
+      htmlText += '</tr>';
+
+      $("#members-list").append(htmlText);
+    }
+
+  }
+
+  $(document).ready(function(){
+    updateView();
+  });
+
+</script>
+

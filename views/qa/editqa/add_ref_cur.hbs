@@ -1,0 +1,51 @@
+<div class="container">
+        <form class="form-horizontal" role="form"  action="" method="post" id = "myForm" > 
+          
+          <p hidden>
+             <input type='text' tableindex="1" name='programname' value="{{programname}}">
+             <input type='text' tableindex="1" name='year' value="{{year}}">
+             <input type='text' tableindex="1" name='acid' value="{{acid}}">
+          </p> 
+            <!--<form class="form-horizontal" role="form">-->
+        
+        <h3>Add new Reference curiculums </h3>
+        <br>
+          <div class="form-group">
+             <label for="inputType" class="col-md-1 control-label">Program Name:</label>
+              <div class="col-md-4">
+                <textarea class="form-control" rows="3" id="program" name="program" ></textarea>
+              </div>
+              <label for="inputType" class="col-md-1 control-label">Degree:</label>
+              <div class="col-md-4">
+                <textarea class="form-control" rows="5" id="degree" name="degree" ></textarea>
+              </div>
+            
+          </div>
+          <div class="form-group">
+            <label for="inputType" class="col-md-1 control-label">University:</label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" id="uni" name="uni"required value="">
+              </div>
+             <label for="inputType" class="col-md-1 control-label">Country:</label>
+              <div class="col-md-4">
+                 <input type="text" class="form-control" id="country" name="country"required value="">
+              </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inputType" class="col-md-1 control-label">Website:</label>
+              <div class="col-md-4">
+                <textarea class="form-control" rows="5" id="web" name="web" ></textarea>
+              </div>
+
+               <div class="col-md-5">
+                    <br>
+                    <br>
+                    <br>
+                    <p align = "right"><button type="submit" class="btn btn-primary">Add</button></p>
+                </div>
+          </div>
+
+        </form>
+
+</div>

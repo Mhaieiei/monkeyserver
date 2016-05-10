@@ -49,7 +49,8 @@ var publicResearchSchema = mongoose.Schema({
 });
 
 var trainingSchema = mongoose.Schema({
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    _type : {type: String, default: 'training'},
+    user: { type: String, ref: 'User' },
     trainingCourse: String,
     hour: Number,
     academicYear: String

@@ -93,7 +93,9 @@ footer {
 }
 
 body {
-    padding:50px;
+    padding:40px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 select {
     background: #337AB7 !important;
@@ -196,3 +198,6 @@ option:not(:checked) {
   display:block
 }
 
+.form-control {
+    color: #000000;
+}

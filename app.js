@@ -14,7 +14,6 @@ module.exports = function(database) {
   //Add new
   var passport = require('passport');
   var flash = require('connect-flash');
-  var morgan = require('morgan');
   var session = require('express-session');
   var exphbs = require('express3-handlebars');  //handle bars
 
@@ -40,7 +39,7 @@ module.exports = function(database) {
 
   // set up our express application
   //app.use(session({secret:'mhai_fat'}));
-  app.use(morgan('dev')); // log every request to the console
+  app.use(logger('dev')); // log every request to the console
   app.use(cookieParser()); // read cookies (needed for auth)
 
   app.use(bodyParser.json());
@@ -50,7 +49,6 @@ module.exports = function(database) {
   app.use(busboy());
   // uncomment after placing your favicon in /public
   //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-  app.use(logger('dev'));
   app.use(express.static(path.join(__dirname, 'public')));
 
   // required for passport
@@ -60,13 +58,14 @@ module.exports = function(database) {
   app.use(flash()); // use connect-flash for flash messages stored in session
 
   app.use('/download', require('./routes/download/download'));
+  app.use('/api', require('./routes/api'));
   require('./routes/direct.js')(app, passport);
   //app.use('/', routes);
   //app.use('/users', users);
 
   // catch 404 and forward to error handler
   app.use(function(req, res, next) {
-    var err = new Error('Not Found');
+    var err = new Error('PAGE NOT FOUND');
     err.status = 404;
     next(err);
   });
@@ -79,7 +78,7 @@ module.exports = function(database) {
     app.use(function(err, req, res, next) {
       res.status(err.status || 500);
       res.render('error_dev', {
-        layout: 'profilePage',
+        layout: 'homePage',
         message: err.message,
         error: err
       });
@@ -91,7 +90,7 @@ module.exports = function(database) {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
-      layout: 'profilePage',
+      layout: 'homePage',
       message: err.message,
       error: {}
     });

@@ -1,23 +1,27 @@
- <script>
 
-$(document).ready(function() {
-  $("#program").change(function() { 
-  if($(this).data('options') == undefined){
-      /*Taking an array of all options-2 and kind of embedding it on the select1*/
-      $(this).data('options',$('#sub_programs option').clone());
-      } 
-  var id = $(this).val();
-  var options = $(this).data('options').filter('[id=' + id + ']');
-  $('#sub_programs').html(options);
-  });
-});
+<script>
+    $(document).ready(function() {
+      $("#program").change(function() { 
+      if($(this).data('options') == undefined){
+          /*Taking an array of all options-2 and kind of embedding it on the select1*/
+          $(this).data('options',$('#sub_programs option').clone());
+          } 
+      var id = $(this).val();
+      var options = $(this).data('options').filter('[id=' + id + ']');
+      $('#sub_programs').html(options);
+      });
+    });
 </script>
 
+    
 
+
+
+<body>
  <h3>Select program & User type</h3>
 
                     <br>
-                        <form class="form-horizontal" role="form" action"/user" method="post">
+                        <form class="form-horizontal" role="form" action"/admin/user" method="post">
                             <div class="form-group">
                                 <label for="inputType" class="col-md-2 control-label">Program : </label>
                                 <div class="col-md-4">
@@ -66,4 +70,22 @@ $(document).ready(function() {
                            
 
                             <p align = "right"><button type="submit" class="btn btn-primary">Search</button></p>
-                        </form>
+                         <div class ="well">
+                            {{{body}}}  
+                            <div id="includedContent"></div>
+
+                        </div> 
+
+                        <script>
+                          $( "#includedContent" ).load( "userslist.hbs" );
+                        </script>
+
+                </form>
+
+
+                
+
+
+</body>
+
+

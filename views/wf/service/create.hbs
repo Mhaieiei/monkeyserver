@@ -1,0 +1,165 @@
+ <div id="addVariablePopup" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Add new variable</h4>
+            </div>
+            <div class="modal-body">
+
+              <div>
+                <b>Name</b><br><input type="text" id="variable-name">
+              </div>
+
+              <div>
+                <b>Type</b>
+                <br>
+                <select id="variable-type">
+                  <option value="Text">Text</option>
+                  <option value="Number">Number</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="done-add-variable-btn" class="btn btn-default" data-dismiss="modal">Add</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+
+        </div>
+</div>
+
+<div style="margin-left: 20px; margin-top: 80px">
+	<h3>Create new service</h3>	
+	<button id="save-button">Save</button>
+
+	<div style="margin-top: 20px">
+		<p>Name</p>
+		<input type="text" id="service-name" name="name">
+	</div>
+
+	<div style="margin-top: 20px">
+		<p>Description</p>
+		<input type="text" id="service-description" name="description">
+	</div>
+
+	<div style="margin-top: 20px">
+		Input variables 
+		 <button type="button" onclick="setCurrentVariable(1)" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addVariablePopup">Add</button>
+	
+		<table class="table table-hover" style="width: 400px;">
+	        <thead>
+	          <tr>
+	            <th>Name</th>
+	            <th>Type</th> 
+	          </tr>
+	        </thead>
+	        <tbody id="input-variable-list">
+	        </tbody>
+      	</table>
+	</div>
+
+	<div style="margin-top: 20px">
+		Output variables
+		 <button type="button" onclick="setCurrentVariable(2)" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addVariablePopup">Add</button>
+
+		<table class="table table-hover" style="width: 400px;">
+	        <thead>
+	          <tr>
+	            <th>Name</th>
+	            <th>Type</th> 
+	          </tr>
+	        </thead>
+	        <tbody id="output-variable-list">
+	        </tbody>
+      	</table>
+	</div>
+
+	<div style="margin-top: 20px">
+		<p>Script</p>
+		<textarea rows="5" cols="50" id="service-script"></textarea>
+	</div>
+</div>
+<script>
+	var inputVariables = [];
+	var outputVariables = [];
+	var currentVariable = 0;
+
+	function setCurrentVariable( n ){
+		currentVariable = n;
+	}
+
+	$("#save-button").click(function(){
+		
+     $.ajax({
+        url: "/service/create",
+        type: "POST",
+        data: {	
+			name: $("#service-name").val(),
+			description: $("#service-description").val(),
+			inputs: inputVariables,
+			outputs: outputVariables,
+			script: $("#service-script").val()
+		},
+        success: function( data ) {
+         	alert("DDD:" + data);
+        }
+      });
+
+	});
+
+
+	$("#done-add-variable-btn").click(function(){
+
+	 	var currentList;
+
+	 	if( currentVariable === 1 ){
+	 		currentList = inputVariables;
+	 	}
+	 	else if( currentVariable === 2 ){
+	 		currentList = outputVariables;
+	 	}
+	 	else{
+	 		return;
+	 	}
+
+	    currentList.push({ 
+	      name: $("#variable-name").val(),
+	      type: $("#variable-type").val(),
+	    });
+
+	    updateVariableList();
+	});
+
+
+	function updateVariableList(){
+
+		var currentList;
+		var currentHTML;
+
+	 	if( currentVariable === 1 ){
+	 		currentList = inputVariables;
+	 		currentHTML = "#input-variable-list";
+	 	}
+	 	else if( currentVariable === 2 ){
+	 		currentList = outputVariables;
+	 		currentHTML = "#output-variable-list";
+	 	}
+	 	else{
+	 		return;
+	 	}
+
+
+	    $(currentHTML).html("");
+	    for( var i = 0; i < currentList.length; i++ ){
+	      var currentVar = currentList[i];
+	      var htmlText = '<tr>';
+	      htmlText += '<td>' + currentVar.name + '</td>';
+	      htmlText += '<td>' + currentVar.type + '</td>';
+	      htmlText += '</tr>';
+
+	      $(currentHTML).append(htmlText);
+	    }
+  	}	
+
+</script>

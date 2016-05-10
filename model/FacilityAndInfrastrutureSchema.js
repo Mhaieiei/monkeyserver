@@ -29,6 +29,6 @@ lecturerPlaceSchema.methods.editFacility = function(request, response){
         
     });
      
-    response.redirect('/aun10-1?acid='+request.body.acid);
+    response.redirect('/aun/aun10-1?acid='+request.body.acid+'&programn='+request.body.program+'&year='+request.body.year);
 };
 module.exports = db.model('lecturerPlaceSchema', lecturerPlaceSchema, 'lecturerPlaceSchema');

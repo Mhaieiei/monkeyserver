@@ -1,18 +1,12 @@
-.my-navi{
-	background:#eeeeee;
+.setting-popup{
+	position: absolute;
+	background-color: #FFF;
+	margin-left: 980px;
+	display: none;
+	width: 270px;
+	height: 500px;
+	border: 1px solid #ccc;
+	box-shadow: 0 0 5px 0;
+	padding: 10px;
 }
-.text_column1position{
-	padding-left: 20px;
-	padding-top: 0px;
-}
-.text_column2position{
-	position: static;
-	text-align: center;
-		
-}
-.footer{
-	position: fixed; 
-	bottom: 0px;
-	margin-right: auto;
-	margin-left: auto;
-}
+

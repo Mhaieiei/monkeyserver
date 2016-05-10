@@ -79,7 +79,7 @@ $(document).ready(function() {
   
   
 </script>
-<form action="/addpublication" method="post" id = "myForm" >
+<form action="/publicationinf/addpublication" method="post" id = "myForm" >
 
   <div class="row content"> 
                 <form class="form-horizontal" role="form">
@@ -96,7 +96,14 @@ $(document).ready(function() {
                   <div class="form-group"> 
                        <label for="inputType" class="col-md-2 control-label">Program : </label>
                        <div class="col-md-4">
-                           <input type="text" class="form-control" id="inputType" name="program">
+                          <select class="form-control" style="width:200px" id="sub_programs" name="program">
+                               
+                            {{#each faculty}} 
+                                 {{#each sub_program}}
+                                  <option  value="{{this}}">{{this}}</option>         
+                                  {{/each}}                    
+                            {{/each}}
+                        </select>
                         </div>
                         <label for="inputType" class="col-md-2 control-label">Acedamic Year : </label>
                         <div class="col-md-4">

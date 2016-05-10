@@ -97,13 +97,16 @@ if (!window.FileList || !window.FileReader) {
 // bootstrap diagram functions
 
 $(document).on('ready', function() {
-
+  
+  updateVariableList();
+  
   $('#js-create-diagram').click(function(e) {
     e.stopPropagation();
     e.preventDefault();
 
     createNewDiagram();
   });
+
 
   var downloadLink = $('#js-download-diagram');
   var downloadSvgLink = $('#js-download-svg');
@@ -121,12 +124,22 @@ $(document).on('ready', function() {
 
     e.preventDefault();
 
-    console.log( myElements );
-    
+   // console.log( myElements );
+    var baseUrl = window.location.pathname.toLowerCase();
+    var targetUrl = '/workflow/save'
+  
+    if( baseUrl != '/workflow/new' ){
+      var splitUrls = baseUrl.split('/');
+      if( splitUrls[3] === 'edit' ){
+        targetUrl = '/workflow/' + splitUrls[2] + '/update';
+      }
+
+    }
+
     var saveVariables = []
     saveDiagram(function(err, xml) {
-     
-      var posting = $.post( '/workflow/save', 
+     console.log(myVariables);
+      var posting = $.post( targetUrl, 
         { 
           name: workflowName.val(),
           description: workflowDescription.val(),
@@ -135,12 +148,10 @@ $(document).on('ready', function() {
           elements: myElements
         });
 
-      posting.done(function( data ) {
-          
+      posting.done(function( data ) {        
           alert( "save successful" );
 
       });
-
     });
 
   });
@@ -173,7 +184,13 @@ $(document).on('ready', function() {
   }, 500);
 
   renderer.on('commandStack.changed', exportArtifacts);
+
+
+  var targetDiagramXML = loadedDiagramXML || newDiagramXML;
+  openDiagram(targetDiagramXML);
 });
+
+
 },{"bpmn-js/lib/Modeler":2,"jquery":266,"lodash":291}],2:[function(require,module,exports){
 'use strict';
 
@@ -3197,19 +3214,6 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
       }
     });
   }
-
-  assign(actions, {
-    'setting': {
-      group: 'edit',
-      className: 'icon-service',
-      title: 'Setting',
-      action: {
-          click: function(event, element) {
-            bpmnReplace.openChooser(getReplaceMenuPosition(element), element);
-          }
-        }
-    }
-  });
 
   // Delete Element Entry
   assign(actions, {
@@ -19909,11 +19913,21 @@ Canvas.prototype._addElement = function(type, element, parent, parentIndex) {
   eventBus.fire(type + '.added', { element: element, gfx: gfx });
 
   console.log( "=== Begin Canvas.addElement ===");
-  var eggElement = {};
-  eggElement.inputMappings = [];
-  eggElement.outputMappings = [];
-  myElements[element.id] = eggElement;
-  console.log(myElements);
+  if( myElements[element.id] === undefined ){
+      var eggElement = {};
+      eggElement.inputMappings = [];
+      eggElement.outputMappings = [];
+      myElements[element.id] = eggElement;
+  }
+
+  if( myElements[element.id].inputMappings === undefined ){
+    myElements[element.id].inputMappings = [];
+  }
+
+  if( myElements[element.id].outputMappings === undefined ){
+    myElements[element.id].outputMappings = [];
+  }
+
   console.log( "=== End Canvas.addElement ===");
 
   return element;
@@ -23271,21 +23285,56 @@ ContextPad.prototype.getPopup = function(element){
 
   currentElementId = element.id;
 
+  var mappingHtml = '';     
+  /*mappingHtml += '<div><b>Input Mapping</b><button onclick="startMap(\'Input\')" data-toggle="modal" data-target="#mainPopup">Add new mapping</button></div>';
+  mappingHtml += '<div id="input-mapping-list">' + getMappingList(currentElementId, 'inputMappings') + '</div>';
+  mappingHtml += '<div><b>Output Mapping</b><button onclick="startMap(\'Output\')" data-toggle="modal" data-target="#mainPopup">Add new mapping</button></div>';
+  mappingHtml += '<div id="output-mapping-list">' + getMappingList(currentElementId, 'outputMappings') + '</div>';
+  */
+  if( element.type === 'bpmn:ServiceTask' || element.type === 'bpmn:UserTask' ){
+
+    mappingHtml += '<div><ul class="nav nav-tabs" role="tablist">';
+    mappingHtml += '<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Input</a></li>';
+    mappingHtml += '<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Output</a></li></ul>';
+    mappingHtml += '<div class="tab-content">';
+    
+    mappingHtml += '<div role="tabpanel" class="tab-pane active" id="home">';
+    mappingHtml += '<div><button onclick="startMap(\'Input\')" data-toggle="modal" data-target="#mainPopup">Add new mapping</button></div>';
+    mappingHtml += '<div id="input-mapping-list">' + getMappingList(currentElementId, 'inputMappings') + '</div></div>';
+
+    mappingHtml += '<div role="tabpanel" class="tab-pane" id="profile">';
+    mappingHtml += '<div><button onclick="startMap(\'Output\')" data-toggle="modal" data-target="#mainPopup">Add new mapping</button></div>';
+    mappingHtml += '<div id="output-mapping-list">' + getMappingList(currentElementId, 'outputMappings') + '</div></div>';
+
+    mappingHtml += '</div></div>';
+  }
+
 
   if( element.type === 'bpmn:ServiceTask'){
+    var serviceName = '';
+    if( myElements[currentElementId].service != undefined && 
+        myElements[currentElementId].service.name != undefined ){
+      serviceName = myElements[currentElementId].service.name;
+    }
     html += '<p><b>Service</b>';
-    html += '<div class="selected-service">' + myElements[currentElementId].serviceId + '</div>';
+    html += '<div><a class="selected-service" onclick="viewService()" href="javascript:void(0)" data-toggle="modal" data-target="#mainPopup">' + serviceName + '</a></div>';
     html += '<input class="selected-service-id" type="hidden"></input>';
     html += '<p><b>Setting</b></p>';
-    html += '<button onclick="selectService()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#selectServicePopup">Select service</button>';
+    html += '<button onclick="startSelectService()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#mainPopup">Select service</button>';
     html += '<a class="btn btn-default btn-sm" href="/service/create" target="_blank">Create new service</a></div>';
-    
-    html += '<div><b>Input Mapping</b><button data-toggle="modal" data-target="#inputMappingPopup">Add new mapping</button></div>';
-    html += '<div id="input-mapping-list">' + getMappingList(currentElementId, 'inputMappings') + '</div>';
-  
-    html += '<div><b>Output Mapping</b><button data-toggle="modal" data-target="#outputMappingPopup">Add new mapping</button></div>';
-    html += '<div id="output-mapping-list">' + getMappingList(currentElementId, 'outputMappings') + '</div>';
+    html += mappingHtml;
 
+  }
+  else if( element.type === 'bpmn:SequenceFlow' ){
+    console.log( myElements[currentElementId] );
+    html += '<p><b>Condition name</b></p>';
+    html += '<input type="text" id="condition-name" value="' + getConditionName() + '">';
+    html += '<button onclick="saveCondition()">Save</button>';
+  }
+  else if( element.type === 'bpmn:ExclusiveGateway' ){
+    html += '<p><b>Condition</b>';
+    html += '<button onclick="startAddCondition()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#mainPopup">Add</button></p>'; 
+    html += '<div id="condition-list">' + getConditionList() + '</div>';
   }
   else if( element.type === 'bpmn:UserTask'){
     
@@ -23294,26 +23343,25 @@ ContextPad.prototype.getPopup = function(element){
       currentFormName = myElements[currentElementId].form.name;
     }
 
-    html += '<p><b>Form</b>';
+    html += '<div><b>Form</b>';
+    html += '<button onclick="startSelectForm()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#mainPopup">Select form</button>';
+    html += '<a class="btn btn-default btn-sm" href="/form/create" target="_blank">Create new form</a></div>';
     html += '<div class="selected-form">' + currentFormName + '</div>';
     html += '<input class="selected-form-id" type="hidden"></input>';
-    html += '<div><button onclick="selectForm()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#selectFormPopup">Select form</button>';
-    html += '<a class="btn btn-default btn-sm" href="/form/create" target="_blank">Create new form</a></div>';
-    
-    html += '<div><b>Input Mapping</b><button data-toggle="modal" data-target="#inputMappingPopup">Add new mapping</button></div>';
-    html += '<div id="input-mapping-list">' + getMappingList(currentElementId, 'inputMappings') + '</div>';
-  
-    html += '<div><b>Output Mapping</b><button data-toggle="modal" data-target="#outputMappingPopup">Add new mapping</button></div>';
-    html += '<div id="output-mapping-list">' + getMappingList(currentElementId, 'outputMappings') + '</div>';
+    html += mappingHtml;
+
+  }
+  else if( element.type === 'bpmn:Participant'){
+    html += '<div class="selected-role">' + getRole() +'</div>';
+    html += '<button onclick="startSelectRole()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#mainPopup">Select role</button>';
   }
 
   return html;
 }
 
 ContextPad.prototype.open = function(element, force) {
-  console.log('ContextPad.open');
-  $('.setting-popup').html( this.getPopup(element) );
-  $('.setting-popup').show();
+  console.log('start ContextPad.open');
+
   if (this._current && this._current.open) {
 
     if (force !== true && this._current.element === element) {
@@ -23339,8 +23387,11 @@ ContextPad.prototype._setPopup = function(html, element){
 
 
 ContextPad.prototype._updateAndOpen = function(element) {
-  ///console.log('Start: ContextPad._updateAndOpen');
-  //console.log(this._overlays);
+  console.log('Start: ContextPad._updateAndOpen');
+  
+  $('.setting-popup').html( this.getPopup(element) );
+  $('.setting-popup').show();
+
   var entries = this.getEntries(element),
       pad = this.getPad(element, 'context-pad'),
       popup = this.getPad(element, 'popup'),
@@ -23388,7 +23439,7 @@ ContextPad.prototype._updateAndOpen = function(element) {
   };
 
   this._eventBus.fire('contextPad.open', { current: this._current });
-  //console.log('End: ContextPad._updateAndOpen');
+  console.log('End: ContextPad._updateAndOpen');
 };
 
 ContextPad.prototype.getPad = function(element, type) {
@@ -23448,6 +23499,7 @@ ContextPad.prototype.getPad = function(element, type) {
  * Close the context pad
  */
 ContextPad.prototype.close = function() {
+  console.log('ContextPad.close');
   var html, html2;
 
   if (this._current) {
@@ -23459,6 +23511,7 @@ ContextPad.prototype.close = function() {
     }
 
     this._current.open = false;
+
     $('.setting-popup').hide(); 
 
     this._eventBus.fire('contextPad.close', { current: this._current });

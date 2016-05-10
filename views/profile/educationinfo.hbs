@@ -27,8 +27,8 @@
 						<td>{{degree}}</td>
 						<td>{{university}}</td>
 						<td>{{year}}</td>
-                        <td><a href='/editeducation?id={{@index}}'>edit</a></td>
-						<td><a href='/deledu?id={{id}}&user={{user.local.username}}'>delete</a></td>
+                        <td><a href='/editeducation?id={{@index}}&user={{getname}}'>edit</a></td>
+						<td><a href='/deledu?id={{id}}&user={{getname}}'>delete</a></td>
                         </tr>
                         <tr>
                     {{/each}}  

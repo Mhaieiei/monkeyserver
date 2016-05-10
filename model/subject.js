@@ -20,10 +20,11 @@ var subjectSchema = mongoose.Schema({
 });
 
 var ELOSchema = mongoose.Schema({
-	_id: Number,
-    title: String,
-    description: [String],
-    number:Number
+
+    description: String,
+    number:Number,
+    eloFromTQF:[String],
+    program:String
     
 });
 
@@ -44,7 +45,7 @@ subjectSchema.methods.editSubject = function(request, response){
         }
 		
     });
-	response.redirect('/subjects');
+	response.redirect('/admin/subjects');
 
 
 };

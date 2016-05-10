@@ -1,0 +1,174 @@
+<%- include ../headerqa.ejs %>
+
+
+ <section>
+    <div class ="well">
+        <body>
+
+    
+        <td>
+            <div class="container-fluid">
+            <div class="row-fluid">
+            <div class="span15">
+            <div class="col-md-15"> 
+           
+            <!--<form class="form-horizontal" role="form">-->
+                
+                <h3>AUN 2.1 The university uses program specification</h3>
+               
+                <br>
+				<h5>Table : Referenved curriculums from the world recognized universities</h5>
+                <a href = "/aun/aun2-1/addaun2-1?program=<%=programname%>&year=<%=year%>&acid=<%=acid%>"><button id="tab_2_submit" class="btn btn-primary" type="button">Add</button></a>
+                <div id="tab_ref">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            <th>No.</a></th>
+                            <th>Program Name</a></th>
+                            <th>Degree</a></th>
+                            <th>University</a></th>
+                            <th>Country</a></th>
+                            <th>Websites</a></th>
+                            <th>Edit </th>
+                            <th>Delete</th>
+
+                        </tr>
+      
+                    </thead>
+					 
+                    <tbody>
+                    <% for(k=0;k< struc.length;k++){%>
+                        <% for(j=0;j< struc[k].referenceCurriculum.length;j++){%>
+					       
+					
+                        <tr>
+                        <td><%= j+1 %> </td>
+                        <td> <%=struc[k].referenceCurriculum[j].refProgramName %></td>
+                        <td><%=struc[k].referenceCurriculum[j].degree%> </td>
+                        <td> <%=struc[k].referenceCurriculum[j].university%></td>
+                        <td> <%=struc[k].referenceCurriculum[j].country%></td>
+                        <td><%=struc[k].referenceCurriculum[j].website%> </td>
+                        <td><a href = "/aun/aun2-1/editaun2-1?id=<%=struc[k].referenceCurriculum[j].id %>&program=<%=programname%>&year=<%=year%>&acid=<%=acid%>"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></td>
+                        <td><a href = "/aun/aun2-1/delaun2-1?id=<%=struc[k].referenceCurriculum[j].id %>&program=<%=programname%>&year=<%=year%>&acid=<%=acid%>"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></td>
+                        
+                        </tr>
+                      
+                     <%}%>
+                  <%}%>
+                    </tbody>
+					
+                  </table>
+                </div>
+
+
+				<% for(k=0;k< struc.length;k++){%>
+                <% for(g=0;g< struc[k].structureOfCurriculum.length;g++){%>
+				
+                <h5>Table : Structure of the curriculum (Plan <%=struc[k].structureOfCurriculum[g].plan %>)</h5>
+                <div id="tab_structure">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            <th>Knowledge Block</a></th>
+                            <td colspan=2 ><%=struc[k].structureOfCurriculum[g].plan %></a></td>
+                        </tr>
+                        <tr>
+                            <td colspan=1></td>
+                            <td colspan=1></td>
+                            <th>Credit Required</th>
+                            <th>Percentage</th>
+                           
+                        </tr>
+      
+                    </thead>
+					
+                    <tbody>
+                   
+                     
+                    <% for(f=0;f< struc[k].structureOfCurriculum[g].knowledgeBlock.length;f++){%>
+                    
+                        <tr>
+                        <td> <%=struc[k].structureOfCurriculum[g].knowledgeBlock[f].subjectType%></td>
+                        <td> </td>
+                        <td><%=struc[k].structureOfCurriculum[g].knowledgeBlock[f].creditRequired%> </td>
+                        <td> </td>
+                        
+                        </tr>
+                       
+                    <%}%>    
+                    </tbody>
+					
+                  </table>
+                </div>
+				<%}%>
+                <%}%>
+
+                <h5>Table : Distribution of the curriculum</h5>
+                <% for(k=0;k< subs.length;k++){%>
+                <div id="tab_dis">
+                  <table class="tablesorter">
+                    <thead align="center">
+					
+                        <tr>
+                            <td colspan=3 >Semester <%= subs[k].semester %></a></td>
+                        </tr>
+                        <tr>
+                            <td>Code</td>
+                            <td>Subject</td>
+                            <td>Credit</td>
+                        </tr>
+                    <!-- ใช้ th colspan กับ Plan ใช้ td กับข้อมูลปกติ -->
+                    </thead>
+                    <tbody>
+                        <tr>
+                        
+						<td colspan=3> <%=subs[k].plan%> : Year <%=subs[k].Year%></td>
+                    
+						</tr>
+
+                        <% for(l=0;l< subs[k].subject.length;l++){%>
+
+
+
+                        <tr>
+						
+                            <td><%= subs[k].subject[l].subcode.sub_code%> </td>
+                            <td><%= subs[k].subject[l].subcode.sub_name%> </td>
+                            <td><%= subs[k].subject[l].subcode.sub_credit%> </td>
+						
+                       
+						
+                        </tr>    
+                      
+					   <%}%>
+
+                    </tbody>
+					
+                  </table>
+                </div>
+                <%}%>
+          
+            </div>
+            </div>
+            </div>
+            </div>
+
+            <div class="form-group">
+                <div class="pull-right">
+                     <div class="btn-group">
+                        
+                    </div>
+                </div>
+            </div>
+                    
+
+        </td>
+
+
+
+         
+  </body>
+ </div>
+</section>
+
+<%- include ../footer.ejs %>

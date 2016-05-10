@@ -1,0 +1,109 @@
+<%- include ../headerqa.ejs %>
+<section>
+   <div class ="well">
+      <body>
+         <td>
+            <div class="container-fluid">
+               <div class="row-fluid">
+                  <div class="span15">
+                     <div class="col-md-15">
+                        <!--<form class="form-horizontal" role="form">-->
+                        <h3>AUN 6.1: The staff are competent for their tasks</h3>
+                        <h5>Table : List of lectures in CiES Program</h5>
+                        <div id="tab_aun6.1">
+                           <table class="tablesorter">
+                              <thead align="center">
+                                 <tr>
+                                    <th>Type</a></th>
+                                    <th>Title</a></th>
+                                    <th>Name-Surname</a></th>
+                                    <th>Highest Holding Degree</a></th>
+                                    <th>Years of teaching</a></th>
+                                    <th>Publications</a></th>
+                                 </tr>
+                                 <!-- ใช้ th colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
+                              </thead>
+                              <tbody>
+                                 <%count = 0%>
+                                 <%count1 = 0%>
+                                 <%count2 = 0%>
+                                 <tr>
+                                    <th colspan=6></th>
+                                 </tr>
+                                 <% for(i=0;i< docs.length;i++){%>
+                                 <%count = 0%>
+                                 <tr>
+                                    <td><%= docs[i]._id%></td>
+                                    <% for(j=0;j< docs[i].user.length;j++){%>
+                                    <% if(count == 0){ %>
+                                    <td><%=docs[i].user[j].local.title%></td>
+                                    <td><%=docs[i].user[j].local.name%> <%=docs[i].user[j].local.surname%></td>
+                                    <% for(k=0;k< docs[i].user[j].education.length;k++){%>
+                                    <% if(docs[i].user[j].education[k].level == 'Doctoral'){ %>
+                                    <td><%=docs[i].user[j].education[k].degree%></td>
+                                    <%}%>
+                                    <%}%>
+                                    <td><%=docs[i].user[j].local.yearOfTeaching%></td>
+                                    <%count1 = 0%>
+                                    <% for(g=0;g< docs[i].user[j].publicResearch.length;g++){%>
+                                    <% if(count1 == 0){ %>
+                                    <td><%=docs[i].user[j].publicResearch[g].typepublic%></td>
+                                 </tr>
+                                 <%}else{%>
+                                 <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <
+                                    <td><%=docs[i].user[j].publicResearch[g].typepublic%></td>
+                                    <%}%>
+                                    <%count1++%>
+                                    <%}%>
+                                 </tr>
+                                 <%}else{%>
+                                 <tr>
+                                    <th></th>
+                                    <td><%=docs[i].user[j].local.title%></td>
+                                    <td><%=docs[i].user[j].local.name%> <%=docs[i].user[j].local.surname%></td>
+                                    <% for(k=0;k< docs[i].user[j].education.length;k++){%>
+                                    <% if(docs[i].user[j].education[k].level == 'Doctoral'){ %>
+                                    <td><%=docs[i].user[j].education[k].degree%></td>
+                                    <%}%>
+                                    <%}%>
+                                    <td><%=docs[i].user[j].local.yearOfTeaching%></td>
+                                    <%count1 = 0%>
+                                    <% for(g=0;g< docs[i].user[j].publicResearch.length;g++){%>
+                                    <% if(count1 == 0){ %>
+                                    <td><%=docs[i].user[j].publicResearch[g].typepublic%></td>
+                                 </tr>
+                                 <%}else{%>
+                                 <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <
+                                    <td><%=docs[i].user[j].publicResearch[g].typepublic%></td>
+                                    <%}%>
+                                    <%count1++%>
+                                    <%}%>
+                                    <%}%>
+                                    <%count++%>
+                                    <%}%>
+                                 </tr>
+                                 <%}%>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </td>
+      </body>
+   </div>
+</section>
+<%- include ../footer.ejs %>

@@ -12,19 +12,20 @@
     <title>Monkey Office</title>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <!-- Bootstrap Core CSS -->
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="stylesheets/dist/css/bootstrap-submenu.min.css">
-    <link rel="stylesheet" href="stylesheets/style.css" type="text/css" id="" media="print, projection, screen" />   
+    <link rel="stylesheet" href="/stylesheets/dist/css/bootstrap-submenu.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css" type="text/css" id="" media="print, projection, screen" >   
 
     <!-- Custom CSS -->
     <link href="/stylesheets/modern-business.css" rel="stylesheet">
     <link href="/stylesheets/tabs.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="/stylesheets/role.css">
     <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -48,7 +49,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.hbs">Monkey Office</a>
+                <a class="navbar-brand" href="/home">Monkey Office</a>
             </div>
             <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
@@ -61,20 +62,19 @@
                     <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
                         <ul class="dropdown-menu multi-level">
-                            <li><a href="/workflow/create">Create Workflow</a></li>
+                            <li><a href="/workflow/new">Create Workflow</a></li>
                             
                             <li class="dropdown-submenu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings</a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/user">Users</a></li>
-                                    <li><a href="/programs">Programs</a></li>
-                                    <li><a href="/subjects">Subjects</a></li>
-                    
+                                    <li><a href="/admin/user">Users</a></li>
+                                    <li><a href="/admin/programs">Programs</a></li>
+                                    <li><a href="/admin/subjects">Subjects</a></li>
+                                    <li><a href="/roleManagement">Role Management</a></li>
                                 </ul>
                             </li>
                         </ul>
                     </li>
-               
             </ul>
                    
                 <ul class="nav navbar-nav navbar-right">
