@@ -28,6 +28,7 @@
    
 </head>
 
+
 <body>
 
      <!-- Navigation -->
@@ -61,9 +62,9 @@
                         <li class="dropdown-submenu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings</a>
                             <ul class="dropdown-menu">
-                                <li><a href="/user">Users</a></li>
-                                <li><a href="/programs">Programs</a></li>
-                                <li><a href="/subjects">Subjects</a></li>
+                                <li><a href="/admin/user">Users</a></li>
+                                <li><a href="/admin/programs">Programs</a></li>
+                                <li><a href="/admin/subjects">Subjects</a></li>
                 
                             </ul>
                         </li>
@@ -96,60 +97,16 @@
         </div>
         <!-- /.container -->
     </nav>
-    </header>    
-<div id="qass-search" class="container">
-          <br>
-          <header><h2>QASS</h2></header>
-          <table width="100%" border="0">
-                 <tr valign="top">
-                    <td width="30%">
-                      <div class="container-fluid">
-                          <div class="row-fluid">
-                              <div class="span10">
-                                  <div class="col-md-10">           
-                                      <div id="sortable-tree"></div>
-                                  </div>
-                              </div><!--/span-->
-                          </div><!--row-->
-                      </div><!--fluid-->
-                    </td>
-                </tr>  
-           </table>
-  </div>
-      
-</body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> 
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> 
-<script src="/javascripts/file-tree.min.js"></script>
+    </header>
 
-<script type="text/javascript">
-$( document ).ready(function() {
-$('#cssmenu li.has-sub>a').on('click', function(){
-    $(this).removeAttr('href');
-    var element = $(this).parent('li');
-    if (element.hasClass('open')) {
-      element.removeClass('open');
-      element.find('li').removeClass('open');
-      element.find('ul').slideUp();
-    }
-    else {
-      element.addClass('open');
-      element.children('ul').slideDown();
-      element.siblings('li').children('ul').slideUp();
-      element.siblings('li').removeClass('open');
-      element.siblings('li').find('li').removeClass('open');
-      element.siblings('li').find('ul').slideUp();
-    }
-  });
-});
-</script>
-<p hidden>     
+    <p hidden>     
       <input type="text" tabindex="1"  name="program" id="program" value="{{programname}}"><br>
       <input type="text" tabindex="1" name="year" id="year" value="{{year}}"><br>
       <input type="text" tabindex="1" name="acid" id="acid" value="{{acid}}"><br>
-</p>
-<aside>
+    </p>
+   <br>
+  
+  <aside>
     <div id='cssmenu'>
         <ul>
            <li class='active has-sub'><a href='#'><span> TQF : Thai qualification framwork for higher education </span></a>
@@ -253,3 +210,10 @@ $('#cssmenu li.has-sub>a').on('click', function(){
         </ul>
      </div>
   </aside>
+
+  <section>
+     <div class="span3">
+        <div class ="well">
+           
+
+      
