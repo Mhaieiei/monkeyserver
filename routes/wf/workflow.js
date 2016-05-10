@@ -131,9 +131,10 @@ router.get('/:id/execute', function(req, res, next){
 			var handler = new WorkflowHandler();
 
 			handler.parse( process, collaboration );
-			//handler.magic( elements );
 
-			//console.log( handler.elements );
+			console.log( collaboration );
+			console.log( process );
+
 			res.end("Very Bad Programmer");
 
 			/*var execution = new WorkflowExecution({

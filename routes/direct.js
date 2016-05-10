@@ -154,11 +154,11 @@ module.exports = function(app, passport) {
     // HOME SECTION =====================
     // =====================================
        app.get('/home', isLoggedIn, function(req, res) {
-        
+       var baseUrl = req.protocol + '://' + req.get('host');
         //get workflow list 
-        request('http://localhost:5000/api/workflow/workflowexecutions',function(error1,response1,body1){
+        request(baseUrl + '/api/workflow/workflowexecutions',function(error1,response1,body1){
           //get task workflow list
-          request('http://localhost:5000/api/workflow/tasks',function(error2,response2,body2){ 
+          request(baseUrl + '/api/workflow/tasks',function(error2,response2,body2){ 
             var json = JSON.parse(body2);
             console.log(body2);
             console.log(body1);
