@@ -56,6 +56,8 @@ var docSchema = new Schema({
 		default: false
 	},
 
+	version: String,
+
 	/*
 	 * Indicates the current states document going through the workflow.
 	 * Initial status for every document is 'create'.
@@ -90,6 +92,11 @@ var docSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: schemaName
 	}],
+
+	previousVersion: {
+		type: Schema.Types.ObjectId,
+		ref: schemaName
+	},
 
 	/*
 	 * Other required documents or other dependent documents.

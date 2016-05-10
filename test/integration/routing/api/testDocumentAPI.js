@@ -19,6 +19,7 @@ describe('REST Document API', function() {
 
 	var document;
 	var relatedDocument, attachment;
+	var previousDocument, previouseOfPreviousDocument;
 
 	var joe = {
 		username: 'joe',
@@ -47,6 +48,18 @@ describe('REST Document API', function() {
 			.end(done);
 		})
 
+		it('should return all previous versions of the parent document', function(done) {
+			URL += document.id;
+			URL += '/' + 'allPreviousVersions'
+			APIHttpRequest(URL)
+			.expect(function(response) {
+				var result = response.body;
+				expect(result).to.exist;
+				isSameRecord(previousDocument, result.previousVersion);
+				isSameRecord(previouseOfPreviousDocument, result.previousVersion.previousVersion);
+			})
+			.end(done);
+		})
 	})
 
 	describe('Get related document', function() {
@@ -108,12 +121,23 @@ describe('REST Document API', function() {
 			relatedDocument = relatedDoc;
 			attachment = relatedDoc;
 
-			var documentFields = {name: 'document1', relate2docs: relatedDocument, attachments: attachment}
+			var documentFields = {
+				name: 'document1', 
+				relate2docs: relatedDocument, 
+				attachments: attachment,
+				version: '3'
+			}
 			document = new DocumentXX(documentFields);
-			document.save(function(error) {
-				if(error) return done(error);
-				return done();
-			});
+			previouseOfPreviousDocument = new DocumentXX(documentFields);
+			previouseOfPreviousDocument.version = '1';
+			previousDocument = new DocumentXX(documentFields);
+			previousDocument.version = '2';
+
+			previousDocument.previousVersion = previouseOfPreviousDocument;
+			document.previousVersion = previousDocument;
+
+
+			helper.saveMultipleItemsToDatabase([document, previousDocument, previouseOfPreviousDocument], done);
 		});		
 	}
 

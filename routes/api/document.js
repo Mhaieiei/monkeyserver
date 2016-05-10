@@ -1,4 +1,5 @@
 var router = require('express').Router();
+var Promise = require('bluebird');
 
 var isLoggedin = require('middleware/loginChecker');
 var Document = require('model/document/document');
@@ -11,6 +12,27 @@ router.get('/read/:docID', isLoggedin, function(req, res, next) {
 		
 		res.json(document);
 	})
+})
+
+router.get('/read/:docID/allPreviousVersions', isLoggedin, function(req, res, next) {
+	var documentId = req.params.docID;
+	Document.findOne({id: documentId})
+	.exec(function(error, document) {
+		if(error) return next(error);
+		if(document) {
+			populatePreviousVersionField(document).then(function() {
+				res.json(document);
+			})	
+		}
+		else
+			res.json(document);
+	})
+
+	function populatePreviousVersionField(node) {
+	  return Document.populate(node, { path: 'previousVersion' }).then(function(node) {
+	    return node.previousVersion ? populatePreviousVersionField(node.previousVersion) : node;Promise.fulfill(node);
+	  });
+	}
 })
 
 router.get('/ref/:docID', isLoggedin, function(req, res, next) {
