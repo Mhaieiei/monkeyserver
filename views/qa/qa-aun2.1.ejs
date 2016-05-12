@@ -1,8 +1,7 @@
 <%- include ../headerqa.ejs %>
 
 
- <section>
-    <div class ="well">
+ 
         <body>
 
     
@@ -17,8 +16,8 @@
                 <h3>AUN 2.1 The university uses program specification</h3>
                
                 <br>
-				<h5>Table : Referenved curriculums from the world recognized universities</h5>
-                <a href = "/aun/aun2-1/addaun2-1?program=<%=programname%>&year=<%=year%>&acid=<%=acid%>"><button id="tab_2_submit" class="btn btn-primary" type="button">Add</button></a>
+				<h5>Table : Referenced curriculums from the world recognized universities</h5>
+                <a href = "/aun/aun2-1/addref2-1?program=<%=programname%>&year=<%=year%>&acid=<%=acid%>"><button id="tab_2_submit" class="btn btn-primary" type="button">Add Referenced</button></a>
                 <div id="tab_ref">
                   <table class="tablesorter">
                     <thead align="center">
@@ -48,8 +47,8 @@
                         <td> <%=struc[k].referenceCurriculum[j].university%></td>
                         <td> <%=struc[k].referenceCurriculum[j].country%></td>
                         <td><%=struc[k].referenceCurriculum[j].website%> </td>
-                        <td><a href = "/aun/aun2-1/editaun2-1?id=<%=struc[k].referenceCurriculum[j].id %>&program=<%=programname%>&year=<%=year%>&acid=<%=acid%>"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></td>
-                        <td><a href = "/aun/aun2-1/delaun2-1?id=<%=struc[k].referenceCurriculum[j].id %>&program=<%=programname%>&year=<%=year%>&acid=<%=acid%>"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></td>
+                        <td><a href = "/aun/aun2-1/editref2-1?id=<%=struc[k].referenceCurriculum[j].id %>&program=<%=programname%>&year=<%=year%>&acid=<%=acid%>"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></td>
+                        <td><a href = "/aun/aun2-1/delref2-1?id=<%=struc[k].referenceCurriculum[j].id %>&program=<%=programname%>&year=<%=year%>&acid=<%=acid%>"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></td>
                         
                         </tr>
                       
@@ -60,6 +59,7 @@
                   </table>
                 </div>
 
+                  <a href = "/aun/aun2-1/addstruc2-1?program=<%=programname%>&year=<%=year%>&acid=<%=acid%>"><button id="tab_2_submit" class="btn btn-primary" type="button">Add Structure</button></a>
 
 				<% for(k=0;k< struc.length;k++){%>
                 <% for(g=0;g< struc[k].structureOfCurriculum.length;g++){%>
@@ -168,7 +168,6 @@
 
          
   </body>
- </div>
-</section>
+ 
 
 <%- include ../footer.ejs %>
