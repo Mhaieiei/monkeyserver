@@ -26,6 +26,7 @@
             <th><a href="javascript:table_sort('tab_2',2)">Subject credit</a></th>
             <th><a href="javascript:table_sort('tab_2',3)">Lecturer</a></th>
             <th><a href="javascript:table_sort('tab_2',3)">Enroll</a></th>
+            <th><a href="javascript:table_sort('tab_2',3)">Add ELO</a></th>
             </tr>
         </thead>
          <tbody>
@@ -45,7 +46,8 @@
                             
                         {{/each}}
                     </td>    
-                    <td><a href='/admin/enroll?acid={{getac}}&sub_id={{subcode._id}}&year={{getyear}}&semes={{getsemes}}'>Enroll</a></td>            
+                    <td><a href='/admin/enroll?acid={{getac}}&sub_id={{subcode._id}}&year={{getyear}}&semes={{getsemes}}'>Enroll</a></td>   
+                    <td><a href='/admin/sub_elo?acid={{getac}}&sub_id={{subcode._id}}&sub_name={{subcode.sub_name}}&sub_code={{subcode.sub_code}}&sub_credit={{subcode.sub_credit}}'>Add ELO</a></td>         
                 </tr>
                 {{/each}}            
             {{/each}}          
