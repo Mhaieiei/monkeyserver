@@ -20,7 +20,7 @@
                         <tr>
                             
                             <td colspan=4 >Courses</a></td>
-                            <td colspan=4 >ELOs</a></td>
+                            <td colspan={{len}} >ELOs</a></td>
                             
                             
 
@@ -30,10 +30,9 @@
                             <th>Code</th>
                             <th>Subject Description</th>
                             <th>Credits</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            {{#each elo}}
+                            <td>{{number}}</td>
+                            {{/each}}
                             
 
                             
@@ -44,8 +43,10 @@
                     <tbody>
 					{{#each docs}}
                         <tr>
-                        <th colspan=7>Plan {{plan}}</th>
+                        <th colspan=7>Plan {{_id}}</th>
                         </tr>
+                        
+                        {{#each root}}
                         {{#each subject}}
 						{{#each subcode}}
                     
@@ -62,9 +63,11 @@
                         
 						
                         {{/each}}
+
                         </tr>  
 						{{/each}}
 						{{/each}}
+                        {{/each}}
                         {{/each}}
                     </tbody>
 

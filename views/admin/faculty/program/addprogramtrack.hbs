@@ -20,10 +20,10 @@
         var len = x.rows.length;
         new_row.cells[0].innerHTML = len;
         console.log(len);
-        var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+        var inp1 = new_row.cells[1].getElementsByTagName('select')[0];
         inp1.id += len;
         inp1.value = '';
-        var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
+        var inp2 = new_row.cells[2].getElementsByTagName('select')[0];
         inp2.id += len;
         inp2.value = '';
         var inp3 = new_row.cells[3].getElementsByTagName('input')[0];
@@ -32,6 +32,14 @@
         var inp4 = new_row.cells[4].getElementsByTagName('input')[0];
         inp4.id += len;
         inp4.value = '';
+
+        var inp5 = new_row.cells[5].getElementsByTagName('input')[0];
+        inp5.id += len;
+        inp5.value = '';
+        var inp6 = new_row.cells[6].getElementsByTagName('input')[0];
+        inp6.id += len;
+        inp6.value = '';
+
         y.appendChild( new_row );
         rowind++;
         console.log(rowind);
@@ -93,17 +101,32 @@
                         <thead>
                             <tr>
                             <th >Index</th>
-                            <th><a href="javascript:table_sort('tab_2',1)">Subject code</a></th>
-                            <th><a href="javascript:table_sort('tab_2',2)">Subject name</a></th>
-                            <th><a href="javascript:table_sort('tab_2',3)">Subject Lecturer</a></th>
-                            <th><a href="javascript:table_sort('tab_2',4)">Subject Credits</a></th>
-                            <th><a href="javascript:table_sort('tab_2',5)">Add</a></th>
-                            <th><a href="javascript:table_sort('tab_2',6)">Delete</a></th>                            
+                            <th><a href="javascript:table_sort('tab_2',1)">Knowledge and Skill</a></th>
+                            <th><a href="javascript:table_sort('tab_2',1)">Subject Type</a></th>
+                            <th><a href="javascript:table_sort('tab_2',2)">Subject code</a></th>
+                            <th><a href="javascript:table_sort('tab_2',3)">Subject name</a></th>
+                            <th><a href="javascript:table_sort('tab_2',4)">Subject Lecturer</a></th>
+                            <th><a href="javascript:table_sort('tab_2',5)">Subject Credits</a></th>
+                            <th><a href="javascript:table_sort('tab_2',6)">Add</a></th>
+                            <th><a href="javascript:table_sort('tab_2',7)">Delete</a></th>                            
                             </tr>
                         </thead>
                         <tbody id="subjectbody">
                             <tr>
                             <td>1</td>
+                            <td>
+                                  <select style="width:200px" id="subject_topic" name="subject_topic">
+                                      <option value="Generic">Generic</option>
+                                      <option value="Specific">Specific</option>
+                                      
+                                </td>
+                            <td>
+                                  <select style="width:200px" id="subject_type" name="subject_type">
+                                      <option value="Compulsory">Compulsory</option>
+                                      <option value="Elective">Elective</option>
+                                      <option value="Thesis">Thesis</option>
+                                </td>
+                                
                             <td><input type="text" id="subject_code" name="subject_code"/></td>
                             <td><input type="text" name="subject_name"></td>
                             <td><input type="text" name="subject_lec"></td>
