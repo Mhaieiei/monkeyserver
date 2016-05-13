@@ -25,14 +25,14 @@ router.get('/simpleroles', function(req, res){
 
 
 router.get('/tasks', function(req, res, next){
-	WorkflowTask.find({}, function(err, result){
+	WorkflowTask.find({},  '-details', function(err, result){
 		if(err) return res.json({ message : 'error' });
 		res.json(result);
 	})
 });
 
 router.get('/workflowexecutions', function(req, res, next){
-	WorkflowExecution.find({}, function(err, result){
+	WorkflowExecution.find({}, '-details -handlers -variables', function(err, result){
 		if(err) return res.json({ message : 'error' });
 		res.json(result);
 	})

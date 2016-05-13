@@ -26,7 +26,9 @@
 
       var inp0 = new_row.cells[0].getElementsByTagName('input')[0];
       var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+      inp1.value ='';
       var inp3 = new_row.cells[2].getElementsByTagName('input')[0];
+      inp3.value ='';
      
       
       console.log(new_row);
@@ -43,18 +45,19 @@
         <form class="form-horizontal" role="form"  action="" method="post" id = "myForm" > 
          <p hidden>              
             <input type="text" tabindex="1"  name="acid" id="acid"  value="{{acid}}"><br> 
-            <input type="text" tabindex="1"  name="program" id="program"  value="{{programname}}"><br> 
-            <input type="text" tabindex="1"  name="arrlen" id="arrlen"  value=1><br>             
+            <input type="text" tabindex="1"  name="program" id="program"  value="{{programname}}"><br>
+            <input type="text" tabindex="1"  name="structid" id="structid"  value="{{strucid}}"><br>  
+            <input type="text" tabindex="1"  name="arrlen" id="arrlen"  value="{{struclen}}"><br>             
         </p>   
            
            
         
-   <h3>Add new plan</h3>
+   <h3>Edit plan</h3>
         <br>
           <div class="form-group">
             <label for="inputType" class="col-md-1 control-label">Plan : </label>
               <div class="col-md-3">
-                  <input type="text" class="form-control" id="plan" width="30px;" name="plan" required>
+                  <input type="text" class="form-control" id="plan" width="30px;" name="plan" value="{{struc.plan}}" required>
               </div>
 
             
@@ -77,26 +80,27 @@
                             </tr>
                         </thead>
                         <tbody id = "ELO_KBbody">
-
+                          {{#each struc.knowledgeBlock}}
                             <tr>
-                            <td>          
-                              <select class="form-control" style="width:200px" id="type" name="type">
-                                  <option value="Generic Knowledge">Generic Knowledge</option>
-                                  <option value="Specific Knowledge">Specific Knowledge</option>
-                              </select>
-                           </td>
-                            <td><input  type="text" name="subtype" id="subtype"/></td>
-                            <td><input  type="text" name="credit" id="credit"/></td>
-                            <td> <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span></button>
-                            </td>
-                              
+                              <td>          
+                                <select class="form-control" style="width:200px" id="type" name="type">
+                                    <option value="Direct">Generic Knowledge</option>
+                                    <option value="Indirect">Specific Knowledge</option>
+                                </select>
+                             </td>
+                              <td><input  type="text" name="subtype" id="subtype" value="{{subjectType}}" /></td>
+                              <td><input  type="text" name="credit" id="credit" value="{{creditRequired}}" /></td>
+                              <td> <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span></button>
+                              </td>
+                                
 
-                            <div class="btn-group">
-                              <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
-                            </td>
-                            </div>  
+                              <div class="btn-group">
+                                <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
+                              </td>
+                              </div>  
                                   
-                            </tr>                    
+                            </tr> 
+                            {{/each}}                   
                         </tbody>
                       </table>
                   </div>

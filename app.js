@@ -24,7 +24,8 @@ module.exports = function(database) {
   //var routes = require('./routes/index');
   //var users = require('./routes/users');
 
-
+  //for uploading file
+  var methodOverride = require('method-override');
 
 
 
@@ -45,6 +46,9 @@ module.exports = function(database) {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   
+  //use for upload
+  app.use(methodOverride()); 
+
 
   app.use(busboy());
   // uncomment after placing your favicon in /public

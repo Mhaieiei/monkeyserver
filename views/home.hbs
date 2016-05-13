@@ -95,7 +95,7 @@
                         </div>
                         <div class="pull-right">
                                     
-                            <button id="search_submit" class="btn " type="submit" onclick="search_doc()">Search</button>
+                            <button id="search_submit" class="btn btn-mini" type="submit" onclick="search_doc()"><i class="glyphicon glyphicon-search" ></i> Search</button>
                                     
                         </div>
          
@@ -118,9 +118,9 @@
 
         <div class="tabs">
             <ul class="tab-links">
-                <li class="active"><a href="#tab1" >Workflows</a></li>
-                <li><a href="#tab2">In progress</a></li>
-                <li><a href="#tab3">Waiting for approval</a></li>
+                <li class="active"><a href="#tab1" >My documents</a></li>
+                <li><a href="#tab2">My workflows</a></li>
+                <li><a href="#tab3">Pending tasks</a></li>
                 
             </ul>
  
@@ -150,7 +150,7 @@
                                       <td>{{this.id}}</td>
                                       <td><a href={{this.filepath}}>{{this.name}}</a></td>
 
-                                      <td>{{this.author}}</td>
+                                      <td>{{this.owner}}</td>
                                       <td>{{getdate @index}}</td>
                                       <td><font color="red">{{this.status}}</td>
 
@@ -318,42 +318,7 @@
                                   {{/each}}
 
                                 </thead>
-                         <!--        <tbody>
-                                    <tr>
-                                    <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                    <td> <div class="col-md-5">D01082016T0322</div></td>
-                                    <td><a href="doc_wf.asp">DOC1</a> </td>
-                                    <td> <div class="col-md-5">Prem_Tester</div></td>
-                                    <td> <div class="col-md-5">01/08/2016</div></td>
-                                    <td> <div class="col-md-5"><font color="green">DONE</div></td>
-                                    </tr>
-
-                                </tbody>
-                                <tbody>
-                                    <tr>
-                                    <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                    <td> <div class="col-md-5">D06092016T0313</div></td>
-                                    <td><a href="doc_wf.asp">DOC2</a> </td>
-                                    <td> <div class="col-md-5">Mek_mek</div></td>
-                                    <td> <div class="col-md-5">06/09/2016</div></td>
-                                    <td> <div class="col-md-5"><font color="blue">INPROGRESS</div></td>
-                                    </tr>
-                                    
-                                    
-                                </tbody>
-
-                                <tbody>
-                                    <tr>
-                                    <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                    <td> <div class="col-md-5">D12112016T0400</div></td>
-                                    <td><a href="doc_wf.asp">DOC3</a> </td>
-                                    <td> <div class="col-md-5">Kamphan</div></td>
-                                    <td> <div class="col-md-5">12/11/2016</div></td>
-                                    <td> <div class="col-md-5"><font color="red">CREATED</div></td>
-                                    </tr>
-                                 </tbody>  
-                                     -->
-                               
+                        
 
 
                                 <table id="choice-btn">
