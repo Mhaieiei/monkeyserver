@@ -200,7 +200,7 @@
 							        <td>{{country}}</td>	
 							        <td>{{website}}</td>	
 							        <td><a href = "/aun/aun2-1/editref2-1?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a></td>
-							        <td><a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a></td>	       
+							        <td><a href = "/aun/aun2-1/delref2-1?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a></td>	       
 						        </tr>
 						      	{{/each}}						    
 						   </tbody>
@@ -225,10 +225,11 @@
 	              	{{#each struct}}
 					<p> Plan : {{plan}}</p>
 					<a href = "/aun/aun2-1/editstruct2-1?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>
-					<a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a> 
+					<a href = "/aun/aun2-1/delstruct2-1?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a> 
 					<table class="tablesorter">
 					    <thead>
 					        <tr>
+					        <th><a>Type</a></th>
 					        <th><a>Knowledge Block</a></th>
 					        <th><a>Credit required</a></th>
 					       
@@ -238,6 +239,7 @@
 						 <tbody>
 						 	{{#each knowledgeBlock}}
 					        <tr>
+					        	<td>{{type}}</td>
 						        <td>{{subjectType}}</td>
 						        <td>{{creditRequired}}</td>  
 						         

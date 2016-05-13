@@ -16,11 +16,9 @@ var semesyearSchema = mongoose.Schema({
 });
 
 var structureSchema = mongoose.Schema({
-
     plan: String,
     knowledgeBlock: mongoose.Schema.Types.Mixed,
     program: String
-
 
 });
 
