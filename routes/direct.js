@@ -262,7 +262,7 @@ module.exports = function(app, passport) {
       }
 
       if(author) {
-        query = query.where('author').regex(subStringRegex(author, false));
+        query = Doc.findByUser(author);
       }
 
       if(status !== 'all') {
@@ -385,7 +385,7 @@ module.exports = function(app, passport) {
       }
 
       if(author) {
-        query = query.where('author').regex(subStringRegex(author, false));
+        query = Doc.findByUser(author);
       }
 
       if(status !== 'all') {
@@ -409,6 +409,42 @@ module.exports = function(app, passport) {
       });
 
    });
+
+
+  app.get('/upload', isLoggedIn, function(req, res){
+      console.log("Uploading....");
+    
+      res.render('dms/getUpload.hbs',{
+      layout:"homePage"
+      });
+    });
+
+    // app.post('/upload', uploading, function(req, res){
+    app.post('/upload',function(req, res){
+      console.log("Uploading this file...");
+            
+                var fstream;
+                req.pipe(req.busboy);
+                req.busboy.on('file', function (fieldname, file, filename) {
+                console.log("Uploading: " + filename); 
+                fstream = fs.createWriteStream(__dirname + '/files/' + filename);
+                file.pipe(fstream);
+                fstream.on('close', function () {
+                    res.redirect('back');
+                });
+            });
+                  
+
+            if(err){
+              res.end();
+            }
+            else{
+            res.render('dms/getUpload.hbs',{
+            layout:"homePage"
+            });
+            }    
+
+          });
 
     
       
