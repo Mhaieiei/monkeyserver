@@ -1,0 +1,453 @@
+
+<%- include ../headerqa.ejs %>
+<body>
+
+    
+        <td>
+            <div class="container-fluid">
+            <div class="row-fluid">
+            <div class="span15">
+            <div class="col-md-15"> 
+           
+            <!--<form class="form-horizontal" role="form">-->
+                
+                <h3>AUN 3.3 The contribution made by each course to achieving the learning outcomes is clear</h3>
+       
+                <h5>Table : Knowledge and skill matrix of course and ELOs</h5>
+                <div id="tab_aun3.3">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                            <td colspan=3 >Courses</a></td>
+                            <td colspan=<%= len%> >ELOs</a></td>
+                            
+                            
+
+                        </tr>
+                        <tr>
+                           
+                            
+                            <th>Code</th>
+                            <th>Subject Description</th>
+                            <th>Credits</th>
+                            <%for (var i = 0; i < elo.length; i++) {%>
+                            <td><%= elo[i].number%></td>
+                            <%}%>
+                            
+
+                            
+                        </tr>
+
+                    <!-- ใช้ th colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
+                    </thead>
+                    <tbody>
+					
+                    <%for (var i = 0; i < docs.length; i++) {%>
+
+                        <%count_gen = 0%>
+                        <%count_spe = 0%>
+                        <%array_gen_com_code = []%>
+                        <%array_gen_com_type = []%>
+                        <%array_gen_com_name = []%>
+                        <%array_gen_com_credit = []%>
+                        <%array_gen_com_elo = []%>
+                        <%array_gen_com_allELO = []%>
+
+                        <%array_gen_ele_code = []%>
+                        <%array_gen_ele_type = []%>
+                        <%array_gen_ele_name = []%>
+                        <%array_gen_ele_credit = []%>
+                        <%array_gen_ele_elo = []%>
+                        <%array_gen_ele_allELO = []%>
+
+                        <%array_gen_the_code = []%>
+                        <%array_gen_the_type = []%>
+                        <%array_gen_the_name = []%>
+                        <%array_gen_the_credit = []%>
+                        <%array_gen_the_elo = []%>
+                        <%array_gen_the_allELO = []%>
+
+                        
+
+
+
+
+
+
+                        <%array_spe_com_code = []%>
+                        <%array_spe_com_type = []%>
+                        <%array_spe_com_name = []%>
+                        <%array_spe_com_credit = []%>
+                        <%array_spe_com_elo = []%>
+                        <%array_spe_com_allELO = []%>
+
+                        <%array_spe_ele_code = []%>
+                        <%array_spe_ele_type = []%>
+                        <%array_spe_ele_name = []%>
+                        <%array_spe_ele_credit = []%>
+                        <%array_spe_ele_elo = []%>
+                        <%array_spe_ele_allELO = []%>
+
+                        <%array_spe_the_code = []%>
+                        <%array_spe_the_type = []%>
+                        <%array_spe_the_name = []%>
+                        <%array_spe_the_credit = []%>
+                        <%array_spe_the_elo = []%>
+                        <%array_spe_the_allELO = []%>
+
+
+                        <tr>
+                        <th colspan=4+<%=len%>> Plan <%=docs[i]._id%></th>
+                        
+                        </tr>
+                        
+                        
+                        
+                        <%for (var j = 0; j < docs[i].root.length; j++) {%>
+                        <%for (var k = 0; k < docs[i].root[j].subject.length; k++) {%>
+						
+                    
+                        
+                        <% if (docs[i].root[j].subject[k].subcode.sub_topic == 'Generic' ){ %>
+                        
+                        <% if (docs[i].root[j].subject[k].subcode.sub_type == 'Compulsory' ){ %>
+                        <%array_gen_com_code.push(docs[i].root[j].subject[k].subcode.sub_code)%>
+                        <%array_gen_com_type.push(docs[i].root[j].subject[k].subcode.sub_type)%>
+                        <%array_gen_com_name.push(docs[i].root[j].subject[k].subcode.sub_name)%>
+                        <%array_gen_com_credit.push(docs[i].root[j].subject[k].subcode.sub_credit)%>
+                        
+                        <%array_gen_com_elo = []%>
+                        <%for (var m = 0; m < docs[i].root[j].subject[k].subcode.ELO.length; m++) {%>
+                        
+                        
+                        
+                        <%array_gen_com_elo.push(docs[i].root[j].subject[k].subcode.ELO[m])%>
+                        
+                        
+                        <%}%>
+                        
+                        <%array_gen_com_allELO.push(array_gen_com_elo)%>
+                        <%}%>
+
+                        <% if (docs[i].root[j].subject[k].subcode.sub_type == 'Elective' ){ %>
+                        <%array_gen_ele_code.push(docs[i].root[j].subject[k].subcode.sub_code)%>
+                        <%array_gen_ele_type.push(docs[i].root[j].subject[k].subcode.sub_type)%>
+                        <%array_gen_ele_name.push(docs[i].root[j].subject[k].subcode.sub_name)%>
+                        <%array_gen_ele_credit.push(docs[i].root[j].subject[k].subcode.sub_credit)%>
+                        
+                        <%array_gen_ele_elo = []%>
+                        <%for (var m = 0; m < docs[i].root[j].subject[k].subcode.ELO.length; m++) {%>
+                        
+                        
+                        
+                        <%array_gen_ele_elo.push(docs[i].root[j].subject[k].subcode.ELO[m])%>
+                        
+                        
+                        <%}%>
+                        
+                        <%array_gen_ele_allELO.push(array_gen_ele_elo)%>
+                        <%}%>
+
+                        <% if (docs[i].root[j].subject[k].subcode.sub_type == 'Thesis' ){ %>
+                        <%array_gen_the_code.push(docs[i].root[j].subject[k].subcode.sub_code)%>
+                        <%array_gen_the_type.push(docs[i].root[j].subject[k].subcode.sub_type)%>
+                        <%array_gen_the_name.push(docs[i].root[j].subject[k].subcode.sub_name)%>
+                        <%array_gen_the_credit.push(docs[i].root[j].subject[k].subcode.sub_credit)%>
+                        
+                        <%array_gen_the_elo = []%>
+                        <%for (var m = 0; m < docs[i].root[j].subject[k].subcode.ELO.length; m++) {%>
+                        
+                        
+                        
+                        <%array_gen_the_elo.push(docs[i].root[j].subject[k].subcode.ELO[m])%>
+                        
+                        
+                        <%}%>
+                        
+                        <%array_gen_the_allELO.push(array_gen_the_elo)%>
+                        <%}%>
+
+                        <%}%>
+
+
+
+
+
+
+
+
+
+
+                        <% if (docs[i].root[j].subject[k].subcode.sub_topic == 'Specific' ){ %>
+
+                        <% if (docs[i].root[j].subject[k].subcode.sub_type == 'Compulsory' ){ %>
+                        <%array_spe_com_code.push(docs[i].root[j].subject[k].subcode.sub_code)%>
+                        <%array_spe_com_type.push(docs[i].root[j].subject[k].subcode.sub_type)%>
+                        <%array_spe_com_name.push(docs[i].root[j].subject[k].subcode.sub_name)%>
+                        <%array_spe_com_credit.push(docs[i].root[j].subject[k].subcode.sub_credit)%>
+                        
+                        <%array_spe_com_elo = []%>
+                        <%for (var m = 0; m < docs[i].root[j].subject[k].subcode.ELO.length; m++) {%>
+                        
+                        
+                        
+                        <%array_spe_com_elo.push(docs[i].root[j].subject[k].subcode.ELO[m])%>
+                        
+                        
+                        <%}%>
+                        
+                        <%array_spe_com_allELO.push(array_spe_com_elo)%>
+                        <%}%>
+
+                        <% if (docs[i].root[j].subject[k].subcode.sub_type == 'Elective' ){ %>
+                        <%array_spe_ele_code.push(docs[i].root[j].subject[k].subcode.sub_code)%>
+                        <%array_spe_ele_type.push(docs[i].root[j].subject[k].subcode.sub_type)%>
+                        <%array_spe_ele_name.push(docs[i].root[j].subject[k].subcode.sub_name)%>
+                        <%array_spe_ele_credit.push(docs[i].root[j].subject[k].subcode.sub_credit)%>
+                        
+                        <%array_spe_ele_elo = []%>
+                        <%for (var m = 0; m < docs[i].root[j].subject[k].subcode.ELO.length; m++) {%>
+                        
+                        
+                        
+                        <%array_spe_ele_elo.push(docs[i].root[j].subject[k].subcode.ELO[m])%>
+                        
+                        
+                        <%}%>
+                       
+                        <%array_spe_ele_allELO.push(array_spe_ele_elo)%>
+                        <%}%>
+
+                        <% if (docs[i].root[j].subject[k].subcode.sub_type == 'Thesis' ){ %>
+                        <%array_spe_the_code.push(docs[i].root[j].subject[k].subcode.sub_code)%>
+                        <%array_spe_the_type.push(docs[i].root[j].subject[k].subcode.sub_type)%>
+                        <%array_spe_the_name.push(docs[i].root[j].subject[k].subcode.sub_name)%>
+                        <%array_spe_the_credit.push(docs[i].root[j].subject[k].subcode.sub_credit)%>
+                        
+                        <%array_spe_the_elo = []%>
+                        <%for (var m = 0; m < docs[i].root[j].subject[k].subcode.ELO.length; m++) {%>
+                        
+                        
+                        
+                        <%array_spe_the_elo.push(docs[i].root[j].subject[k].subcode.ELO[m])%>
+                        
+                        
+                        <%}%>
+                        
+                        <%array_spe_the_allELO.push(array_spe_the_elo)%>
+                        <%}%>
+
+
+                        <%}%>
+                        
+						
+						
+                        <%}%>
+                        <%}%>
+                        
+
+                        <tr>
+                        
+                        <th colspan=7>Generic knowledge and skill </th>
+                        </tr>
+
+                        <tr>
+                        
+                        <td colspan=7>Compulsory </td>
+                        </tr>
+
+                        <%for (var j = 0; j < array_gen_com_code.length; j++) {%>
+                        <tr>
+                        
+                        
+                        <td><%=array_gen_com_code[j] %></td>
+                        <td><%=array_gen_com_name[j] %></td>
+                        <td><%=array_gen_com_credit[j] %></td>
+
+
+                        
+                        <%for (var m = 0; m < array_gen_com_allELO[j].length; m++) {%>
+                        
+                        <td><%=array_gen_com_allELO[j][m].supportLevel %></td>
+                        
+                        <%}%>
+                        
+                        
+                        
+
+
+                        </tr>
+                        <%}%>
+
+                        <tr>
+                        
+                        <td colspan=7>Elective </td>
+                        </tr>
+
+                        <%for (var j = 0; j < array_gen_ele_code.length; j++) {%>
+                        <tr>
+                        
+                        
+                        <td><%=array_gen_ele_code[j] %></td>
+                        <td><%=array_gen_ele_name[j] %></td>
+                        <td><%=array_gen_ele_credit[j] %></td>
+
+
+                        
+                        <%for (var m = 0; m < array_gen_ele_allELO[j].length; m++) {%>
+                        
+                        <td><%=array_gen_ele_allELO[j][m].supportLevel %></td>
+                        
+                        <%}%>
+                        
+                        
+                        
+
+
+                        </tr>
+                        <%}%>
+                        <tr>
+                        
+                        <td colspan=7>Thesis </td>
+                        </tr>
+
+                        <%for (var j = 0; j < array_gen_the_code.length; j++) {%>
+                        <tr>
+                        
+                        
+                        <td><%=array_gen_the_code[j] %></td>
+                        <td><%=array_gen_the_name[j] %></td>
+                        <td><%=array_gen_the_credit[j] %></td>
+
+
+                        
+                        <%for (var m = 0; m < array_gen_the_allELO[j].length; m++) {%>
+                        
+                        <td><%=array_gen_the_allELO[j][m].supportLevel %></td>
+                        
+                        <%}%>
+                        
+                        
+                        
+
+
+                        </tr>
+
+                        <%}%>
+
+
+
+
+                        <tr>
+                        
+                        <th colspan=7>Specific knowledge and skill </th>
+                        </tr>
+                        <tr>
+                        
+                        <td colspan=7>Compulsory </td>
+                        </tr>
+
+                        <%for (var j = 0; j < array_spe_com_code.length; j++) {%>
+                        <tr>
+                        
+                        
+                        <td><%=array_spe_com_code[j] %></td>
+                        <td><%=array_spe_com_name[j] %></td>
+                        <td><%=array_spe_com_credit[j] %></td>
+
+
+                        
+                        <%for (var m = 0; m < array_spe_com_allELO[j].length; m++) {%>
+                        
+                        <td><%=array_spe_com_allELO[j][m].supportLevel %></td>
+                        
+                        <%}%>
+                        
+                        
+                        
+
+
+                        </tr>
+                        <%}%>
+
+                        <tr>
+                        
+                        <td colspan=7>Elective </td>
+                        </tr>
+
+                        <%for (var j = 0; j < array_spe_ele_code.length; j++) {%>
+                        <tr>
+                        
+                        
+                        <td><%=array_spe_ele_code[j] %></td>
+                        <td><%=array_spe_ele_name[j] %></td>
+                        <td><%=array_spe_ele_credit[j] %></td>
+
+
+                        
+                        <%for (var m = 0; m < array_spe_ele_allELO[j].length; m++) {%>
+                        
+                        <td><%=array_spe_ele_allELO[j][m].supportLevel %></td>
+                        
+                        <%}%>
+                        
+                        
+                        
+
+
+                        </tr>
+                        <%}%>
+                        <tr>
+                        
+                        <td colspan=7>Thesis </td>
+                        </tr>
+
+                        <%for (var j = 0; j < array_spe_the_code.length; j++) {%>
+                        <tr>
+                        
+                        
+                        <td><%=array_spe_the_code[j] %></td>
+                        <td><%=array_spe_the_name[j] %></td>
+                        <td><%=array_spe_the_credit[j] %></td>
+
+
+                        
+                        <%for (var m = 0; m < array_spe_the_allELO[j].length; m++) {%>
+                        
+                        <td><%=array_spe_the_allELO[j][m].supportLevel %></td>
+                        
+                        <%}%>
+                        
+                        
+                        
+
+
+                        </tr>
+
+                        <%}%>
+
+
+                        <%}%>
+
+
+                    </tbody>
+
+                  </table>
+
+                </div>
+          
+            </div>
+            </div>
+            </div>
+            </div>
+            
+
+        </td>
+
+
+
+         
+</body>
+
+<%- include ../footer.ejs %>
