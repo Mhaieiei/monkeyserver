@@ -57,8 +57,8 @@
         </li>
         <li class=""><a data-toggle="tab" href="#passive_order_categories" aria-expanded="false">Meetings</a>
         </li>
-        <li class=""><a data-toggle="tab" href="#passive_order_categories2" aria-expanded="false">Structure of Curriculum </a>
-        <li class=""><a data-toggle="tab" href="#passive_order_categories3" aria-expanded="false">Structure of Curriculum Edit</a>
+        <li class=""><a data-toggle="tab" href="#passive_order_categories2" aria-expanded="false">Referenced Curriculums </a>
+        <li class=""><a data-toggle="tab" href="#passive_order_categories3" aria-expanded="false">Structure of Curriculum </a>
         </li>
     </ul>
     <div class="tab-content">
@@ -171,31 +171,45 @@
             </div>
         </div>
 
-        <div id="passive_order_categories2" class="tab-pane">
+         <div id="passive_order_categories2" class="tab-pane">
             <div class="panel-body">
             	<form class="form-horizontal" role="form">
 	              
-					<p> Plan </p>
+					
 					<table class="tablesorter">
 					    <thead>
 					        <tr>
-					        <th><a>Knowledge Block</a></th>
-					        <th><a>Credit required</a></th>
-					        </tr>
+	                            <th>No.</a></th>
+	                            <th>Program Name</a></th>
+	                            <th>Degree</a></th>
+	                            <th>University</a></th>
+	                            <th>Country</a></th>
+	                            <th>Websites</a></th>
+	                            <th>Edit </th>
+	                            <th>Delete</th>
+	                        </tr>
 					    </thead>
 						 <tbody>
-					        <tr>
-						        <td></td>
-						        <td></td>    
-					        </tr>
-
+						   
+						      	{{#each ref}}
+						        <tr>
+							        <td>{{inc @index}}</td>
+							        <td>{{refProgramName}}</td>
+							        <td>{{degree}}</td>
+							        <td>{{university}}</td>	
+							        <td>{{country}}</td>	
+							        <td>{{website}}</td>	
+							        <td><a href = "/aun/aun2-1/editref2-1?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a></td>
+							        <td><a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a></td>	       
+						        </tr>
+						      	{{/each}}						    
 						   </tbody>
 						 </table>
 						<!-- end: table full--> 
 						<div class="table-foot"> 
 				        	<div class="pull-right">
 				                <div class="btn-group">
-				                	<a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>
+								    <a href = "/aun/aun2-1/addref2-1?program={{program}}&acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add new referenced</button></a>
 								</div>
 							    
 				 			</div>
@@ -207,32 +221,37 @@
 
         <div id="passive_order_categories3" class="tab-pane">
             <div class="panel-body">
-            	<form class="form-horizontal" role="form"> 
-					<p> Plan </p>
-					<table class="tablesorter" id="knowledgetab">
+            	<form class="form-horizontal" role="form">
+	              	{{#each struct}}
+					<p> Plan : {{plan}}</p>
+					<a href = "/aun/aun2-1/editstruct2-1?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>
+					<a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a> 
+					<table class="tablesorter">
 					    <thead>
 					        <tr>
 					        <th><a>Knowledge Block</a></th>
 					        <th><a>Credit required</a></th>
-					        <th><a>Add</a></th>
-					        <th><a>Delete</a></th>
+					       
+
 					        </tr>
 					    </thead>
-						 <tbody id ="knowledgetbody">
+						 <tbody>
+						 	{{#each knowledgeBlock}}
 					        <tr>
-						        <td><input width="300" type="text" name="knowledgebox" value="" ></td>
-						        <td><input width="300" type="text" name="creaditreq" value="" ></td>
-						        <td><button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span></button></td>   
-						        <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></td> 
+						        <td>{{subjectType}}</td>
+						        <td>{{creditRequired}}</td>  
+						         
 					        </tr>
+					        {{/each}}
 
 						   </tbody>
 						 </table>
+					{{/each}}
 						<!-- end: table full--> 
 						<div class="table-foot"> 
 				        	<div class="pull-right">
 				                <div class="btn-group">
-								    <a href = ""><button id="tab_submit" class="btn btn-primary" type="button">Submit</button></a>
+				                	<a href = "/aun/aun2-1/addstruc2-1?program={{program}}&acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add Structure</button></a>
 								</div>
 							    
 				 			</div>
@@ -241,6 +260,8 @@
 	            </form>
             </div>
         </div>
+
+        
     </div>
 </div>
 
