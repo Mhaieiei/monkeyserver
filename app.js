@@ -61,6 +61,7 @@ module.exports = function(database) {
   app.use(passport.session()); // persistent login sessions
   app.use(flash()); // use connect-flash for flash messages stored in session
 
+  app.use('/home', require('./routes/home'));
   app.use('/download', require('./routes/download/download'));
   app.use('/api', require('./routes/api'));
   require('./routes/direct.js')(app, passport);
