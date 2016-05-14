@@ -15,6 +15,7 @@ router.get('/', isLoggedIn, function(req, res) {
     getWorkflowTaskList(req, function(taskList) {
       var response = dateDDMMYYYY(_docs);
       response.result = taskList;
+     // console.log( response );
       res.render('home.hbs', response);
     })
   });
