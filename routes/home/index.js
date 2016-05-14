@@ -52,7 +52,7 @@ router.post('/', isLoggedIn, function(req, res) {
   }
 
   if(author) {
-    query = query.where('author').regex(subStringRegex(author, false));
+    query = Doc.findByUser(author);
   }
 
   if(status !== 'all') {
