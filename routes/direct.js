@@ -8,10 +8,11 @@ var mongoose = require('mongoose');
 var Handlebars = require('handlebars/runtime')['default'];
 var isLoggedIn = require('middleware/loginChecker');
 
-var adminController     = require('lib/admin');
-var thesisController    = require('lib/thesisHandler');
-var publicController    = require('lib/publicHandler');
-var trainController    = require('lib/trainHandler');
+var adminController     = require('lib/adminHandler');
+var thesisController    = require('lib/works/thesisHandler');
+var publicController    = require('lib/works/publicHandler');
+var trainController    = require('lib/works/trainHandler');
+var careerController    = require('lib/works/careerHandler');
 
 var formController      = require('./wf/form');
 var workflowController  = require('./wf/workflow');
@@ -97,9 +98,6 @@ module.exports = function(app, passport) {
   });
   
     // =====================================
-
-
-
     // LOGIN ===============================
     // =====================================
     // show the login form
@@ -125,15 +123,12 @@ module.exports = function(app, passport) {
     // LOGOUT ==============================
     // =====================================
 
-
     app.get('/logout', function(req, res) {
     console.log("Get logout");
         req.logout();
         res.redirect('/');
     });
   
-
-
     // =====================================
     // SIGNUP ==============================
     // =====================================
@@ -150,265 +145,40 @@ module.exports = function(app, passport) {
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
-   // =====================================
-    // HOME SECTION =====================
-    // =====================================
-       app.get('/home', isLoggedIn, function(req, res) {
-       var baseUrl = req.protocol + '://' + req.get('host');
-        //get workflow list 
-        request(baseUrl + '/api/workflow/workflowexecutions',function(error1,response1,body1){
-          //get task workflow list
-          request(baseUrl + '/api/workflow/tasks',function(error2,response2,body2){ 
-            var json = JSON.parse(body2);
-            console.log(body2);
-            console.log(body1);
-            console.log(typeof json);
-             res.render('home.hbs',{layout: 'homePage',result:json});
+
+  app.get('/upload', isLoggedIn, function(req, res){
+      console.log("Uploading....");
+    
+      res.render('dms/getUpload.hbs',{
+      layout:"homePage"
+      });
+    });
+
+    // app.post('/upload', uploading, function(req, res){
+    app.post('/upload',function(req, res){
+      console.log("Uploading this file...");
+            
+                var fstream;
+                req.pipe(req.busboy);
+                req.busboy.on('file', function (fieldname, file, filename) {
+                console.log("Uploading: " + filename); 
+                fstream = fs.createWriteStream(__dirname + '/files/' + filename);
+                file.pipe(fstream);
+                fstream.on('close', function () {
+                    res.redirect('back');
+                });
+            });
+                  
+
+         
+            res.render('dms/getUpload.hbs',{
+            layout:"homePage"
+            });
+             if (req.session.state) {
+            res.json({state: req.session.state});
+             } 
+
           });
-          
-        });
-
-        /*
-        var query = Doc.findByUser(req.user);
-        var date= [];
-        query.exec(function(err,_docs) {
-          if(err) {
-            console.log(err);
-            res.status(500);
-            return next(err);
-
-          }
-
-          var response = {
-            layout: 'homePage',
-            docs: _docs,
-            helpers: {
-                  getdate: function (value) { return date[value]; }
-                }
-            
-          }
-            
-              
-            
-            for(var i = 0 ; i < _docs.length ;++i){
-              var a = _docs[i].dateCreate;
-              var yy = a.getFullYear();
-              var mm = a.getMonth()+1;
-              var dd = a.getDate();
-              
-              if(mm<10){
-                mm = "0"+mm;
-              }
-              if(dd<10){
-                dd = "0"+dd;
-              }
-              
-              date[i] = dd+ '/' +mm +'/'+ yy;
-            }
-            
-            //response.docs[0].dateCreate =  a.getYear() + '/' +a.getMonth() +'/'+a.getDay()
-            
-            console.log("update")
-            res.render('home.hbs',{
-          layout: 'homePage',
-              docs: _docs,
-                helpers: {
-                  getdate: function (value) { return date[value]; }
-                }
-        });
-            
-        
-          
-            
-          
-          
-        });
-        */
-        
-
-  
-
-  
-    });
-
-    app.post('/home', isLoggedIn, function(req, res) {
-      console.log('AT HOME');
-      var date= [];
-      var documentName = req.body.doc_name;
-      var status = req.body.doc_status;
-      var fromDate = Date.parse(req.body.fromDate);
-      var fDate = req.body.fromDate;
-      var toDate = Date.parse(req.body.toDate);
-      var tDate = req.body.toDate;
-      var type = req.body.doc_type;
-      var author = req.body.doc_author;
-      var user = req.user;
-
-      var subStringRegex = function(subString, isCaseSensitive) {
-        var mode;
-        if(isCaseSensitive) mode = 'c';
-        else mode = 'i';
-
-        return new RegExp(subString, mode);
-      };
-      
-      var query = Doc.findByUser(user).
-      where('name').regex(subStringRegex(documentName, false));
-
-      if(!isNaN(fromDate) && !isNaN(toDate)) {
-        fromDate = new Date(fromDate);
-        toDate = new Date(toDate);
-        query = query.where('dateCreate').gt(fromDate).lt(toDate);
-      }
-
-      if(author) {
-        query = query.where('author').regex(subStringRegex(author, false));
-      }
-
-      if(status !== 'all') {
-        status = status.toLowerCase().trim();
-        query = query.where('status').equals(status);
-      }
-
-      console.log("Status:"+status);
-
-      query.exec(function(err, _docs) {
-          if(err) {
-            console.log(err);
-            res.status(500);
-            return next(err);
-        }
-
-      console.log("Type: " + type);
-      var status1;
-      var status2;
-      var status3;
-      var type1;
-      var type2;
-
-      if (status == 'create') {
-        status1 = true;
-      } else if (status == 'inprogress'){
-        status2 = true;
-      } else if (status == 'done'){
-        status3 = true;
-      }
-
-      if (type == 'own'){
-        type1 = true;
-      } else if (type == 'other_type'){ 
-        type2 = true;
-      }
-
-      console.log('s1:'+status1);
-      console.log('s2:'+status2);
-      console.log('s3:'+status3);
-      console.log('type1:'+type1);
-      console.log('type2:'+type2);
-      var response = {
-            layout: 'homepage',
-            docs: _docs,
-             docName: documentName,
-            docAuthor: author,
-            docStatus: status,
-            docFromDate: fDate,
-            docToDate: tDate,
-            docType: type,
-            st1: status1,
-            st2: status2,
-            st3: status3,
-            type1: type1,
-            type2: type2,
-             helpers: {
-                getdate: function (value) { return date[value]; }
-            }
-        }
-        
-          for(var i = 0 ; i < response.docs.length ;++i){
-            var a = response.docs[i].dateCreate;
-            var yy = a.getFullYear();
-            var mm = a.getMonth()+1;
-            var dd = a.getDate();
-            
-            if(mm<10){
-              mm = "0"+mm;
-            }
-            if(dd<10){
-              dd = "0"+dd;
-            }
-            
-            date[i] = dd+ '/' +mm +'/'+ yy;
-          }
-      
-      res.render('home.hbs', response); 
-      });
-   });
-
-    app.get('/document', isLoggedIn, function(req, res){
-      console.log("Document Information");
-      res.render('dms/document.hbs');
-    });
-
-       app.post('/home', isLoggedIn, function(req, res) {
-
-        console.log('AT HOME');
-      var documentName = req.body.doc_name;
-      var status = req.body.doc_status;
-      var fromDate = Date.parse(req.body.fromDate);
-      var toDate = Date.parse(req.body.toDate);
-      var type = req.body.doc_type;
-      var author = req.body.doc_author;
-      var user = req.user;
-      console.log(documentName);
-      console.log(status);
-      console.log(fromDate);
-      console.log(toDate);
-      console.log(type);
-      console.log(author);
-
-
-      var subStringRegex = function(subString, isCaseSensitive) {
-        var mode;
-        if(isCaseSensitive) mode = 'c';
-        else mode = 'i';
-
-        return new RegExp(subString, mode);
-      };
-      
-      var query = Doc.findByUser(user).
-      where('name').regex(subStringRegex(documentName, false));
-
-      if(!isNaN(fromDate) && !isNaN(toDate)) {
-        fromDate = new Date(fromDate);
-        toDate = new Date(toDate);
-        query = query.where('dateCreate').gt(fromDate).lt(toDate);
-      }
-
-      if(author) {
-        query = query.where('author').regex(subStringRegex(author, false));
-      }
-
-      if(status !== 'all') {
-        status = status.toLowerCase().trim();
-        query = query.where('status').equals(status);
-      }
-          
-      query.exec(function(err, _docs) {
-          if(err) {
-            console.log(err);
-            res.status(500);
-            return next(err);
-        }
-        console.log(_docs);
-      var response = {
-            layout: 'homepage',
-            docs: _docs
-        }
-      
-      res.render('home.hbs', response); 
-      });
-
-   });
 
     
       
@@ -844,6 +614,7 @@ app.use('/aun', aunController ); //aun handler
   app.use('/thesisinf', thesisController );     //thesis 
   app.use('/publicationinf', publicController ); //publication  
   app.use('/traininf',trainController);  //Training Courses
+  app.use('/careerinf',careerController);  //Career Development
 
     
   //==== workflow module =========

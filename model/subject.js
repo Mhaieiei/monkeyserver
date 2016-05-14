@@ -11,6 +11,7 @@ var subjectSchema = mongoose.Schema({
 	sub_credit	: Number,
 	sub_lecter : [{type: String,ref:'User'}],	
     sub_type: String, //compulsory sub, thesis sub
+    sub_topic:String, // generic,specific
     ELO: [{
     supportLevel: String,
     ELO: { type: mongoose.Schema.Types.ObjectId, ref: 'ELO' }

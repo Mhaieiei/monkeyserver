@@ -28,11 +28,11 @@
         var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
         
         var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
-      
+        
         var inp3 = new_row.cells[3].getElementsByTagName('input')[0];
         
         var inp4 = new_row.cells[4].getElementsByTagName('input')[0];
-       
+        
         var inp5 = new_row.cells[5].getElementsByTagName('input')[0];
         var inp6 = new_row.cells[6].getElementsByTagName('input')[0];
       
@@ -106,7 +106,11 @@
                                     <option></option>
                                 </td>
 
-                                <td> <button class="btn btn-xs btn-primary" value="Add" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span> </button></td>
+                                <div class="btn-group">
+                                       <td> <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()">
+                                          <span class="glyphicon glyphicon-plus"></span></button>
+                                        </td>
+                                      </div> 
 	                            <td>
 	                                <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span>
 	                                </button>

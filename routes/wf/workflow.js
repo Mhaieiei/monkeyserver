@@ -34,7 +34,7 @@ router.get('/new', function(req, res){
 
 router.post('/save', function(req, res){
 
-	var tpWorkflow = new TemplateWorkflow( { 
+	var tpWorkflow = new TemplateWorkflow({ 
 		name: req.body.name, 
 		description: req.body.description,
 		xml: req.body.xml,
@@ -42,17 +42,16 @@ router.post('/save', function(req, res){
 		elements: req.body.elements
 	});
 	
-	tpWorkflow.save(function (err) {
+	tpWorkflow.save(function(err){
 		if(!err){
-			console.log('Save template workflow !!!');
 			res.end('succesful');
 		}
 		else{
-			console.log(err);
 			res.end('failed');
 		}
 	});
 });
+
 
 router.get('/:id/edit', function(req, res, next){
 
@@ -132,8 +131,12 @@ router.get('/:id/execute', function(req, res, next){
 
 			handler.parse( process, collaboration );
 
-			console.log( collaboration );
-			console.log( process );
+			//console.log( collaboration );
+			//console.log( process );
+
+			//console.log( handler.elements );
+			//console.log( collaboration );
+			//console.log( process );
 
 			res.end("Very Bad Programmer");
 
