@@ -10,8 +10,11 @@ var programSchema = mongoose.Schema({
 	programname: String,
 	stakeholder: [{ type: String, ref: 'stakeholder' }],
 	evaluation: [{
-	    stakeholder: { type: mongoose.Schema.Types.ObjectId, ref: 'stakeholder' },
-	    EvaluationMethod: [{ type: mongoose.Schema.Types.ObjectId, ref: 'EvaluationMethod' }]
+	    stakeholder: String,
+	    EvaluationMethod: [{ 
+	    	methodName: String,
+    		frequency: String 
+    	}]
 
 	}],
 	assesmentTool: [String],
