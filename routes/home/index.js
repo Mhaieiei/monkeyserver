@@ -15,6 +15,8 @@ router.get('/', isLoggedIn, function(req, res) {
     getWorkflowTaskList(req, function(taskList) {
       var response = dateDDMMYYYY(_docs);
       response.result = taskList;
+      console.log('Response');
+      console.log(response.result);
       res.render('home.hbs', response);
     })
   });
@@ -176,8 +178,7 @@ function getWorkflowTaskList(req, callBackWithResult) {
     //get task workflow list
     request(baseUrl + '/api/workflow/tasks',function(error2,response2,body2){ 
       var json = JSON.parse(body2);
-      console.log(body2);
-      console.log(body1);
+      json = JSON.parse(body1);
       console.log(typeof json);
       callBackWithResult(json);
     });
