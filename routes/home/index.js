@@ -52,7 +52,7 @@ router.post('/', isLoggedIn, function(req, res) {
   }
 
   if(author) {
-    query = query.where('author').regex(subStringRegex(author, false));
+    query = Doc.findByUser(author);
   }
 
   if(status !== 'all') {
@@ -175,9 +175,9 @@ function getWorkflowTaskList(req, callBackWithResult) {
   request(baseUrl + '/api/workflow/workflowexecutions',function(error1,response1,body1){
     //get task workflow list
     request(baseUrl + '/api/workflow/tasks',function(error2,response2,body2){ 
+
       var json = JSON.parse(body2);
-      console.log(body2);
-      console.log(body1);
+      json = JSON.parse(body1);
       console.log(typeof json);
       callBackWithResult(json);
     });

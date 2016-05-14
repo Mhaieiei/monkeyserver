@@ -35,16 +35,11 @@
                             <p hidden>    
                               <input type="text" tabindex="1"  name="role" value='{{user.local.role}}' ><br>
                             </p>
-                            <div class="form-group">
-                              <label for="inputType" class="col-md-2 control-label">Username:</label>
-                              <div class="col-md-4">
-                                  <input type="text" class="form-control" name="username" value ="{{ user.local.username }}" id="inputType">
-                              </div>
-                            </div>
+                           
                             <div class="form-group">
                               <label for="inputType" class="col-md-2 control-label">University ID:</label>
                               <div class="col-md-4">
-                                   <input type="text" class="form-control" name="username" value ="" id="inputType">
+                                   <input type="text" class="form-control" name="username" value ="{{ user.local.username }}" id="inputType">
                               </div>
                             </div>
                              <div class="form-group">
@@ -178,7 +173,7 @@
                             </div>
 
                            
-                        </form>
+                       
 
                     </td>
                 </tr>
@@ -187,9 +182,9 @@
     <br>
      <div class="form-group">
         <div class="col-md-12">
-             <p align = "right"><button type="button" class="btn btn-primary">Edit</button>
-                             <button type="submit" class="btn btn-primary">Save</button></p>
+             <p align = "right"><button type="submit" class="btn btn-primary">Save</button></p>
         </div>
       </div>
     </div>
 </div>
+ </form>

@@ -8,10 +8,11 @@ var mongoose = require('mongoose');
 var Handlebars = require('handlebars/runtime')['default'];
 var isLoggedIn = require('middleware/loginChecker');
 
-var adminController     = require('lib/admin');
-var thesisController    = require('lib/thesisHandler');
-var publicController    = require('lib/publicHandler');
-var trainController    = require('lib/trainHandler');
+var adminController     = require('lib/adminHandler');
+var thesisController    = require('lib/works/thesisHandler');
+var publicController    = require('lib/works/publicHandler');
+var trainController    = require('lib/works/trainHandler');
+var careerController    = require('lib/works/careerHandler');
 
 var formController      = require('./wf/form');
 var workflowController  = require('./wf/workflow');
@@ -169,14 +170,13 @@ module.exports = function(app, passport) {
             });
                   
 
-            if(err){
-              res.end();
-            }
-            else{
+         
             res.render('dms/getUpload.hbs',{
             layout:"homePage"
             });
-            }    
+             if (req.session.state) {
+            res.json({state: req.session.state});
+             } 
 
           });
 
@@ -614,6 +614,7 @@ app.use('/aun', aunController ); //aun handler
   app.use('/thesisinf', thesisController );     //thesis 
   app.use('/publicationinf', publicController ); //publication  
   app.use('/traininf',trainController);  //Training Courses
+  app.use('/careerinf',careerController);  //Career Development
 
     
   //==== workflow module =========
