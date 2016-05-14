@@ -90,7 +90,9 @@
 							        <td>
 							        	{{#each subcode.sub_lecter}}
 							        		{{local.title}}
-							        		{{local.name}}<br>
+							        		{{local.name}}
+							        		{{local.surname}}
+							        <br>
 							        		
 							        	{{/each}}
 							        </td>		       
@@ -106,10 +108,10 @@
 				               
 				           
 							    <div class="btn-group">
-							   		 <a href = "/admin/editsubprogram?id={{ac_id}}&year={{Year}}&semes={{semester}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>
+							   		 <a href = "/admin/editsubprogram?id={{ac_id}}&year={{Year}}&semes={{semester}}&program={{program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>
 								</div>
 								<div class="btn-group">
-							   		 <a href = "/admin/delsubprogram?id={{_id}}&acid={{ac_id}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a>
+							   		 <a href = "/admin/delsubprogram?id={{_id}}&acid={{ac_id}}&program={{program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a>
 								</div>
 				 			</div>
 				 		</div>
