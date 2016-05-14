@@ -1,0 +1,122 @@
+<script type="text/javascript">
+    var array = [];
+    var rowind = 1;
+  
+    function deleteRow(row)
+    {
+
+        var i=row.parentNode.parentNode.rowIndex;
+        document.getElementById('ELO_PEtable').deleteRow(i);
+        rowind--;
+        document.getElementById('arrlen').value = rowind;
+        console.log("value="+document.getElementById('arrlen').value);
+    } 
+
+    function insRow()
+    {
+
+      var arr = []
+      //console.log( 'hi');
+      var x=document.getElementById('ELO_PEtable');
+      var y =document.getElementById('ELO_PEbody');
+      var new_row = x.rows[1].cloneNode(true);
+      //console.log( 'new_row: '+new_row);
+      var len = x.rows.length;
+      //console.log( 'len: '+len);
+
+      var inp0 = new_row.cells[0].getElementsByTagName('input')[0];
+      var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+      var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
+      
+      console.log(new_row);
+      y.appendChild( new_row );
+      rowind++;
+      console.log(rowind);
+      document.getElementById('arrlen').value = rowind;
+      console.log("value="+document.getElementById('arrlen').value);
+     
+    }
+</script>
+
+<div class="container">
+        <form class="form-horizontal" role="form"  action="/aun/aun1-1/addelos?program={{programname}}&year={{year}}&acid={{acid}}" method="post" id = "myForm" > 
+          
+           
+         
+        
+   <h3>Add program evaluation methods and frequencies</h3>
+        <br>
+          <div class="form-group">
+            <label for="inputType" class="col-md-1 control-label">No. : </label>
+              <div class="col-md-3">
+                  <input type="text" class="form-control" id="elos_no" width="50px;"maxlength="4" size="4" name="elos_no" required>
+              </div>
+
+             <label for="inputType" class="col-md-2 control-label">Description : </label>
+              <div class="col-md-4">
+                <textarea class="form-control" rows="5" id="elos_des" name="elos_des"></textarea>
+              </div>
+            
+          </div>
+          <div class="form-group">
+            <br>
+              <div class="col-md-4">
+                 <div id="tab_2">
+                    <table id="ELO_PEtable" class="tablesorter">
+                        <thead>
+                            <tr>
+                            <th><a>Stakeholders</a></th>
+                            <th><a>Methods/Tools</a></th>
+                            <th><a>Frequency</a></th>
+                            <th><a>Add</a></th>
+                            <th><a>Delete</a></th>
+                            </tr>
+                        </thead>
+                        <tbody id = "ELO_PEbody">
+                           
+                            <tr>
+                            <td><input  type="text" name="name_stake" id="name_stake"/></td>
+                            <td><input  type="text" name="name_method" id="name_method"/></td>
+                            <td>          
+                              <select class="form-control" style="width:200px" id="ftype" name="ftype">
+                                  <option value="Every semester">Every semester</option>
+                                  <option value="Annually">Annually</option>
+                                  <option value="After Graduated">After Graduated</option>
+                                  <option value="Period of 5 years">Period of 5 years</option>
+                              </select>
+                           </td>
+
+                            <td> <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span></button>
+                            </td>
+                              
+
+                            <div class="btn-group">
+                              <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
+                            </td>
+                            </div>  
+                                  
+                            </tr>                    
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+              <div class="col-md-4">
+                      <br>
+                      <br>
+                      <br>
+                      <p align = "right"><button type="submit" class="btn btn-primary">Add</button></p>
+              </div>
+            </div>
+
+            
+
+            
+
+        </form>
+
+</div>
+
+
+
+
+
