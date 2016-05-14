@@ -29,6 +29,8 @@ var docSchema = new Schema({
 		ref: 'user'
 	},
 
+	author: String,
+
 	/*
 	 * A date when this record is created.
 	 */
