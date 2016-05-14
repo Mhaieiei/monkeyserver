@@ -1,0 +1,48 @@
+ <td>
+            <div class="container-fluid">
+            <div class="row-fluid">
+            <div class="span15">
+            <div class="col-md-15"> 
+
+        <br>
+        <br>
+        <br>
+
+ <div id="tab_aun12.1">
+                 <h3>Career development</h3>
+                <a href = "/careerinf/addcareer?username={{username}}"><button id="tab_2_submit" class="btn btn-mini" type="button">ADD new</button></a>
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                            <th>No.</a></th>
+                            <th>Activities</a></th>
+                            <th>Hr.</a></th>
+                            <th>Edit</a></th>
+                            <th>Delete</a></th>
+                           
+                        </tr>
+                       
+                       
+
+                   
+                    </thead>
+                    <tbody>
+                        
+                      
+                       
+                        {{#each Userinfo.careerDevelopment}}
+                            <tr>
+                                <td>{{inc @index}}</td>
+                                <td>{{activity}}</td>
+                                <td>{{hour}}</td>
+                                <td><a href='/careerinf/editcareer?id={{id}}&user={{getuser}}'>edit</a></td>  
+                                <td><a href='/careerinf/delcareer?id={{id}}&user={{getuser}}'>delete</a></td>                      
+                            </tr>  
+                        {{/each}}
+                        
+                    </tbody>
+
+                  </table>
+
+                </div>
