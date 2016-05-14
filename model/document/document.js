@@ -29,6 +29,8 @@ var docSchema = new Schema({
 		ref: 'user'
 	},
 
+	author: String,
+
 	/*
 	 * A date when this record is created.
 	 */
@@ -55,6 +57,8 @@ var docSchema = new Schema({
 		type: Boolean,
 		default: false
 	},
+
+	version: String,
 
 	/*
 	 * Indicates the current states document going through the workflow.
@@ -90,6 +94,11 @@ var docSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: schemaName
 	}],
+
+	previousVersion: {
+		type: Schema.Types.ObjectId,
+		ref: schemaName
+	},
 
 	/*
 	 * Other required documents or other dependent documents.

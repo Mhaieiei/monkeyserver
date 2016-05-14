@@ -57,11 +57,13 @@ var trainingSchema = mongoose.Schema({
 });
 
 var careerDevelopmentSchema = mongoose.Schema({
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    _type : {type: String, default: 'careerDevelopment'},
+    user: { type: String, ref: 'User' },
     activity: String,
     hour: Number,
     academicYear: String
 });
+
 var meetingOfProgramManagement = mongoose.Schema({
     _type : {type: String, default: 'meetingOfProgram'},
     acyear : String,

@@ -1,0 +1,133 @@
+<script type="text/javascript">
+    var array = [];
+    var rowind = 1;
+  
+    function deleteRow(row)
+    {
+
+        var i=row.parentNode.parentNode.rowIndex;
+        document.getElementById('ELO_PEtable').deleteRow(i);
+        rowind--;
+        document.getElementById('arrlen').value = rowind;
+        console.log("value="+document.getElementById('arrlen').value);
+    } 
+
+    function insRow()
+    {
+
+      var arr = []
+      //console.log( 'hi');
+      var x=document.getElementById('ELO_PEtable');
+      var y =document.getElementById('ELO_PEbody');
+      var new_row = x.rows[1].cloneNode(true);
+      //console.log( 'new_row: '+new_row);
+      var len = x.rows.length;
+      //console.log( 'len: '+len);
+
+      var inp0 = new_row.cells[0].getElementsByTagName('input')[0];
+      var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+      var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
+      
+      console.log(new_row);
+      y.appendChild( new_row );
+      rowind++;
+      console.log(rowind);
+      document.getElementById('arrlen').value = rowind;
+      document.getElementById('count').value = 1;
+      console.log("value="+document.getElementById('arrlen').value);
+     
+    }
+</script>
+
+<div class="container">
+        <form class="form-horizontal" role="form"  action="/aun/aun11-4/add_aun11-4?program={{programname}}&year={{year}}&acid={{acid}}" method="post" id = "myForm" > 
+          
+           
+         
+        
+   <h3>Add program evaluation methods and frequencies</h3>
+        <br>
+          <div class="form-group">
+              <label for="inputType" class="col-md-2 control-label">Stakeholder : </label> 
+              <div class="col-md-4">
+                <input type="text" class="form-control" id="stak_name"   name="stak_name" required>
+              </div>
+          </div>
+          <div class="form-group">
+            <br>
+              <div class="col-md-4">
+                 <div id="tab_2">
+                    <table id="ELO_PEtable" class="tablesorter">
+                        <thead>
+                            <tr>
+                            
+                            <th><a>Methods/Tools</a></th>
+                            <th><a>Frequency</a></th>
+                            <th><a>Add</a></th>
+                            <th><a>Delete</a></th>
+                            </tr>
+                        </thead>
+                        <tbody id = "ELO_PEbody">
+                           <p hidden>    
+                              <input type="text" tabindex="1"  name="arrlen" id="arrlen" value="1" readonly=""><br>
+                            </p>
+                            <p hidden>    
+                              <input type="text" tabindex="1"  name="count" id="count" value="0" readonly=""><br>
+                           </p>
+                            <tr>
+                            
+                            <td><select class="form-control" style="width:150px" id="ftype" name="method">
+                                  <option value="Course evaluation">Course evaluation</option>
+                                  <option value="Curriculum evaluation">Curriculum evaluation</option>
+                                  <option value="TQF 5">TQF 5</option>
+                                  <option value="Semester evaluation">Semester evaluation</option>
+                                  <option value="Program management evaluation">Program management evaluation</option>
+                                  <option value="TQF 7">TQF 7</option>
+                                  <option value="Curriculum review">Curriculum review</option>
+                                  <option value="QA assessment">QA assessment</option>
+                              </select></td>
+                            <td>          
+                              <select class="form-control" style="width:150px" id="ftype" name="ftype">
+                                  <option value="Every semester">Every semester</option>
+                                  <option value="Annually">Annually</option>
+                                  <option value="After Graduated">After Graduated</option>
+                                  <option value="Period of 5 years">Period of 5 years</option>
+                              </select>
+                           </td>
+
+                            <td> <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span></button>
+                            </td>
+                              
+
+                            <div class="btn-group">
+                              <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
+                            </td>
+                            </div>  
+                                  
+                            </tr>                    
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+              
+            </div>
+
+            <div class="col-md-10">
+                      <br>
+                      <br>
+                      <br>
+                      <button type="submit" class="btn btn-primary">Add</button></p>
+              </div>
+
+            
+
+            
+
+        </form>
+
+</div>
+
+
+
+
+
