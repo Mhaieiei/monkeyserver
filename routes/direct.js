@@ -169,14 +169,13 @@ module.exports = function(app, passport) {
             });
                   
 
-            if(err){
-              res.end();
-            }
-            else{
+         
             res.render('dms/getUpload.hbs',{
             layout:"homePage"
             });
-            }    
+             if (req.session.state) {
+            res.json({state: req.session.state});
+             } 
 
           });
 
