@@ -9,14 +9,7 @@ var programSchema = mongoose.Schema({
 
 	programname: String,
 	stakeholder: [{ type: String, ref: 'stakeholder' }],
-	evaluation: [{
-	    stakeholder: String,
-	    EvaluationMethod: [{ 
-	    	methodName: String,
-    		frequency: String 
-    	}]
-
-	}],
+	evaluation: [{ type: String, ref: 'EvaluationMethod' }],
 	assesmentTool: [String],
 	structureOfCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'structure' }],
 	referenceCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'referenceCurriculum' }],
@@ -31,9 +24,12 @@ var programSchema = mongoose.Schema({
 
 
 var EvaluationMethodSchema = mongoose.Schema({
-
-    methodName: String,
-    frequency: String
+	program:String,
+	stakeholder:String,
+    EvaluationMethod: [{ 
+	    	methodName: String,
+    		frequency: String 
+    	}]
 });
 
 var StakeholderSchema = mongoose.Schema({
