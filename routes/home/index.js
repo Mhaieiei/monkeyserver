@@ -151,8 +151,11 @@ router.post('/upload',function(req, res, next){
     mapFileToDocument(req, function(returnDocument){document = returnDocument})],
     function(error) {
       handleError(error, res, next); 
-      console.log(document);
-      res.redirect('back')})
+      if(req.query.json) {
+        res.json(document);
+      }
+      else
+        res.redirect('back')})
 });
 
 function writeFile(req) {

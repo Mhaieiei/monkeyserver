@@ -13,12 +13,13 @@ var async = require('async');
 describe.only('DMS pages HTTP request testing', function() {
 
 	var server;
+	var user = {name: 'joe', password: 'joe'}
 
 	before(function(done) {
 		require('app')(db);
 		var app = require('app')(dbMock);
 		server = new DmsServer(app);
-		helper.registerAndLogin(server, 'joe', 'joe')(done);
+		helper.registerAndLogin(server, user.name, user.password)(done);
 	})
 
 	after(function(done) {
@@ -49,12 +50,15 @@ describe.only('DMS pages HTTP request testing', function() {
 			async.series([uploadFile(path2File), fileExist('./' + path2UploadFile)], done);
 		})
 
-		it.skip('should return a document object after upload the file', function(done) {
-			generateUploadRequest(path2File)
+		it('should return a document object after upload the file', function(done) {
+			generateUploadRequest(page + '?json=true', path2File)
+			.expect(200)
 			.expect(function(response) {
-				expect(response.document).to.exist;
-				expect(response.document.id).to.exist;
-				expect(response.document.name).to.equal(filename);
+				var document = response.body;
+				expect(document._id).to.exist;
+				expect(document.owner).to.equal(user.name);
+				expect(document.docNum).to.exist;
+				expect(document.name).to.equal(filename);
 			})
 			.end(done);
 		})
@@ -74,15 +78,15 @@ describe.only('DMS pages HTTP request testing', function() {
 
 		function uploadFile(pathToFile) {
 			return function(done) {
-				generateUploadRequest(pathToFile)
+				generateUploadRequest(page, pathToFile)
+				.expect(302)
 				.end(done)
 			}
 		}
 
-		function generateUploadRequest(pathToFile) {
-			return server.postWithAuth(page)
+		function generateUploadRequest(pageUri, pathToFile) {
+			return server.postWithAuth(pageUri)
 			.attach('file', pathToFile)
-			.expect(302)
 		}
 
 		function fileExist(pathToFile) {
