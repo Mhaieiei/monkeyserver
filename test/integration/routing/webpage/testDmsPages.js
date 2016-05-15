@@ -27,7 +27,9 @@ describe.only('DMS pages HTTP request testing', function() {
 
 	function pageShouldExist(uri) {
 		return it('URI: ' + uri + ' exists', function(done) {
-			done();
+			server.get(uri)
+			.expect(200)
+			.end(done);
 		})
 	}
 
