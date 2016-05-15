@@ -35,23 +35,18 @@ describe.only('DMS pages HTTP request testing', function() {
 		var path2File = 'test/resource/' + filename;
 		var path2UploadFile = './uploads/files/' + filename;
 
+		beforeEach(function(done) {
+			removeFile(path2UploadFile)(done);
+		});
+
+		afterEach(function(done) {
+			removeFile(path2UploadFile)(done);
+		})
+
 		pageShouldExist(page);
 
 		it('should be able to upload the file', function(done) {
 			async.series([uploadFile(path2File), fileExist(path2UploadFile)], done);
-		})
-
-		before(function(done) {
-			fileStream.readFile(path2UploadFile, function(err, data) {
-				var fileExist = !err;
-				if(fileExist)
-					removeFile(path2UploadFile);
-				done();
-			})
-		});
-
-		after(function() {
-			removeFile(path2UploadFile);
 		})
 
 		function uploadFile(pathToFile) {
@@ -75,9 +70,17 @@ describe.only('DMS pages HTTP request testing', function() {
 		}
 
 		function removeFile(pathToFile) {
-			fileStream.unlinkSync(pathToFile);
+			return function(done) {
+				fileStream.readFile(path2UploadFile, function(err, data) {
+					var fileExist = !err;
+					if(fileExist)
+						fileStream.unlinkSync(pathToFile);
+					done();
+				})
+			}	
 		}
-	})
+
+	});
 
 	function pageShouldExist(uri) {
 		return it('URI: ' + uri + ' exists', function(done) {
@@ -88,7 +91,3 @@ describe.only('DMS pages HTTP request testing', function() {
 	}
 
 })
-
-function readFile() {
-
-}
