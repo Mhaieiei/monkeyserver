@@ -30,7 +30,7 @@ describe.only('DMS pages HTTP request testing', function() {
 	})
 
 	describe('Upload page', function() {
-		var page = '/upload';
+		var page = '/home/upload';
 		var filename = 'fileToUpload.txt';
 		var path2File = 'test/resource/' + filename;
 		var path2UploadFile = 'uploads/document/' + filename;
@@ -49,7 +49,7 @@ describe.only('DMS pages HTTP request testing', function() {
 			async.series([uploadFile(path2File), fileExist('./' + path2UploadFile)], done);
 		})
 
-		it('should return a document object after upload the file', function(done) {
+		it.skip('should return a document object after upload the file', function(done) {
 			generateUploadRequest(path2File)
 			.expect(function(response) {
 				expect(response.document).to.exist;
@@ -57,6 +57,19 @@ describe.only('DMS pages HTTP request testing', function() {
 				expect(response.document.name).to.equal(filename);
 			})
 			.end(done);
+		})
+
+		it.skip('should be able to download a uploaded file', function(done) {
+			async.series([
+				uploadFile(path2File),
+				function(callback) {
+					server.get(path2UploadFile)
+					.expect(200)
+					.expect('Content-Type', filename)
+					.end(callback);
+				}
+				],
+				done);
 		})
 
 		function uploadFile(pathToFile) {

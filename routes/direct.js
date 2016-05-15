@@ -145,34 +145,7 @@ module.exports = function(app, passport) {
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
-
-  app.get('/upload', isLoggedIn, function(req, res){
-    console.log("Uploading....");
-    
-    res.render('dms/getUpload.hbs',{
-      layout:"homePage"
-    });
-  });
-
-    // app.post('/upload', uploading, function(req, res){
-      app.post('/upload',function(req, res){
-        var path = require('path');
-        console.log("Uploading this file...");
-
-        var fstream;
-        req.pipe(req.busboy);
-        req.busboy.on('file', function (fieldname, file, filename) {
-          console.log("Uploading: " + filename); 
-          var targetPath = path.join(global.__APPROOT__, 'uploads', 'document', filename);
-          console.log(targetPath);
-          fstream = fs.createWriteStream(targetPath);
-          file.pipe(fstream);
-          fstream.on('close', function () {
-            res.redirect('back');
-          });
-        });
-      });
-
+  
     // =====================================
     // Get User Info. ==============================
     // =====================================

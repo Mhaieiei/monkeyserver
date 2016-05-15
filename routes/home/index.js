@@ -1,7 +1,8 @@
- var router = require('express').Router();
- var Doc = require('../../model/document/document');
- var isLoggedIn = require('../../middleware/loginChecker');
- var request = require('request');
+var router = require('express').Router();
+var Doc = require('../../model/document/document');
+var isLoggedIn = require('../../middleware/loginChecker');
+var request = require('request');
+var fs = require('fs');
 
 // =====================================
 // HOME SECTION =====================
@@ -134,7 +135,34 @@ router.post('/', isLoggedIn, function(req, res) {
   });
 });
 
- function handleError(res, next) {
+router.get('/upload', isLoggedIn, function(req, res){
+  console.log("Uploading....");
+  
+  res.render('dms/getUpload.hbs',{
+    layout:"homePage"
+  });
+});
+
+router.post('/upload',function(req, res){
+  var path = require('path');
+  console.log("Uploading this file...");
+
+  var fstream;
+  req.pipe(req.busboy);
+  req.busboy.on('file', function (fieldname, file, filename) {
+    console.log("Uploading: " + filename); 
+    var targetPath = path.join(global.__APPROOT__, 'uploads', 'document', filename);
+    console.log(targetPath);
+    fstream = fs.createWriteStream(targetPath);
+    file.pipe(fstream);
+    fstream.on('close', function () {
+      res.redirect('back');
+    });
+  });
+});
+
+
+function handleError(res, next) {
   console.error(err);
   res.status(500);
   return next(err);
