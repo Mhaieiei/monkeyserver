@@ -63,14 +63,19 @@ describe.only('DMS pages HTTP request testing', function() {
 			.end(done);
 		})
 
-		it.skip('should be able to download a uploaded file', function(done) {
+		it('should be able to download a uploaded file', function(done) {
 			async.series([
 				uploadFile(path2File),
 				function(callback) {
-					server.get(path2UploadFile)
+					server.get('/' + path2UploadFile)
 					.expect(200)
-					.expect('Content-Type', filename)
-					.end(callback);
+					.expect('Content-Type', 'file')
+					.parse(binaryParser)
+					.end(function(err, res) {
+						if(err) return done(err);
+						expect(Buffer.isBuffer(res.body)).to.be.ok;
+						callback();
+					});
 				}
 				],
 				done);
@@ -122,3 +127,14 @@ describe.only('DMS pages HTTP request testing', function() {
 	}
 
 })
+
+function binaryParser(res, callback) {
+    res.setEncoding('binary');
+    res.data = '';
+    res.on('data', function (chunk) {
+        res.data += chunk;
+    });
+    res.on('end', function () {
+        callback(null, new Buffer(res.data, 'binary'));
+    });
+}
