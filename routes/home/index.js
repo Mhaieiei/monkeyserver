@@ -3,15 +3,16 @@ var Doc = require('../../model/document/document');
 var isLoggedIn = require('../../middleware/loginChecker');
 var request = require('request');
 var fs = require('fs');
+var async = require('async');
+var Attachment = require('../../model/document/attachment');
 
 // =====================================
 // HOME SECTION =====================
 // =====================================
-router.get('/', isLoggedIn, function(req, res) {
+router.get('/', isLoggedIn, function(req, res, next) {
   var query = Doc.findByUser(req.user);
-  query.exec(function(err,_docs) {
-    if(err)
-      return handleError(req, res);
+  query.exec(function(err, _docs) {
+    handleError(err, res, next);
 
     getWorkflowTaskList(req, function(taskList) {
       var response = dateDDMMYYYY(_docs);
@@ -143,29 +144,52 @@ router.get('/upload', isLoggedIn, function(req, res){
   });
 });
 
-router.post('/upload',function(req, res){
-  var path = require('path');
-  console.log("Uploading this file...");
-
-  var fstream;
-  req.pipe(req.busboy);
-  req.busboy.on('file', function (fieldname, file, filename) {
-    console.log("Uploading: " + filename); 
-    var targetPath = path.join(global.__APPROOT__, 'uploads', 'document', filename);
-    console.log(targetPath);
-    fstream = fs.createWriteStream(targetPath);
-    file.pipe(fstream);
-    fstream.on('close', function () {
-      res.redirect('back');
-    });
-  });
+router.post('/upload',function(req, res, next){
+  async.parallel([
+    writeFile(req),
+    mapFileToDocument(req)],
+    function(error) {
+      handleError(error, res, next); 
+      res.redirect('back')})
 });
 
+function writeFile(req) {
+  return function(done) {
+    var path = require('path');
+    var fstream;
+    req.pipe(req.busboy);
+    req.busboy.on('file', function (fieldname, file, filename) {
+      console.log("Uploading: " + filename); 
+      var targetPath = path.join(global.__APPROOT__, 'uploads', 'document', filename);
+      console.log(targetPath);
+      fstream = fs.createWriteStream(targetPath);
+      file.pipe(fstream);
+      fstream.on('close', function () {
+        done();
+      });
+    });
+  }
+}
 
-function handleError(res, next) {
-  console.error(err);
+function mapFileToDocument(req) {
+  return function(done) {
+    req.pipe(req.busboy);
+    req.busboy.on('file', function (fieldname, file, filename) {
+      var targetPath = 'uploads/document/' + filename;
+      var owner = req.user.local.username;
+      var attachment = new Attachment({owner: owner, name: filename, filepath: targetPath});
+      attachment.save(done);
+    })
+  }
+}
+
+function handleError(error, res, next) {
+  if(!error)
+    return;
+
+  console.error(error);
   res.status(500);
-  return next(err);
+  return next(error);  
 }
 
 function dateDDMMYYYY(documentQueryResult) {
