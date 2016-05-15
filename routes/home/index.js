@@ -16,11 +16,13 @@ router.get('/', isLoggedIn, function(req, res) {
       var response = dateDDMMYYYY(_docs);
       response.exec = execList;
       response.task = taskList
-      console.log('Response');
-      console.log(response);
       res.render('home.hbs', response);
     })
   });
+});
+
+router.use('/documentDetail', isLoggedIn, function(req, res) {
+  log('DocumentDetail');
 });
 
 
@@ -63,7 +65,6 @@ router.post('/', isLoggedIn, function(req, res) {
     query = query.where('status').equals(status);
   }
 
-  console.log("Status:"+status);
 
   query.exec(function(err, _docs) {
     if(err) {
@@ -181,10 +182,6 @@ function getWorkflowTaskList(req, callBackWithResult) {
 
       var task = JSON.parse(body2);
       var exec = JSON.parse(body1);
-      console.log('task');
-      console.log(task);
-      console.log('exec');
-      console.log(exec);
       callBackWithResult(exec,task);
     });
   });
