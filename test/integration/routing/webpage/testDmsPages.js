@@ -50,7 +50,7 @@ describe.only('DMS pages HTTP request testing', function() {
 			async.series([uploadFile(path2File), fileExist('./' + path2UploadFile)], done);
 		})
 
-		it('should return a document object after upload the file', function(done) {
+		it('should return a document object after upload the file by passing ?json=true as an URI parameter', function(done) {
 			generateUploadRequest(page + '?json=true', path2File)
 			.expect(200)
 			.expect(function(response) {
