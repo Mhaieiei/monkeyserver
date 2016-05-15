@@ -49,13 +49,27 @@ describe.only('DMS pages HTTP request testing', function() {
 			async.series([uploadFile(path2File), fileExist(path2UploadFile)], done);
 		})
 
+		it('should return a document object after upload the file', function(done) {
+			generateUploadRequest(path2File)
+			.expect(function(response) {
+				expect(response.document).to.exist;
+				expect(response.document.id).to.exist;
+				expect(response.document.name).to.equal(filename);
+			})
+			.end(done);
+		})
+
 		function uploadFile(pathToFile) {
 			return function(done) {
-				server.postWithAuth(page)
-				.attach('file', pathToFile)
-				.expect(302)
+				generateUploadRequest(pathToFile)
 				.end(done)
 			}
+		}
+
+		function generateUploadRequest(pathToFile) {
+			return server.postWithAuth(page)
+			.attach('file', pathToFile)
+			.expect(302)
 		}
 
 		function fileExist(pathToFile) {
