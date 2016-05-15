@@ -33,7 +33,7 @@ describe.only('DMS pages HTTP request testing', function() {
 		var page = '/upload';
 		var filename = 'fileToUpload.txt';
 		var path2File = 'test/resource/' + filename;
-		var path2UploadFile = 'uploads/files/' + filename;
+		var path2UploadFile = 'uploads/document/' + filename;
 
 		beforeEach(function(done) {
 			removeFile(path2UploadFile)(done);

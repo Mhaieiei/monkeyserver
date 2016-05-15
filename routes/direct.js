@@ -163,7 +163,7 @@ module.exports = function(app, passport) {
         req.pipe(req.busboy);
         req.busboy.on('file', function (fieldname, file, filename) {
           console.log("Uploading: " + filename); 
-          var targetPath = path.join(global.__APPROOT__, 'uploads', 'files', filename);
+          var targetPath = path.join(global.__APPROOT__, 'uploads', 'document', filename);
           console.log(targetPath);
           fstream = fs.createWriteStream(targetPath);
           file.pipe(fstream);
