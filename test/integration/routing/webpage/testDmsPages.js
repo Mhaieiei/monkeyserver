@@ -33,7 +33,7 @@ describe.only('DMS pages HTTP request testing', function() {
 		var page = '/upload';
 		var filename = 'fileToUpload.txt';
 		var path2File = 'test/resource/' + filename;
-		var path2UploadFile = './uploads/files/' + filename;
+		var path2UploadFile = 'uploads/files/' + filename;
 
 		beforeEach(function(done) {
 			removeFile(path2UploadFile)(done);
@@ -46,7 +46,7 @@ describe.only('DMS pages HTTP request testing', function() {
 		pageShouldExist(page);
 
 		it('should be able to upload the file', function(done) {
-			async.series([uploadFile(path2File), fileExist(path2UploadFile)], done);
+			async.series([uploadFile(path2File), fileExist('./' + path2UploadFile)], done);
 		})
 
 		it('should return a document object after upload the file', function(done) {
@@ -86,8 +86,8 @@ describe.only('DMS pages HTTP request testing', function() {
 		function removeFile(pathToFile) {
 			return function(done) {
 				fileStream.readFile(path2UploadFile, function(err, data) {
-					var fileExist = !err;
-					if(fileExist)
+					hasFile = !(err && err.errno == -4058);
+					if(hasFile)
 						fileStream.unlinkSync(pathToFile);
 					done();
 				})
