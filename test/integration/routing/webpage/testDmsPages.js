@@ -41,6 +41,19 @@ describe.only('DMS pages HTTP request testing', function() {
 			async.series([uploadFile(path2File), fileExist(path2UploadFile)], done);
 		})
 
+		before(function(done) {
+			fileStream.readFile(path2UploadFile, function(err, data) {
+				var fileExist = !err;
+				if(fileExist)
+					removeFile(path2UploadFile);
+				done();
+			})
+		});
+
+		after(function() {
+			removeFile(path2UploadFile);
+		})
+
 		function uploadFile(pathToFile) {
 			return function(done) {
 				server.postWithAuth(page)
@@ -59,6 +72,10 @@ describe.only('DMS pages HTTP request testing', function() {
 					})
 				}).to.not.throw(Error);
 			}
+		}
+
+		function removeFile(pathToFile) {
+			fileStream.unlinkSync(pathToFile);
 		}
 	})
 
