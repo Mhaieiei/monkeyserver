@@ -14,3 +14,9 @@ exports.saveMultipleItemsToDatabase = function(items, callbackWhenAllDone) {
 		callbackWhenAllDone();
 	});
 }
+
+exports.registerAndLogin = function(server, username, password) {
+	return function(callback) {
+		async.series([server.register(username, password), server.login(username, password)], callback);
+	}
+}
