@@ -46,8 +46,7 @@
    }
    
 </script>
-<section>
-   <div class ="well">
+
       <div class="container">
          <form class="form-horizontal" role="form"  action="/aun/aun1-4/add_aun1-4?id=<%=id%>&program=<%=programname%>&year=<%=year%>&acid=<%=acid%>" method="post" id = "myForm" >
             <h3>Mapped The expected learnig outcomes (ELOs)</h3>
@@ -77,7 +76,7 @@
                   </thead>
                   <tbody id = "req_body">
                      <p hidden>    
-                        <input type="text" tabindex="1"  name="arrlen" id="arrlen" value="<%=len%>" readonly=""><br>
+                        <input type="text" tabindex="1"  name="arrlen" id="arrlen" value="<%=len_req%>" readonly=""><br>
                      </p>
                      <p hidden>    
                         <input type="text" tabindex="1"  name="count" id="count" value="0" readonly=""><br>
@@ -118,6 +117,5 @@
             </div>
          </form>
       </div>
-   </div>
-</section>
+   
 <%- include ../../footer.ejs %>

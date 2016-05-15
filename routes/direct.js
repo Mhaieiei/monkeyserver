@@ -384,7 +384,7 @@ module.exports = function(app, passport) {
         else{console.log("Upload completed!");}
       });
     }*/
-    if((req.body.role == 'staff' &&!isNaN(req.body.terminationYear) && !isNaN(req.body.yearattend))||
+    if((req.body.role == 'staff' &&!isNaN(req.body.terminationYear) && !isNaN(req.body.yearattend)&& !isNaN(req.body.yearOfTeaching))||
       (req.body.role == 'student'  && !isNaN(req.body.yearattend))){
 
       User.findOne({'local.username' : req.body.username }, function(err, user) {
@@ -410,7 +410,7 @@ module.exports = function(app, passport) {
     }
     else{
 
-            dialog.info('Termination year or Year Attend have to be a number :)');
+            dialog.info('Termination year, Year Attend or Years of teaching have to be a number :)');
           }
       
       

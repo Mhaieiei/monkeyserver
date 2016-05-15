@@ -33,6 +33,7 @@
       rowind++;
       console.log(rowind);
       document.getElementById('arrlen').value = rowind;
+      document.getElementById('count').value = 1;
       console.log("value="+document.getElementById('arrlen').value);
      
     }
@@ -72,6 +73,9 @@
                             <p hidden>    
                               <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>
                             </p>
+                            <p hidden>    
+                        <input type="text" tabindex="1"  name="count" id="count" value="0" readonly=""><br>
+                     </p>
                             <tr>
                             <td><input  type="text" name="req" id="req"/></td>
 
