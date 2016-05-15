@@ -37,15 +37,13 @@ var DmsServer = {
 		.set('cookie', cookie);
 	},
 
-	postPublic: function(uri, data) {
+	post: function(uri) {
 		return this.server.post(uri)
-		.send(data);
 	},
 
-	postPrivate: function(uri, data) {
+	postWithAuth: function(uri) {
 		return this.server.post(uri)
 		.set('cookie', cookie)
-		.send(data);
 	}
 }
 
