@@ -62,7 +62,7 @@ module.exports = function(database) {
   app.use(flash()); // use connect-flash for flash messages stored in session
 
   app.use('/home', require('./routes/home'));
-  app.use('/download', require('./routes/download/download'));
+  app.use('/uploads', require('./routes/download/download'));
   app.use('/api', require('./routes/api'));
   require('./routes/direct.js')(app, passport);
   //app.use('/', routes);
