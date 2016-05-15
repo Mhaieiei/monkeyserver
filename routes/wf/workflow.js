@@ -130,6 +130,8 @@ router.get('/:id/execute', function(req, res, next){
 			var handler = new WorkflowHandler();
 
 			handler.parse( process, collaboration );
+			
+			console.log( handler.elements );
 
 			//console.log( collaboration );
 			//console.log( process );
@@ -142,6 +144,7 @@ router.get('/:id/execute', function(req, res, next){
 
 			/*var execution = new WorkflowExecution({
 				templateId: result.id,
+				executorId: 'test',
 				runningElements: handler.currentElements,
 				waitingElements: [],
 				variables: result.variables,

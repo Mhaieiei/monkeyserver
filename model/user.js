@@ -16,7 +16,7 @@ var userSchema = new mongoose.Schema({
         username:String, //s50090...
         password: String,
         gender: String,
-        dateOfBirth: Date,
+        dateOfBirth: String,
         yearattend : Number,
         bankAccount : String,
         email: String,
@@ -37,7 +37,8 @@ var userSchema = new mongoose.Schema({
     detail:[{
 
        	status : String,  //drop out, on-time graduation, carry on, delayed graduaion
-       	academicYear:String
+       	academicYear:String,
+        careerOrHigherStudying:String
 
        }],
 	roleOfProgram: [String],
@@ -72,6 +73,9 @@ userSchema.methods.updateUser = function(request, response){
 	console.log(request.user);
 	var roletype = request.body.role;
 
+    var date = request.body.month+"/"+request.body.day+"/"+request.body.year
+    var age = getAge(date);
+    console.error('age: '+age);
 	this.local.title = request.body.title;
 	this.local.ID = request.body.ID;
 	this.local.name = request.body.name;
@@ -79,12 +83,14 @@ userSchema.methods.updateUser = function(request, response){
 	this.local.username = request.body.username;
 	this.local.password = request.body.password;
 	this.local.gender = request.body.gender;
-	this.local.dateOfBirth = request.body.dateOfBirth;
+    this.local.age = age;
+	this.local.dateOfBirth = date;
 	this.local.yearattend = request.body.yearattend;
 	this.local.bankAccount = request.body.bankAccount;
 	this.local.email = request.body.email;
 	this.local.program = request.body.program;
 	this.local.faculty = request.body.faculty;
+    this.local.nationality = request.body.nationality;
 	if( roletype == "student"){
 		this.local.status = request.body.status;
 		this.local.yeargrade = request.body.yeargrade;
@@ -93,6 +99,7 @@ userSchema.methods.updateUser = function(request, response){
 		this.local.salary = request.body.salary;
 		this.local.academic_position = request.body.academic_position;
 		this.local.admin_position = request.body.admin_position;
+        this.local.terminationYear = request.body.terminationYear;
 	}	
 	
 	this.save(function (err,user) {
@@ -113,6 +120,19 @@ userSchema.methods.updateUser = function(request, response){
 
 	
 };
+
+function getAge(dateString) 
+{
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
+    {
+        age--;
+    }
+    return age;
+}
 
 
 module.exports = db.model('User', userSchema, 'users');
