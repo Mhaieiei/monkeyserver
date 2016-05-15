@@ -17,6 +17,10 @@ describe.only('DMS pages HTTP request testing', function() {
 		helper.registerAndLogin(server, 'joe', 'joe')(done);
 	})
 
+	after(function(done) {
+		db.dropDb(done);
+	})
+
 	describe('Homepage', function() {
 		pageShouldExist('/home');
 	})
