@@ -27,7 +27,7 @@ module.exports = function(database) {
   //for uploading file
   var methodOverride = require('method-override');
 
-
+  global.__APPROOT__ = path.resolve(__dirname);
 
   var app = express();
   //app.set('port',3000);

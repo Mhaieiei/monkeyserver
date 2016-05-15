@@ -147,41 +147,32 @@ module.exports = function(app, passport) {
     }));
 
   app.get('/upload', isLoggedIn, function(req, res){
-      console.log("Uploading....");
+    console.log("Uploading....");
     
-      res.render('dms/getUpload.hbs',{
+    res.render('dms/getUpload.hbs',{
       layout:"homePage"
-      });
     });
+  });
 
     // app.post('/upload', uploading, function(req, res){
-    app.post('/upload',function(req, res){
-      console.log("Uploading this file...");
-            
-                var fstream;
-                req.pipe(req.busboy);
-                req.busboy.on('file', function (fieldname, file, filename) {
-                console.log("Uploading: " + filename); 
-                fstream = fs.createWriteStream(__dirname + '/files/' + filename);
-                file.pipe(fstream);
-                fstream.on('close', function () {
-                    res.redirect('back');
-                });
-            });
-                  
+      app.post('/upload',function(req, res){
+        var path = require('path');
+        console.log("Uploading this file...");
 
-         
-            res.render('dms/getUpload.hbs',{
-            layout:"homePage"
-            });
-             if (req.session.state) {
-            res.json({state: req.session.state});
-             } 
-
+        var fstream;
+        req.pipe(req.busboy);
+        req.busboy.on('file', function (fieldname, file, filename) {
+          console.log("Uploading: " + filename); 
+          var targetPath = path.join(global.__APPROOT__, 'uploads', 'files', filename);
+          console.log(targetPath);
+          fstream = fs.createWriteStream(targetPath);
+          file.pipe(fstream);
+          fstream.on('close', function () {
+            res.redirect('back');
           });
+        });
+      });
 
-    
-      
     // =====================================
     // Get User Info. ==============================
     // =====================================
