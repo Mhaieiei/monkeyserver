@@ -141,23 +141,18 @@
                                     <th><a href="javascript:table_sort('tab_2',5)">Status</a></th>
                                     
                                     </tr>
-                                    
-                                    
-                                  
-                                    {{#each docs}}
-                                    
+
+                                
                                     <tr class="each-doc">
                                     <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                      <td>{{this.id}}</td>
-                                      <td><a href={{this.filepath}}>{{this.name}}</a></td>
+                                      <td></td>
+                                      <td><a href={{this.filepath}}></a></td>
 
-                                      <td>{{this.owner}}</td>
-                                      <td>{{getdate @index}}</td>
-                                      <td><font color="red">{{this.status}}</td>
+                                      <td>Tester</td>
+                                      <td></td>
+                                      <td><font color="red"></td>
 
                                     </tr>
-                                  {{/each}}
-
                                 </thead>
                          <!--        <tbody>
                                     <tr>
@@ -231,7 +226,7 @@
 
                         
                 
-         
+                <!-- Workflow tab -->
                 <div id="tab2" class="tab">
                         <form class="form-horizontal" role="form">
                         <table id="table_wf" class="table muffin table-striped table-hover margin-bottom0">
@@ -246,19 +241,19 @@
                                     
                                     </tr>
                                     
-                                 <!--    
-                                    {{#each docs}}
+                                    
+                                {{#each result}}
                                     <tr class="each-doc">
                                     <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                      <td>{{this.id}}</td>
-                                      <td><a href="#">{{this.name}}</a></td>
+                                      <td>{{result.templateId}}</td>
+                                      <td><a href="#"></a></td>
 
-                                      <td>{{this.author}}</td>
-                                      <td>{{getdate @index}}</td>
-                                      <td><font color="red">{{this.status}}</td>
+                                      <td></td>
+                                      <td></td>
+                                      <td><font color="red"></td>
 
                                     </tr>
-                                  {{/each}} -->
+                                {{/each}}
 
                                 </thead>
                     
@@ -290,6 +285,7 @@
                 </div>
 
 
+                <!-- Task tab -->
                 <div id="tab3" class="tab">
                         <form class="form-horizontal" role="form">
                         <table id="table_todo" class="table muffin table-striped table-hover margin-bottom0">
@@ -305,15 +301,15 @@
                                     </tr>
                                     
                                     
-                                    {{#each docs}}
+                                    {{#each result}}
                                     <tr class="each-doc">
                                     <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                      <td>{{this.id}}</td>
-                                      <td><a href="#">{{this.name}}</a></td>
+                                      <td>{{this.workflowExecutionId}}</td>
+                                      <td><a href="#"></a></td>
 
-                                      <td>{{this.author}}</td>
-                                      <td>{{getdate @index}}</td>
-                                      <td><font color="red">{{this.status}}</td>
+                                      <td></td>
+                                      <td></td>
+                                      <td><font color="red"></td>
 
                                     </tr>
                                   {{/each}}

@@ -61,10 +61,17 @@ module.exports = function(database) {
   app.use(passport.session()); // persistent login sessions
   app.use(flash()); // use connect-flash for flash messages stored in session
 
+  require('./routes/main')(app, passport);
+  app.use('/api', require('./routes/api'));
+  
+  app.use(function(req, res, next){
+     if (req.isAuthenticated())
+        return next();
+    res.redirect('/');
+  });
   app.use('/home', require('./routes/home'));
   app.use('/download', require('./routes/download/download'));
-  app.use('/api', require('./routes/api'));
-  require('./routes/direct.js')(app, passport);
+  require('./routes/direct')(app, passport);
   //app.use('/', routes);
   //app.use('/users', users);
 

@@ -470,7 +470,7 @@
 					roleHtml += '<div>';
 					roleHtml += '<b>' + myjson[i].name + '</b><br>';
 					roleHtml += myjson[i].description + '<br>';
-					roleHtml += '<button data-dismiss="modal" onclick="doSelectRole(this)" data-id="' + myjson[i]._id + '" class="btn btn-default btn-sm">Select</button>';
+					roleHtml += '<button data-dismiss="modal" onclick="doSelectRole(this)" data-name="' + myjson[i].name + '" data-id="' + myjson[i]._id + '" class="btn btn-default btn-sm">Select</button>';
 					roleHtml += "</div>";
 			  	}
 			  	$('.role-list').html(roleHtml);
@@ -481,18 +481,18 @@
   	function doSelectRole(element){
   		
   		var myRole = {};
+  		myRole.name = element.getAttribute("data-name");
 		myRole.id = element.getAttribute("data-id");
 		myElements[currentElementId].role = myRole;
 		
-		$(".selected-role").html( myRole.id );
+		$(".selected-role").html( myRole.name );
 
-		console.log( myElements[currentElementId] );
   	}
 
   	function getRole(){
 
   		if( myElements[currentElementId].role ){
-  			return myElements[currentElementId].role.id;
+  			return myElements[currentElementId].role.name;
   		}
 
   		return '';
