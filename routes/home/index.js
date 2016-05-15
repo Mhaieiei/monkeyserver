@@ -12,14 +12,17 @@ router.get('/', isLoggedIn, function(req, res) {
     if(err)
       return handleError(req, res);
 
-    getWorkflowTaskList(req, function(taskList) {
+    getWorkflowTaskList(req, function(execList,taskList) {
       var response = dateDDMMYYYY(_docs);
-      response.result = taskList;
-      console.log('Response');
-      console.log(response.result);
+      response.exec = execList;
+      response.task = taskList
       res.render('home.hbs', response);
     })
   });
+});
+
+router.use('/documentDetail', isLoggedIn, function(req, res) {
+  log('DocumentDetail');
 });
 
 
@@ -62,7 +65,6 @@ router.post('/', isLoggedIn, function(req, res) {
     query = query.where('status').equals(status);
   }
 
-  console.log("Status:"+status);
 
   query.exec(function(err, _docs) {
     if(err) {
@@ -178,10 +180,9 @@ function getWorkflowTaskList(req, callBackWithResult) {
     //get task workflow list
     request(baseUrl + '/api/workflow/tasks',function(error2,response2,body2){ 
 
-      var json = JSON.parse(body2);
-      json = JSON.parse(body1);
-      console.log(typeof json);
-      callBackWithResult(json);
+      var task = JSON.parse(body2);
+      var exec = JSON.parse(body1);
+      callBackWithResult(exec,task);
     });
   });
 }

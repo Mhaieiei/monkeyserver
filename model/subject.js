@@ -39,6 +39,9 @@ subjectSchema.methods.editSubject = function(request, response){
 	this.sub_name = request.body.sub_name;
 	this.sub_credit = request.body.sub_credit;
 	this.sub_lecter = request.body.sub_lecter;
+	this.sub_topic = request.body.subject_topic;
+	this.sub_type = request.body.subject_type;
+
 	 
 	this.save(function (err,sub) {
         if(err) {
