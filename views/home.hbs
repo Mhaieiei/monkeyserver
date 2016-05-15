@@ -151,44 +151,16 @@
                                       <td>Tester</td>
                                       <td></td>
                                       <td><font color="red"></td>
+                                      <td>
+                                        <button data-toggle="popover" title="Popover Header" 
+                                        data-content="Some document content
 
+                                        ">
+                                            More Detail
+                                        </button>
+                                      </td>
                                     </tr>
                                 </thead>
-                         <!--        <tbody>
-                                    <tr>
-                                    <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                    <td> <div class="col-md-5">D01082016T0322</div></td>
-                                    <td><a href="doc_wf.asp">DOC1</a> </td>
-                                    <td> <div class="col-md-5">Prem_Tester</div></td>
-                                    <td> <div class="col-md-5">01/08/2016</div></td>
-                                    <td> <div class="col-md-5"><font color="green">DONE</div></td>
-                                    </tr>
-
-                                </tbody>
-                                <tbody>
-                                    <tr>
-                                    <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                    <td> <div class="col-md-5">D06092016T0313</div></td>
-                                    <td><a href="doc_wf.asp">DOC2</a> </td>
-                                    <td> <div class="col-md-5">Mek_mek</div></td>
-                                    <td> <div class="col-md-5">06/09/2016</div></td>
-                                    <td> <div class="col-md-5"><font color="blue">INPROGRESS</div></td>
-                                    </tr>
-                                    
-                                    
-                                </tbody>
-
-                                <tbody>
-                                    <tr>
-                                    <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                    <td> <div class="col-md-5">D12112016T0400</div></td>
-                                    <td><a href="doc_wf.asp">DOC3</a> </td>
-                                    <td> <div class="col-md-5">Kamphan</div></td>
-                                    <td> <div class="col-md-5">12/11/2016</div></td>
-                                    <td> <div class="col-md-5"><font color="red">CREATED</div></td>
-                                    </tr>
-                                 </tbody>  
-                                     -->
                                
 
 
@@ -242,16 +214,20 @@
                                     </tr>
                                     
                                     
-                                {{#each result}}
+                                {{#each exec}}
                                     <tr class="each-doc">
                                     <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                      <td>{{result.templateId}}</td>
+                                      <td>{{this.templateId}}</td>
                                       <td><a href="#"></a></td>
 
                                       <td></td>
                                       <td></td>
                                       <td><font color="red"></td>
-
+                                      <td>
+                                        <button data-toggle="popover" title="Popover Header" data-content="Document Type:{{this.templateId}}">
+                                            More Detail
+                                        </button>
+                                      </td>
                                     </tr>
                                 {{/each}}
 
@@ -301,7 +277,7 @@
                                     </tr>
                                     
                                     
-                                    {{#each result}}
+                                    {{#each task}}
                                     <tr class="each-doc">
                                     <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
                                       <td>{{this.workflowExecutionId}}</td>
@@ -310,7 +286,9 @@
                                       <td></td>
                                       <td></td>
                                       <td><font color="red"></td>
-
+                                      <td>
+                                        <a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Toggle popover</a>
+                                      </td>
                                     </tr>
                                   {{/each}}
 
@@ -351,3 +329,18 @@
             </div>
         </div>
 
+
+<script>
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();   
+});
+</script>
+
+
+<script>
+$(document).ready(function(){
+    $("#myBtn").click(function(){
+        $("#myModal").modal();
+    });
+});
+</script>
