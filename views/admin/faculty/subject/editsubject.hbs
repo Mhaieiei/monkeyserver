@@ -1,5 +1,27 @@
 
 <script>
+   $(document).ready(function() {
+        var gettopic = document.getElementById('topic').value;
+        var gettype =document.getElementById('type').value;
+       
+        var mySelectTopic = document.getElementById('knowledge');
+        var mySelectType = document.getElementById('subjecttype');
+       
+        for(var i, j = 0; i = mySelectTopic.options[j]; j++) {
+          if(i.value == gettopic) {
+            mySelectTopic.selectedIndex = j;
+            break;
+          }
+        }
+        for(var k, l = 0; k = mySelectType.options[l]; l++) {
+          if(k.value == gettype) {
+            mySelectType.selectedIndex = l;
+            break;
+          }
+        }
+       
+       
+    });
 	
 	 function deleteRow(row)
     {
@@ -44,7 +66,8 @@
  			 <input type="text" tabindex="1"  name="arrlen" id="arrlen" value={{len}} readonly=""><br> 
  			 <input type="text" tabindex="1"  name="subid" id="subid" value={{subid}} readonly=""><br> 
  			 <input type="text" tabindex="1"  name="acid" id="acid" value={{acid}} readonly=""><br> 
-                     
+       <input type="text" tabindex="1"  name="topic" id="topic" value={{subject.sub_topic}} readonly=""><br> 
+       <input type="text" tabindex="1"  name="type" id="type" value={{sub_type}} readonly=""><br> 
              </p>
         <h3>Add new Subjects to Program</h3>
 
@@ -92,19 +115,29 @@
                                     {{/each}}
                               </tbody>                             
                             </table>
-                          </div>
+                          </div>                   
+                    </div> 
                    
-                    </div>  
-
+                     <label for="inputType" class="col-md-2 control-label">Knowledge and Skill : </label>
+                              <div class="col-md-4">
+                                  <select id="knowledge" class="form-control" style="width:100px" name="knowledge">
+                                    <option value="Generic">Generic</option>
+                                    <option value="Specific">Specific</option>
+                                </select>
+                              </div>
+                         <label for="inputType" class="col-md-2 control-label">Subject Type : </label>
+                            <div class="col-md-4">
+                                <select id="subjecttype" class="form-control" style="width:200px" name="subjecttype">
+                                  <option value="Compulsory">Compulsory</option>
+                                  <option value="Elective">Elective</option>
+                                  <option value="Thesis">Thesis</option>
+                              </select>
+                            </div> 
+                   
                    
                    <div class="form-group">
                     <div class="pull-right">
-                        <div class="btn-group">
-                          <button class="btn btn-mini" type="button" class="glyphicon glyphicon-export">Export</button>
-                        </div>
-                        <div class="btn-group">
-                            <button class="btn btn-mini" type="button" class="glyphicon glyphicon-import">Import</button>
-                        </div>
+                       
 
                         <div class="btn-group">
                             <button id="tab_2_submit" class="btn btn-primary" type="submit"> Submit</button>
