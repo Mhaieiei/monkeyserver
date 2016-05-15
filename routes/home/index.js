@@ -145,11 +145,13 @@ router.get('/upload', isLoggedIn, function(req, res){
 });
 
 router.post('/upload',function(req, res, next){
+  var document;
   async.parallel([
     writeFile(req),
-    mapFileToDocument(req)],
+    mapFileToDocument(req, function(returnDocument){document = returnDocument})],
     function(error) {
       handleError(error, res, next); 
+      console.log(document);
       res.redirect('back')})
 });
 
@@ -171,13 +173,14 @@ function writeFile(req) {
   }
 }
 
-function mapFileToDocument(req) {
+function mapFileToDocument(req, onReturnDocument) {
   return function(done) {
     req.pipe(req.busboy);
     req.busboy.on('file', function (fieldname, file, filename) {
       var targetPath = 'uploads/document/' + filename;
       var owner = req.user.local.username;
       var attachment = new Attachment({owner: owner, name: filename, filepath: targetPath});
+      onReturnDocument(attachment);
       attachment.save(done);
     })
   }
