@@ -40,13 +40,15 @@ subjectSchema.methods.editSubject = function(request, response){
 	this.sub_credit = request.body.sub_credit;
 	this.sub_lecter = request.body.sub_lecter;
 	 
-	this.save(function (err) {
+	this.save(function (err,sub) {
         if(err) {
             console.error('ERROR!');
+        }else{
+        	response.redirect('/admin/subjects/showsubject?acid='+request.body.acid);
         }
 		
     });
-	response.redirect('/admin/subjects');
+	
 
 
 };
