@@ -98,7 +98,32 @@ module.exports = function(app, passport) {
         res.sendfile(path.resolve('public/images/wf.jpg'));
   });
 
+   app.get('/wrong.png', function (req, res) {
+        res.sendfile(path.resolve('public/images/wrong.png'));
+  });
+  app.get('/correct.png', function (req, res) {
+        res.sendfile(path.resolve('public/images/correct.png'));
+  });
 
+  app.get('/changpass',function(req,res){
+    console.log('[Get] change password')
+       res.render('profile/resetpassword.hbs',{
+          layout:"homePage",
+          user : req.user
+      });
+  });
+
+  app.post('/changpass',function(req,res){
+    console.log('[Post] change password')
+    console.log('old password'+ req.body.oldpass)
+    console.log('new password'+ req.body.newpass)
+    console.log('id user'+ req.user.id)
+    User.findById(req.user.id, function(err,user){
+      if(err){console.log('cant find user')}
+      user.changePassword(req,res);
+    });
+
+  });
   //document detail 
   app.get('/documentDetail/:id', isLoggedIn, function(req, res) {
 
