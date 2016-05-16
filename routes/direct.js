@@ -24,6 +24,7 @@ var tqfController       = require('lib/tqfHandler');
 var aunController       = require('lib/aunHandler');
 
 var request = require('request');
+var dialog = require('dialog');
 
 Handlebars.registerHelper('select', function( value, options ){
         var $el = $('<select />').html( options.fn(this) );
@@ -145,44 +146,7 @@ module.exports = function(app, passport) {
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
-
-  app.get('/upload', isLoggedIn, function(req, res){
-      console.log("Uploading....");
-    
-      res.render('dms/getUpload.hbs',{
-      layout:"homePage"
-      });
-    });
-
-    // app.post('/upload', uploading, function(req, res){
-    app.post('/upload',function(req, res){
-      console.log("Uploading this file...");
-            
-                var fstream;
-                req.pipe(req.busboy);
-                req.busboy.on('file', function (fieldname, file, filename) {
-                console.log("Uploading: " + filename); 
-                fstream = fs.createWriteStream(__dirname + '/files/' + filename);
-                file.pipe(fstream);
-                fstream.on('close', function () {
-                    res.redirect('back');
-                });
-            });
-                  
-
-            if(err){
-              res.end();
-            }
-            else{
-            res.render('dms/getUpload.hbs',{
-            layout:"homePage"
-            });
-            }    
-
-          });
-
-    
-      
+  
     // =====================================
     // Get User Info. ==============================
     // =====================================
@@ -304,18 +268,47 @@ module.exports = function(app, passport) {
             console.log(user.local.username);
             //console.log(Object.entries(user.local));
             console.log(user.local.role);
-            if(user.local.role == "student"){
-          res.render('profile/student_profileedit.hbs', {
-            layout: "profileAdstudent",
-            user : user
-          });
-        }
-        else{
-          res.render('profile/staff_profileedit.hbs', {
-            layout: "profileAdmin",
-            user : user
-          });
-        }
+            var day;
+            var month;
+            var year;
+            if(user.local.dateOfBirth == null){
+              day = "01";
+              month = "01",
+              year = "1947"
+
+            }
+            else{
+            var date = user.local.dateOfBirth.split("/");
+            console.log("date split:"+date[0]);
+            day = date[1];
+            month = date[0];
+            year = date[2];
+          }
+          // if(!isNaN(req.body.terminationYear)){
+                if(user.local.role == "student"){
+              res.render('profile/student_profileedit.hbs', {
+                layout: "profileAdstudent",
+                user : user,
+                day:day,
+                month:month,
+                year:year
+              });
+            }
+            else{
+              res.render('profile/staff_profileedit.hbs', {
+                layout: "profileAdmin",
+                user : user,
+                day:day,
+                month:month,
+                year:year
+              });
+            }
+          // }
+          // else{
+
+          //   dialog.info('Termination year have to be a number :)');
+          // }
+
           } else {
               return console.log( err+"mhaieiei" );
             }
@@ -336,16 +329,29 @@ module.exports = function(app, passport) {
             console.log(user.local.username);
             //console.log(Object.entries(user.local));
             console.log(user.local.role);
+
+            var date = user.local.dateOfBirth.split("/");
+            console.log("date split:"+date[0]);
+            var day = date[1];
+            var month = date[0];
+            var year = date[2];
+
             if(user.local.role == "student"){
           res.render('profile/student_profileedit.hbs', {
             layout: "profilePage",
-            user : user
+            user : user,
+            day:day,
+            month:month,
+            year:year
           });
         }
         else{
           res.render('profile/staff_profileedit.hbs', {
             layout: "profilePage",
-            user : user
+            user : user,
+            day:day,
+            month:month,
+            year:year
           });
         }
           } else {
@@ -391,19 +397,34 @@ module.exports = function(app, passport) {
         else{console.log("Upload completed!");}
       });
     }*/
-    User.findOne({'local.username' : req.body.username }, function(err, user) {
+    if((req.body.role == 'staff' &&!isNaN(req.body.terminationYear) && !isNaN(req.body.yearattend)&& !isNaN(req.body.yearOfTeaching))||
+      (req.body.role == 'student'  && !isNaN(req.body.yearattend))){
+
+      User.findOne({'local.username' : req.body.username }, function(err, user) {
           if (err){ 
             console.log("Upload Failed!");
             return done(err);}
           
           if (user){
+              var date = req.body.month+"/"+req.body.day+"/"+req.body.year
+              console.log("date: "+date);
+              console.log("dateOfBirth: "+user.local.dateOfBirth);
               console.log(user);
               console.log("eiei");
+              // user.local.dateOfBirth = date
+              // user.local.dateOfBirth
               user.updateUser(req, res)
               
           }
 
       });
+
+
+    }
+    else{
+
+            dialog.info('Termination year, Year Attend or Years of teaching have to be a number :)');
+          }
       
       
     });
@@ -662,4 +683,8 @@ function isAdmin(req,res,next){
 
   res.redirect('/');
 }
+
+
+
+
 

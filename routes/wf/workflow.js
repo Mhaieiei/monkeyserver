@@ -2,6 +2,7 @@ var express 			= require('express');
 var router  			= express.Router();
 var TemplateWorkflow	= require('../../model/TemplateWorkflow');
 var WorkflowExecution	= require('../../model/WorkflowExecution.model');
+var SimpleRole			= require('../../model/simpleRole');
 var WorkflowHandler		= require('../../lib/WorkflowHandler');
 var parseString 		= require('xml2js').parseString;
 var workflowRunner		= require('../../lib/workflowRunner');
@@ -10,12 +11,11 @@ var Promise				= require('bluebird');
 
 
 router.get('/', function(req, res){
-	
-	TemplateWorkflow.find({}, function(err, result){
-		if(err) console.log(err);
 
-		res.render('wf/execute', { layout: "homePage", workflows : result } );
-
+	SimpleRole.findOne( { members: req.user._id }, function(err, role ){
+		TemplateWorkflow.find({ "simpleRoleId": role._id }, function(err, tpWf){
+			res.render('wf/execute', { layout: "homePage", workflows : tpWf } );
+		});
 	});
 });
 
@@ -130,6 +130,8 @@ router.get('/:id/execute', function(req, res, next){
 			var handler = new WorkflowHandler();
 
 			handler.parse( process, collaboration );
+			
+			console.log( handler.elements );
 
 			//console.log( collaboration );
 			//console.log( process );
@@ -142,6 +144,7 @@ router.get('/:id/execute', function(req, res, next){
 
 			/*var execution = new WorkflowExecution({
 				templateId: result.id,
+				executorId: 'test',
 				runningElements: handler.currentElements,
 				waitingElements: [],
 				variables: result.variables,

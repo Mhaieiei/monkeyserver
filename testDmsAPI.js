@@ -1,23 +1,28 @@
-var dbMock = require('./test/dbTestConfig');
-var app = require('./app')(dbMock);
+var db = require('./test/dbTestConfig'); // persist data in locally
+// var db = require('./lib/dmsDb'); // persist in online monkeyOffice database server
+
+var app = require('./app')(db);
 var User = require('./model/user');
 var Document = require('./model/document/document');
 var async = require('async');
 var helper = require('./test/helperFunction');
 var OfficialDocumentTemplate = require('./model/document/OfficialDocumentTemplate');
+var Attachment = require('./model/document/attachment');
 
 var DocXX2006Template = new OfficialDocumentTemplate('xx', 2006);
 var DocXX2007Template = new OfficialDocumentTemplate('xx', 2007);
 var DocXX2006 = DocXX2006Template.compile();
 var DocXX2007 = DocXX2007Template.compile();
 
-var joe = registerUser('joe', 'joe');
+var user = createUser('joe', 'joe'); user.save() // local user
+// var user = createUser('admin', 'admin');
+
 async.series([
 	function(done) {
-		documentWithAttachmentsAndRelated(joe, done);
+		documentWithAttachmentsAndRelated(user, done);
 	},
 	function(done) {
-		documentWithOlderVersions(joe, done);
+		documentWithOlderVersions(user, done);
 	}
 	], function(error) {
 		if(error) throw error;
@@ -32,8 +37,8 @@ function documentWithAttachmentsAndRelated(creator, done) {
 		});
 	var related1 = new DocXX2006({name: 'relatedDoc1'});
 	var related2 = new DocXX2006({name: 'relatedDoc2'});
-	var attachment1 = new DocXX2007({name: 'attachment1'});
-	var attachment2 = new DocXX2007({name: 'attachment2'});
+	var attachment1 = new Attachment({name: 'attachment1'});
+	var attachment2 = new Attachment({name: 'attachment2'});
 
 	doc.relate2docs = [related1, related2];
 	doc.attachments = [attachment1, attachment2];
@@ -73,13 +78,11 @@ function documentWithOlderVersions(creator, done) {
 	)
 }
 
-function registerUser(name, password) {
+function createUser(name, password) {
 	var user = new User();
 	user.local.username = name;
 	user._id = user.local.username;
 	user.local.password = user.generateHash(password);
-	user.save();
-
 	return user;
 }
 

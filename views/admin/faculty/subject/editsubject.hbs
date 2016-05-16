@@ -1,75 +1,149 @@
 
-
 <script>
-	var array = [];
-	var i = 0;
-	function deleteRow(row)
-	{
-	    var i=row.parentNode.parentNode.rowIndex;
-	    document.getElementById('lecTable').deleteRow(i);
-	}
+   $(document).ready(function() {
+        var gettopic = document.getElementById('topic').value;
+        var gettype =document.getElementById('type').value;
+       
+        var mySelectTopic = document.getElementById('knowledge');
+        var mySelectType = document.getElementById('subjecttype');
+       
+        for(var i, j = 0; i = mySelectTopic.options[j]; j++) {
+          if(i.value == gettopic) {
+            mySelectTopic.selectedIndex = j;
+            break;
+          }
+        }
+        for(var k, l = 0; k = mySelectType.options[l]; l++) {
+          if(k.value == gettype) {
+            mySelectType.selectedIndex = l;
+            break;
+          }
+        }
+       
+       
+    });
+	
+	 function deleteRow(row)
+    {
+
+        var i=row.parentNode.parentNode.rowIndex;
+        document.getElementById('subjecttable').deleteRow(i);
+        var rowind = i-1;
+        console.log(rowind);
+        document.getElementById('arrlen').value = rowind;
+        console.log("value="+document.getElementById('arrlen').value);
+    }
 
 
-	function insRow()
-	{
-		var arrid = 'array'+i;
-	    console.log( 'hi');
-	    var x=document.getElementById('lecTable');
-	    var new_row = x.rows[1].cloneNode(true);
-	    var len = x.rows.length;
+    function insRow()
+    {
+        
+        console.log( 'hi');
+        var x=document.getElementById('subjecttable');
+        var y=document.getElementById('subjectbody');
+        var new_row = x.rows[1].cloneNode(true);
+        console.log(new_row);
+        var len = x.rows.length;
 
-	    // var lec = document.getElementById("lecTable").rows[len-1].cells[1].firstChild.value;
-	    // console.log("mhai_eiei"+lec);
-	    // array.push(lec);	 
-
-	    new_row.cells[0].innerHTML = len;
-	    
-	    var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
-	    inp1.id += len;
-	    inp1.value = '';
-	   	x.appendChild( new_row );
-	   	i++;
-	 
-	}
+        new_row.cells[0].innerHTML = len;
+        console.log(len);
+        var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+        inp1.value = "";
+        var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
+       
+      
+      y.appendChild( new_row );
+      rowind++;
+      console.log(rowind);
+      document.getElementById('arrlen').value = rowind;
+      console.log("value="+document.getElementById('arrlen').value);
+    }
+    
 </script>
 
-<form action="/admin/editsubjects" method="post" id = "myForm" >
-	
-	<label>subject Code:</label>
-		<input type="text" tabindex="1" placeholder="Enter subject code"  name="sub_code" id ="sub_code" value ="{{subject.sub_code}}"><br>
-	<label>subject name:</label>
-		<input type="text" tabindex="1" placeholder="Enter subject name"  name="sub_name" id ="sub_name" value ="{{subject.sub_name}}"><br>		
-	<label>subject credit:</label>
-		<input type="text" tabindex="1" placeholder="Enter subject credit" name="sub_credit" id="sub_credit" value ="{{subject.sub_credit}}" ><br>	
+ <form class="form-horizontal" role="form" action="/admin/subjects/editsubject" method="post" id = "myForm">
+ 			 <p hidden> 
+ 			 <input type="text" tabindex="1"  name="arrlen" id="arrlen" value={{len}} readonly=""><br> 
+ 			 <input type="text" tabindex="1"  name="subid" id="subid" value={{subid}} readonly=""><br> 
+ 			 <input type="text" tabindex="1"  name="acid" id="acid" value={{acid}} readonly=""><br> 
+       <input type="text" tabindex="1"  name="topic" id="topic" value={{subject.sub_topic}} readonly=""><br> 
+       <input type="text" tabindex="1"  name="type" id="type" value={{sub_type}} readonly=""><br> 
+             </p>
+        <h3>Add new Subjects to Program</h3>
 
-	<label>subject lecturer:</label></br>
-	
+                    <div class="form-group">
+                      <label for="inputType" class="col-md-2 control-label">Subject code: </label>
+                      <div class="col-md-4">
+                          <input type="text" class="form-control" name="sub_code" id ="sub_code" value ="{{subject.sub_code}}">
+                      </div>                                                   
+                    
+                    <label for="inputType" class="col-md-2 control-label">Name: </label>
+                      <div class="col-md-4">
+                          <input type="text" class="form-control" name="sub_name" id ="sub_name" value ="{{subject.sub_name}}">
+                      </div> 
+                      <br>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputType" class="col-md-2 control-label">Credit : </label>
+                        <div class="col-md-4">
+                          <input type="text" class="form-control" name="sub_credit" id="sub_credit" value ="{{subject.sub_credit}}">
+                        </div>
+                        <label for="inputType" class="col-md-2 control-label">Lecturer : </label>
+                          <div class="col-md-4">
+                            <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span>ADD</button>
+                            <table class="table muffin table-striped table-hover margin-bottom0" id="subjecttable">
+                              <thead>
+                                  <tr>
+                                    <th>Index</th>
+                                    <th width="40"><a href="javascript:table_sort('tab_2',0)">Lecturer name</a></th>
+                                    <th><a href="javascript:table_sort('tab_2',3)">Delete</a></th>
+                                  </tr>
+                              </thead>
+                              <tbody  id="subjectbody">
+                                {{#each subject.sub_lecter}}
+                                      <tr>
+                                          <td>{{inc @index}}</td>
+                                          <td><input  type="text" name="sub_lecter" id="latbox" value="{{this}}"/></td>
+                                           <td>
+                                              <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)">
+                                              
+                                              <span class="glyphicon glyphicon-trash"></span>
+                                              </button>
+                                          </td>     
+                                          
+                                      </tr>
+                                    {{/each}}
+                              </tbody>                             
+                            </table>
+                          </div>                   
+                    </div> 
+                   
+                     <label for="inputType" class="col-md-2 control-label">Knowledge and Skill : </label>
+                              <div class="col-md-4">
+                                  <select id="knowledge" class="form-control" style="width:100px" name="knowledge">
+                                    <option value="Generic">Generic</option>
+                                    <option value="Specific">Specific</option>
+                                </select>
+                              </div>
+                         <label for="inputType" class="col-md-2 control-label">Subject Type : </label>
+                            <div class="col-md-4">
+                                <select id="subjecttype" class="form-control" style="width:200px" name="subjecttype">
+                                  <option value="Compulsory">Compulsory</option>
+                                  <option value="Elective">Elective</option>
+                                  <option value="Thesis">Thesis</option>
+                              </select>
+                            </div> 
+                   
+                   
+                   <div class="form-group">
+                    <div class="pull-right">
+                       
 
-	<div class = "datagrid">
-    <table  id="lecTable" >
-		<thead>
-			<tr>
-				<th>Index</th>
-				<th>Lecturer name</th>
-				<th>Delete</th>
-									
-			</tr>
-		</thead>
-		<tbody>
-		{{#each subject.sub_lecter}}
-	        <tr>
-	            <td>{{inc @index}}</td>
-	            <td><input  type="text" name="sub_lecter" id="latbox" value="{{this}}"/></td>
-	            <td><input type="button" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"/></td>
-	            
-	        </tr>
-        {{/each}}
-        </tbody>
-   	</table>
-   	</div>
-   	<input type="button" id="addmorePOIbutton" value="Insert" onclick="insRow()"/></br>
-   	</br>
-   	<input type="submit" class="btnLogin" value="Add Subject" tabindex="1">
-
-
+                        <div class="btn-group">
+                            <button id="tab_2_submit" class="btn btn-primary" type="submit"> Submit</button>
+                        </div>
+                    </div>
+                    </div>
 </form>
+
+

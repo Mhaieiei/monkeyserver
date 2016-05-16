@@ -1,0 +1,85 @@
+
+<body>
+
+    
+        <td>
+            <div class="container-fluid">
+            <div class="row-fluid">
+            <div class="span15">
+            <div class="col-md-15"> 
+                
+                <h3>Student's status of each academic year</h3>
+       
+                
+                <div id="tab_aun11.1">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+
+
+                            <th>Name - Surname</a></th>
+                           
+                            
+                           
+                            <th>Academic year</a></th>
+                            <th>Status</a></th>
+                            
+                            
+                            
+                           
+                        </tr>
+                       
+                       
+
+                   
+                    </thead>
+
+                   
+					
+                    <tbody>
+                        
+                      
+                       
+                        <tr>
+                        
+                       
+						
+						<td>{{user.local.name}} {{user.local.surname}}</td>
+						{{#each user.detail}}
+                        {{#if @first}} 
+                        <td>{{academicYear}}</td>
+                        <td>{{status}}</td>
+                </tr>
+			 	
+				{{else}}
+                <tr>
+                <th></th>
+				
+                <td>{{academicYear}}</td>
+                        <td>{{status}}</td>
+				{{/if}}
+                        
+						
+                        
+                        
+                        </tr>  
+                        {{/each}}
+                    </tbody>
+					<div class="form-group">
+                    <a href = "/adminedit?user={{user.local.username}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Back to Edit profile page</button>
+                    </div>
+                  </table>
+
+                </div>
+          
+            </div>
+            </div>
+            </div>
+            </div>
+            
+
+        </td>
+
+
+
+</body>

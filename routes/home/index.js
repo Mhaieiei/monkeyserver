@@ -1,23 +1,30 @@
- var router = require('express').Router();
- var Doc = require('../../model/document/document');
- var isLoggedIn = require('../../middleware/loginChecker');
- var request = require('request');
+var router = require('express').Router();
+var Doc = require('../../model/document/document');
+var isLoggedIn = require('../../middleware/loginChecker');
+var request = require('request');
+var fs = require('fs');
+var async = require('async');
+var Attachment = require('../../model/document/attachment');
 
 // =====================================
 // HOME SECTION =====================
 // =====================================
-router.get('/', isLoggedIn, function(req, res) {
+router.get('/', isLoggedIn, function(req, res, next) {
   var query = Doc.findByUser(req.user);
-  query.exec(function(err,_docs) {
-    if(err)
-      return handleError(req, res);
+  query.exec(function(err, _docs) {
+    handleError(err, res, next);
 
-    getWorkflowTaskList(req, function(taskList) {
+    getWorkflowTaskList(req, function(execList,taskList) {
       var response = dateDDMMYYYY(_docs);
-      response.result = taskList;
+      response.exec = execList;
+      response.task = taskList
       res.render('home.hbs', response);
     })
   });
+});
+
+router.use('/documentDetail', isLoggedIn, function(req, res) {
+  log('DocumentDetail');
 });
 
 
@@ -52,7 +59,7 @@ router.post('/', isLoggedIn, function(req, res) {
   }
 
   if(author) {
-    query = query.where('author').regex(subStringRegex(author, false));
+    query = Doc.findByUser(author);
   }
 
   if(status !== 'all') {
@@ -60,7 +67,6 @@ router.post('/', isLoggedIn, function(req, res) {
     query = query.where('status').equals(status);
   }
 
-  console.log("Status:"+status);
 
   query.exec(function(err, _docs) {
     if(err) {
@@ -134,10 +140,66 @@ router.post('/', isLoggedIn, function(req, res) {
   });
 });
 
- function handleError(res, next) {
-  console.error(err);
+router.get('/upload', isLoggedIn, function(req, res){
+  console.log("Uploading....");
+  
+  res.render('dms/getUpload.hbs',{
+    layout:"homePage"
+  });
+});
+
+router.post('/upload',function(req, res, next){
+  var document;
+  async.parallel([
+    writeFile(req),
+    mapFileToDocument(req, function(returnDocument){document = returnDocument})],
+    function(error) {
+      handleError(error, res, next); 
+      if(req.query.json) {
+        res.json(document);
+      }
+      else
+        res.redirect('back')})
+});
+
+function writeFile(req) {
+  return function(done) {
+    var path = require('path');
+    var fstream;
+    req.pipe(req.busboy);
+    req.busboy.on('file', function (fieldname, file, filename) {
+      console.log("Uploading: " + filename); 
+      var targetPath = path.join(global.__APPROOT__, 'uploads', 'document', filename);
+      console.log(targetPath);
+      fstream = fs.createWriteStream(targetPath);
+      file.pipe(fstream);
+      fstream.on('close', function () {
+        done();
+      });
+    });
+  }
+}
+
+function mapFileToDocument(req, onReturnDocument) {
+  return function(done) {
+    req.pipe(req.busboy);
+    req.busboy.on('file', function (fieldname, file, filename) {
+      var targetPath = 'uploads/document/' + filename;
+      var owner = req.user.local.username;
+      var attachment = new Attachment({owner: owner, author: owner, name: filename, filepath: targetPath});
+      onReturnDocument(attachment);
+      attachment.save(done);
+    })
+  }
+}
+
+function handleError(error, res, next) {
+  if(!error)
+    return;
+
+  console.error(error);
   res.status(500);
-  return next(err);
+  return next(error);  
 }
 
 function dateDDMMYYYY(documentQueryResult) {
@@ -175,11 +237,10 @@ function getWorkflowTaskList(req, callBackWithResult) {
   request(baseUrl + '/api/workflow/workflowexecutions',function(error1,response1,body1){
     //get task workflow list
     request(baseUrl + '/api/workflow/tasks',function(error2,response2,body2){ 
-      var json = JSON.parse(body2);
-      console.log(body2);
-      console.log(body1);
-      console.log(typeof json);
-      callBackWithResult(json);
+
+      var task = JSON.parse(body2);
+      var exec = JSON.parse(body1);
+      callBackWithResult(exec,task);
     });
   });
 }

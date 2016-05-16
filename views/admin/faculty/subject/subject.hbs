@@ -84,44 +84,46 @@
                     <div class="form-group">
                       <label for="inputType" class="col-md-2 control-label">Subject code: </label>
                       <div class="col-md-4">
-                          <input type="text" class="form-control" name="sub_code" id ="sub_code">
+                          <input type="text" class="form-control" name="sub_code" id ="sub_code" value ="{{subject.sub_code}}">
                       </div>                                                   
                     
                     <label for="inputType" class="col-md-2 control-label">Name: </label>
                       <div class="col-md-4">
-                          <input type="text" class="form-control" name="sub_name" id ="sub_name">
+                          <input type="text" class="form-control" name="sub_name" id ="sub_name" value ="{{subject.sub_name}}">
                       </div> 
                       <br>
                     </div>
                     <div class="form-group">
                         <label for="inputType" class="col-md-2 control-label">Credit : </label>
                         <div class="col-md-4">
-                          <input type="text" class="form-control" name="sub_credit" id="sub_credit">
+                          <input type="text" class="form-control" name="sub_credit" id="sub_credit" value ="{{subject.sub_credit}}">
                         </div>
                         <label for="inputType" class="col-md-2 control-label">Lecturer : </label>
                           <div class="col-md-4">
-                        
+                            <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span>ADD</button>
                             <table class="table muffin table-striped table-hover margin-bottom0" id="lecTable">
                               <thead>
                                   <tr>
-                                  <th width="40"><a href="javascript:table_sort('tab_2',0)">Lecturer name</a></th>
-                                  <th><a href="javascript:table_sort('tab_2',1)" >Add</a></th>
-                                  <th><a href="javascript:table_sort('tab_2',3)">Delete</a></th>
+                                    <th>Index</th>
+                                    <th width="40"><a href="javascript:table_sort('tab_2',0)">Lecturer name</a></th>
+                                    <th><a href="javascript:table_sort('tab_2',3)">Delete</a></th>
                                   </tr>
                               </thead>
-                              <tbody id="lecbody">
-                                <tr>
-          					            <td><input  type="text" name="lec_name" id="latbox"/></td>
-                                <td><button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span></button>
-                                </td>
-          					            <td>
-                                    <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)">
-                                    
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                    </button>
-                                </td>     
-          				              </tr> 
-                              </tbody>
+                              <tbody  id="lecbody">
+                                {{#each subject.sub_lecter}}
+                                      <tr>
+                                          <td>{{inc @index}}</td>
+                                          <td><input  type="text" name="sub_lecter" id="latbox" value="{{this}}"/></td>
+                                           <td>
+                                              <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)">
+                                              
+                                              <span class="glyphicon glyphicon-trash"></span>
+                                              </button>
+                                          </td>     
+                                          
+                                      </tr>
+                                    {{/each}}
+                              </tbody>                             
                             </table>
                           </div>
                    

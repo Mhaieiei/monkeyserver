@@ -33,6 +33,7 @@
       rowind++;
       console.log(rowind);
       document.getElementById('arrlen').value = rowind;
+      document.getElementById('count').value = 1;
       console.log("value="+document.getElementById('arrlen').value);
      
     }
@@ -40,7 +41,7 @@
 
 <div class="container">
            
-    <form class="form-horizontal" role="form"  action="/aun/aun1-4/add_aun1-4?program={{programname}}" method="post" id = "myForm" > 
+    <form class="form-horizontal" role="form"  action="/aun/aun1-4/add_aun1-4?&program={{getprogram}}&year={{getyear}}&acid={{getacid}}" method="post" id = "myForm" > 
       
                 <h3>Mapped The expected learnig outcomes (ELOs)</h3>
                 <br>
@@ -72,6 +73,9 @@
                             <p hidden>    
                               <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>
                             </p>
+                            <p hidden>    
+                        <input type="text" tabindex="1"  name="count" id="count" value="0" readonly=""><br>
+                     </p>
                             <tr>
                             <td><input  type="text" name="req" id="req"/></td>
 
