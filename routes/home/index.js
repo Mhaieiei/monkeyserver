@@ -186,7 +186,7 @@ function mapFileToDocument(req, onReturnDocument) {
     req.busboy.on('file', function (fieldname, file, filename) {
       var targetPath = 'uploads/document/' + filename;
       var owner = req.user.local.username;
-      var attachment = new Attachment({owner: owner, name: filename, filepath: targetPath});
+      var attachment = new Attachment({owner: owner, author: owner, name: filename, filepath: targetPath});
       onReturnDocument(attachment);
       attachment.save(done);
     })
