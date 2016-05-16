@@ -1,0 +1,78 @@
+
+
+<div class="container">
+        <form class="form-horizontal" role="form"  action="/admin/add_role?user={{user}}&program={{program}}" method="post" id = "myForm" > 
+          
+           
+         
+        
+   <h3>Add Special title of the user</h3>
+        <br>
+
+        <div class="form-group">
+              <label for="inputType" class="col-md-2 control-label">Type : </label> 
+              <select class="form-control" style="width:150px" id="type" name="type">
+                  <option value="Academic Staff">Academic Staff</option>
+                  <option value="Advancement of career title">Advancement of career title</option>
+                  
+                  
+              </select>
+          </div>
+
+          <div class="form-group">
+
+          <label for="inputType" class="col-md-2 control-label">Role : </label> 
+              <div class="col-md-4">
+                <select class="form-control" style="width:150px" id="role" name="role">
+                  <option value="Faculty Member">Faculty Member</option>
+                  <option value="Visiting Member">Visiting Member</option>
+                  <option value="Supporting Staff">Supporting Staff</option>
+                  
+                  
+                  
+              </select>
+              </div>
+
+
+              <label for="inputType" class="col-md-2 control-label">Title : </label> 
+              <div class="col-md-4">
+                <select class="form-control" style="width:150px" id="title" name="title">
+                  <option value="Professor">Professor</option>
+                  <option value="Associate Professor">Associate Professor</option>
+                  <option value="Assistant Professor">Assistant Professor</option>
+                  <option value="Lecturer">Lecturer</option>
+                  <option value="Middle Operational Level">Middle Operational Level</option>
+                  <option value="Professional Level">Professional Level</option>
+                  <option value="Expert Level">Expert Level</option>
+                  <option value="Senior Expert Level">Senior Expert Level</option>
+                  
+                  
+              </select>
+              </div>
+
+              <label for="inputType" class="col-md-2 control-label">Academic year : </label> 
+              <div class="col-md-4">
+                <input type="text" class="form-control" id="academicYear"   name="academicYear" required>
+              </div>
+          </div>
+          
+
+            <div class="col-md-10">
+                      <br>
+                      <br>
+                      <br>
+                      <button type="submit" class="btn btn-primary">Add</button></p>
+              </div>
+
+            
+
+            
+
+        </form>
+
+</div>
+
+
+
+
+
