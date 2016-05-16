@@ -8,6 +8,7 @@ var bcrypt   = require('bcrypt-nodejs');
 var userSchema = new mongoose.Schema({
 
 	_id : String,
+    simpleRole: String,
 	local: {
 		title: String,
         ID : String,
@@ -41,8 +42,8 @@ var userSchema = new mongoose.Schema({
         careerOrHigherStudying:String
 
        }],
-	roleOfProgram: [String],
-	roleOfStaff: [String],
+	roleOfProgram: [{type: String,ref:'roleOfProgram'}],
+	roleOfStaff: [{type: String,ref:'roleOfStaff'}],
     subjects : [{type: mongoose.Schema.Types.ObjectId,ref:'Subject'}],
     education: mongoose.Schema.Types.Mixed,
     advisingProject : [{type: mongoose.Schema.Types.ObjectId,ref:'Project'}],
