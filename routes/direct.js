@@ -101,13 +101,19 @@ module.exports = function(app, passport) {
 
   //document detail 
   app.get('/documentDetail/:id', isLoggedIn, function(req, res) {
-    //request()
-    //document id
-  //req.params.id = 
-  console.log('DocumentDetail');
-  res.render('docDetail.hbs',{
-      layout:"homePage"
-    });
+
+    var baseUrl = req.protocol + '://' + req.get('host');
+    request(baseUrl + '/api/document/read/'+ req.params.id  ,function(error1,response1,body1){
+      var docDetail = JSON.parse(body1);
+      var spliter = String(docDetail.filepath).split('.');
+      docDetail.filetype = spliter[ spliter.length - 1 ];
+      console.log(docDetail);
+    res.render('docDetail.hbs',{
+        layout:"homePage",
+        docDetail: docDetail
+      });
+    })
+
   });
 
   

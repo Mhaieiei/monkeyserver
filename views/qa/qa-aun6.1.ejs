@@ -26,6 +26,7 @@
                                  <%count = 0%>
                                  <%count1 = 0%>
                                  <%count2 = 0%>
+                                 <%check_edu = 0%>
                                  <tr>
                                     <th colspan=6></th>
                                  </tr>
@@ -37,11 +38,20 @@
                                     <% if(count == 0){ %>
                                     <td><%=docs[i].user[j].local.title%></td>
                                     <td><%=docs[i].user[j].local.name%> <%=docs[i].user[j].local.surname%></td>
+                                    <%check_edu = 0%>
+                                    <% if(docs[i].user[j].education != null){ %>
                                     <% for(k=0;k< docs[i].user[j].education.length;k++){%>
                                     <% if(docs[i].user[j].education[k].level == 'Doctoral'){ %>
                                     <td><%=docs[i].user[j].education[k].degree%></td>
+                                    <%check_edu = 1%>
                                     <%}%>
                                     <%}%>
+                                    <%}%>
+
+                                    <% if(check_edu == 0){ %>
+                                    <td></td>
+                                    <%}%>
+
                                     <td><%=docs[i].user[j].local.yearOfTeaching%></td>
                                     <%count1 = 0%>
                                     <% for(g=0;g< docs[i].user[j].publicResearch.length;g++){%>
@@ -55,7 +65,7 @@
                                     <th></th>
                                     <th></th>
                                     <th></th>
-                                    <
+                                    
                                     <td><%=docs[i].user[j].publicResearch[g].typepublic%></td>
                                     <%}%>
                                     <%count1++%>
@@ -66,11 +76,20 @@
                                     <th></th>
                                     <td><%=docs[i].user[j].local.title%></td>
                                     <td><%=docs[i].user[j].local.name%> <%=docs[i].user[j].local.surname%></td>
+                                    <%check_edu = 0%>
+                                    <% if(docs[i].user[j].education != null){ %>
                                     <% for(k=0;k< docs[i].user[j].education.length;k++){%>
                                     <% if(docs[i].user[j].education[k].level == 'Doctoral'){ %>
                                     <td><%=docs[i].user[j].education[k].degree%></td>
+                                    <%check_edu = 1%>
                                     <%}%>
                                     <%}%>
+                                    <%}%>
+
+                                    <% if(check_edu == 0){ %>
+                                    <td></td>
+                                    <%}%>
+
                                     <td><%=docs[i].user[j].local.yearOfTeaching%></td>
                                     <%count1 = 0%>
                                     <% for(g=0;g< docs[i].user[j].publicResearch.length;g++){%>

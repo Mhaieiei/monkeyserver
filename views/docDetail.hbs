@@ -1,7 +1,7 @@
 
 
     <div class="container">
-ช 
+
 
         <!-- Page Heading/Breadcrumbs -->
         <section id="docDetail">
@@ -24,38 +24,37 @@
                         <table id="table_doc" class="table muffin table-striped table-hover margin-bottom0">
                                 <thead>
 
-                                
                                     <div class="row">
                                       <div class="col-md-4" style="background-color:lavender;">Document ID</div>
-                                      <div class="col-md-8">.col-md-6</div>
-                                      <div class="col-md-4">Docoument name</div>
-                                      <div class="col-md-8" style="background-color:lavender;">.col-md-6</div>
+                                      <div class="col-md-8">{{docDetail.id}}</div>
+                                        <div class="col-md-4">Docoument name</div>
+                                      <div class="col-md-8" style="background-color:lavender;">{{docDetail.name}}</div>
                                       <div class="col-md-4" style="background-color:lavender;">Docoument type</div>
-                                      <div class="col-md-8" >.col-md-6</div>
+                                      <div class="col-md-8" >{{docDetail.subtype}}</div>
                                       <div class="col-md-4" >Type of file</div>
-                                      <div class="col-md-8" style="background-color:lavender;">.col-md-6</div>
+                                      <div class="col-md-8" style="background-color:lavender;">{{docDetail.filetype}}</div>
                                       <div class="col-md-4" style="background-color:lavender;">Department</div>
-                                      <div class="col-md-8">.col-md-6</div>
-                                      <div class="col-md-4">Date</div>
-                                      <div class="col-md-8" style="background-color:lavender;">.col-md-6</div>
+                                      <div class="col-md-8">Some Department</div>
+                                      <div class="col-md-4">Created Date</div>
+                                      <div class="col-md-8" style="background-color:lavender;">{{docDetail.dateCreate}}</div>
                                       <div class="col-md-4" style="background-color:lavender;">Description</div>
-                                      <div class="col-md-8">.col-md-6</div>
+                                      <div class="col-md-8">-</div>
                                       <div class="col-md-4">Permission</div>
-                                      <div class="col-md-8" style="background-color:lavender;">.col-md-6</div>
+                                      <div class="col-md-8" style="background-color:lavender;">-</div>
                                       <div class="col-md-4" style="background-color:lavender;">Autur</div>
-                                      <div class="col-md-8">.col-md-6</div>
+                                      <div class="col-md-8">{{docDetail.author}}</div>
                                       <div class="col-md-4">Docoument status</div>
-                                      <div class="col-md-8" style="background-color:lavender;">.col-md-6</div>
+                                      <div class="col-md-8" style="background-color:lavender;">{{docDetail.status}}</div>
                                       <div class="col-md-4" style="background-color:lavender;">Workflow status</div>
-                                      <div class="col-md-8">.col-md-6</div>
+                                      <div class="col-md-8">-</div>
                                       <div class="col-md-4">Related work</div>
-                                      <div class="col-md-8" style="background-color:lavender;">.col-md-6</div>
+                                      <div class="col-md-8" style="background-color:lavender;">{{docDetail.relate2docs}}</div>
                                       <div class="col-md-4" style="background-color:lavender;">Docoument version</div>
-                                      <div class="col-md-8">.col-md-6</div>
+                                      <div class="col-md-8">-</div>
                                       <div class="col-md-4">Attach file</div>
-                                      <div class="col-md-8" style="background-color:lavender;">.col-md-6</div>
+                                      <div class="col-md-8" style="background-color:lavender;">{{docDetail.attachments}}</div>
                                       <div class="col-md-4" style="background-color:lavender;">Path location</div>
-                                      <div class="col-md-8">.col-md-6</div>
+                                      <div class="col-md-8">{{docDetail.filepath}}</div>
                                     </div>
 
 

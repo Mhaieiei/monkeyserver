@@ -4,20 +4,19 @@ var Promise = require('bluebird');
 var isLoggedin = require('middleware/loginChecker');
 var Document = require('model/document/document');
 
-router.get('/read/:docID', isLoggedin, function(req, res, next) {
+router.get('/read/:docID', function(req, res, next) {
 	var documentId = req.params.docID;
-	Document.findOne({id: documentId})
+	Document.findOne({'_id': documentId})
 	.exec(function(error, document) {
-		if(error) return next(error);
-		
+		if(error) return res.json({});	
 		res.json(document);
 	})
 })
 
-router.get('/read', isLoggedin, function(req, res, next) {
-	Document.find({owner: req.user})
+router.get('/read', function(req, res, next) {
+	Document.find({owner: req.query.userid})
 	.exec(function(error, document) {
-		if(error) return next(error);
+		if(error) return res.json({});
 
 		res.json(document);
 	})

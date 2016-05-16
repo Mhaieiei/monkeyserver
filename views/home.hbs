@@ -152,12 +152,12 @@
                                       <td>{{this.status}}</td>
                                       <td><font color="red"></td>
                                       <td>
-                                        <a class="btn btn-default" href="documentDetail" >More detail</a>
+                                        <a class="btn btn-default" href="/documentDetail/{{this._id}}" >More detail</a>
                                       </td>
                                     </tr>
+                                {{/each}}  
                                 </thead>
-                                {{/each}}
-                               
+                                 
 
 
                                 <table id="choice-btn">
@@ -209,20 +209,30 @@
                                     </tr>
                                     
                                     
+<!--                                 {{#each exec}}
+                                    <tr class="each-exec">
+                                        Tester<td><input type="checkbox" class="tab_2_check" data-row="0"></td>
+                                      <td>{{this.templateId}}</td>
+                                      <td><a href="#"></a>tester</td>
+                                      <td>test</td>
+                                      <td>test2</td>
+                                      <td><font color="red"></td>
+                                      <td><a class="btn btn-default" href="/execution/{{this._id}}" >More detail</a></td>
+                                    </tr>
+                                {{/each}} -->
+
                                 {{#each exec}}
                                     <tr class="each-doc">
                                     <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
                                       <td>{{this.templateId}}</td>
-                                      <td><a href="#"></a></td>
-
-                                      <td></td>
-                                      <td></td>
-                                      <td><font color="red"></td>
-                                      <td>
+                                      <td>{{this.templateName}}</td>
+                                      <td>{{this.createDate}}</td>
+                                      <td> 
                                         <a class="btn btn-default" href="/execution/{{this._id}}" >More detail</a>
                                       </td>
                                     </tr>
-                                {{/each}}
+                                {{/each}}  
+                                </thead>
 
                                 </thead>
                     
@@ -273,14 +283,12 @@
                                     
                                     
                                     {{#each task}}
-                                    <tr class="each-doc">
+                                    <tr class="each-task">
                                     <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
                                       <td>{{this.workflowExecutionId}}</td>
-                                      <td><a href="#"></a></td>
-
-                                      <td></td>
-                                      <td></td>
-                                      <td><font color="red"></td>
+                                      <td>{{this.templateName}}</td>
+                                      <td>{{this.taskName}}</td>
+                                      <td>{{this.executor}}</td>
                                       <td>
                                         <a class="btn btn-default" href="/execution/tasks/{{this._id}}" >More detail</a>
                                         <!-- <a href="/documentDetail/{{this._id}}">More detail</a> -->
