@@ -21,10 +21,6 @@ router.get('/', isLoggedIn, function(req, res) {
   });
 });
 
-router.use('/documentDetail', isLoggedIn, function(req, res) {
-  log('DocumentDetail');
-});
-
 
 router.post('/', isLoggedIn, function(req, res) {
   console.log('AT HOME');
@@ -176,6 +172,7 @@ function dateDDMMYYYY(documentQueryResult) {
 function getWorkflowTaskList(req, callBackWithResult) {
  var baseUrl = req.protocol + '://' + req.get('host');
   //get workflow list 
+  request(baseUrl + '/api')
   request(baseUrl + '/api/workflow/workflowexecutions',function(error1,response1,body1){
     //get task workflow list
     request(baseUrl + '/api/workflow/tasks',function(error2,response2,body2){ 

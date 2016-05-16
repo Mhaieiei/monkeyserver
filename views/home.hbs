@@ -127,7 +127,7 @@
  
             <div class="tab-content">
                 
-         
+<!--                 document tab-->
                 <div id="tab1" class="tab active">
                     <form class="form-horizontal" role="form">
                         <table id="table_doc" class="table muffin table-striped table-hover margin-bottom0">
@@ -137,7 +137,7 @@
                                     <th><a href="javascript:table_sort('tab_2',1)">ID</a></th>
                                     <th><a href="javascript:table_sort('tab_2',2)">Document name</a></th>
                                     <th><a href="javascript:table_sort('tab_2',3)">Author</a></th>
-                                    <th><a href="javascript:table_sort('tab_2',4)">Date_created</a></th>
+                                    <th><a href="javascript:table_sort('tab_2',4)">Created date</a></th>
                                     <th><a href="javascript:table_sort('tab_2',5)">Status</a></th>
                                     
                                     </tr>
@@ -152,9 +152,7 @@
                                       <td></td>
                                       <td><font color="red"></td>
                                       <td>
-                                        <button data-toggle="popover" title="Document detail" 
-                                        data-content="Some document content"> More Detail
-                                        </button>
+                                        <a class="btn btn-default" href="documentDetail" >More detail</a>
                                       </td>
                                     </tr>
                                 </thead>
@@ -204,8 +202,7 @@
                                     <th width="40"><a href="javascript:table_sort('tab_2',0)"></a></th>
                                     <th><a href="javascript:table_sort('tab_2',1)">ID</a></th>
                                     <th><a href="javascript:table_sort('tab_2',2)">Workflow name</a></th>
-                                    <th><a href="javascript:table_sort('tab_2',3)">Author</a></th>
-                                    <th><a href="javascript:table_sort('tab_2',4)">Date_created</a></th>
+                                    <th><a href="javascript:table_sort('tab_2',4)">Created date</a></th>
                                     <th><a href="javascript:table_sort('tab_2',5)">Status</a></th>
                                     
                                     </tr>
@@ -221,9 +218,7 @@
                                       <td></td>
                                       <td><font color="red"></td>
                                       <td>
-                                        <button data-toggle="popover" title="Workflow detail" data-content="Document Type:{{this.templateId}}">
-                                            More Detail
-                                        </button>
+                                        <a class="btn btn-default" href="/execution/{{this._id}}" >More detail</a>
                                       </td>
                                     </tr>
                                 {{/each}}
@@ -267,9 +262,11 @@
                                     <th width="40"><a href="javascript:table_sort('tab_2',0)"></a></th>
                                     <th><a href="javascript:table_sort('tab_2',1)">ID</a></th>
                                     <th><a href="javascript:table_sort('tab_2',2)">Workflow name</a></th>
-                                    <th><a href="javascript:table_sort('tab_2',3)">Author</a></th>
-                                    <th><a href="javascript:table_sort('tab_2',4)">Date_created</a></th>
-                                    <th><a href="javascript:table_sort('tab_2',5)">Status</a></th>
+                                    <th><a href="javascript:table_sort('tab_2',3)">Task name</a></th>
+                                    <th><a href="javascript:table_sort('tab_2',4)">Executer</a></th>
+                                    <th><a href="javascript:table_sort('tab_2',5)">Created date</a></th>
+                                    <!-- No status because this is task that assign to -->
+                                    <!-- <th><a href="javascript:table_sort('tab_2',5)">Status</a></th> -->
                                     
                                     </tr>
                                     
@@ -284,7 +281,9 @@
                                       <td></td>
                                       <td><font color="red"></td>
                                       <td>
-                                        <button class="btn btn-info.btn-sm" href="/logout">More detail</button>
+                                        <a class="btn btn-default" href="/execution/tasks/{{this._id}}" >More detail</a>
+                                        <!-- <a href="/documentDetail/{{this._id}}">More detail</a> -->
+                                        <!-- <button class="btn btn-info.btn-sm" href="/logout">More detail</button> -->
                                       </td>
                                     </tr>
                                   {{/each}}

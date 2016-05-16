@@ -97,6 +97,19 @@ module.exports = function(app, passport) {
   app.get('/wf.jpg', function (req, res) {
         res.sendfile(path.resolve('public/images/wf.jpg'));
   });
+
+
+  //document detail 
+  app.get('/documentDetail/:id', isLoggedIn, function(req, res) {
+    request
+    //document id
+  req.params.id = 
+  console.log('DocumentDetail');
+  res.render('docDetail.hbs',{
+      layout:"homePage"
+    });
+  });
+
   
   app.get('/upload', isLoggedIn, function(req, res){
       console.log("Uploading....");
