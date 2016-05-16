@@ -30,7 +30,7 @@ describe('DMS pages HTTP request testing', function() {
 		pageShouldExist('/home');
 	})
 
-	describe('Upload page', function() {
+	describe.skip('Upload page', function() {
 		var page = '/home/upload';
 		var filename = 'fileToUpload.txt';
 		var path2File = 'test/resource/' + filename;
