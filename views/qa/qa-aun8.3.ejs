@@ -33,7 +33,7 @@
                                  <tr>
                                     <td><%=student[i]._id.yearAttend%></td>
                                     <% for(j=0;j< student[i].groupOfNationality.length;j++){%>  
-                                    <% if(student[i].groupOfNationality[j].local.gender == "Male"){ %>
+                                    <% if(student[i].groupOfNationality[j].local.gender == "male"){ %>
                                     <% countMale++%>
                                     <%}else{%>
                                     <% countFemale++%>
@@ -61,10 +61,22 @@
                                  <!-- ใช้ th colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
                               </thead>
                               <tbody>
+                              <% countStudent = 0%>
                                  <% for(i=0;i< student_academicYear.length;i++){%>
                                  <tr>
                                     <td><%=student_academicYear[i]._id.yearAttend%></td>
-                                    <td><%=student_academicYear[i].count%></td>
+                                    
+                                   <% countStudent = 0%>
+                                    <% for(j=0;j< student_academicYear[i].detail.length;j++){%>
+                                       
+                                      
+                                       
+                                       <% if(student_academicYear[i].detail[j].detail.status == "Drop Out"){ %>
+                                          <% countStudent++%>
+                                       <%}%>
+                                      
+                                    <%}%>
+                                    <td><%=countStudent%></td>
                                  </tr>
                                  <%}%>   
                               </tbody>

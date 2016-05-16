@@ -100,6 +100,7 @@ userSchema.methods.updateUser = function(request, response){
 		this.local.academic_position = request.body.academic_position;
 		this.local.admin_position = request.body.admin_position;
         this.local.terminationYear = request.body.terminationYear;
+        this.local.yearOfTeaching = request.body.yearOfTeaching;
 	}	
 	
 	this.save(function (err,user) {

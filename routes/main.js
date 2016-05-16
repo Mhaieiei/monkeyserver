@@ -11,6 +11,12 @@ module.exports = function(app, passport){
     
     }));
 
+    app.get('/logout', function(req, res) {
+        req.logout();
+        res.redirect('/');
+    });
+  
+
   	app.get('/signup', function(req, res) {
         res.render('signup.ejs', { message: 'signupMessage' });
     });

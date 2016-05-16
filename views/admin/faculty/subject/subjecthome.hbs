@@ -25,6 +25,7 @@
             <th><a href="javascript:table_sort('tab_2',2)">Subject name</a></th>
             <th><a href="javascript:table_sort('tab_2',2)">Subject credit</a></th>
             <th><a href="javascript:table_sort('tab_2',3)">Lecturer</a></th>
+            <th><a href="javascript:table_sort('tab_2',3)">Delete</a></th>
             <th><a href="javascript:table_sort('tab_2',3)">Enroll</a></th>
             <th><a href="javascript:table_sort('tab_2',3)">Add ELO</a></th>
             </tr>
@@ -36,16 +37,18 @@
                 {{setyear Year}}
                 {{#each subject}}
                 <tr>
-                    <td><a href='/admin/subject/editsubject?user={{local.username}}'>{{subcode.sub_code}}</a></td>
+                    <td><a href='/admin/subjects/editsubject?id={{subcode.id}}&acid={{getacid}}'>{{subcode.sub_code}}</a></td>
                     <td>{{subcode.sub_name}}</td>
                     <td>{{subcode.sub_credit}}</td>
                     <td>
                         {{#each subcode.sub_lecter}}
                             {{local.title}}
-                            {{local.name}}<br>
+                            {{local.name}}
+                            {{local.surname}}<br>
                             
                         {{/each}}
-                    </td>    
+                    </td>  
+                    <td><a href='/admin/subjects/delsubject?id={{subcode.id}}&acid={{getacid}}'>Delete</a></td>  
                     <td><a href='/admin/enroll?acid={{getac}}&sub_id={{subcode._id}}&year={{getyear}}&semes={{getsemes}}'>Enroll</a></td>   
                     <td><a href='/admin/sub_elo?acid={{getac}}&sub_id={{subcode._id}}&sub_name={{subcode.sub_name}}&sub_code={{subcode.sub_code}}&sub_credit={{subcode.sub_credit}}'>Add/Edit ELO</a></td>         
                 </tr>
