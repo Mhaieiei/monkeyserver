@@ -6,19 +6,33 @@ var Document = require('model/document/document');
 
 router.get('/read/:docID', function(req, res, next) {
 	var documentId = req.params.docID;
-	Document.findOne({'_id': documentId})
+	Document.findOne({id: documentId})
 	.exec(function(error, document) {
-		if(error) return res.json({});	
-		res.json(document);
+		if(error)
+			return next(error);
+
+		if(!document)
+			return res.json({});
+		else
+			return res.json(document);
 	})
 })
 
 router.get('/read', function(req, res, next) {
-	Document.find({owner: req.query.userid})
-	.exec(function(error, document) {
-		if(error) return res.json({});
+	var query;
+	if(req.query.userid)
+		query = Document.findByUser(req.query.userid);
+	else
+		query = Document.find();
 
-		res.json(document);
+	query.exec(function(error, document) {
+		if(error)
+			return next(error);
+
+		if(!document)
+			return res.json({});
+		else
+			return res.json(document);
 	})
 })
 

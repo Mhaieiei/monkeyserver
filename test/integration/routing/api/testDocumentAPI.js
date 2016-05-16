@@ -30,12 +30,13 @@ describe('REST Document API', function() {
 		var URL = getApiUrl('read');
 
 		testRespondJson(URL);
-		testInvalidId(URL, null, 'null');
+		testInvalidId(URL, {}, 'empty json');
 
 		it('should return the correct document', function(done) {
 			APIHttpRequest(URL.concat(document.id))
 			.expect(function(response) {
 				var result = response.body;
+				expect(result.id).to.exist;
 				isSameRecord(document, result);
 			})
 			.end(done);
@@ -149,7 +150,7 @@ describe('REST Document API', function() {
 	}
 
 	function testInvalidId(url, expectedResponse, messageTypeResponse) {
-		it('should return ' + messageTypeResponse + 'given non-existent document ID', function(done) {
+		it('should return ' + messageTypeResponse + ' given non-existent document ID', function(done) {
 			var invalidId = -1;
 			APIHttpRequest(url.concat(invalidId))
 			.expect(expectedResponse)
