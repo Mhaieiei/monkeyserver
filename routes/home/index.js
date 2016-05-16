@@ -18,13 +18,12 @@ router.get('/', isLoggedIn, function(req, res, next) {
       var response = dateDDMMYYYY(_docs);
       response.exec = execList;
       response.task = taskList
+      console.log("response");
+      console.log(response);
       res.render('home.hbs', response);
+
     })
   });
-});
-
-router.use('/documentDetail', isLoggedIn, function(req, res) {
-  log('DocumentDetail');
 });
 
 
@@ -233,16 +232,18 @@ function dateDDMMYYYY(documentQueryResult) {
 
 function getWorkflowTaskList(req, callBackWithResult) {
  var baseUrl = req.protocol + '://' + req.get('host');
-  //get workflow list 
-  request(baseUrl + '/api/workflow/workflowexecutions',function(error1,response1,body1){
+  //get document list 
+  //request(baseUrl + '/api/document/read?userid='+ req.user._id ,function(error1,response1,body1){
+    //get workflow list 
+    request(baseUrl + '/api/workflow/workflowexecutions',function(error2,response2,body2){
     //get task workflow list
-    request(baseUrl + '/api/workflow/tasks',function(error2,response2,body2){ 
-
-      var task = JSON.parse(body2);
-      var exec = JSON.parse(body1);
-      callBackWithResult(exec,task);
+      request(baseUrl + '/api/workflow/tasks',function(error3,response3,body3){ 
+        var exec = JSON.parse(body2);
+        var task = JSON.parse(body3);
+        callBackWithResult(exec,task);
+       });
     });
-  });
+  //});
 }
 
 module.exports = router;

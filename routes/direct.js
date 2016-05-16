@@ -97,7 +97,8 @@ module.exports = function(app, passport) {
   app.get('/wf.jpg', function (req, res) {
         res.sendfile(path.resolve('public/images/wf.jpg'));
   });
-  app.get('/wrong.png', function (req, res) {
+
+   app.get('/wrong.png', function (req, res) {
         res.sendfile(path.resolve('public/images/wrong.png'));
   });
   app.get('/correct.png', function (req, res) {
@@ -123,21 +124,35 @@ module.exports = function(app, passport) {
     });
 
   });
+  //document detail 
+  app.get('/documentDetail/:id', isLoggedIn, function(req, res) {
+
+    var baseUrl = req.protocol + '://' + req.get('host');
+    request(baseUrl + '/api/document/read/'+ req.params.id  ,function(error1,response1,body1){
+      var docDetail = JSON.parse(body1);
+      var spliter = String(docDetail.filepath).split('.');
+      docDetail.filetype = spliter[ spliter.length - 1 ];
+      docDetail.name = String(docDetail.name).substr(0 ,docDetail.name.length - docDetail.filetype.length);
+      console.log(docDetail);
+    res.render('docDetail.hbs',{
+        layout:"homePage",
+        docDetail: docDetail
+      });
+    })
+
+  });
 
   
-    // =====================================
-    // LOGIN ===============================
-    // =====================================
-    // show the login form
-    app.get('/', function(req, res) {
-
-        // render the page and pass in any flash data if it exists     
-        res.render('index.ejs', { message: req.flash('loginMessage') }); 
+  app.get('/upload', isLoggedIn, function(req, res){
+      console.log("Uploading....");
+    
+      res.render('dms/getUpload.hbs',{
+      layout:"homePage"
+      });
     });
 
-
     // app.post('/upload', uploading, function(req, res){
-app.post('/upload',function(req, res){
+    app.post('/upload',function(req, res){
       console.log("Uploading this file...");
             
                 var fstream;
@@ -150,56 +165,27 @@ app.post('/upload',function(req, res){
                     res.redirect('back');
                 });
             });
-      });
                   
 
-    // app.get('/login', function(req, res){
-    //  res.render('index.ejs', { message: req.flash('loginMessage') }); 
-    // });
+         
+            res.render('dms/getUpload.hbs',{
+            layout:"homePage"
+            });
+             if (req.session.state) {
+            res.json({state: req.session.state});
+             } 
 
+          });
 
-    // process the login form
-    // app.post('/login', do all our passport stuff here);
-  app.post('/login', passport.authenticate('local-login', {
-    successRedirect : '/home', // redirect to the secure profile section
-        failureRedirect : '/', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
     
-    }));
-    // =====================================
-    // LOGOUT ==============================
-    // =====================================
-
-    app.get('/logout', function(req, res) {
-    console.log("Get logout");
-        req.logout();
-        res.redirect('/');
-    });
-  
-    // =====================================
-    // SIGNUP ==============================
-    // =====================================
-    // show the signup form
-    app.get('/signup', function(req, res) {
-        // render the page and pass in any flash data if it exists
-        res.render('signup.ejs', { message: 'signupMessage' });
-    });
-
-    // process the signup form
-    // app.post('/signup', do all our passport stuff here);
-  app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect : '/', // redirect to the secure profile section
-        failureRedirect : '/signup', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
-    }));
-  
+      
     // =====================================
     // Get User Info. ==============================
     // =====================================
 
 	app.get('/profile_inf',isLoggedIn,function(req,res){
 		console.log("Get profile information");	
-		var role = req.user.local.role;
+		var role = req.query.role;
 		console.log(role);
 		if(role == "student"){
 			res.render('profile/student_profile.hbs',{
@@ -348,7 +334,7 @@ app.post('/upload',function(req, res){
                 month:month,
                 year:year
               });
-            } 
+            }
           // }
           // else{
 
@@ -376,23 +362,11 @@ app.post('/upload',function(req, res){
             //console.log(Object.entries(user.local));
             console.log(user.local.role);
 
-            var day;
-            var month;
-            var year;
-            if(user.local.dateOfBirth == null){
-              day = "01";
-              month = "01",
-              year = "1947"
-
-            }
-            else{
             var date = user.local.dateOfBirth.split("/");
             console.log("date split:"+date[0]);
-            day = date[1];
-            month = date[0];
-            year = date[2];
-          }
-
+            var day = date[1];
+            var month = date[0];
+            var year = date[2];
 
             if(user.local.role == "student"){
           res.render('profile/student_profileedit.hbs', {
@@ -455,7 +429,7 @@ app.post('/upload',function(req, res){
         else{console.log("Upload completed!");}
       });
     }*/
-    if((req.body.role == 'staff' &&!isNaN(req.body.terminationYear) && !isNaN(req.body.yearattend)&& !isNaN(req.body.yearOfTeaching))||
+    if((req.body.role == 'staff' &&!isNaN(req.body.terminationYear) && !isNaN(req.body.yearattend))||
       (req.body.role == 'student'  && !isNaN(req.body.yearattend))){
 
       User.findOne({'local.username' : req.body.username }, function(err, user) {
@@ -481,7 +455,7 @@ app.post('/upload',function(req, res){
     }
     else{
 
-            dialog.info('Termination year, Year Attend or Years of teaching have to be a number :)');
+            dialog.info('Termination year or Year Attend have to be a number :)');
           }
       
       
