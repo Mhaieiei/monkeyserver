@@ -107,6 +107,7 @@ module.exports = function(app, passport) {
       var docDetail = JSON.parse(body1);
       var spliter = String(docDetail.filepath).split('.');
       docDetail.filetype = spliter[ spliter.length - 1 ];
+      docDetail.name = String(docDetail.name).substr(0 ,docDetail.name.length - docDetail.filetype.length);
       console.log(docDetail);
     res.render('docDetail.hbs',{
         layout:"homePage",
