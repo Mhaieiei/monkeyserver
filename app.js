@@ -27,7 +27,7 @@ module.exports = function(database) {
   //for uploading file
   var methodOverride = require('method-override');
 
-
+  global.__APPROOT__ = path.resolve(__dirname);
 
   var app = express();
   //app.set('port',3000);
@@ -70,8 +70,9 @@ module.exports = function(database) {
     res.redirect('/');
   });
   app.use('/home', require('./routes/home'));
-  app.use('/download', require('./routes/download/download'));
-  require('./routes/direct')(app, passport);
+  app.use('/uploads', require('./routes/download/download'));
+  app.use('/api', require('./routes/api'));
+  require('./routes/direct.js')(app, passport);
   //app.use('/', routes);
   //app.use('/users', users);
 
