@@ -1,8 +1,8 @@
 var express 			= require('express');
 var router  			= express.Router();
 var request				= require('request');
-var roleManagementModel	= require('../model/simpleRole');
-var User 				= require('../model/user');
+var roleManagementModel	= require('model/simpleRole');
+var User 				= require('model/user');
 var members = [];
 
 router.get('/test',function(req,res){
@@ -43,11 +43,19 @@ router.post('/save',function(req,res){
 		members: req.body.members
 	});
 
-
 	roleModel.save(function(err){
 		if(!err){
-			console.log('Save new simple role !!');
-			res.end('Save success');
+			User.update( { '_id' : {'$in':req.body.members}}, { 'simpleRole': roleModel._id }, {multi: true},
+				
+				function(err){
+					if(!err){
+						console.log('Save new simple role !!');
+						res.end('Save success');
+					}else{
+						console.log(err);
+						res.end('failed');
+					}
+			});		
 		}
 		else{
 			console.log(err);

@@ -6,17 +6,15 @@ var SimpleRole			= require('../../model/simpleRole');
 var WorkflowHandler		= require('../../lib/WorkflowHandler');
 var parseString 		= require('xml2js').parseString;
 var workflowRunner		= require('../../lib/workflowRunner');
-var Promise				= require('bluebird');
-
 
 
 router.get('/', function(req, res){
 
-	SimpleRole.findOne( { members: req.user._id }, function(err, role ){
-		TemplateWorkflow.find({ "simpleRoleId": role._id }, function(err, tpWf){
-			res.render('wf/execute', { layout: "homePage", workflows : tpWf } );
-		});
+	console.log( req.user.simpleRole );
+	TemplateWorkflow.find({ 'simpleRoleId': req.user.simpleRole }, function(err, tpWf){
+		res.render('wf/execute', { layout: "homePage", workflows : tpWf } );
 	});
+
 });
 
 
@@ -130,21 +128,11 @@ router.get('/:id/execute', function(req, res, next){
 			var handler = new WorkflowHandler();
 
 			handler.parse( process, collaboration );
-			
-			console.log( handler.elements );
 
-			//console.log( collaboration );
-			//console.log( process );
 
-			//console.log( handler.elements );
-			//console.log( collaboration );
-			//console.log( process );
-
-			res.end("Very Bad Programmer");
-
-			/*var execution = new WorkflowExecution({
+			var execution = new WorkflowExecution({
 				templateId: result.id,
-				executorId: 'test',
+				executorId: req.user._id,
 				runningElements: handler.currentElements,
 				waitingElements: [],
 				variables: result.variables,
@@ -162,7 +150,7 @@ router.get('/:id/execute', function(req, res, next){
 					console.log(err);
 					res.end('failed');
 				}
-			});*/
+			});
 
 		});
 	});
