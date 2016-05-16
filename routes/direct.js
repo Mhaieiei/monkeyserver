@@ -97,6 +97,25 @@ module.exports = function(app, passport) {
   app.get('/wf.jpg', function (req, res) {
         res.sendfile(path.resolve('public/images/wf.jpg'));
   });
+
+  app.get('/changpass',function(req,res){
+       res.render('profile/changepwd.hbs',{
+          layout:"homePage",
+          user : req.user
+      });
+  });
+
+  app.post('/changpass',function(req,res){
+    console.log('old password'+ req.body.oldpassword)
+    console.log('new password'+ req.body.newpassword)
+    console.log('id user'+ req.user.id)
+    User.findByID(req.user.id, function(err,user){
+      if(err){console.log('cant find user')}
+      user.changePassword(req,res);
+    });
+
+  });
+
   
   app.get('/upload', isLoggedIn, function(req, res){
       console.log("Uploading....");
@@ -107,7 +126,7 @@ module.exports = function(app, passport) {
     });
 
     // app.post('/upload', uploading, function(req, res){
-    app.post('/upload',function(req, res){
+app.post('/upload',function(req, res){
       console.log("Uploading this file...");
             
                 var fstream;
