@@ -37,11 +37,15 @@
                                     <% if(count == 0){ %>
                                     <td><%=docs[i].user[j].local.title%></td>
                                     <td><%=docs[i].user[j].local.name%> <%=docs[i].user[j].local.surname%></td>
+
+                                    <% if(docs[i].user[j].education != null){ %>
                                     <% for(k=0;k< docs[i].user[j].education.length;k++){%>
                                     <% if(docs[i].user[j].education[k].level == 'Doctoral'){ %>
                                     <td><%=docs[i].user[j].education[k].degree%></td>
                                     <%}%>
                                     <%}%>
+                                    <%}%>
+
                                     <td><%=docs[i].user[j].local.yearOfTeaching%></td>
                                     <%count1 = 0%>
                                     <% for(g=0;g< docs[i].user[j].publicResearch.length;g++){%>
@@ -66,11 +70,15 @@
                                     <th></th>
                                     <td><%=docs[i].user[j].local.title%></td>
                                     <td><%=docs[i].user[j].local.name%> <%=docs[i].user[j].local.surname%></td>
+
+                                    <% if(docs[i].user[j].education != null){ %>
                                     <% for(k=0;k< docs[i].user[j].education.length;k++){%>
                                     <% if(docs[i].user[j].education[k].level == 'Doctoral'){ %>
                                     <td><%=docs[i].user[j].education[k].degree%></td>
                                     <%}%>
                                     <%}%>
+                                    <%}%>
+                                    
                                     <td><%=docs[i].user[j].local.yearOfTeaching%></td>
                                     <%count1 = 0%>
                                     <% for(g=0;g< docs[i].user[j].publicResearch.length;g++){%>
