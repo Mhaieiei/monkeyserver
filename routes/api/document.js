@@ -14,6 +14,15 @@ router.get('/read/:docID', isLoggedin, function(req, res, next) {
 	})
 })
 
+router.get('/read', isLoggedin, function(req, res, next) {
+	Document.find({owner: req.user})
+	.exec(function(error, document) {
+		if(error) return next(error);
+
+		res.json(document);
+	})
+})
+
 router.get('/read/:docID/allPreviousVersions', isLoggedin, function(req, res, next) {
 	var documentId = req.params.docID;
 	Document.findOne({id: documentId})
