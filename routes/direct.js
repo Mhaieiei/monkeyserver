@@ -97,6 +97,12 @@ module.exports = function(app, passport) {
   app.get('/wf.jpg', function (req, res) {
         res.sendfile(path.resolve('public/images/wf.jpg'));
   });
+  app.get('/wrong.png', function (req, res) {
+        res.sendfile(path.resolve('public/images/wrong.png'));
+  });
+  app.get('/correct.png', function (req, res) {
+        res.sendfile(path.resolve('public/images/correct.png'));
+  });
 
   app.get('/changpass',function(req,res){
     console.log('[Get] change password')
