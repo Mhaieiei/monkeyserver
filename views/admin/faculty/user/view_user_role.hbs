@@ -52,15 +52,23 @@
 					{{/each}}
 					{{/each}}   
 
-                    <a href = "/admin/add_role?user={{user}}&program={{program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add</button>
-
-                    <a href = "/admin/showuser?program={{program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Back to User List</button>
 
 
                 
 
                     
                   </table>
+                  <br>
+
+                  <div class="table-foot">
+                    <div class="pull-right">
+                        <a href = "/admin/add_role?user={{user}}&program={{program}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Add</button>
+                    </div>
+
+                    <div class="pull-left">
+
+                    <a href = "/admin/showuser?program={{program}}"><button id="tab_2_submit" class="btn btn-primary" type="button"> Go Back to User List</button>
+                    </div>
 
                 </div>
           
