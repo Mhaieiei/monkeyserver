@@ -118,11 +118,23 @@
                             </div>
 
 
-                            <p align = "right"><a href="/edit?user={{user.local.username}}"><button type="button" class="btn btn-primary">Edit</button></p>
+                            
+
+                            
                         </form>
 
                     </td>
                 </tr>
             </table>
+
+            <div class="form-group">
+              <div class="col-md-12">
+                  <p align = "right"><a href="/edit?user={{user.local.username}}"><button type="button" class="btn btn-primary">Edit</button></a></p>
+              </div>
+
+              <div class="col-md-12">
+              <a href = "/admin/showuser?program={{user.local.program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Back to User List</button>
+              </div>
+            </div>
             </div>
         </div>

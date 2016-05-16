@@ -50,7 +50,7 @@ var userSchema = new mongoose.Schema({
     publicResearch: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Public' }],
     training: [{ type: mongoose.Schema.Types.ObjectId, ref: 'training' }],
     careerDevelopment: [{ type: mongoose.Schema.Types.ObjectId, ref: 'careerDevelopment' }],
-    specialTitle: [{ type: mongoose.Schema.Types.ObjectId, ref: 'specialTitle' }]
+    specialTitle: [{ type: String, ref: 'specialTitle' }]
     
 
 },{strict : false});
