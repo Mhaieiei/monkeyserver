@@ -1,4 +1,4 @@
- <div class="well">
+<div class="well">
             <h3>Edit Personal infomation</h3>
             <div class="row content">
                 <br>
@@ -37,40 +37,42 @@
                             </p>
                            
                             <div class="form-group">
-                              <label for="inputType" class="col-md-2 control-label">University ID:</label>
-                              <div class="col-md-4">
+                              <label for="inputType" class="col-md-3 control-label">University ID:</label>
+                              <div class="col-md-5">
                                    <input type="text" class="form-control" name="username" value ="{{ user.local.username }}" id="inputType">
                               </div>
                             </div>
                              <div class="form-group">
-                              <label for="inputType" class="col-md-2 control-label">ID:</label>
-                              <div class="col-md-4">
+                              <label for="inputType" class="col-md-3 control-label">ID:</label>
+                              <div class="col-md-5">
                                   <input type="text" class="form-control" name="ID" value="{{user.local.ID}}" id="inputType">
                               </div>
                             </div>
                             <div class="form-group">
-                              <label for="inputType" class="col-md-2 control-label" >Title: </label>
-                              <div class="col-md-4">
+                              <label for="inputType" class="col-md-3 control-label" >Title:</label>
+                              <div class="col-md-5">
                                   <input type="text" class="form-control" name="title" value ="{{ user.local.title }}" id="inputType">
                               </div>
 
                               
                             </div>
                             <div class="form-group">
-                              <label for="inputType" class="col-md-2 control-label">Name:</label>
-                              <div class="col-md-3">
+                              <label for="inputType" class="col-md-3 control-label">Name:</label>
+                              <div class="col-md-5">
                                   <input type="text" class="form-control"  name="name" value ="{{ user.local.name}}" id="inputType">
                               </div>
-                              <label for="inputType" class="col-md-2 control-label">Surname:</label>
-                              <div class="col-md-3">
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-3 control-label">Surname:</label>
+                              <div class="col-md-5">
                                   <input type="text" class="form-control"name="surname" value="{{user.local.surname}}" id="inputType">
                               </div>
                             </div>
                             
                             <div class="form-group">
-                              <label for="inputType" class="col-md-2 control-label">Gender : </label>
+                              <label for="inputType" class="col-md-3 control-label">Gender:</label>
                               <div class="col-md-3">
-                                  <select class="form-control" style="width:200px" id="type" name="gender">
+                                  <select class="form-control" style="width:100px" id="type" name="gender">
                                     <option selected="selected" value="{{user.local.gender}}">{{user.local.gender}}</option>
                                       <option value="male">Male</option>
                                       <option value="female">Female</option>
@@ -78,116 +80,9 @@
                               </div>
 
                             </div>
-
                             <div class="form-group">
-                              <label for="inputType" class="col-md-2 control-label" >Termination year: </label>
-                              <div class="col-md-4">
-                                  <input type="text" class="form-control" name="terminationYear" value ="{{ user.local.terminationYear }}" id="inputType" placeholder="ex. 2019" >
-                              </div>
-
-                              
-                            </div>
-
-                            <div class="form-group">
-                              <label for="inputType" class="col-md-2 control-label" >Years of teaching: </label>
-                              <div class="col-md-4">
-                                  <input type="text" class="form-control" name="yearOfTeaching" value ="{{ user.local.yearOfTeaching }}" id="inputType" placeholder="ex. 5" >
-                              </div>
-
-                              
-                            </div>
-
-
-                            <div class="form-group">
-                              <label for="inputType" class="col-md-2 control-label">Role:</label>
-                              <div class="col-md-3">
-                                  <h6>Staff</h6>
-                              </div>
-                              <label for="inputType" class="col-md-2 control-label">Type:</label>
-                              <div class="col-md-3">
-                                 <select style="width:100px" id="type" name="type">
-                                                
-                                  <option value=""></option>                    
-                                  
-                                </select>
-                              </div>
-                            </div>
-
-                  
-                            <!--<div class="form-group">
-                              <label for="inputType" class="col-md-2 control-label">Academic Position : </label>
-                              <div class="col-md-3">
-                                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Academic Position
-                                  <span class="caret"></span></button>
-                                  <ul class="dropdown-menu">
-                                    <li><a href="#">None</a></li>
-                                    <li><a href="#">Professor</a></li>
-                                    <li><a href="#">Associate professor</a></li>
-                                    <li><a href="#">Assistant professor</a></li>
-                                    <li><a href="#">Adjunct professor</a></li>
-                                    <li><a href="#">Visting professor</a></li>
-                                    <li><a href="#">Postdoctoral appointment</a></li>
-                                  </ul>
-                              </div>
-                              <label for="inputType" class="col-md-2 control-label">Administration position : </label>
-                              <div class="col-md-3">
-                                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Administration position
-                                  <span class="caret"></span></button>
-                                  <ul class="dropdown-menu">
-                                    <li><a href="#">None</a></li>
-                                    <li><a href="#">Dean</a></li>
-                                    <li><a href="#">Associate Dean</a></li>
-                                    <li><a href="#">Associate Dean for Administration</a></li>
-                                    <li><a href="#">Associate Dean for Finance and Procurement</a></li>
-                                    <li><a href="#">Assistant Dean for Administration</a></li>
-                                    <li><a href="#">Chief Executive</a></li>
-                                  </ul>
-                              </div>
-                            </div>-->
-                            <div class="form-group">
-                              <label for="inputType" class="col-md-2 control-label">Position:</label>
-                                <div class="col-md-3">
-                                    <input type="text" class="form-control" id="inputType">
-                                </div>
-                              <label for="inputType" class="col-md-2 control-label">Salary:</label>
-                              <div class="col-md-3">
-                                  <input type="text" class="form-control" id="inputType">
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label for="inputType" class="col-md-2 control-label">Year attend:</label>
-                              <div class="col-md-3">
-                                  <input type="text" class="form-control" name="yearattend" value="{{user.local.yearattend}}" id="inputType">
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label for="inputType" class="col-md-2 control-label">Faculty:</label>
-                              <div class="col-md-4">
-                                  <input type="text" class="form-control" name="faculty" value="{{user.local.faculty}}" id="inputType">
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label for="inputType" class="col-md-2 control-label">Program:</label>
-                              <div class="col-md-4">
-                                  <input type="text" class="form-control" name="program" value="{{user.local.program}}" id="inputType">
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label for="inputType" class="col-md-2 control-label">Bank Account:</label>
-                              <div class="col-md-5">
-                                  <input type="text" class="form-control" name="bankAccount" value="{{user.local.bankAccount}}" id="inputType">
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label for="inputType" class="col-md-2 control-label">Email:</label>
-                              <div class="col-md-4">
-                                  <input type="text" class="form-control" name="email" value="{{user.local.email}}" id="inputType">
-                              </div>
-                            </div>
-
-                            <div class="form-group">
-                              <label for="inputType" class="col-md-2 control-label">Date of Birth : </label>
-                              <td> Day: 
+                              <label for="inputType" class="col-md-3 control-label">Date of Birth : </label>
+                               <div class="col-md-5">
                                 <select name='day'>
                                 <option selected="selected" value="{{day}}">{{day}}</option>
                                 <option value='01'>1</option>
@@ -222,9 +117,9 @@
                                 <option value='30'>30</option>
                                 <option value='31'>31</option>
                                 </select>
-                                </td>
+
                                 
-                                <td> Month: 
+                                
                                 <select name='month' >
                                 <option selected="selected" value="{{month}}">{{month}}</option>
                                 <option value='01'>1</option>
@@ -240,8 +135,8 @@
                                 <option value='11'>11</option>
                                 <option value='12'>12</option>
                                 </select>
-                                </td>
-                                <td> Year: 
+                               
+                               
 
                                 <select name='year' >
                                 <option selected="selected" value="{{year}}">{{year}}</option>
@@ -292,9 +187,126 @@
                                 <option value='1991'>1991</option>
                                 <option value='1992'>1992</option>
                                 <option value='1993'>1993</option>
+                                <option value='1994'>1994</option>
+                                <option value='1995'>1995</option>
+                                <option value='1996'>1996</option>
+                                <option value='1997'>1997</option>
+                                <option value='1998'>1998</option>
+                                <option value='1999'>1999</option>
+                                <option value='2000'>2000</option>
                                 </select>
-                                </td>
+                            
                             </div>
+                          </div>
+
+
+
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-3 control-label" >Termination year:</label>
+                              <div class="col-md-5">
+                                  <input type="text" class="form-control" name="terminationYear" value ="{{ user.local.terminationYear }}" id="inputType" placeholder="ex. 2019" >
+                              </div>
+                            </div>
+
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-3 control-label" >Years of teaching:</label>
+                              <div class="col-md-5">
+                                  <input type="text" class="form-control" name="yearOfTeaching" value ="{{ user.local.yearOfTeaching }}" id="inputType" placeholder="ex. 5" >
+                              </div>
+                            </div>
+
+
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-3 control-label">Role:</label>
+                              <div class="col-md-3">
+                                  <h6>Staff</h6>
+                              </div>
+                            
+                              <label for="inputType" class="col-md-3 control-label">Type:</label>
+                              <div class="col-md-3">
+                                 <select class="form-control" style="width:100px" id="type" name="type">
+                                                
+                                  <option value=""></option>                    
+                                  
+                                </select>
+                              </div>
+                            </div>
+
+                  
+                            <!--<div class="form-group">
+                              <label for="inputType" class="col-md-2 control-label">Academic Position : </label>
+                              <div class="col-md-3">
+                                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Academic Position
+                                  <span class="caret"></span></button>
+                                  <ul class="dropdown-menu">
+                                    <li><a href="#">None</a></li>
+                                    <li><a href="#">Professor</a></li>
+                                    <li><a href="#">Associate professor</a></li>
+                                    <li><a href="#">Assistant professor</a></li>
+                                    <li><a href="#">Adjunct professor</a></li>
+                                    <li><a href="#">Visting professor</a></li>
+                                    <li><a href="#">Postdoctoral appointment</a></li>
+                                  </ul>
+                              </div>
+                              <label for="inputType" class="col-md-2 control-label">Administration position : </label>
+                              <div class="col-md-3">
+                                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Administration position
+                                  <span class="caret"></span></button>
+                                  <ul class="dropdown-menu">
+                                    <li><a href="#">None</a></li>
+                                    <li><a href="#">Dean</a></li>
+                                    <li><a href="#">Associate Dean</a></li>
+                                    <li><a href="#">Associate Dean for Administration</a></li>
+                                    <li><a href="#">Associate Dean for Finance and Procurement</a></li>
+                                    <li><a href="#">Assistant Dean for Administration</a></li>
+                                    <li><a href="#">Chief Executive</a></li>
+                                  </ul>
+                              </div>
+                            </div>-->
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-3 control-label">Position:</label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" id="inputType">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-3 control-label">Salary:</label>
+                              <div class="col-md-5">
+                                  <input type="text" class="form-control" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-3 control-label">Year attend:</label>
+                              <div class="col-md-5">
+                                  <input type="text" class="form-control" name="yearattend" value="{{user.local.yearattend}}" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-3 control-label">Faculty:</label>
+                              <div class="col-md-5">
+                                  <input type="text" class="form-control" name="faculty" value="{{user.local.faculty}}" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-3 control-label">Program:</label>
+                              <div class="col-md-5">
+                                  <input type="text" class="form-control" name="program" value="{{user.local.program}}" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-3 control-label">Bank Account:</label>
+                              <div class="col-md-5">
+                                  <input type="text" class="form-control" name="bankAccount" value="{{user.local.bankAccount}}" id="inputType">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputType" class="col-md-3 control-label">Email:</label>
+                              <div class="col-md-5">
+                                  <input type="text" class="form-control" name="email" value="{{user.local.email}}" id="inputType">
+                              </div>
+                            </div>
+
+                            
 
                            
                        
@@ -312,5 +324,5 @@
         </div>
       </div>
     </div>
+
 </div>
- </form>
