@@ -5,12 +5,10 @@ var expect = require('chai').expect;
 var assert = require('assert');
 var async = require('async');
 
-var request = require('supertest');
-var express = require('express');
-
 var dbMock = require('test/dbTestConfig');
 var helper = require('test/helperFunction');
 var TemplateByYear = require('model/document/OfficialDocumentTemplate');
+var DmsServer = require('test/DmsServer');
 
 describe('REST Document API', function() {
 
@@ -21,15 +19,10 @@ describe('REST Document API', function() {
 	var relatedDocument, attachment;
 	var previousDocument, previouseOfPreviousDocument;
 
-	var joe = {
-		username: 'joe',
-		password: 'password'
-	}
-
 	before(function(done) {
 		app = require('app')(dbMock);
-		server = request(app);
-		async.parallel([createDummyDocuments, authenticate], done);
+		server = new DmsServer(app);
+		async.parallel([createDummyDocuments, helper.registerAndLogin(server, 'joe', 'joe')], done);
 	})
 
 	describe('Get document by document ID', function() {
@@ -141,42 +134,9 @@ describe('REST Document API', function() {
 		});		
 	}
 
-	function createUser(done) {
-		var User = require('model/user');
-		var user = new User();
-		user._id = joe.username;
-		user.local.username = joe.username;
-		user.local.password = user.generateHash(joe.password);
-
-		user.save(function(error) {
-			if(error) return done(error);
-			return done();
-		})
-	}
-
-	function authenticate(done) {
-	    var auth = function(callback) {
-	        server
-	            .post('/login')
-	            .send({email: joe.username, password: joe.password})
-	            .expect(302)
-	            .expect('Location', '/home')
-	            .end(onResponse);
-
-	        function onResponse(err, res) {
-	        	if (err) return callback(err);
-	        	cookie = res.headers['set-cookie'];
-	           	return callback();
-	        }
-	    };
-
-		async.series([createUser, auth], done);	    
-	};
-
 	function APIHttpRequest(url) {
 		return server
 		.get(url)
-		.set('cookie', cookie)
 		.expect('Content-Type', /json/)
 		.expect(200)
 	}

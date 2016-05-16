@@ -6,6 +6,7 @@ var Document = require('model/document/document');
 router.get('/document/:file', isGranted, function(req, res) {
 	var file = path.resolve('uploads/document/' + req.params.file);
 	console.log('request file: ' + file);
+	res.set('Content-Type', 'file');
 	res.download(file);
 });
 
@@ -40,7 +41,6 @@ function isMyFile(user, filename, res, next) {
 			return next(err);
 		}
 
-		console.log(_docs);
 		if(!_docs)
 			res.redirect('/home');
 		else
