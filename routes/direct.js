@@ -101,9 +101,9 @@ module.exports = function(app, passport) {
 
   //document detail 
   app.get('/documentDetail/:id', isLoggedIn, function(req, res) {
-    request
+    //request()
     //document id
-  req.params.id = 
+  //req.params.id = 
   console.log('DocumentDetail');
   res.render('docDetail.hbs',{
       layout:"homePage"

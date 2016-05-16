@@ -8,6 +8,7 @@ var bcrypt   = require('bcrypt-nodejs');
 var userSchema = new mongoose.Schema({
 
 	_id : String,
+    simpleRole: String,
 	local: {
 		title: String,
         ID : String,
@@ -41,8 +42,8 @@ var userSchema = new mongoose.Schema({
         careerOrHigherStudying:String
 
        }],
-	roleOfProgram: [String],
-	roleOfStaff: [String],
+	roleOfProgram: [{type: String,ref:'roleOfProgram'}],
+	roleOfStaff: [{type: String,ref:'roleOfStaff'}],
     subjects : [{type: mongoose.Schema.Types.ObjectId,ref:'Subject'}],
     education: mongoose.Schema.Types.Mixed,
     advisingProject : [{type: mongoose.Schema.Types.ObjectId,ref:'Project'}],
@@ -66,6 +67,30 @@ userSchema.methods.generateHash = function(password) {
 // checking if password is valid
 userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
+};
+
+userSchema.methods.changePassword = function(request,response){
+    var oldpassword = request.body.oldpass;
+    var newpassword = request.body.newpass;
+    console.log('change password function')
+    console.log('oldpassword'+ oldpassword)
+    console.log('newpassword'+ newpassword)
+    if(bcrypt.compareSync(oldpassword,this.local.password)){
+        console.log('password match')
+        this.local.password = bcrypt.hashSync(newpassword,bcrypt.genSaltSync(8),null);
+        this.save(function (err,user) {
+        if(err) {
+            console.error('ERROR!');
+        }
+        else{
+            response.redirect('/');
+        }
+        
+    });
+        
+    }else{
+        return done(null, false, req.flash('signupMessage', 'That password is not match.'));
+    }
 };
 
 userSchema.methods.updateUser = function(request, response){
@@ -100,6 +125,7 @@ userSchema.methods.updateUser = function(request, response){
 		this.local.academic_position = request.body.academic_position;
 		this.local.admin_position = request.body.admin_position;
         this.local.terminationYear = request.body.terminationYear;
+        this.local.yearOfTeaching = request.body.yearOfTeaching;
 	}	
 	
 	this.save(function (err,user) {

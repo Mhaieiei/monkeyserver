@@ -14,7 +14,7 @@
                         <th><a href="javascript:table_sort('tab_2',1)">Username</a></th>
                         <th><a href="javascript:table_sort('tab_2',2)">Name</a></th>
                         <th><a href="javascript:table_sort('tab_2',3)">Bussiness Pos.</a></th>
-                        
+                        <th><a href="javascript:table_sort('tab_2',4)">Role</a></th>
                         <th><a href="javascript:table_sort('tab_2',5)">Delete</a></th>
                         </tr>
                     </thead>
@@ -27,9 +27,12 @@
                         <td>{{local.title}} {{local.name}} {{local.surname}}</td>
                         <td>{{local.role}}</td>
                         <td>
-                            <a href='/admin/deluser?id={{local.username}}&program={{local.program}}'>delete</a></td>
+                            <a href="/admin/view_user_role?user={{ local.username}}&program={{local.program}}">Edit role</a></td>
                            
                             
+                        </td>
+                        <td>
+                            <a href='/admin/deluser?id={{local.username}}&program={{local.program}}'>delete</a></td> 
                         </td>
                         </tr>
                       {{/each}}
@@ -50,6 +53,10 @@
                         
                         <div class="btn-group">
                             <a href = "/admin/adduser?program={{program}}"><button id="tab_2_add" class="btn btn-mini" type="button">Add</button></a>
+                        </div>
+
+                        <div class="btn-group">
+                            <a href = "/admin/view_role_admin?program={{program}}"><button id="tab_2_add" class="btn btn-mini" type="button">Role</button></a>
                         </div>
                         
                                     

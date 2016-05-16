@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
 	templateId: mongoose.Schema.Types.ObjectId,
+	executorId: String,
 	runningElements: [String],
 	waitingElements: [String],
 	variables: [

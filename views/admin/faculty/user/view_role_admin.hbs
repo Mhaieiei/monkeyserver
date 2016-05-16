@@ -1,0 +1,132 @@
+
+<body>
+
+    
+        <td>
+            <div class="container-fluid">
+            <div class="row-fluid">
+            <div class="span15">
+            <div class="col-md-15"> 
+           
+            <!--<form class="form-horizontal" role="form">-->
+                
+                <h3>Role of user</h3>
+       
+                
+                <div id="tab_aun11.4">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                            
+                            <th>Type</a></th>
+                            
+                            <th>Academic year</a></th>
+                            <th>Position</a></th>
+                            <th>Job description</a></th>
+                            
+                            <th>Edit</a></th>
+                            <th>Delete</a></th>
+                            
+                        </tr>
+                             
+
+                    <!-- ใช้ td colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
+                    </thead>
+                    
+					{{#each docs}}
+				
+                    <tbody>
+                        <tr>
+                        
+
+                        
+                        <td>{{_id}}</td>
+                        {{#each detail}}
+                        
+						
+
+                        
+                        {{#if @first}} 
+                        <td>{{_id.academicYear}}</td>
+                        {{#each root}}
+                        {{#if @first}}
+                        <td>{{position}}</td>
+                        <td>{{jobDescription}}</td>
+                        <td><a href = "/admin/edit_role_admin?id={{_id}}&program={{program}}"><button id="tab_2_submit" class=" btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-edit"></span></button></td>
+
+                        <td><a href = "/admin/del_role_admin?id={{_id}}&program={{program}}"><button id="tab_2_submit" class="btn btn-xs btn-danger" type="button"><span class="glyphicon glyphicon-trash"></span></button> </td>
+                        {{else}}
+                        <tr>
+                        <th></th>
+                        <th></th>
+                        <td>{{position}}</td>
+                        <td>{{jobDescription}}</td>
+                        <td><a href = "/admin/edit_role_admin?id={{_id}}&program={{program}}"><button id="tab_2_submit" class=" btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-edit"></span></button></td>
+
+                        <td><a href = "/admin/del_role_admin?id={{_id}}&program={{program}}"><button id="tab_2_submit" class="btn btn-xs btn-danger" type="button"><span class="glyphicon glyphicon-trash"></span></button> </td>
+                        {{/if}}
+                           {{/each}}
+                        </tr>
+                        {{else}}
+                        <tr>
+                        <th></th>
+                        
+                        
+                        <td>{{_id.academicYear}}</td>
+                        {{#each root}}
+                        {{#if @first}}
+                        <td>{{position}}</td>
+                        <td>{{jobDescription}}</td>
+                        <td><a href = "/admin/edit_role_admin?id={{_id}}&program={{program}}"><button id="tab_2_submit" class=" btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-edit"></span></button></td>
+
+                        <td><a href = "/admin/del_role_admin?id={{_id}}&program={{program}}"><button id="tab_2_submit" class="btn btn-xs btn-danger" type="button"><span class="glyphicon glyphicon-trash"></span></button> </td>
+                        {{else}}
+                        <tr>
+                        <th></th>
+                        <th></th>
+                        <td>{{position}}</td>
+                        <td>{{jobDescription}}</td>
+                        <td><a href = "/admin/edit_role_admin?id={{_id}}&program={{program}}"><button id="tab_2_submit" class=" btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-edit"></span></button></td>
+
+                        <td><a href = "/admin/del_role_admin?id={{_id}}&program={{program}}"><button id="tab_2_submit" class="btn btn-xs btn-danger" type="button"><span class="glyphicon glyphicon-trash"></span></button> </td>
+                        {{/if}}
+                        {{/each}}
+                        {{/if}}
+
+                        
+                        
+
+                        
+                        
+                        </tr>
+{{/each}}
+ 
+                    </tbody>
+					
+					{{/each}}   
+
+                   
+
+                    <a href = "/admin/showuser?program={{program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Back to User List</button>
+
+
+                
+
+                    
+                  </table>
+
+                </div>
+          
+            </div>
+            </div>
+            </div>
+            </div>
+            
+
+        </td>
+
+
+
+         
+</body>
