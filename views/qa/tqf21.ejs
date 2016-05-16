@@ -28,8 +28,9 @@
 	
                 </thead>
                 <tbody>
-                            	<% var i,j;
+              <% var i,j;
             		for(i=0;i< clients.length;i++){
+                  if(clients[i].education != null){
             			for(j=0;j< clients[i].education.length;j++){%>
             			<tr>
             			   
@@ -47,7 +48,8 @@
             			   <td><%= clients[i].education[j].university %></td>
             			   <td><%= clients[i].education[j].year %></td>
             			</tr>
-            		<%}
+            		<%  }
+                  }
             		}%>
                   
                     

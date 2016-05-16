@@ -103,7 +103,7 @@
         </form>
         <br></br>
         <!-- <p><a href="/workflow">NEW</a> create new doccument</p> -->
-        <p><a href="/upload">NEW</a> Upload file</p>
+        <p><a href="/home/upload">NEW</a> Upload file</p>
     
 
         <!-- Page Heading/Breadcrumbs -->
@@ -142,14 +142,14 @@
                                     
                                     </tr>
 
-                                
+                                {{#each docs}}
                                     <tr class="each-doc">
                                     <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                      <td></td>
-                                      <td><a href={{this.filepath}}></a></td>
-
-                                      <td>Tester</td>
-                                      <td></td>
+                                      <td>{{this.id}}</td>
+                                      <td><a href="{{this.filepath}}">{{this.name}}</a></td>
+                                      <td>{{this.author}}</td>
+                                      <td>{{this.dateCreate}}</td>
+                                      <td>{{this.status}}</td>
                                       <td><font color="red"></td>
                                       <td>
                                         <button data-toggle="popover" title="Document detail" 
@@ -158,6 +158,7 @@
                                       </td>
                                     </tr>
                                 </thead>
+                                {{/each}}
                                
 
 

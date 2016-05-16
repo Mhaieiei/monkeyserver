@@ -15,6 +15,7 @@
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.3.5",
     "debug": "~2.2.0",
+    "dialog": "^0.1.8",
     "ejs": "~0.8.5",
     "express": "~4.13.1",
     "express-session": "~1.0.0",
@@ -36,8 +37,7 @@
     "request": "^2.72.0",
     "rootpath": "^0.1.2",
     "serve-favicon": "~2.3.0",
-    "xml2js": "^0.4.16",
-    "dialog": "^0.1.8"
+    "xml2js": "^0.4.16"
   },
   "devDependencies": {
     "chai": "^3.5.0",

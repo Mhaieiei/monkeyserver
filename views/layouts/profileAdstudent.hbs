@@ -64,7 +64,7 @@
                         <li><a href="#">Create Workflow</a></li>
                         
                         <li class="dropdown-submenu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings</a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Change password</a>
                             <ul class="dropdown-menu">
                                 <li><a href="/admin/user">Users</a></li>
                                 <li><a href="/admin/programs">Programs</a></li>
@@ -82,16 +82,16 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Username <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="/profile_inf" class= "glyphicon glyphicon-user"> Profile</a>
+                                <a href="/profile_inf?role={{role}}" class= "glyphicon glyphicon-user"> Profile</a>
                             </li>
                             <li>
                                 <a href="#" class= "glyphicon glyphicon-bell"> Notifications</a>
                             </li>
                             <li>
-                                <a href="edit_user-staff_profile.hbs" class = "glyphicon glyphicon-wrench"> Settings </a>
+                                <a href="edit_user-staff_profile.hbs" class = "glyphicon glyphicon-wrench"> Change password</a>
                             </li>
                             <li>
-                                <a href="/" class = "glyphicon glyphicon-log-out"> Logout </a>
+                                <a href="/logout" class = "glyphicon glyphicon-log-out"> Logout </a>
                             </li>
                         </ul>
                     </li>

@@ -8,15 +8,18 @@ var Form				= require('../../model/form.model');
 
 router.get('/', function(req, res){
 
-	WorkflowExecution.find({}, function(err, result){
+	WorkflowExecution.find({ 'executorId': 	req.user._id }, function(err, result){
 		if(err) console.log(err);
+		console.log( result );
 		res.render('wf/execution/all', { layout: 'homePage', result: result} );
 	});
 
 });
 
 router.get('/tasks', function(req, res){
-	WorkflowTask.find({}, function(err, result){
+	console.log( "SIMPLE ROLE: " + req.user.simpleRole );
+	WorkflowTask.find( { $or: [ {'doerId': req.user._id }, { 'roleId': req.user.simpleRole } ] }, 
+	function(err, result){
 		if(err) console.log(err);
 		res.render('wf/task/all', { layout: 'homePage', result: result });
 	});
@@ -66,10 +69,16 @@ router.post('/tasks/:id', function(req, res){
 	WorkflowTask.findOne({'_id': req.params.id }, function(err, taskResult){
 		
 		var executionId = taskResult.workflowExecutionId;
+		var elementId = taskResult.elementId;
 
 		WorkflowExecution.findOne({'_id': executionId }, function(err, execution){
 			var newDetails = execution.details;
+			var thisElement = execution.handlers[elementId];
+			var laneHandler = execution.handlers[ thisElement['laneRef'] ];
+
 			newDetails[taskResult.elementId].submitResults = req.body;
+			laneHandler.doerId = req.user._id;
+
 			execution.runningElements.push( taskResult.elementId );
 
 			WorkflowTask.remove({ '_id': taskResult._id }, function(err){
@@ -82,7 +91,7 @@ router.post('/tasks/:id', function(req, res){
 
 });
 
-router.get('/:id', function(req, res){
+router.get('/:id', function(req, res, next){
 
 	WorkflowExecution.findOne( { "_id" : req.params.id }, function(err, execution){
 
