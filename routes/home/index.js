@@ -5,19 +5,26 @@ var request = require('request');
 var fs = require('fs');
 var async = require('async');
 var Attachment = require('../../model/document/attachment');
+var adminfact = "";
 
 // =====================================
 // HOME SECTION =====================
 // =====================================
 router.get('/', isLoggedIn, function(req, res, next) {
   var query = Doc.findByUser(req.user);
+  if( req.user.local.role == 'admin'){
+     adminfact = true;
+  }else{
+     adminfact = null;
+  }
   query.exec(function(err, _docs) {
     handleError(err, res, next);
 
     getWorkflowTaskList(req, function(execList,taskList) {
       var response = dateDDMMYYYY(_docs);
       response.exec = execList;
-      response.task = taskList
+      response.task = taskList;
+      response.admin = adminfact;
       console.log("response");
       console.log(response);
       res.render('home.hbs', response);
@@ -100,6 +107,8 @@ router.post('/', isLoggedIn, function(req, res) {
     console.log('s3:'+status3);
     console.log('type1:'+type1);
     console.log('type2:'+type2);
+
+    
     var response = {
       layout: 'homepage',
       docs: _docs,
@@ -114,6 +123,7 @@ router.post('/', isLoggedIn, function(req, res) {
       st3: status3,
       type1: type1,
       type2: type2,
+      admin : adminfact,
       helpers: {
         getdate: function (value) { return date[value]; }
       }
