@@ -16,12 +16,13 @@
                   <table class="tablesorter">
                     <thead align="center">
                         <tr>
-                            <th>Edit</a></th>
-                            <th>Delete</a></th>
+                            
                             
                             <th>Stakeholders</a></th>
                             <th>Requirements</a></th>
-                            <td>ELOs</a></td>
+                            <th>ELOs</a></th>
+                            <th>Edit</a></th>
+                            <th>Delete</a></th>
                             
 
                         </tr>
@@ -35,9 +36,7 @@
 					{{#each stk}}
                         <tr>
 
-                        <td><a href = "/aun/aun1-4/edit_aun1-4?id={{_id}}&program={{getprogram}}&year={{getyear}}&acid={{getacid}}"><button id="tab_2_submit" class=" btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-edit"></span></button></td>
-
-                        <td><a href = "/aun/aun1-4/del_aun1-4?id={{_id}}&program={{getprogram}}&year={{getyear}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-xs btn-danger" type="button"><span class="glyphicon glyphicon-trash"></span></button> </td>
+                       
                         
                         
                         <td>{{title}}</td>
@@ -45,26 +44,35 @@
 						{{#each ELO}}
                         {{#if @first}}
                         <td>{{number}}</td>
+                        <td><a href = "/aun/aun1-4/edit_aun1-4?id={{_id}}&program={{getprogram}}&year={{getyear}}&acid={{getacid}}"><button id="tab_2_submit" class=" btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-edit"></span></button></td>
+
+                        <td><a href = "/aun/aun1-4/del_aun1-4?id={{_id}}&program={{getprogram}}&year={{getyear}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-xs btn-danger" type="button"><span class="glyphicon glyphicon-trash"></span></button> </td>
                         </tr>
+
                         {{else}}
                         <tr>
                         
                         <th></th>
                         <th></th>
-                        <th></th>
-                        <th></th>
+                        
                         <td>{{number}}</td>
 
                         {{/if}}
                         {{/each}}
+                        {{/each}}
+                        {{/each}}
+                        <th></th>
+                        <th></th>
+
                         </tr>
-                        {{/each}}
-                        {{/each}}
+                        
                     </tbody>
 
-                    <a href = "/aun/aun1-4/add_aun1-4?&program={{getprogram}}&year={{getyear}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add</button>
 					
                   </table>
+                  <div class="pull-right">
+                    <a href = "/aun/aun1-4/add_aun1-4?&program={{getprogram}}&year={{getyear}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Add</button>
+                    </div>
                 </div>
           
             </div>

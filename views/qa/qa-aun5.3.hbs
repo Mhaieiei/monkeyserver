@@ -1,20 +1,23 @@
 <div class="container">
   <form class="form-horizontal" role="form"  action="//aun5-3" method="post" id = "myForm" >  
 
-    
+    <div class="container-fluid">
+    <div class="row-fluid">
+    <div class="span15">
+    <div class="col-md-15"> 
     <h3>AUN 5.3: Student assessment uses a variety of methods</h3>
     <h5>Table : Assesment tools</h5>
-    <table id="rowspan" cellspacing="0" class="tablesorter">
+    <div id="tab_tqf2"><table class="table muffin">
         <thead>
             <tr>
                 
                 <tr>
-                        <td>Edit</td>
-                        <td>Delete</td>
+                        <th>Edit</td>
+                        <th>Delete</td>
                         <th>No.</a></th>
-                        <th>Assessment Tools</a></th>
-                        <td>Courses</a></td>
-                        <td>Levels</a></td>
+                        <th>Assessment Tools</th>
+                        <th>Courses</td>
+                        <th>Levels</td>
                       
                 </tr>
                 
@@ -31,21 +34,18 @@
                     <tr>
             			{{#each assementTool}}
 
-                        <td><a href = "/aun/aun5-3/edit_aun5-3?id={{_id}}&program={{getprogram}}&year={{getyear}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></td>
+                        <td><a href = "/aun/aun5-3/edit_aun5-3?id={{_id}}&program={{getprogram}}&year={{getyear}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Edit</button></td>
 
-                        <td><a href = "/aun/aun5-3/del_aun5-3?id={{_id}}&program={{getprogram}}&year={{getyear}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></td>
+                        <td><a href = "/aun/aun5-3/del_aun5-3?id={{_id}}&program={{getprogram}}&year={{getyear}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-danger" type="button">Delete</button></td>
                           
-                        <th>{{inc @index}}</th>
-
-        				
-
-                        <th>{{assesmentTool}}</th>
+                        <td>{{inc @index}}</th>
+                        <td>{{assesmentTool}}</th>
             				
             			{{#each subject}} 
             			{{#if @first}} 
                         
-                            <td>{{subjectType}}</td>
-                            <td>{{followingReq}}</td>
+                        <td>{{subjectType}}</td>
+                        <td>{{followingReq}}</td>
                             
                     </tr>
     			 	
@@ -71,9 +71,18 @@
                     
                     
          </tbody>
-         <a href = "/aun/aun5-3/add_aun5-3?program={{programname}}&year={{year}}&acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add</button>
+        
 
      </table>
+
+      <div class="pull-right">
+                   
+         <a href = "/aun/aun5-3/add_aun5-3?program={{programname}}&year={{year}}&acid={{acid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Add</button>
+      </div>
+      </div>
+    </div>
+    </div>
+    </div>
 
 
     </form>
