@@ -69,11 +69,24 @@ userSchema.methods.validPassword = function(password) {
 };
 
 userSchema.methods.changePassword = function(request,response){
-    var oldpassword = request.body.oldpassword;
-    var newpassword = request.body.newpassword;
+    var oldpassword = request.body.oldpass;
+    var newpassword = request.body.newpass;
+    console.log('change password function')
+    console.log('oldpassword'+ oldpassword)
+    console.log('newpassword'+ newpassword)
     if(bcrypt.compareSync(oldpassword,this.local.password)){
+        console.log('password match')
         this.local.password = bcrypt.hashSync(newpassword,bcrypt.genSaltSync(8),null);
-        response.redirect('/login');
+        this.save(function (err,user) {
+        if(err) {
+            console.error('ERROR!');
+        }
+        else{
+            response.redirect('/');
+        }
+        
+    });
+        
     }else{
         return done(null, false, req.flash('signupMessage', 'That password is not match.'));
     }

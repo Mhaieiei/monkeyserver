@@ -99,17 +99,19 @@ module.exports = function(app, passport) {
   });
 
   app.get('/changpass',function(req,res){
-       res.render('profile/changepwd.hbs',{
+    console.log('[Get] change password')
+       res.render('profile/resetpassword.hbs',{
           layout:"homePage",
           user : req.user
       });
   });
 
   app.post('/changpass',function(req,res){
-    console.log('old password'+ req.body.oldpassword)
-    console.log('new password'+ req.body.newpassword)
+    console.log('[Post] change password')
+    console.log('old password'+ req.body.oldpass)
+    console.log('new password'+ req.body.newpass)
     console.log('id user'+ req.user.id)
-    User.findByID(req.user.id, function(err,user){
+    User.findById(req.user.id, function(err,user){
       if(err){console.log('cant find user')}
       user.changePassword(req,res);
     });
@@ -191,7 +193,7 @@ app.post('/upload',function(req, res){
 
 	app.get('/profile_inf',isLoggedIn,function(req,res){
 		console.log("Get profile information");	
-		var role = req.query.role;
+		var role = req.user.local.role;
 		console.log(role);
 		if(role == "student"){
 			res.render('profile/student_profile.hbs',{
@@ -368,11 +370,23 @@ app.post('/upload',function(req, res){
             //console.log(Object.entries(user.local));
             console.log(user.local.role);
 
+            var day;
+            var month;
+            var year;
+            if(user.local.dateOfBirth == null){
+              day = "01";
+              month = "01",
+              year = "1947"
+
+            }
+            else{
             var date = user.local.dateOfBirth.split("/");
             console.log("date split:"+date[0]);
-            var day = date[1];
-            var month = date[0];
-            var year = date[2];
+            day = date[1];
+            month = date[0];
+            year = date[2];
+          }
+
 
             if(user.local.role == "student"){
           res.render('profile/student_profileedit.hbs', {
