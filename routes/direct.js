@@ -97,6 +97,25 @@ module.exports = function(app, passport) {
   app.get('/wf.jpg', function (req, res) {
         res.sendfile(path.resolve('public/images/wf.jpg'));
   });
+
+  app.get('/changpass',function(req,res){
+       res.render('profile/changepwd.hbs',{
+          layout:"homePage",
+          user : req.user
+      });
+  });
+
+  app.post('/changpass',function(req,res){
+    console.log('old password'+ req.body.oldpassword)
+    console.log('new password'+ req.body.newpassword)
+    console.log('id user'+ req.user.id)
+    User.findByID(req.user.id, function(err,user){
+      if(err){console.log('cant find user')}
+      user.changePassword(req,res);
+    });
+
+  });
+
   
     // =====================================
     // LOGIN ===============================
@@ -108,9 +127,28 @@ module.exports = function(app, passport) {
         res.render('index.ejs', { message: req.flash('loginMessage') }); 
     });
 
+
+    // app.post('/upload', uploading, function(req, res){
+app.post('/upload',function(req, res){
+      console.log("Uploading this file...");
+            
+                var fstream;
+                req.pipe(req.busboy);
+                req.busboy.on('file', function (fieldname, file, filename) {
+                console.log("Uploading: " + filename); 
+                fstream = fs.createWriteStream(__dirname + '/files/' + filename);
+                file.pipe(fstream);
+                fstream.on('close', function () {
+                    res.redirect('back');
+                });
+            });
+      });
+                  
+
     // app.get('/login', function(req, res){
     //  res.render('index.ejs', { message: req.flash('loginMessage') }); 
     // });
+
 
     // process the login form
     // app.post('/login', do all our passport stuff here);
