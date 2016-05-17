@@ -5,6 +5,7 @@ var isLoggedin = require('middleware/loginChecker');
 var Document = require('model/document/document');
 
 router.get('/read/:docID', function(req, res, next) {
+
 	var documentId = req.params.docID;
 	Document.findOne({id: documentId})
 	.exec(function(error, document) {
@@ -12,7 +13,7 @@ router.get('/read/:docID', function(req, res, next) {
 			return next(error);
 
 		if(!document)
-			return res.json({});
+			return res.status(404).json({});
 		else
 			return res.json(document);
 	})

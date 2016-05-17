@@ -128,15 +128,20 @@ module.exports = function(app, passport) {
 
   });
   //document detail 
-  app.get('/documentDetail/:id', isLoggedIn, function(req, res) {
+  app.get('/documentDetail/:id', isLoggedIn, function(req, res, next) {
 
     var baseUrl = req.protocol + '://' + req.get('host');
     request(baseUrl + '/api/document/read/'+ req.params.id  ,function(error1,response1,body1){
+
+      if( response1.statusCode === 404 ){
+        return next(new Error('Invalid document id'));
+      }
+
       var docDetail = JSON.parse(body1);
       var spliter = String(docDetail.filepath).split('.');
       docDetail.filetype = spliter[ spliter.length - 1 ];
       docDetail.name = String(docDetail.name).substr(0 ,docDetail.name.length - docDetail.filetype.length);
-      console.log(docDetail);
+
     res.render('docDetail.hbs',{
         layout:"homePage",
         docDetail: docDetail,
