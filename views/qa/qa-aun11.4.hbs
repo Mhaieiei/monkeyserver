@@ -13,6 +13,7 @@
                 <h3>AUN 11.4: The curriculum is regurly evaluated at reasonable time periods</h3>
        
                 <h5>Table : Program evaluation methods and frequencies</h5>
+                {{#if admin}}
                 <div id="tab_aun11.4">
                   <table class="tablesorter">
                     <thead align="center">
@@ -66,7 +67,60 @@
                   </table>
 
                 </div>
-          
+            {{else}}
+                    <div id="tab_aun11.4">
+                      <table class="tablesorter">
+                        <thead align="center">
+                            <tr>
+                               
+                                <th>No.</a></th>
+                                <th>Stakeholders</a></th>
+                                <th>Methods/Tools</a></th>
+                                <th>Frequency</a></th>
+                            </tr>
+                                 
+
+                        <!-- ใช้ td colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
+                        </thead>
+                        {{#each docs}}
+                        {{#each evaluation}}
+                        <tbody>
+                            <tr>
+                            
+                            <td>{{getindex}}</td>
+
+                            <td>{{stakeholder}}</td>
+                            {{#each EvaluationMethod}}
+                            
+
+                            {{#if @first}} 
+                    <td>{{methodName}}</td>
+                    <td>{{frequency}}</td>
+                    </tr>
+                    
+                    {{else}}
+                    <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <td>{{methodName}}</td>
+                    <td>{{frequency}}</td>
+                    {{/if}}
+                            {{/each}}
+
+                            </tr>  
+                            
+                        </tbody>
+                        {{/each}}
+                        {{/each}}   
+                        
+                      </table>
+
+                    </div>
+
+            {{/if}}
+
             </div>
             </div>
             </div>
