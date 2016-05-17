@@ -63,6 +63,7 @@ module.exports = function(database) {
 
   require('./routes/main')(app, passport);
   app.use('/api', require('./routes/api'));
+  app.use('/some', require('./routes/wf/some'));
   
   app.use(function(req, res, next){
      if (req.isAuthenticated())
