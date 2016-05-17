@@ -153,8 +153,8 @@
 							        <td>{{meetingDate}}</td>
 							        <td>{{noOfParticipation}}</td>
 							        <td>{{percentageOfParticipation}}</td>	
-							        <td><a href = ""><button id="tab_2_submit" class="btn btn-primary" type="button">Edit</button></a></td>
-							        <td><a href = ""><button id="tab_2_submit" class="btn btn-primary" type="button">Delete</button></a></td>	       
+							        <td><a href = "/admin/editmeeting?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Edit</button></a></td>
+							        <td><a href = "/admin/delmeeting?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Delete</button></a></td>	       
 						        </tr>
 						      	{{/each}}
 						   

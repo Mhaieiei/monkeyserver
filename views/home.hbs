@@ -146,9 +146,9 @@
                                     <tr class="each-doc">
                                     <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
                                       <td>{{this.id}}</td>
-                                      <td><a href="{{this.filepath}}">{{this.name}}</a></td>
+                                      <td class="filepath"><a href="{{this.filepath}}">{{this.name}}</a></td>
                                       <td>{{this.author}}</td>
-                                      <td>{{this.dateCreate}}</td>
+                                      <td class="dateCreate">{{this.dateCreate}}</td>
                                       <td>{{this.status}}</td>
                                       <td><font color="red"></td>
                                       <td>
@@ -348,4 +348,32 @@ $(document).ready(function(){
         $("#myModal").modal();
     });
 });
+</script>
+
+<script>
+$(document).ready(function() {
+    convertToReadableDate();
+})
+
+function convertToReadableDate() {
+    var dateCreate = document.getElementsByClassName('dateCreate');
+    for(var n = 0; n < dateCreate.length; ++n) {
+        dateCreate[n].innerHTML = convertDateDDMMYYYY(dateCreate[n].innerHTML);
+    }
+}
+
+function convertDateDDMMYYYY(_date) {
+        var date = new Date(_date);
+
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+
+        if(month < 10)
+            month = '0' + month;
+        if(day < 10)
+            day = '0' + day;
+
+        return day + '/' + month + '/' + year;
+}
 </script>
