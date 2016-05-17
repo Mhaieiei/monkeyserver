@@ -98,7 +98,32 @@ module.exports = function(app, passport) {
         res.sendfile(path.resolve('public/images/wf.jpg'));
   });
 
+   app.get('/wrong.png', function (req, res) {
+        res.sendfile(path.resolve('public/images/wrong.png'));
+  });
+  app.get('/correct.png', function (req, res) {
+        res.sendfile(path.resolve('public/images/correct.png'));
+  });
 
+  app.get('/changpass',function(req,res){
+    console.log('[Get] change password')
+       res.render('profile/resetpassword.hbs',{
+          layout:"homePage",
+          user : req.user
+      });
+  });
+
+  app.post('/changpass',function(req,res){
+    console.log('[Post] change password')
+    console.log('old password'+ req.body.oldpass)
+    console.log('new password'+ req.body.newpass)
+    console.log('id user'+ req.user.id)
+    User.findById(req.user.id, function(err,user){
+      if(err){console.log('cant find user')}
+      user.changePassword(req,res);
+    });
+
+  });
   //document detail 
   app.get('/documentDetail/:id', isLoggedIn, function(req, res) {
 
@@ -158,60 +183,11 @@ module.exports = function(app, passport) {
     // Get User Info. ==============================
     // =====================================
 
-	app.get('/profile_inf',isLoggedIn,function(req,res){
-		console.log("Get profile information");	
-		var role = req.query.role;
-		console.log(role);
-		if(role == "student"){
-			res.render('profile/student_profile.hbs',{
-			layout:"profilestudent",
-			user : req.user
-
-			});
-		}
-		else{
-			res.render('profile/staff_profile.hbs',{
-			layout:"profilePage",
-			user : req.user
-
-			});
-		}
-		
-		
-	});
-	app.get('/profile_inf_admin',isLoggedIn,function(req,res){
-		console.log("Get profile information");	
-		return User.findOne({'local.username': req.query.user}, function( err, user ) {
-	        if( !err ) {
-	        	console.log(user);
-	        	console.log(user.local.username);
-	        	//console.log(Object.entries(user.local));
-	        	console.log(user.local.role);
-	     if(user.local.role == "student"){
-					res.render('profile/student_profile.hbs', {
-						layout: "profileAdstudent",
-						user : user
-					});
-				}
-				else{
-					res.render('profile/staff_profile.hbs', {
-						layout: "profileAdmin",
-						user : user
-					});
-				}
-	        } else {
-	            return console.log( err+"mhaieiei" );
-		        }
-		    });
-		
-		
-		
-	});
-	// =====================================
+	
 
   app.get('/profile_inf',isLoggedIn,function(req,res){
     console.log("Get profile information"); 
-    var role = req.query.role;
+    var role = req.user.local.role;
     console.log(role);
     if(role == "student"){
       res.render('profile/student_profile.hbs',{
@@ -337,15 +313,23 @@ module.exports = function(app, passport) {
             //console.log(Object.entries(user.local));
             console.log(user.local.role);
 
+            if(user.local.dateOfBirth == null){
+              day = "01";
+              month = "01",
+              year = "1947"
+
+            }
+            else{
             var date = user.local.dateOfBirth.split("/");
             console.log("date split:"+date[0]);
-            var day = date[1];
-            var month = date[0];
-            var year = date[2];
+            day = date[1];
+            month = date[0];
+            year = date[2];
+          }
 
             if(user.local.role == "student"){
           res.render('profile/student_profileedit.hbs', {
-            layout: "profilePage",
+            layout: "profilestudent",
             user : user,
             day:day,
             month:month,
