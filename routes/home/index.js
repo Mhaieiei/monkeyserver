@@ -158,48 +158,46 @@ router.get('/upload', isLoggedIn, function(req, res){
 });
 
 router.post('/upload',function(req, res, next){
-  var document;
-  async.parallel([
-    writeFile(req),
-    mapFileToDocument(req, function(returnDocument){document = returnDocument})],
-    function(error) {
-      handleError(error, res, next); 
-      if(req.query.json) {
-        res.json(document);
-      }
-      else
-        res.redirect('back')})
+ writeFile(req, res, next, function(returnDocument) {
+  if(req.query.json)
+    res.json(document)
+  else
+    res.redirect('/home');
+ });
 });
 
-function writeFile(req) {
-  return function(done) {
+function writeFile(req, res, next, onReturnDocument) {
+  console.log('Write file');
     var path = require('path');
     var fstream;
+
     req.pipe(req.busboy);
     req.busboy.on('file', function (fieldname, file, filename) {
+
       console.log("Uploading: " + filename); 
       var targetPath = path.join(global.__APPROOT__, 'uploads', 'document', filename);
       console.log(targetPath);
+
+      var serverPath = 'uploads/document/';
+      if(!fs.existsSync(serverPath))
+        fs.mkdirSync(serverPath);
+
       fstream = fs.createWriteStream(targetPath);
       file.pipe(fstream);
-      fstream.on('close', function () {
-        done();
+      fstream.on('close', function() {
+        console.log('Done');
+        mapFileToDocument(req, res, next, filename, serverPath + filename, onReturnDocument);
       });
-    });
-  }
+  })
 }
 
-function mapFileToDocument(req, onReturnDocument) {
-  return function(done) {
-    req.pipe(req.busboy);
-    req.busboy.on('file', function (fieldname, file, filename) {
-      var targetPath = 'uploads/document/' + filename;
-      var owner = req.user.local.username;
-      var attachment = new Attachment({owner: owner, author: owner, name: filename, filepath: targetPath});
+function mapFileToDocument(req, res, next, filename, targetPath, onReturnDocument) {
+    var owner = req.user.local.username;
+    var attachment = new Attachment({owner: owner, author: owner, name: filename, filepath: targetPath});
+    attachment.save(function(error) {
+      handleError(error, res, next);
       onReturnDocument(attachment);
-      attachment.save(done);
-    })
-  }
+    });
 }
 
 function handleError(error, res, next) {
