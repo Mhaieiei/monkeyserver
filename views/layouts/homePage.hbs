@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<<<<<<< HEAD
-head>
+<head>
 
-    <meta charset='utf-8'>
+   <meta charset="utf-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1">
-   <script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-
-   <!-- Custom CSS -->
+   <!--<script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>-->
    <link href="/stylesheets/style.css" rel="stylesheet">
    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+   <script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">-->
    <link href="/stylesheets/semantic.css" rel="stylesheet">
@@ -21,41 +19,28 @@ head>
     
       <!-- <script type="text/javascript" src="/javascripts/jquery-latest.js"></script> 
     <script type="text/javascript" src="/javascripts/jquery.tablesorter.js"></script> -->
-=======
-<head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Monkey Office</title>
-
-    <script type="text/javasript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
-    <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js" ></script> -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    <!-- Bootstrap Core CSS -->
-    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="/stylesheets/dist/css/bootstrap-submenu.min.css">
-    <link rel="stylesheet" href="/stylesheets/style.css" type="text/css" id="" media="print, projection, screen" >   
->>>>>>> 576a21b544d2f5bdb57024dd56841570a61fd374
-
+    
     <script type="text/javascript" src="/javascripts/sidebar.js"></script>
     
     <!-- Custom Fonts -->
     <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    
-    <title>Monkey Office</title>
+    <link href="/stylesheets/tabs.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/role.css">
+   
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-  
+     <title>Monkey Office</title>
+
 </head>
 
 <body>
 
+     <!-- Navigation -->
      <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -123,8 +108,11 @@ head>
         <!-- /.container -->
     </nav>
 
-
+    <br>
+    <br>
+    <div class="container">
     {{{body}}} 
+    </div>
 
         <!-- Footer 
         <footer>
@@ -139,14 +127,19 @@ head>
     <!-- /.container -->
 
     <!-- jQuery -->
-
     <script src="/javascripts/jquery.js"></script>
+    <script src="/javascripts/global.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="/javascripts/bootstrap.min.js"></script>
 
-</body>
+    <!-- Script to Activate the Carousel -->
 <script>
+
+$('.carousel').carousel({
+    interval: 5000 //changes the speed
+})
+
 $(document).on('click', '.browse', function(){
   var file = $(this).parent().parent().parent().find('.file');
   file.trigger('click');
@@ -154,7 +147,8 @@ $(document).on('click', '.browse', function(){
 $(document).on('change', '.file', function(){
   $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
 });
-$(function(){
+
+    $(function(){
         $(".dropdown-menu > li > a.trigger").on("click",function(e){
             var current=$(this).next();
             var grandparent=$(this).parent().parent();
@@ -171,6 +165,9 @@ $(function(){
             root.find('.sub-menu:visible').hide();
         });
     });
-</script>
+    
+    </script>
+
+</body>
 
 </html>
