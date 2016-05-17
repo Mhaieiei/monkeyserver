@@ -449,7 +449,7 @@ module.exports = function(app, passport) {
           if( !err ) {
             console.log(user);
             res.render('profile/educationinfo.hbs', {
-                layout: "profilePage",
+                layout: "homePage",
                 user : user, // get the user out of session and pass to template
                 helpers: {
                 inc: function (value) { return parseInt(value) + 1; },
@@ -471,7 +471,7 @@ module.exports = function(app, passport) {
     console.log("Add Education");
     console.log(req.query.user);
     res.render('profile/addeducation.hbs', {
-             layout: "profilePage",
+             layout: "homePage",
             username : req.query.user // get the user out of session and pass to template     
         });
   });
