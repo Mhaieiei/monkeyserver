@@ -7,6 +7,7 @@
     <div class="col-md-15"> 
     <h3>AUN 5.3: Student assessment uses a variety of methods</h3>
     <h5>Table : Assesment tools</h5>
+    {{#if admin}}
     <div id="tab_tqf2"><table class="table muffin">
         <thead>
             <tr>
@@ -80,9 +81,87 @@
          <a href = "/aun/aun5-3/add_aun5-3?program={{programname}}&year={{year}}&acid={{acid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Add</button>
       </div>
       </div>
+
+
     </div>
     </div>
     </div>
+    {{else}}
+        <div id="tab_tqf2"><table class="table muffin">
+        <thead>
+            <tr>
+                
+                <tr>
+                      
+                        <th>No.</a></th>
+                        <th>Assessment Tools</th>
+                        <th>Courses</td>
+                        <th>Levels</td>
+                      
+                </tr>
+                
+            
+            </tr>
+            
+        </thead>
+        <tbody>     
+
+        {{#each docs}}
+        <tr>
+        <td colspan=4>{{_id}}</td>
+        </tr>
+                    <tr>
+                        {{#each assementTool}}
+
+                       
+                        <td>{{inc @index}}</th>
+                        <td>{{assesmentTool}}</th>
+                            
+                        {{#each subject}} 
+                        {{#if @first}} 
+                        
+                        <td>{{subjectType}}</td>
+                        <td>{{followingReq}}</td>
+                            
+                    </tr>
+                    
+                    {{else}}
+                    <tr>
+                    <th></th>
+                    
+                    <th></th>
+                    <td>{{subjectType}}</td>
+                    <td>{{followingReq}}</td>
+
+                    {{/if}}
+                    {{/each}}
+                    
+                    </tr>
+                    {{/each}}
+         {{/each}}   
+
+                    
+
+                    
+                    
+                    
+         </tbody>
+        
+
+     </table>
+
+      
+      </div>
+
+
+    </div>
+    </div>
+    </div>
+        
+
+
+
+    {{/if}}
 
 
     </form>

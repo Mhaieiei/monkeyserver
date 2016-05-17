@@ -45,6 +45,7 @@
       rowind++;
       console.log(rowind);
       document.getElementById('arrlen').value = rowind;
+      document.getElementById('count').value = 1;
       console.log("value="+document.getElementById('arrlen').value);
     }
     
@@ -80,12 +81,17 @@
                 <p hidden>    
                   <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>
                 </p>
+
+                <p hidden>    
+                  <input type="text" tabindex="1"  name="count" id="count" value='0' readonly=""><br>
+                </p>
+
                 <tr>
                 <td></td>
-                <td><input type="text" id="academicTitle" name="academicTitle" value= ""></td>
-                <td><input width="300" type="text" name="name" value=""></td>
-                <td><input width="300" type="text" name="surname" value=""></td>
-                <td><input type="text" name="position" placeholder="" value="" ></td>
+                <td><input type="text" id="academicTitle" name="academicTitle" value= "" required></td>
+                <td><input width="300" type="text" name="name" value="" required></td>
+                <td><input width="300" type="text" name="surname" value="" required></td>
+                <td><input type="text" name="position" placeholder="" value="" required></td>
                 <div class="btn-group">
                    <td> <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()">
                       <span class="glyphicon glyphicon-plus"></span></button>
