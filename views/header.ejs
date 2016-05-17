@@ -1,39 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link href="/stylesheets/style.css" rel="stylesheet">
+   <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
+   <link href="/stylesheets/semantic.css" rel="stylesheet">
+   <link href="/stylesheets/modern-business.css" rel="stylesheet">
 
-    <title>Monkey Office</title>
-    
-    <!-- Bootstrap Core CSS -->
-    
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
-    <!-- <link rel="stylesheet" href="/stylesheets/bootstrap-submenu.min.css">-->
     
 
-    <!-- Custom CSS -->
-    <link href="/stylesheets/semantic.css" rel="stylesheet">
-    <link href="/stylesheets/modern-business.css" rel="stylesheet">
-    <link href="/stylesheets/file-tree.min.css" rel="stylesheet">
-    <link href="/stylesheets/tabs.css" rel="stylesheet">
-    <link rel="stylesheet" href="/stylesheets/style.css" type="text/css" id="" media="print, projection, screen" />
-      <!-- <script type="text/javascript" src="/javascripts/jquery-latest.js"></script> 
-    <script type="text/javascript" src="/javascripts/jquery.tablesorter.js"></script> -->
+    <script type="text/javascript" src="/javascripts/sidebar.js"></script>
     
-
-    <!-- Custom Fonts -->
+  <!-- Custom Fonts -->
     <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript">
-    $(function() {
-        $("table").tablesorter({debug: true});
-    });
-    </script>
+    <link href="/stylesheets/tabs.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/role.css">
+ 
+     <title>Monkey Office</title>
 
     
 </head>
@@ -41,8 +28,7 @@
 <body>
 
      <!-- Navigation -->
-    <div class="page">
-    <header>
+    
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -93,10 +79,10 @@
                                 <a href="#" class= "glyphicon glyphicon-bell"> Notifications</a>
                             </li>
                             <li>
-                                <a href="edit_user-staff_profile.hbs" class = "glyphicon glyphicon-wrench"> Settings </a>
-                            </li>
+                                <a href="/changpass" class = "glyphicon glyphicon-wrench"> Change password</a>
+                             </li>
                             <li>
-                                <a href="#" class = "glyphicon glyphicon-log-out"> Logout </a>
+                                <a href="/" class = "glyphicon glyphicon-log-out"> Logout </a>
                             </li>
                         </ul>
                     </li>
@@ -106,143 +92,46 @@
         </div>
         <!-- /.container -->
     </nav>
-    </header>
+    
+    
 
-    <!-- <div class="main">
-      <aside>
-        <div class="inner">
-          <div class="pusher">
-              <div class="ui vertical menu">
-              <div class="header item">
-                
-                TQF : Thai qualification framwork for higher education
-              </div>
-              <div class="menu">
-                <a class="item" href="/tqf21?program='+program+'&year='+year">TQF1: Program faculty members</a>
-                <a class="item" href="/tqf22?program='+program+'&year='+year+'&acid='+acid">TQF2: Lecturer and Instructors</a>
-                <a class="item" href="/tqf23?acid='+acid">TQF3: Thesis Advisors and Thesis Examination Committees</a>
-                <a class="item" href="/tqf24?acid='+acid">TQF4: Publications</a>
-                <a class="item" href="qa-tqf5.hbs">TQF5: Program management</a>
-              </div>
-              
-              <a class="header item">
-                AUN:
-              </a>
-              <div class="item">
-                AUN1: 
-                <div class="menu">
-                    <a class="item" href="/aun1-3?program='+program+'&year='+year+'&acid='+acid">AUN 1.3</a>
-                    <a class="item" href="/aun1-4?program='+program+'&year='+year+'&acid='+acid">AUN 1.4</a>  
-                </div>
-              </div>
-              <div class="item">
-                AUN2: 
-                 <div class="menu">
-                    <a class="item" href="/aun2-1?program='+program+'&year='+year+'&acid='+acid">AUN 2.1</a>
-                </div>
-              </div>
-              <div class="item">
-                AUN3: 
-                 <div class="menu">
-                <a class="item" href="/aun3-3?program='+program+'&year='+year+'&acid='+acid">AUN 3.3</a>
-                </div>
-              </div>
-              <div class="item">
-                AUN5: 
-                 <div class="menu">
-                <a class="item" href="">AUN 5.2</a>
-                <a class="item" href="/aun5-3?program='+program+'&year='+year+'&acid='+acid">AUN 5.3</a>
-                </div>
-              </div>
-              <div class="item">
-                AUN6: 
-                 <div class="menu">
-                <a class="item" href="/aun6-1?program='+program+'&year='+year+'&acid='+acid">AUN 6.1</a>
-                <a class="item" href="/aun6-2?program='+program+'&year='+year+'&acid='+acid">AUN 6.2</a>
-                <a class="item" href="">AUN 6.4</a>
-                <a class="item" href="">AUN 6.9</a>
-               </div>
-              </div>
-              <div class="item">
-                AUN7: 
-                 <div class="menu">
-                <a class="item" href="/aun7?program='+program+'&year='+year+'&acid='+acid">AUN 7</a>
-                </div>
-              </div>
-              <div class="item">
-                AUN8: 
-                 <div class="menu">
-                <a class="item" href="/aun8-3?program='+program+'&year='+year+'&acid='+acid">AUN 8.3</a>
-                </div>
-              </div>
-              <div class="item">
-                AUN10: 
-                 <div class="menu">
-                <a class="item" href="/aun10-1?program='+program+'&year='+year+'&acid='+acid">AUN 10.1</a>
-              </div>
-              </div>
-              <div class="item">
-                AUN11: 
-                 <div class="menu">
-                <a class="item" href="/aun11-1?program='+program+'&year='+year+'&acid='+acid">AUN 11.1</a>
-                 <a class="item" href="/aun11-4?program='+program+'&year='+year+'&acid='+acid">AUN 11.4</a>
-              </div>
-              </div>
-               <div class="item">
-                AUN12: 
-                 <div class="menu">
-                <a class="item" href="/aun12-1?program='+program+'&year='+year+'&acid='+acid">AUN 12.1</a>
-                <a class="item" href="">AUN 12.2</a>
-              </div>
-              </div>
-              <div class="item">
-                AUN13: 
-                 <div class="menu">
-                <a class="item" href="">AUN 13.2</a>
-              </div>
-              </div>
-               <div class="item">
-                AUN14: 
-                 <div class="menu">
-                    <a class="item" href="/aun12-1?program='+program+'&year='+year+'&acid='+acid">AUN 14.1</a>
-                    <a class="item" href="">AUN 14.4</a>
-                </div>
-               </div>
+    
+<!-- jQuery -->
+<script src="/javascripts/jquery.js"></script>
+<script src="/javascripts/global.js"></script>
 
-            
-            </div>
-        </div>
-      </aside>
+<!-- Bootstrap Core JavaScript -->
+<script src="/javascripts/bootstrap.min.js"></script>
+<script>
 
-      <div class="content">
-        <div class="inner">
-           
-        </div>
-      </div>
-    </div>   
-  </div>  -->
+$('.carousel').carousel({
+    interval: 5000 //changes the speed
+})
 
-<div id="qass-search" class="container">
+$(document).on('click', '.browse', function(){
+  var file = $(this).parent().parent().parent().find('.file');
+  file.trigger('click');
+});
+$(document).on('change', '.file', function(){
+  $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+});
 
-          <table width="100%" border="0">
-                 <tr valign="top">
-                    <td width="30%">
-                      <div class="container-fluid">
-                          <div class="row-fluid">
-                              <div class="span10">
-                                  <div class="col-md-10">           
-                                      <div id="sortable-tree"></div>
-                                  </div>
-                              </div><!--/span-->
-                          </div><!--row-->
-                      </div><!--fluid-->
-                    </td>
-                </tr>  
-           </table>
-  </div>
-      
-</body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> 
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> 
-<script src="/javascripts/file-tree.min.js"></script>
+    $(function(){
+        $(".dropdown-menu > li > a.trigger").on("click",function(e){
+            var current=$(this).next();
+            var grandparent=$(this).parent().parent();
+            if($(this).hasClass('left-caret')||$(this).hasClass('right-caret'))
+                $(this).toggleClass('right-caret left-caret');
+            grandparent.find('.left-caret').not(this).toggleClass('right-caret left-caret');
+            grandparent.find(".sub-menu:visible").not(current).hide();
+            current.toggle();
+            e.stopPropagation();
+        });
+        $(".dropdown-menu > li > a:not(.trigger)").on("click",function(){
+            var root=$(this).closest('.dropdown');
+            root.find('.left-caret').toggleClass('right-caret left-caret');
+            root.find('.sub-menu:visible').hide();
+        });
+    });
+    
+    </script>

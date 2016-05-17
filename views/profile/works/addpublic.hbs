@@ -80,53 +80,77 @@ $(document).ready(function() {
   
 </script>
 
-<div class="container">
 <form action="/publicationinf/addpublication" method="post" id = "myForm" >
-<h3>Add publications</h3>
-<br>
-  <form class="form-horizontal" role="form">
-           
+  <h3> Add new publication</h3>
+  <br>
+  <br>
+  <div class="row content"> 
+                <form class="form-horizontal" role="form">
+                    </div>
                    
           <p hidden>    
             <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>
             <input type="text" class="form-control" name="username" id="inputType" value={{username}}>
           </p>
-          <div class="form-group">
-          <label for="inputType" class="col-md-2 control-label">Name Publication : </label>
-              <div class="col-md-4">
-                    <input type="text" class="form-control2" name="namepublic" id="inputType">
-              </div>     
-              <label for="inputType" class="col-md-2 control-label">Program : </label>
-              <div class="col-md-4">
-                <select class="form-control" style="width:200px" id="sub_programs" name="program">
-                     
-                  {{#each faculty}} 
-                       {{#each sub_program}}
-                        <option  value="{{this}}">{{this}}</option>         
-                        {{/each}}                    
-                  {{/each}}
-              </select>
+
+              <div class="form-group"> 
+                <label for="inputType" class="col-md-2 control-label">Name Publication : </label>
+                <div class="col-md-4">
+                   <input type="text" class="form-control2" name="namepublic" id="inputType">
+                </div>     
+                  
+               <label for="inputType" class="col-md-2 control-label">Program : </label>
+               <div class="col-md-4">
+                  <select class="form-control" style="width:200px" id="sub_programs" name="program">
+                       
+                    {{#each faculty}} 
+                         {{#each sub_program}}
+                          <option  value="{{this}}">{{this}}</option>         
+                          {{/each}}                    
+                    {{/each}}
+                </select>
+                </div>
               </div>
               <br>
-              <br>
-        </div>
+               <br> 
 
-            <div class="form-group"> 
+              <div class="form-group"> 
+                  <label for="inputType" class="col-md-2 control-label">Acedamic Year : </label>
+                  <div class="col-md-4">
                  
-               <label for="inputType" class="col-md-2 control-label">Name Conference : </label>
+                    <select class="form-control" style="width:100px" name="acyear">
+                                <option value="2012">2012</option>
+                                <option value="2013">2013</option>
+                                <option value="2014">2014</option>
+                                <option value="2015">2015</option>
+                                <option value="2016">2016</option>
+                    </select> 
+                  </div>
+                  <label for="inputType" class="col-md-2 control-label">Publication Type : </label>
                   <div class="col-md-4">
-                        <input type="text" class="form-control2" id="nameconfer" name="nameconfer" id="inputType">
-                  </div> 
-              <label for="inputType" class="col-md-2 control-label">Name Journals : </label>
-                  <div class="col-md-4">
-                        <input type="text" class="form-control2" id="namejournal" name="namejournal" id="inputType">
-                  </div> 
-                  <br>
-                  <br>
-            </div>
+                 
+                    <select class="form-control" id="typepublic" name="typepublic">
+                                <option value="intercon">International Conference</option>
+                                <option value="interjunal">International Jounals</option>                                     
+                    </select> 
+                  </div>
+               </div>  
+               <br>
+               <br> 
+               <div class="form-group"> 
+                 <label for="inputType" class="col-md-2 control-label">Name Conference : </label>
+                    <div class="col-md-4">
+                          <input type="text" class="form-control2" id="nameconfer" name="nameconfer" id="inputType">
+                    </div> 
+                <label for="inputType" class="col-md-2 control-label">Name Journals : </label>
+                    <div class="col-md-4">
+                          <input type="text" class="form-control2" id="namejournal" name="namejournal" id="inputType">
+                    </div>
+              </div>  
+              <br>
+               <br> 
+               <div class="form-group"> 
              <!--additional information   --> 
-             <div class="form-group"> 
-                 
               <label for="inputType" class="col-md-2 control-label">Location : </label>
                   <div class="col-md-4">
                         <input type="text" class="form-control2" id="location" name="location" id="inputType">
@@ -134,25 +158,28 @@ $(document).ready(function() {
               <label for="inputType" class="col-md-2 control-label">Vol : </label>
                 <div class="col-md-4">
                       <input type="text" class="form-control2" style="width:100px" id="vol" name="vol" id="inputType">
-              </div> 
+                </div>
+                 </div>  
               <br>
-              <br>
-            </div>
-
-            <div class="form-group">
+               <br> 
+               <div class="form-group"> 
+                  
               <label for="inputType" class="col-md-2 control-label">Date : </label>
-              <div class="col-md-4">
-                    <input type="text" placeholder="Month,Year" class="form-control2" id="date" name="datenum" id="inputType">
-              </div>  
+                    <div class="col-md-4">
+                          <input type="text" placeholder="Month,Year" class="form-control2" id="date" name="datenum" id="inputType">
+                    </div> 
+              
+               
               <label for="inputType" class="col-md-2 control-label">Issue : </label>
                 <div class="col-md-4">
                       <input type="text" class="form-control2" style="width:100px" id="issue" name="issue" id="inputType">
-                </div>  
-              <br>
-              <br>
-            </div>
+                </div>   
 
-            <div class="form-group">
+                 </div>  
+              <br>
+               <br> 
+               <div class="form-group"> 
+
                <label for="inputType" class="col-md-2 control-label">Page : </label>
                 <div class="col-md-4">
                       <input type="text" class="form-control2" id="page" name="page" id="inputType">
@@ -160,12 +187,13 @@ $(document).ready(function() {
                 <label for="inputType" class="col-md-2 control-label">Article : </label>
                 <div class="col-md-4">
                       <input type="text" class="form-control2" style="width:100px" id="article" name="article" id="inputType">
-                </div>
-                <br>
-                <br>
-            </div>     
+                </div>  
+                </div>  
+              <br>
+               <br> 
+               <div class="form-group">     
           
-                    <div id="tab_2"><table id="userTable" class="table muffin table-striped table-hover margin-bottom0">
+                <div id="tab_2"><table id="userTable" class="table muffin table-striped table-hover margin-bottom0">
                       <thead>
                           <tr>
                           <th ><a href="javascript:table_sort('tab_2',0)">Index</a></th>
@@ -209,12 +237,6 @@ $(document).ready(function() {
 
                        
                         
-                        <div class="btn-group">
-                            <button id="tab_2_submit" class="btn btn-mini" type="button">Import</button>
-                        </div>
-                        <div class="btn-group">
-                            <button id="tab_2_submit" class="btn btn-mini" type="button">Export</button>
-                        </div>
                         
 
                         
