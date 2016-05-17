@@ -115,15 +115,12 @@
                     
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="/profile?name={{user.local.username}}">Profile</a></li>
+                    <li><a href="/profile_inf">Profile</a></li>
                     <li><a href="/education_inf?name={{user.local.username}}">Education</a></li>
                     
                     <li class="dropdown active">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Work <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li>
-                                <a href="teachingworks.hbs">Teaching works</a>
-                            </li>
                             <li>
                                 <a href="/publicationinf?name={{user.local.username}}">Publication</a>
                             </li>
@@ -132,6 +129,9 @@
                             </li>
                             <li>
                                 <a href="/traininf?name={{user.local.username}}">Training</a>
+                            </li>
+                            <li>
+                                <a href="/careerinf?id={{user.id}}">Career Development</a>
                             </li>
                             
                         </ul>

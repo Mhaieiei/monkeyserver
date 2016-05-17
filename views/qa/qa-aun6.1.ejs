@@ -56,7 +56,12 @@
                                     <%count1 = 0%>
                                     <% for(g=0;g< docs[i].user[j].publicResearch.length;g++){%>
                                     <% if(count1 == 0){ %>
-                                    <td><%=docs[i].user[j].publicResearch[g].typepublic%></td>
+                                    <td><% if (docs[i].user[j].publicResearch[g].typepublic == 'intercon'){%>
+                                          International Conferences
+                                        <%}else{%>
+                                          Nationals Journals
+                                        <%}%>
+                                    </td>
                                  </tr>
                                  <%}else{%>
                                  <tr>
@@ -66,7 +71,12 @@
                                     <th></th>
                                     <th></th>
                                     
-                                    <td><%=docs[i].user[j].publicResearch[g].typepublic%></td>
+                                    <td><% if (docs[i].user[j].publicResearch[g].typepublic == 'intercon'){%>
+                                          International Conferences
+                                        <%}else{%>
+                                          Nationals Journals
+                                        <%}%>
+                                    </td>
                                     <%}%>
                                     <%count1++%>
                                     <%}%>
@@ -94,7 +104,11 @@
                                     <%count1 = 0%>
                                     <% for(g=0;g< docs[i].user[j].publicResearch.length;g++){%>
                                     <% if(count1 == 0){ %>
-                                    <td><%=docs[i].user[j].publicResearch[g].typepublic%></td>
+                                    <td><% if (docs[i].user[j].publicResearch[g].typepublic == 'intercon'){%>
+                                          International Conferences
+                                        <%}else{%>
+                                          Nationals Journals
+                                        <%}%></td>
                                  </tr>
                                  <%}else{%>
                                  <tr>
@@ -104,7 +118,12 @@
                                     <th></th>
                                     <th></th>
                                     <
-                                    <td><%=docs[i].user[j].publicResearch[g].typepublic%></td>
+                                    <td><% if (docs[i].user[j].publicResearch[g].typepublic == 'intercon'){%>
+                                          International Conferences
+                                        <%}else{%>
+                                          Nationals Journals
+                                        <%}%>
+                                    </td>
                                     <%}%>
                                     <%count1++%>
                                     <%}%>
