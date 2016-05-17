@@ -132,6 +132,7 @@ router.get('/:id/execute', function(req, res, next){
 
 			var execution = new WorkflowExecution({
 				templateId: result.id,
+				templateName: result.name,
 				executorId: req.user._id,
 				runningElements: handler.currentElements,
 				waitingElements: [],

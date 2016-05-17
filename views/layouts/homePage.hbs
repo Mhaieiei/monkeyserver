@@ -11,20 +11,17 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
    <link href="/stylesheets/semantic.css" rel="stylesheet">
    <link href="/stylesheets/modern-business.css" rel="stylesheet">
+
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+
+
     <script type="text/javascript" src="/javascripts/sidebar.js"></script>
     
   <!-- Custom Fonts -->
     <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="/stylesheets/tabs.css" rel="stylesheet">
     <link rel="stylesheet" href="/stylesheets/role.css">
-   
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+ 
      <title>Monkey Office</title>
 
 </head>
@@ -53,9 +50,10 @@
                 </li>
                 <li>
                     <a href="/qapage">QASS</a>
-                </li>
+                </li> 
+                {{# if admin}}
                 <li>
-
+                   
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" >Admin <b class="caret"></b></a>
                     <ul class="dropdown-menu multi-level">
                         <li><a href="#">Create Workflow</a></li>
@@ -70,8 +68,9 @@
                             </ul>
                         </li>
                     </ul>
+
                 </li>
-               
+                {{/if}}
             </ul>
                    
                 <ul class="nav navbar-nav navbar-right">
