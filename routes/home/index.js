@@ -170,16 +170,23 @@ function writeFile(req, res, next, onReturnDocument) {
   console.log('Write file');
     var path = require('path');
     var fstream;
+
     req.pipe(req.busboy);
     req.busboy.on('file', function (fieldname, file, filename) {
+
       console.log("Uploading: " + filename); 
       var targetPath = path.join(global.__APPROOT__, 'uploads', 'document', filename);
       console.log(targetPath);
+
+      var serverPath = 'uploads/document/';
+      if(!fs.existsSync(serverPath))
+        fs.mkdirSync(serverPath);
+
       fstream = fs.createWriteStream(targetPath);
       file.pipe(fstream);
       fstream.on('close', function() {
         console.log('Done');
-        mapFileToDocument(req, res, next, filename, 'uploads/document/' + filename, onReturnDocument);
+        mapFileToDocument(req, res, next, filename, serverPath + filename, onReturnDocument);
       });
   })
 }
