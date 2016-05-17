@@ -32,7 +32,13 @@ router.get('/tasks', function(req, res, next){
 });
 
 router.get('/workflowexecutions', function(req, res, next){
-	WorkflowExecution.find({}, '-details -handlers -variables', function(err, result){
+
+	var query = {};
+	if(req.query.name){
+		query = { "templateName": { "$regex": req.query.name, "$options": "i" } };
+	}
+
+	WorkflowExecution.find(query, '-details -handlers -variables', function(err, result){
 		if(err) return res.json({ message : 'error' });
 		res.json(result);
 	})
