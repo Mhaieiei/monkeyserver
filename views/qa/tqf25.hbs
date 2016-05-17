@@ -8,72 +8,137 @@
             <br>
             
             
-                
-            <div id="tab_tqf5"><table class="tablesorter">
-            <thead align="center">
-                <tr>
-                    <th><a>Index</a></th>
-                    <th><a>Indicators</a></th>
-                    <th><a>Target</a></th>
-                    <th><a>Actions</a></th>
-                    <th><a>Results</a></th>
-                </tr>
-                
-            </thead>
-            <tbody>
-                {{#each manage.Programmanagement}}
-                <tr>
-                    <td>{{inc @index}}.</td>
-                    <td>{{indicators}} </td>
-                    <td>{{target}} </td>
-                    <td>{{actions}} </td>
-                    <td>{{results}} </td>
-                </tr>
-               {{/each}}
-                
-            </tbody>
+            {{#if admin}}    
+                <div id="tab_tqf5"><table class="tablesorter">
+                <thead align="center">
+                    <tr>
+                        <th><a>Index</a></th>
+                        <th><a>Indicators</a></th>
+                        <th><a>Target</a></th>
+                        <th><a>Actions</a></th>
+                        <th><a>Results</a></th>
+                    </tr>
+                    
+                </thead>
+                <tbody>
+                    {{#each manage.Programmanagement}}
+                    <tr>
+                        <td>{{inc @index}}.</td>
+                        <td>{{indicators}} </td>
+                        <td>{{target}} </td>
+                        <td>{{actions}} </td>
+                        <td>{{results}} </td>
+                    </tr>
+                   {{/each}}
+                    
+                </tbody>
 
-            </table>
-            <div class="pull-right">
-                    <a href = "/tqf/edittqf25?acid={{acid}}&year={{getyear}}&program={{programname}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Edit</button></a>
-                     <a href = "/tqf/addtqf25?acid={{acid}}&year={{getyear}}&program={{programname}}"><button id="tab_2_submit" class="btn btn-primary" type="button">ADD</button></a>
+                </table>
+                <div class="pull-right">
+                        <a href = "/tqf/edittqf25?acid={{acid}}&year={{getyear}}&program={{programname}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Edit</button></a>
+                         <a href = "/tqf/addtqf25?acid={{acid}}&year={{getyear}}&program={{programname}}"><button id="tab_2_submit" class="btn btn-primary" type="button">ADD</button></a>
+                    </div>
+                <h5>Table : Program management results</h5>
                 </div>
-            <h5>Table : Program management results</h5>
-            </div>
-            <br>
-            <br>
-            <br>
-            <br>
-            <div id="tab_tqf5-2"><table class="tablesorter">
-            <thead align="center">
-                <tr>
-                    <th><a href="javascript:table_sort('tab_tqf5-2',0)">Meeting No.</a></th>
-                    <th><a href="javascript:table_sort('tab_tqf5-2',1)">Meeting Date</a></th>
-                    <th><a href="javascript:table_sort('tab_tqf5-2',2)">No. of Participation</a></th>
-                    <th><a href="javascript:table_sort('tab_tqf5-2',3)">Percentage of Participation</a></th>
-                </tr>
-            </thead>
-            <tbody>
-           
-                {{#each meetings}}
-                <tr>
-                    <td>{{inc @index}}/{{getyear}}</td>
-                    <td>{{meetingDate}}</td>
-                    <td>{{noOfParticipation}}</td>
-                    <td>{{percentageOfParticipation}}</td>                             
-                </tr>
-                {{/each}}
-           
-            
-           </tbody>
-            </table>
-            <h5>Table : Meetings of program management committee</h5>
-             <div class="table-foot"> 
+                <br>
+                <br>
+                <br>
+                <br>
+                <div id="tab_tqf5-2"><table class="tablesorter">
+                <thead align="center">
+                    <tr>
+                        <th><a href="javascript:table_sort('tab_tqf5-2',0)">Meeting No.</a></th>
+                        <th><a href="javascript:table_sort('tab_tqf5-2',1)">Meeting Date</a></th>
+                        <th><a href="javascript:table_sort('tab_tqf5-2',2)">No. of Participation</a></th>
+                        <th><a href="javascript:table_sort('tab_tqf5-2',3)">Percentage of Participation</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+               
+                    {{#each meetings}}
+                    <tr>
+                        <td>{{inc @index}}/{{getyear}}</td>
+                        <td>{{meetingDate}}</td>
+                        <td>{{noOfParticipation}}</td>
+                        <td>{{percentageOfParticipation}}</td>                             
+                    </tr>
+                    {{/each}}
+               
                 
+               </tbody>
+                </table>
+                <h5>Table : Meetings of program management committee</h5>
+                 <div class="table-foot"> 
+                    
+                </div>
+                
+                </div>
+            </form>
             </div>
-            
+        {{else}}
+              <div id="tab_tqf5"><table class="tablesorter">
+                <thead align="center">
+                    <tr>
+                        <th><a>Index</a></th>
+                        <th><a>Indicators</a></th>
+                        <th><a>Target</a></th>
+                        <th><a>Actions</a></th>
+                        <th><a>Results</a></th>
+                    </tr>
+                    
+                </thead>
+                <tbody>
+                    {{#each manage.Programmanagement}}
+                    <tr>
+                        <td>{{inc @index}}.</td>
+                        <td>{{indicators}} </td>
+                        <td>{{target}} </td>
+                        <td>{{actions}} </td>
+                        <td>{{results}} </td>
+                    </tr>
+                   {{/each}}
+                    
+                </tbody>
+
+                </table>
+               
+                <h5>Table : Program management results</h5>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <div id="tab_tqf5-2"><table class="tablesorter">
+                <thead align="center">
+                    <tr>
+                        <th><a href="javascript:table_sort('tab_tqf5-2',0)">Meeting No.</a></th>
+                        <th><a href="javascript:table_sort('tab_tqf5-2',1)">Meeting Date</a></th>
+                        <th><a href="javascript:table_sort('tab_tqf5-2',2)">No. of Participation</a></th>
+                        <th><a href="javascript:table_sort('tab_tqf5-2',3)">Percentage of Participation</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+               
+                    {{#each meetings}}
+                    <tr>
+                        <td>{{inc @index}}/{{getyear}}</td>
+                        <td>{{meetingDate}}</td>
+                        <td>{{noOfParticipation}}</td>
+                        <td>{{percentageOfParticipation}}</td>                             
+                    </tr>
+                    {{/each}}
+               
+                
+               </tbody>
+                </table>
+                <h5>Table : Meetings of program management committee</h5>
+                
+                
+                </div>
+            </form>
             </div>
-        </form>
-        </div>
+
+
+        {{/if}}
     </td>     
 </body>
