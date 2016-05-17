@@ -50,7 +50,8 @@ var date = new Date();
 var current_year = date.getFullYear();
 var index = 0;
 var nametemp = "";
-
+var adminfact = "";
+  
 module.exports = function(app, passport) {
   // =====================================
     // Setting Model Databases ========
@@ -109,7 +110,9 @@ module.exports = function(app, passport) {
     console.log('[Get] change password')
        res.render('profile/resetpassword.hbs',{
           layout:"homePage",
-          user : req.user
+          user : req.user,
+          admin : adminfact,
+          message : req.query.messages
       });
   });
 
@@ -136,7 +139,8 @@ module.exports = function(app, passport) {
       console.log(docDetail);
     res.render('docDetail.hbs',{
         layout:"homePage",
-        docDetail: docDetail
+        docDetail: docDetail,
+        admin : adminfact
       });
     })
 
@@ -147,7 +151,8 @@ module.exports = function(app, passport) {
       console.log("Uploading....");
     
       res.render('dms/getUpload.hbs',{
-      layout:"homePage"
+      layout:"homePage",
+      admin : adminfact,
       });
     });
 
@@ -169,7 +174,8 @@ module.exports = function(app, passport) {
 
          
             res.render('dms/getUpload.hbs',{
-            layout:"homePage"
+            layout:"homePage",
+            admin : adminfact,
             });
              if (req.session.state) {
             res.json({state: req.session.state});
@@ -501,6 +507,7 @@ module.exports = function(app, passport) {
           if (err){ console.log("Upload Failed!");}
           res.render('profile/editedu.hbs', {
             layout: "homePage",
+            admin : adminfact,
             username : nameid,
             index : index,
             education : user.education[index]
@@ -566,6 +573,12 @@ module.exports = function(app, passport) {
     app.get('/qapage',function(req,res){
       console.log('Get QA Info(select program)');
       console.log(years);
+       if( req.user.local.role == 'admin'){
+       adminfact = true;
+      }else{
+         adminfact = null;
+      }
+
       //console.log(years[0]);
       return Fac.find( {},function( err, faculty ) {
         if( !err ) {
@@ -575,6 +588,7 @@ module.exports = function(app, passport) {
               user : req.user,
               faculty: faculty,
               year : years,
+              admin : adminfact,
               helpers: {
               set: function (value) { index = value; },
               get: function(){return index;},
@@ -609,6 +623,7 @@ module.exports = function(app, passport) {
       programname: req.body.sub_programs,
       year: req.body.years,
       acid : programs._id,
+      admin : adminfact,
      
       });
     } 
@@ -654,7 +669,8 @@ app.use('/aun', aunController ); //aun handler
     console.log("test get date",req.body['toDate']);
     console.log('req.body.doc_name', req.body['doc_name']);
     res.render('dms/getdoc.hbs',{
-        layout: "homePage"
+        layout: "homePage",
+        admin : adminfact
       });
   });
 
