@@ -22,6 +22,7 @@ router.get('/', isLoggedIn, function(req, res, next) {
 
     getWorkflowTaskList(req, function(execList,taskList) {
       var response = dateDDMMYYYY(_docs);
+
       response.exec = execList;
       response.task = taskList;
       response.admin = adminfact;
