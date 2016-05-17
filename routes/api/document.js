@@ -3,6 +3,8 @@ var Promise = require('bluebird');
 
 var isLoggedin = require('middleware/loginChecker');
 var Document = require('model/document/document');
+var Attachment = require('model/document/attachment');
+var ICDocs = require('model/document/ICDocuments');
 
 router.get('/read/:docID', function(req, res, next) {
 
@@ -106,5 +108,64 @@ router.get('/delete/:docID', isLoggedin, function(req, res, next) {
 		res.json({status: 'ok'});
 	})
 })
+
+router.post('/upload', function(req, res, next) {
+	var title = req.body.title;
+	var owner = req.body.owner;
+	var workflowId = req.body.workflowId;
+	var filepath = req.body.link;
+	var docType = req.body.docType;
+	var year = req.body.year;
+
+	var subtype = docType + year;
+
+	var doc;
+	var metadata = {
+		name: title,
+		owner: owner,
+		includeInWorkflow: workflowId,
+		filepath: filepath,
+		subtype: subtype
+	}
+	if(docType == 'attachment')
+		doc = new Attachment(metadata);
+	else {
+		var ICDoc = aquireTemplate(docType, year);
+		doc = new ICDoc(metadata);
+	}
+
+	doc.save(function(error) {
+		var response = {};
+		if(error) {
+			response.status = error;
+			res.json(response);
+			return next(error);
+		}
+
+		response = doc;
+		res.json(response)
+	})
+})
+
+function aquireTemplate(ICDocumentType, year) {
+	var Template = require('model/document/OfficialDocumentTemplate');
+	try {
+		var documentTemplate = new Template(ICDocumentType, year);
+		return documentTemplate.compile();
+	} catch(error) {
+		var errorMessageRegularExpression = /discriminator/ig;
+		var discriminatorError = error.message.search(errorMessageRegularExpression) > -1;
+		if(!discriminatorError)
+			throw error;
+
+		return getAlreadyCompiledSchemaModel(documentTemplate.getSubtypeName());
+	} 
+}
+
+function getAlreadyCompiledSchemaModel(modelName) {
+	var databaseConnection = require('lib/dbclient').db();
+	return databaseConnection.model(modelName);
+}
+
 
 module.exports = router;

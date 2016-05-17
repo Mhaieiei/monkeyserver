@@ -102,6 +102,36 @@ describe('REST Document API', function() {
 		})
 	})
 
+	describe('Generate document from parameters passed by workflow system', function() {
+		var url = getApiUrl('upload');
+		it('should create document and return document object as json response', function(done) {
+			var mongoGeneratedId = '573b48271df7e15826a9ef1b'
+			var requiredParameters = {
+				title: 'title',
+				owner: 'someone',
+				workflowId: mongoGeneratedId,
+				link: 'some/where',
+				docType: 'documentType',
+				year: '2016'
+			}
+			server.post(url)
+			.send(requiredParameters)
+			.expect(200)
+			.expect('Content-Type', /json/)
+			.expect(function(response) {
+				var documentJson = response.body;
+				console.log(documentJson);
+				expect(documentJson.id).to.exist;
+				expect(documentJson.name).to.equal(requiredParameters.title);
+				expect(documentJson.owner).to.equal(requiredParameters.owner);
+				expect(documentJson.includeInWorkflow).to.equal(requiredParameters.workflowId);
+				expect(documentJson.filepath).to.equal(requiredParameters.link);
+				expect(documentJson.subtype).to.equal(requiredParameters.docType + requiredParameters.year);
+			})
+			.end(done);
+		})
+	})
+
 	after(function(done) {
 		dbMock.dropDb(done);
 	})
