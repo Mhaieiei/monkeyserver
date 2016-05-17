@@ -47,9 +47,7 @@
   
   
 </script>
- 
 
- <div class="container">
   <form class="form-horizontal" role="form"  action="/tqf/edittqf25" method="post" id = "myForm" >	
     <br><br>    
       <p hidden>    
@@ -86,12 +84,18 @@
                       {{#each manage.Programmanagement}}
                         <tr>
                           <td> 1</td>
-                          <td> <input type="text" class="form-control" name="indicators" id="indicators" value="{{indicators}}"></td>
-                          <td> <textarea class="form-control" rows="5" name="target" id="target" >{{target}}</textarea></td>
-                          <td> <textarea class="form-control" rows="5" name="actions" id="actions" >{{actions}}</textarea></td>
-                          <td> <input type="text" class="form-control" name="results" id="results" value="{{results}}"></td>
+                          <td> <textarea style="width: 200px; height: 100px;"  class="form-control2" name="indicators" id="indicators">{{indicators}}</textarea></td>
+                          
+
+
+
+                          <td> <textarea style="width: 200px; height: 100px;" class="form-control2" rows="5" name="target" id="target" >{{target}}</textarea></td>
+
+
+                          <td> <textarea style="width: 200px; height: 100px;" class="form-control2" rows="5" name="actions" id="actions" >{{actions}}</textarea></td>
+                          <td> <input style="width: 100px; height: 30px;" type="text" class="form-control2" name="results" id="results" value="{{results}}"></td>
                           <td>
-                            <button class="btn btn-xs btn-warning" id="delPOIbutton" value="Delete" onclick="deleteRow(this)">
+                            <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)">
                               <span class="glyphicon glyphicon-trash"></span>
                             </button>
                           </td>
@@ -102,10 +106,10 @@
                 </table>
             <div class="table-foot"> 
                 <div class="pull-right">
-                    <div class="btn-group">
-                        <button id="btnedit" class="btn btn-mini" type="button" onclick="insRow()">Insert Row</button>
-                        <button id="btnsubmit" class="btn btn-mini" type="submit">Submit</button></a>
-                    </div>
+                    
+                        <button id="btnedit" class="btn btn-primary" type="button" onclick="insRow()">Insert Row</button>
+                        <button id="btnsubmit" class="btn btn-primary" type="submit">Submit</button></a>
+                    
                 </div>
             </div>
 

@@ -1,10 +1,7 @@
 <%- include ../../header.ejs %>
 
-<h2>Publication</h2></header>
-<% if(Userinfo.publicResearch.length >0){ %>
 
-				
-                <h3>Publication Information </h3>
+ <h3>Publication Information </h3>
                 <form class="form-horizontal" role="form">
                     </div>
 
@@ -27,6 +24,10 @@
                         <th><a href="javascript:table_sort('tab_2',6)">Delete</a></th>
                         </tr>
                     </thead>
+<% if(Userinfo.publicResearch.length >0){ %>
+
+				
+               
                    	<tbody>                   		
                     <% for(i=0;i< Userinfo.publicResearch.length;i++){%>
                         <% if(Userinfo.publicResearch[i].typepublic == 'intercon'){%>
@@ -50,8 +51,8 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><a href='/editpublication?id=<%= Userinfo.publicResearch[i].id %>&user=<%= user %>'>Edit</a></td>
-                            <td><a href='/delpublication?id=<%= Userinfo.publicResearch[i].id %>&user=<%= user %>'>Delete</a></td>
+                            <td><a href='/publicationinf/editpublication?id=<%= Userinfo.publicResearch[i].id %>&user=<%= user %>'>Edit</a></td>
+                            <td><a href='/publicationinf/delpublication?id=<%= Userinfo.publicResearch[i].id %>&user=<%= user %>'>Delete</a></td>
                         </tr>
                         <%}else{%>
                             <tr>

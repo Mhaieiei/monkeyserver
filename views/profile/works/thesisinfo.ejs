@@ -30,15 +30,13 @@
 		}	
 	}
 	
-%>				
-			<!-- <%= Userinfo.advisingProject[0].user[0].typeuser %>
-				<%= Userinfo.advisingProject[0].user[0].iduser.local.username %>
-				<%= advisee[0][0].name %>
-				<%= advisor[0].name %> -->
-				
+}%>			
 <body>
      <div class="container">
      <!-- Navigation -->
+                
+                <br>
+                <br>
                 <h3>Thesis Information </h3>
                 <form class="form-horizontal" role="form">
                     </div>
@@ -55,6 +53,7 @@
                         </tr>
                     </thead>
                    	<tbody>
+                    <% if(Userinfo.advisingProject.length >0){ %>
                    		
                     	<% for(i=0;i< Userinfo.advisingProject.length;i++){%>
                     	<tr>
@@ -76,8 +75,8 @@
                     		<td><a href='/thesisinf/delthesis?id=<%= Userinfo.advisingProject[i].id %>&user=<%= user %>'>delete</a></td>
                     	</tr>
                     	<%}%>
-                        
- <%}%> 
+                    <%}%>    
+ 
                   </tbody>
                     </table>
                     </div>
@@ -107,4 +106,4 @@
 
 </body>
 
-<%- include ../../footer.ejs %>
+<%- include ../../footerhome.ejs %>
