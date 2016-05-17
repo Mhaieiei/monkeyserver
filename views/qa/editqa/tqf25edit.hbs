@@ -49,7 +49,7 @@
 </script>
  
 
- <div class="container">
+
   <form class="form-horizontal" role="form"  action="/tqf/edittqf25" method="post" id = "myForm" >	
     <br><br>    
       <p hidden>    
@@ -86,10 +86,10 @@
                       {{#each manage.Programmanagement}}
                         <tr>
                           <td> 1</td>
-                          <td> <input type="text" class="form-control" name="indicators" id="indicators" value="{{indicators}}"></td>
-                          <td> <textarea class="form-control" rows="5" name="target" id="target" >{{target}}</textarea></td>
-                          <td> <textarea class="form-control" rows="5" name="actions" id="actions" >{{actions}}</textarea></td>
-                          <td> <input type="text" class="form-control" name="results" id="results" value="{{results}}"></td>
+                          <td> <input type="text" class="form-control2" name="indicators" id="indicators" value="{{indicators}}"></td>
+                          <td> <textarea style="width: 300px; height: 200px;" class="form-control2" rows="5" name="target" id="target" >{{target}}</textarea></td>
+                          <td> <textarea style="width: 300px; height: 100px;" class="form-control2" rows="5" name="actions" id="actions" >{{actions}}</textarea></td>
+                          <td> <input style="width: 300px; height: 100px;" type="text" class="form-control2" name="results" id="results" value="{{results}}"></td>
                           <td>
                             <button class="btn btn-xs btn-warning" id="delPOIbutton" value="Delete" onclick="deleteRow(this)">
                               <span class="glyphicon glyphicon-trash"></span>
