@@ -6,6 +6,10 @@ router.get('/create', function(req, res){
 	res.render('wf/form/create',  { layout: 'homePage' } );
 });
 
+router.get('/new', function(req, res){
+	res.render('wf/form/new', { layout: 'homePage' } );
+});
+
 router.post('/create', function(req, res){
 
 	var form = new Form({

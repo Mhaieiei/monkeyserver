@@ -25,17 +25,54 @@ router.get('/simpleroles', function(req, res){
 
 
 router.get('/tasks', function(req, res, next){
-	WorkflowTask.find({},  '-details', function(err, result){
+
+	var query = {};
+	var conditions = [];
+
+	if(req.query.name){
+		conditions.push( { "templateName": { "$regex": req.query.name, "$options": "i" } } );
+	}
+
+	/*if(req.query.author){
+		if( status != null ){
+			conditions.push( { "executor": status } );
+		}
+	}*/
+
+	if( conditions.length >= 1 ){
+		query = { $and: conditions };
+	}
+
+
+	WorkflowTask.find(query,  '-details', function(err, result){
 		if(err) return res.json({ message : 'error' });
 		res.json(result);
-	})
+	});
 });
 
 router.get('/workflowexecutions', function(req, res, next){
 
 	var query = {};
+	var conditions = [];
+
 	if(req.query.name){
-		query = { "templateName": { "$regex": req.query.name, "$options": "i" } };
+		conditions.push( { "templateName": { "$regex": req.query.name, "$options": "i" } } );
+	}
+
+	if(req.query.status){
+		var status = null;
+		if( req.query.status === 'inprogress' ){
+			status = 0;
+		} else if( req.query.status === 'done' ){
+			status = 1;
+		}
+		if( status != null ){
+			conditions.push( { "status": status } );
+		}
+	}
+
+	if( conditions.length >= 1 ){
+		query = { $and: conditions };
 	}
 
 	WorkflowExecution.find(query, '-details -handlers -variables', function(err, result){
