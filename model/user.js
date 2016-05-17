@@ -89,7 +89,8 @@ userSchema.methods.changePassword = function(request,response){
     });
         
     }else{
-        return done(null, false, req.flash('signupMessage', 'That password is not match.'));
+         //request.flash('Old password is not math,try again')
+         response.redirect('/changpass?messages='+"Old password is not match,try again");
     }
 };
 
