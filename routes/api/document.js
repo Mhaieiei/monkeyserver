@@ -6,7 +6,7 @@ var Document = require('model/document/document');
 
 router.get('/read/:docID', function(req, res, next) {
 	var documentId = req.params.docID;
-	Document.findOne({id: documentId})
+	Document.findOne({_id: documentId})
 	.exec(function(error, document) {
 		if(error)
 			return next(error);
