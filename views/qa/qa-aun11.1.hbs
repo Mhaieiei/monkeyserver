@@ -11,6 +11,7 @@
                 <h3>AUN 11.1: The curriculum is developed by all teaching staff members</h3>
        
                 <h5>Table : CiES program development committee</h5>
+            {{#if admin}}
                 <div id="tab_aun11.1">
                   <table class="tablesorter">
                     <thead align="center">
@@ -78,7 +79,70 @@
 
                 </div>
 
+        {{else}}
 
+             <div id="tab_aun11.1">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+
+
+                            
+                            
+                            <th>No.</a></th>
+                            <th>Position</a></th>
+                            <th>Academic Title</a></th>
+                            <th>Name-Surname</a></th>
+                            
+                            
+                           
+                        </tr>
+                       
+                       
+
+                   
+                    </thead>
+
+                   
+                    {{#each docs}}
+                    <tbody>
+                        
+                      
+                       
+                        <tr>
+                       
+                       
+                        <td>{{getindex}}</td>
+                        <td>{{position}}</td>
+                        {{#each user}}
+                        {{#if @first}} 
+                        <td>{{local.title}}</td>
+                        <td>{{local.name}} {{local.surname}}</td>
+                </tr>
+                
+                {{else}}
+                <tr>
+                
+                <th></th>
+                <th></th>
+                <td>{{local.title}}</td>
+                        <td>{{local.name}} {{local.surname}}</td>
+                {{/if}}
+                        
+                        
+                        
+                        
+                        </tr>  
+                        {{/each}}
+                    </tbody>
+                    {{/each}}
+                    
+                  </table>
+                  
+
+
+
+        {{/if}}
           
             </div>
             </div>

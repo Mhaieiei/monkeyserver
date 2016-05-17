@@ -37,6 +37,7 @@
         rowind++;
         console.log(rowind);
         document.getElementById('arrlen').value = len;
+        document.getElementById('count').value = 1;
         console.log("value="+document.getElementById('arrlen').value);
      
     }
@@ -50,6 +51,10 @@
                 <br>
                       <p hidden>    
                         <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='{{len}}' readonly=""><br>
+                       
+                      </p>
+                      <p hidden>    
+                        <input type="text" tabindex="1"  name="count" id="count" value='0' readonly=""><br>
                        
                       </p>
                     <div class="form-group">
@@ -87,8 +92,8 @@
                                   
                                     {{#each role.user}}
                                     <tr>
-                                      <td><input  type="text" name="name" id="name" value="{{local.name}}"/></td>
-                                      <td><input  type="text" name="surname" id="surname" value="{{local.surname}}"/></td>
+                                      <td><input  type="text" name="name" id="name" value="{{local.name}}" required/></td>
+                                      <td><input  type="text" name="surname" id="surname" value="{{local.surname}}" required/></td>
                                       <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
                                       </td> 
 
