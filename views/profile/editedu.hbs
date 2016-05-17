@@ -3,22 +3,45 @@
 
 {{education.level}} -->
 
-<form action="/editedu?id={{ index }}" method="post" >	
-		
+<form  action="/editedu?id={{ index }}" method="post" >	
+	<h3> Edit Education</h3>
+	<br>
 	<p hidden>
 		<input type="text" class="form-control" name="username" id="inputType" value={{username}}>
 		<input type="text" class="form-control" name="eduid" id="inputType" value={{education.id}}>
   	</p>
-	<label>Level:</label>
-	  <input type="text" tabindex="1"  name="level" value ="{{ education.level }}"  required><br>
-	<label>Degree:</label>
-	  <input type="text" tabindex="1"  name="degree" value ="{{ education.degree }}" required><br>
-	<label>University:</label>
-	  <input type="text" tabindex="1"  name="university" value ="{{ education.university }}" required><br>
-	<label>Year:</label>
-	  <input type="text" tabindex="1"  name="year" value ="{{ education.year }}" required><br>
-	    
-	<footer>
-	  <input type="submit" class="btnLogin" value="Edit" tabindex="1">
-	</footer>
+  	
+
+      <div class="form-group">
+
+		  <label for="inputType" class="col-md-2 control-label">Level:</label>
+		  <div class="col-md-4">
+		  <input type="text" class="form-control2" tabindex="1"  name="level" value ="{{ education.level }}"  required><br>
+		  </div>
+	  </div>
+
+	  <div class="form-group">
+		 <label for="inputType" class="col-md-2 control-label">Degree:</label>
+	      <div class="col-md-4">
+		  <input type="text" class="form-control2" tabindex="1"  name="degree" value ="{{ education.degree }}" required><br>
+		  </div>
+	  </div>
+	  <div class="form-group">
+
+		 <label for="inputType" class="col-md-2 control-label">University:</label>
+	      <div class="col-md-4">
+		  <input type="text" class="form-control2" tabindex="1"  name="university" value ="{{ education.university }}" required><br>
+		   </div>
+	  </div>
+	 <div class="form-group">
+
+		  <label for="inputType" class="col-md-2 control-label">Year:</label>
+	      <div class="col-md-4">
+		  <input type="text" class="form-control2" tabindex="1"  name="year" value ="{{ education.year }}" required><br>
+		  </div>
+	  </div>
+	  <div class="col-md-12">
+	 <p align = "right"><button type="submit"class="btn btn-primary" value="Edit" tabindex="1">Edit</button></p>
+	
+	  </div>
 </form>
