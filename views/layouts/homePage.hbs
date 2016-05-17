@@ -16,6 +16,8 @@
    <link href="/stylesheets/modern-business.css" rel="stylesheet">
    <!--<link href="/stylesheets/file-tree.min.css" rel="stylesheet">-->
    <!--<link href="/stylesheets/tabs.css" rel="stylesheet">-->
+    <!-- Bootstrap Core CSS -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
     
       <!-- <script type="text/javascript" src="/javascripts/jquery-latest.js"></script> 
     <script type="text/javascript" src="/javascripts/jquery.tablesorter.js"></script> -->
@@ -62,9 +64,10 @@
                 </li>
                 <li>
                     <a href="/qapage">QASS</a>
-                </li>
+                </li> 
+                {{# if admin}}
                 <li>
-
+                   
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" >Admin <b class="caret"></b></a>
                     <ul class="dropdown-menu multi-level">
                         <li><a href="#">Create Workflow</a></li>
@@ -79,8 +82,9 @@
                             </ul>
                         </li>
                     </ul>
+
                 </li>
-               
+                {{/if}}
             </ul>
                    
                 <ul class="nav navbar-nav navbar-right">
