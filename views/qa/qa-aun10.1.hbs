@@ -14,6 +14,7 @@
                 <h3>AUN 10.1: The lecture facilities(lecture halls, small course rooms) are adequate</h3>
        
                 <h5>Table : Lecture rooms for CiEs students</h5>
+                {{#if admin}}
                 <div id="tab_tqf2"><table class="table muffin">
                   
                     <thead align="center">
@@ -53,7 +54,41 @@
                <a href = "/aun/aun10-1/addaun10_1?program={{programname}}&year={{year}}&acid={{acid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">ADD new</button>
             </div>
             </div>
-                
+            {{else}}
+                <div id="tab_tqf2"><table class="table muffin">
+                  
+                    <thead align="center">
+                        <tr>
+                            
+                            <th>Room No.</a></th>
+                            <th>Floor</a></th>
+                            <th>Building</a></th>
+                            <th>No. of seats</a></th>
+                           
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {{#each docs}}
+                        <tr>
+                            <td>{{roomNo}}</td>
+                            <td>{{floor}}</td>
+                            <td>{{building}}</td>
+                            <td>{{numberOfSeat}}</td>
+                            
+                        </tr>  
+                        {{/each}}   
+                    </tbody>
+                    
+                  </table>
+
+                </div>
+
+              
+            
+
+
+            {{/if}} 
           
             </div>
             </div>

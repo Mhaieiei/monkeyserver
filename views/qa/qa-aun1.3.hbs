@@ -11,6 +11,7 @@
                
                 <br>
 				    <h5>Table : Map pf ELOs according to knowledge, skills, attitude and life-long learning</h5>
+            {{#if admin}}
                 <div id="tab_tqf3">
                   <table class="tablesorter">
                     <thead align="center">
@@ -62,6 +63,55 @@
                   <div class="pull-right">
                   <a href = "/aun/aun1-3/add_aun1-3?&program={{getprogram}}&year={{getyear}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Add</button>
                 </div>
+            {{else}}
+                 <div id="tab_tqf3">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            <th>Categories</a></th>
+                            <th>Descriptions</a></th>
+                            <th>ELOs</a></th>
+                            
+                            
+
+                        </tr>
+      
+                    </thead>
+                    <tbody>
+                    {{#each docs}}
+                    {{#each Responsibility}}
+    
+
+                        <tr>
+
+                        
+                        <td>{{category}} </td>
+                        <td>{{description}} </td>
+                        {{#each ELO}}
+                        {{#if @first}}
+                        <td>{{number}}</td>
+                        </tr>
+                        {{else}}
+                        <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <td>{{number}}</td>
+
+                        {{/if}}
+                        {{/each}}
+                        
+                       {{/each}}
+                        {{/each}}
+                    </tbody>
+                    
+                  </table>
+
+                  
+
+
+            {{/if}}
           
             </div>
             </div>
