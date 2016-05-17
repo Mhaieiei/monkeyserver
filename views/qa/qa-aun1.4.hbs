@@ -12,6 +12,7 @@
                
                 <br>
 				<h5>Table : Mapping of stakeholders' requirements and ELOs</h5>
+                {{#if admin}}
                 <div id="tab_tqf3">
                   <table class="tablesorter">
                     <thead align="center">
@@ -78,7 +79,70 @@
                     <a href = "/aun/aun1-4/add_aun1-4?&program={{getprogram}}&year={{getyear}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Add</button>
                     </div>
                 </div>
-          
+            {{else}}
+                <div id="tab_tqf3">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                           
+                            <th>Stakeholders</a></th>
+                            <th>Requirements</a></th>
+                            <th>ELOs</a></th>
+                            
+                            
+
+                        </tr>
+      
+                    </thead>
+
+                    
+                    <tbody>
+                    {{#each docs}}
+                    <td>{{_id}} </td>
+                    {{#each stk}}
+                        <tr>
+
+                       
+                      
+                        
+                        <td>{{title}}</td>
+                        <td>{{requirement}} </td>
+                        {{#each ELO}}
+                        {{#if @first}}
+                        <td>{{number}}</td>
+                        
+                        </tr>
+
+                        {{else}}
+                        <tr>
+                        
+                        <th></th>
+                        <th></th>
+                        
+                        <td>{{number}}</td>
+
+                        {{/if}}
+                        {{/each}}
+                        
+                        </tr>
+                        {{/each}}
+                        {{/each}}
+                        <th></th>
+                        <th></th>
+
+                        </tr>
+                        
+                    </tbody>
+
+                    
+                  </table>
+                 
+                </div>
+
+
+
+            {{/if}}
             </div>
             </div>
             </div>
