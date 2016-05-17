@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
    <meta charset="utf-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,13 +24,12 @@
  
      <title>Monkey Office</title>
 
-    
 </head>
 
 <body>
 
      <!-- Navigation -->
-    
+     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -43,13 +44,16 @@
             </div>
             <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
+                
                 <li>
                     <a href="/workflow">Workflow</a>
                 </li>
                 <li>
                     <a href="/qapage">QASS</a>
-                </li>
+                </li> 
+                <% if (userrole == 'admin') { %>
                 <li>
+                   
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
                         <ul class="dropdown-menu multi-level">
                             <li><a href="/workflow/new">Create Workflow</a></li>
@@ -64,8 +68,9 @@
                                 </ul>
                             </li>
                         </ul>
+
                 </li>
-               
+                <% } %>
             </ul>
                    
                 <ul class="nav navbar-nav navbar-right">
@@ -92,46 +97,7 @@
         </div>
         <!-- /.container -->
     </nav>
-    
-    
 
-    
-<!-- jQuery -->
-<script src="/javascripts/jquery.js"></script>
-<script src="/javascripts/global.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="/javascripts/bootstrap.min.js"></script>
-<script>
-
-$('.carousel').carousel({
-    interval: 5000 //changes the speed
-})
-
-$(document).on('click', '.browse', function(){
-  var file = $(this).parent().parent().parent().find('.file');
-  file.trigger('click');
-});
-$(document).on('change', '.file', function(){
-  $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
-});
-
-    $(function(){
-        $(".dropdown-menu > li > a.trigger").on("click",function(e){
-            var current=$(this).next();
-            var grandparent=$(this).parent().parent();
-            if($(this).hasClass('left-caret')||$(this).hasClass('right-caret'))
-                $(this).toggleClass('right-caret left-caret');
-            grandparent.find('.left-caret').not(this).toggleClass('right-caret left-caret');
-            grandparent.find(".sub-menu:visible").not(current).hide();
-            current.toggle();
-            e.stopPropagation();
-        });
-        $(".dropdown-menu > li > a:not(.trigger)").on("click",function(){
-            var root=$(this).closest('.dropdown');
-            root.find('.left-caret').toggleClass('right-caret left-caret');
-            root.find('.sub-menu:visible').hide();
-        });
-    });
-    
-    </script>
+    <br>
+    <br>
+    <div class="container">
