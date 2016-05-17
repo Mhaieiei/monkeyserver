@@ -25,7 +25,7 @@ describe('REST Document API', function() {
 		async.parallel([createDummyDocuments, helper.registerAndLogin(server, 'joe', 'joe')], done);
 	})
 
-	describe('Get document by document ID', function() {
+	describe.skip('Get document by document ID', function() {
 
 		var URL = getApiUrl('read');
 
