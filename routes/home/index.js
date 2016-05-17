@@ -160,7 +160,7 @@ router.get('/upload', isLoggedIn, function(req, res){
 router.post('/upload',function(req, res, next){
  writeFile(req, res, next, function(returnDocument) {
   if(req.query.json)
-    res.json(document)
+    res.json(returnDocument)
   else
     res.redirect('/home');
  });
