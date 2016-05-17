@@ -37,8 +37,10 @@ router.get('/', isLoggedIn, function(req, res, next) {
 
 router.post('/', isLoggedIn, function(req, res) {
   console.log('AT HOME');
+  
+
   var date= [];
-  var documentName = req.body.doc_name;
+  var Name = req.body.doc_name;
   var status = req.body.doc_status;
   var fromDate = Date.parse(req.body.fromDate);
   var fDate = req.body.fromDate;
@@ -57,7 +59,7 @@ router.post('/', isLoggedIn, function(req, res) {
   };
 
   var query = Doc.findByUser(user).
-  where('name').regex(subStringRegex(documentName, false));
+  where('name').regex(subStringRegex(Name, false));
 
   if(!isNaN(fromDate) && !isNaN(toDate)) {
     fromDate = new Date(fromDate);
@@ -113,7 +115,7 @@ router.post('/', isLoggedIn, function(req, res) {
     var response = {
       layout: 'homepage',
       docs: _docs,
-      docName: documentName,
+      Name: Name,
       docAuthor: author,
       docStatus: status,
       docFromDate: fDate,
@@ -146,7 +148,18 @@ router.post('/', isLoggedIn, function(req, res) {
       date[i] = dd+ '/' +mm +'/'+ yy;
     }
 
-    res.render('home.hbs', response); 
+  var baseUrl = req.protocol + '://' + req.get('host');
+  request(baseUrl + '/api/workflow/workflowexecutions?name=' + Name +'&status=' + status + '&author=' + author,function(error1,response1,body1){
+  if( response1.statusCode === 404 ){
+    return next(new Error('Invalid document id'));
+  }
+    request(baseUrl + '/api/workflow/tasks?name=' + Name +'&status=' + status + '&author=' + author,function(error2,response2,body2){ 
+        response.task = JSON.parse(body2);
+        response.exec = JSON.parse(body1);
+        res.render('home.hbs', response); 
+       });    
+  });
+    
   });
 });
 
