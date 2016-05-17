@@ -182,7 +182,7 @@ benchmarked for improvement</h3>
                                     <td><%= docs[i]._id%></td>
                                     <%count = 0%>
                                     <% for(p=0;p< docs[i].root.length;p++){%>
-                                    <% if(count == 0){ %>
+                                    <% if(count == 0 && docs[i].root[p]._id.position != null){ %>
                                     <td><%= docs[i].root[p]._id.position%></td>
                                     <td><%= docs[i].root[p].count%></td>
                                     <% for(j=0;j< docs[i].root[p].user.length;j++){%>
@@ -237,6 +237,7 @@ benchmarked for improvement</h3>
                                  <%}else{%>
                                  <tr>
                                     <td></td>
+                                    <% if(docs[i].root[p]._id.position != null){ %>
                                     <td><%= docs[i].root[p]._id.position%></td>
                                     <td><%= docs[i].root[p].count%></td>
                                     <% for(j=0;j< docs[i].root[p].user.length;j++){%>
@@ -287,6 +288,7 @@ benchmarked for improvement</h3>
                                     <% KeepinternationalJour = 0%>
                                     <% Keepbook = 0%>
                                     <% Keeppatent = 0%>
+                                    <%}%>
                                     <%}%>
                                     <%count++%>
                                     <%}%>
