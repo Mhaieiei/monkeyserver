@@ -1,4 +1,6 @@
 var router = require('express').Router();
+var WorkflowExecution   = require('../../model/WorkflowExecution.model');
+var WorkflowTask    = require('../../model/WorkflowTask.model');
 var Doc = require('../../model/document/document');
 var isLoggedIn = require('../../middleware/loginChecker');
 var request = require('request');
@@ -253,6 +255,8 @@ function dateDDMMYYYY(documentQueryResult) {
 }
 
 function getWorkflowTaskList(req, callBackWithResult) {
+ 
+/*
  var baseUrl = req.protocol + '://' + req.get('host');
   //get document list 
   //request(baseUrl + '/api/document/read?userid='+ req.user._id ,function(error1,response1,body1){
@@ -266,6 +270,23 @@ function getWorkflowTaskList(req, callBackWithResult) {
        });
     });
   //});
+*/
+
+
+  WorkflowTask.find( { $or: [ {'doerId': req.user._id }, { 'roleId': req.user.simpleRole } ] }, 
+  function(err, taskResult){
+    
+    if(err) console.log(err);
+    
+    WorkflowExecution.find({ 'executorId':  req.user._id }, function(err, exeResult){
+      if(err) console.log(err);
+
+        callBackWithResult(exeResult,taskResult)
+    });
+
+  });
+
+
 }
 
 module.exports = router;
