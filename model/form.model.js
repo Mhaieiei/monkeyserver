@@ -5,10 +5,11 @@ var schema = new mongoose.Schema({
 	name: String,
 	description: String,
 	elements: [ 
-		{ 
-			name: { type: String }, 
+		{ 	
 			type: { type: String }, 
-			value: { type: String } 
+			name: { type: String }, 
+			label: { type: String }, 
+			predefinedValue: { type: String } 
 		} 
 	]
 });

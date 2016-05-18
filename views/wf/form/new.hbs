@@ -1,9 +1,137 @@
 <script src="http://cdn.alloyui.com/3.0.1/aui/aui-min.js"></script>
 <link href="http://cdn.alloyui.com/3.0.1/aui-css/css/bootstrap.min.css" rel="stylesheet"></link>
 
-<div id="myFormBuilder"></div>
+<h1>Form creator</h1>
+<div style="margin-top: 20px">
+	<div>
+		<span style="font-size: 16px">Name: </span>
+		<input id="form-name" type="text" value="{{name}}">
+	</div>
+	<div>
+		<span style="font-size: 16px">Description: </span>
+		<input id="form-description" type="text" value="{{description}}">
+	</div>
+	
+		<div>
+			<button onclick="saveForm()" class="btn btn-primary">Save</button>
+		</div>
+		<div style="margin-top: 25px" id="myFormBuilder"></div>
+	
+</div>
+
 <script>
-YUI().use( 'aui-carousel', function(Y) {
-	new Y.FormBuilder().render();
-});
+
+var myForm;
+var loadedElements = {{{elements}}};
+
+YUI().use(
+  'aui-form-builder',
+  function(Y) {
+    myForm = new Y.FormBuilder(
+      {
+        availableFields: [
+          {
+            iconClass: 'form-builder-field-icon-text',
+            label: 'Text',
+            type: 'text'
+          },
+          {
+            iconClass: 'form-builder-field-icon-textarea',
+            label: 'Textarea',
+            type: 'textarea'
+          },
+          {
+            iconClass: 'form-builder-field-icon-checkbox',
+            label: 'Checkbox',
+            type: 'checkbox'
+          },
+          {
+            iconClass: 'form-builder-field-icon-button',
+            label: 'Button',
+            type: 'button'
+          },
+          {
+            iconClass: 'form-builder-field-icon-select',
+            label: 'Select',
+            type: 'select'
+          },
+          {
+            iconClass: 'form-builder-field-icon-radio',
+            label: 'Radio Buttons',
+            type: 'radio'
+          },
+          {
+            iconClass: 'form-builder-field-icon-fileupload',
+            label: 'File Upload',
+            type: 'fileupload'
+          },
+          {
+            iconClass: 'form-builder-field-icon-fieldset',
+            label: 'Fieldset',
+            type: 'fieldset'
+          }
+        ],
+        fields: loadedElements,
+        boundingBox: '#myFormBuilder',
+      }
+    )
+	
+	myForm.render();
+  }
+);
+</script>
+<script>
+	function saveForm(){
+
+		var toSaveForm = {
+			name: $('#form-name').val(),
+			description: $("#form-description").val()
+		}
+		var elements = [];
+		myForm.get('fields').each( function(item, index, collection) {
+
+			var element = {};
+
+			var type = item.get('type');
+            var name = item.get('name');
+            var label = item.get('label');
+           	var value = item.get('predefinedValue');
+        
+           	element.type = type;
+           	element.name = name;
+           	element.label = label;
+           	element.predefinedValue = value;
+
+           	elements.push( element );
+
+ 			console.log( 'type: ' + type );
+ 			console.log( 'label: ' + label );
+            console.log( 'name: ' + name );
+            console.log( 'predefinedValue: ' + value );
+        });
+
+        toSaveForm.elements = elements;
+
+
+        var baseUrl = window.location.pathname.toLowerCase();
+    	var targetUrl = '/form/new';
+  
+	    if( baseUrl != '/form/new' ){
+	      	var splitUrls = baseUrl.split('/');
+	      	
+	      	if( splitUrls[3] === 'edit' ){
+	        	targetUrl = '/form/' + splitUrls[2] + '/update';
+	      	}
+	    }
+
+        $.ajax({
+		    url: targetUrl,
+		    type: "POST",
+		    data: toSaveForm,
+		    success: function( data ) {
+		        alert(data);
+		    }
+		});
+
+	}
 </script>

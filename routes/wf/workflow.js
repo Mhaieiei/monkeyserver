@@ -10,7 +10,7 @@ var workflowRunner		= require('../../lib/workflowRunner');
 
 router.get('/', function(req, res){
 
-	console.log( req.user.simpleRole );
+	console.log( "SIMPLE ROLE ID " + req.user.simpleRole );
 	TemplateWorkflow.find({ 'simpleRoleId': req.user.simpleRole }, function(err, tpWf){
 		res.render('wf/execute', { layout: "homePage", workflows : tpWf } );
 	});
@@ -128,7 +128,6 @@ router.get('/:id/execute', function(req, res, next){
 			var handler = new WorkflowHandler();
 
 			handler.parse( process, collaboration );
-
 
 			var execution = new WorkflowExecution({
 				templateId: result.id,
