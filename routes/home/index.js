@@ -113,7 +113,7 @@ router.post('/', isLoggedIn, function(req, res) {
 
     
     var response = {
-      layout: 'homepage',
+      layout: 'homePage',
       docs: _docs,
       Name: Name,
       docAuthor: author,

@@ -52,7 +52,13 @@ router.get('/tasks/:id', function(req, res){
 					formHtml += '<div>' + getHtmlElement( elements[i], inputResults ) + '</div>';
 				}
 				
-				formHtml += '<input type="submit" name="submit" value="Submit">';
+				if( formResult.type === 'approval'){
+					formHtml += '<input type="submit" name="submit" value="Approve">';
+					formHtml += '<input type="submit" name="submit" value="Reject">';
+				}
+				else{
+					formHtml += '<input type="submit" name="submit" value="Submit">';
+				}
 
 				res.render('wf/task/one', { layout: 'homePage', html: formHtml });
 			});
@@ -88,6 +94,14 @@ router.post('/tasks/:id', function(req, res ){
 			form.parse(req, function(err, fields, files) {
 
 			    newDetails[taskResult.elementId].submitResults = getSubmitResults( fields, files );
+				
+			    if( newDetails[taskResult.elementId].submitResults.submit === 'Approve' ){
+			    	newDetails[taskResult.elementId].submitResults.output = '1';
+			    }
+			    else{
+			    	newDetails[taskResult.elementId].submitResults.output = '0';
+			    }
+
 				laneHandler.doerId = req.user._id;
 
 				execution.runningElements.push( taskResult.elementId );

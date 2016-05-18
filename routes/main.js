@@ -1,7 +1,10 @@
 module.exports = function(app, passport){
 
 	app.get('/', function(req, res){
-    	res.render('index.ejs', { message: req.flash('loginMessage') }); 
+      if (req.isAuthenticated())
+        res.redirect('/home');
+      else
+    	   res.render('index.ejs', { message: req.flash('loginMessage') }); 
   	});
 
   	app.post('/login', passport.authenticate('local-login', {
