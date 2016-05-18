@@ -58,7 +58,10 @@ var docSchema = new Schema({
 		default: false
 	},
 
-	version: String,
+	version: {
+		type: Number,
+		default: 1
+	}
 
 	description: String,
 
@@ -187,6 +190,10 @@ docSchema.methods.assignees = function() {
 
 docSchema.methods.getAttachments = function() {
 	return this.attachments;
+}
+
+docSchema.methods.bumpVersion = function() {
+	this.version = this.version + 1;
 }
 
 module.exports = db.model(schemaName, docSchema);
