@@ -193,7 +193,12 @@ docSchema.methods.getAttachments = function() {
 }
 
 docSchema.methods.bumpVersion = function() {
-	this.version = this.version + 1;
+	this.version = this.nextVersion();
+	return this.version;
+}
+
+docSchema.methods.nextVersion = function() {
+	return this.version + 1;
 }
 
 module.exports = db.model(schemaName, docSchema);

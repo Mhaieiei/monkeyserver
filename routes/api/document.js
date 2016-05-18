@@ -135,19 +135,25 @@ router.post('/upload', function(req, res, next) {
 		docType: docType,
 		year: year
 	}
-	Document.findOne({name: title, owner: owner}, function(error, document) {
-		var doc;
+	var newest = -1;
+	Document
+	.findOne({name: title, owner: owner})
+	.sort({'dateCreate': newest})
+	.exec(function(error, document) {
+		console.log(document);
+		var newDocument;
 		if(document) {
 			metadata.id = document.id;
-			doc = createDocument(metadata);
-			doc.bumpVersion();
-			saveAndReturnDocument(res, doc);
+			newDocument = createDocument(metadata);
+			newDocument.version = document.nextVersion();
+			newDocument.previousVersion = document;
+			saveAndReturnDocument(res, newDocument);
 		}
 		else {
-			doc = createDocument(metadata);
-			saveAndReturnDocument(res, doc);
+			newDocument = createDocument(metadata);
+			saveAndReturnDocument(res, newDocument);
 		}
-	})
+	});
 })
 
 function createDocument(metadata) {
