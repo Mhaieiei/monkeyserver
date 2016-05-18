@@ -104,16 +104,17 @@ describe('REST Document API', function() {
 
 	describe.only('Generate document from parameters passed by workflow system', function() {
 		var url = getApiUrl('upload');
+		var mongoGeneratedId = '573b48271df7e15826a9ef1b'
+		var requiredParameters = {
+			title: 'title',
+			owner: 'someone',
+			workflowId: mongoGeneratedId,
+			link: 'some/where',
+			docType: 'documentType',
+			year: '2016'
+		}
+
 		it('should create document and return document object as json response', function(done) {
-			var mongoGeneratedId = '573b48271df7e15826a9ef1b'
-			var requiredParameters = {
-				title: 'title',
-				owner: 'someone',
-				workflowId: mongoGeneratedId,
-				link: 'some/where',
-				docType: 'documentType',
-				year: '2016'
-			}
 			server.post(url)
 			.send(requiredParameters)
 			.expect(200)
@@ -121,16 +122,40 @@ describe('REST Document API', function() {
 			.expect(function(response) {
 				var documentJson = response.body;
 				console.log(documentJson);
-				expect(documentJson._id).to.exist;
-				expect(documentJson.docId).to.exist;
-				expect(documentJson.name).to.equal(requiredParameters.title);
-				expect(documentJson.owner).to.equal(requiredParameters.owner);
-				expect(documentJson.includeInWorkflow).to.equal(requiredParameters.workflowId);
-				expect(documentJson.filepath).to.equal(requiredParameters.link);
-				expect(documentJson.subtype).to.equal(requiredParameters.docType + requiredParameters.year);
+				expectedDocumentResponse(documentJson);
 			})
 			.end(done);
 		})
+
+		it('should have version increment by one if the same document (same owner and title) already exists', function(done) {
+			async.series([httpPostRequest(1), httpPostRequest(2), httpPostRequest(3)], done);
+		})
+
+		function httpPostRequest(expectedVersion) {
+			return function(done) {
+				server.post(url)
+				.send(requiredParameters)
+				.expect(200)
+				.expect('Content-Type', /json/)
+				.expect(function(response) {
+					var documentJson = response.body;
+					expectedDocumentResponse(response.body);
+					expect(documentJson.version).to.exist;
+					expect(documentJson.version).to.equal(expectedVersion);
+				})
+				.end(done);
+			}
+		}
+
+		function expectedDocumentResponse(document) {
+			expect(document._id).to.exist;
+			expect(document.docId).to.exist;
+			expect(document.name).to.equal(requiredParameters.title);
+			expect(document.owner).to.equal(requiredParameters.owner);
+			expect(document.includeInWorkflow).to.equal(requiredParameters.workflowId);
+			expect(document.filepath).to.equal(requiredParameters.link);
+			expect(document.subtype).to.equal(requiredParameters.docType + requiredParameters.year);
+		}
 	})
 
 	after(function(done) {
