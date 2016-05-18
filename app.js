@@ -90,6 +90,7 @@ module.exports = function(database) {
   // will print stacktrace
   if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
+      console.log(err);
       res.status(err.status || 500);
       res.render('error_dev', {
         layout: 'homePage',
@@ -102,6 +103,7 @@ module.exports = function(database) {
   // production error handler
   // no stacktraces leaked to user
   app.use(function(err, req, res, next) {
+    console.log(err);
     res.status(err.status || 500);
     res.render('error', {
       layout: 'homePage',

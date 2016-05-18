@@ -58,7 +58,7 @@ router.post('/', isLoggedIn, function(req, res) {
     return new RegExp(subString, mode);
   };
 
-  var query = Doc.findByUser(user).
+  var query = Doc.findByUser(user);
   where('name').regex(subStringRegex(Name, false));
 
   if(!isNaN(fromDate) && !isNaN(toDate)) {
