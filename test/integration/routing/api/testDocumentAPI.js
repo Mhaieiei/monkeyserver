@@ -102,7 +102,7 @@ describe('REST Document API', function() {
 		})
 	})
 
-	describe('Generate document from parameters passed by workflow system', function() {
+	describe.only('Generate document from parameters passed by workflow system', function() {
 		var url = getApiUrl('upload');
 		it('should create document and return document object as json response', function(done) {
 			var mongoGeneratedId = '573b48271df7e15826a9ef1b'

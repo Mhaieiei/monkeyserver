@@ -61,7 +61,7 @@ var docSchema = new Schema({
 	version: {
 		type: Number,
 		default: 1
-	}
+	},
 
 	description: String,
 
