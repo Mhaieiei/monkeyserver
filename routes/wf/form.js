@@ -23,13 +23,11 @@ router.get('/:id/edit', function(req, res){
 	
 	Form.findOne({ _id: req.params.id }, function(err, form){
 
-		var typeString = `	<option value="entry" selected>Entry</option>
-							<option value="approval">Approval</option>`;
+		var typeString = '<option value="entry" selected>Entry</option><option value="approval">Approval</option>';
 
 
 		if(form.type === 'approval'){
-			typeString = `	<option value="entry">Entry</option>
-							<option value="approval" selected>Approval</option>`; 
+			typeString = '<option value="entry">Entry</option><option value="approval" selected>Approval</option>'; 
 		}
 
 		res.render('wf/form/new', { 
