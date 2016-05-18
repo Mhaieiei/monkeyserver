@@ -1,0 +1,387 @@
+<%- include ../headerqa.ejs %>
+
+<body>
+
+    
+        <td>
+            <div class="container-fluid">
+            <div class="row-fluid">
+            <div class="span15">
+            <div class="col-md-15"> 
+           
+            <!--<form class="form-horizontal" role="form">-->
+                
+                <h3>AUN 10.6: The stakeholder’s feedback mechanisms are
+systematic and subjected to evaluation and
+enhancement</h3>
+                <h5>Table : Survey on alumni concerning career/higher studying</h5>
+                <div id="tab_aun13.2">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                            
+                            <th>Career/Higher Studying</th>
+                            <th colspan=3>Graduated in</th>
+                            <th >Total</th>
+                            
+                            
+                           
+                        </tr>
+                    <%year1 = year-1%>
+                    <%year2 = year-2%>
+                    <!-- <%year = 2014 %> -->
+                        
+                    <tr>
+                      <th></th>
+                      <th> <%=year2%> </th>
+                      <th> <%=year1%> </th>
+                      <th> <%=year%> </th>
+                      <th></th>
+                      
+                     
+                    </tr>
+                        
+                       
+                       
+
+                   
+                    </thead>
+                    <tbody>
+                    <%count = 0%>
+                    <%sum_year = 0%>
+                    <%sum_year1 = 0%>
+                    <%sum_year2 = 0%>
+                   
+                   
+
+                    <%count_year_Studying_doctoral_degree = 0%>
+                    <%count_year_Studying_master_degree = 0%>
+                    <%count_year_Lecturer_researcher_at_public_universities = 0%>
+                    <%count_year_Lecturer_researcher_at_private_universities = 0%>
+                    <%count_year_Researcher_in_research_institute = 0%>
+                    <%count_year_Industrial_workforces = 0%>
+                    <%count_year_Self_employed = 0%>
+                    <%count_year_Others = 0%>
+
+
+                    <%count_year1_Studying_doctoral_degree = 0%>
+                    <%count_year1_Studying_master_degree = 0%>
+                    <%count_year1_Lecturer_researcher_at_public_universities = 0%>
+                    <%count_year1_Lecturer_researcher_at_private_universities = 0%>
+                    <%count_year1_Researcher_in_research_institute = 0%>
+                    <%count_year1_Industrial_workforces = 0%>
+                    <%count_year1_Self_employed = 0%>
+                    <%count_year1_Others = 0%>
+
+
+                    <%count_year2_Studying_doctoral_degree = 0%>
+                    <%count_year2_Studying_master_degree = 0%>
+                    <%count_year2_Lecturer_researcher_at_public_universities = 0%>
+                    <%count_year2_Lecturer_researcher_at_private_universities = 0%>
+                    <%count_year2_Researcher_in_research_institute = 0%>
+                    <%count_year2_Industrial_workforces = 0%>
+                    <%count_year2_Self_employed = 0%>
+                    <%count_year2_Others = 0%>
+
+
+                    <%sum_count_year_Studying_doctoral_degree = 0%>
+                    <%sum_count_year_Studying_master_degree = 0%>
+                    <%sum_count_year_Lecturer_researcher_at_public_universities = 0%>
+                    <%sum_count_year_Lecturer_researcher_at_private_universities = 0%>
+                    <%sum_count_year_Researcher_in_research_institute = 0%>
+                    <%sum_count_year_Industrial_workforces = 0%>
+                    <%sum_count_year_Self_employed = 0%>
+                    <%sum_count_year_Others = 0%>
+
+
+                    
+                    <%for (var i = 0; i < docs.length; i++) {%>
+                    
+                       
+                        <%count = 0%>
+                        <% if (docs[i].detail != null ){ %>
+                       <%for (var j = 0; j < docs[i].detail.length; j++) {%>
+
+
+
+                       <% if (docs[i].detail[j].status == "On-time Graduation" || docs[i].detail[j].status == "On-time Graduation" ){ %>
+
+                       <% if (docs[i].detail[j].academicYear == year1 ){ %>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Studying doctoral degree" ){ %>
+                            <%count_year1_Studying_doctoral_degree++ %>
+                            <%sum_year1++ %>
+                            <%sum_count_year_Studying_doctoral_degree++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Studying master degree" ){ %>
+                            <%count_year1_Studying_master_degree++ %>
+                            <%sum_year1++ %>
+                            <%sum_count_year_Studying_master_degree++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Lecturer/researcher at public universities" ){ %>
+                            <%count_year1_Lecturer_researcher_at_public_universities++ %>
+                            <%sum_year1++ %>
+                            <%sum_count_year_Lecturer_researcher_at_public_universities++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Lecturer/researcher at private universities" ){ %>
+                            <%count_year1_Lecturer_researcher_at_private_universities++ %>
+                            <%sum_year1++ %>
+                            <%sum_count_year_Lecturer_researcher_at_private_universities++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Researcher in research institute" ){ %>
+                            <%count_year1_Researcher_in_research_institute++ %>
+                            <%sum_year1++ %>
+                            <%sum_count_year_Researcher_in_research_institute++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Industrial workforces" ){ %>
+                            <%count_year1_Industrial_workforces++ %>
+                            <%sum_year1++ %>
+                            <%sum_count_year_Industrial_workforces++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Self-employed" ){ %>
+                            <%count_year1_Self_employed++ %>
+                            <%sum_year1++ %>
+                            <%sum_count_year_Self_employed++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Others" ){ %>
+                            <%count_year1_Others++ %>
+                            <%sum_year1++ %>
+                            <%sum_count_year_Others++%>
+                            <%}%>
+
+
+                       <%}%>
+
+                       <% if (docs[i].detail[j].academicYear == year2 ){ %>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Studying doctoral degree" ){ %>
+                            <%count_year2_Studying_doctoral_degree++ %>
+                            <%sum_year2++%>
+                            <%sum_count_year_Studying_doctoral_degree++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Studying master degree" ){ %>
+                            <%count_year2_Studying_master_degree++ %>
+                            <%sum_year2++%>
+                            <%sum_count_year_Studying_master_degree++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Lecturer/researcher at public universities" ){ %>
+                            <%count_year2_Lecturer_researcher_at_public_universities++ %>
+                            <%sum_year2++%>
+                            <%sum_count_year_Lecturer_researcher_at_public_universities++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Lecturer/researcher at private universities" ){ %>
+                            <%count_year2_Lecturer_researcher_at_private_universities++ %>
+                            <%sum_year2++%>
+                            <%sum_count_year_Lecturer_researcher_at_private_universities++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Researcher in research institute" ){ %>
+                            <%count_year2_Researcher_in_research_institute++ %>
+                            <%sum_year2++%>
+                            <%sum_count_year_Researcher_in_research_institute++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Industrial workforces" ){ %>
+                            <%count_year2_Industrial_workforces++ %>
+                            <%sum_year2++%>
+                            <%sum_count_year_Industrial_workforces++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Self-employed" ){ %>
+                            <%count_year2_Self_employed++ %>
+                            <%sum_year2++%>
+                            <%sum_count_year_Self_employed++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Others" ){ %>
+                            <%count_year2_Others++ %>
+                            <%sum_year2++%>
+                            <%sum_count_year_Others++%>
+                            <%}%>
+
+
+                       <%}%>
+
+                       
+
+                       <% if (docs[i].detail[j].academicYear == year ){ %>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Studying doctoral degree" ){ %>
+                            <%count_year_Studying_doctoral_degree++ %>
+                            <%sum_year++%>
+                            <%sum_count_year_Studying_doctoral_degree++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Studying master degree" ){ %>
+                            <%count_year_Studying_master_degree++ %>
+                            <%sum_year++%>
+                            <%sum_count_year_Studying_master_degree++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Lecturer/researcher at public universities" ){ %>
+                            <%count_year_Lecturer_researcher_at_public_universities++ %>
+                            <%sum_year++%>
+                            <%sum_count_year_Lecturer_researcher_at_public_universities++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Lecturer/researcher at private universities" ){ %>
+                            <%count_year_Lecturer_researcher_at_private_universities++ %>
+                            <%sum_year++%>
+                            <%sum_count_year_Lecturer_researcher_at_private_universities++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Researcher in research institute" ){ %>
+                            <%count_year_Researcher_in_research_institute++ %>
+                            <%sum_year++%>
+                            <%sum_count_year_Researcher_in_research_institute++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Industrial workforces" ){ %>
+                            <%count_year_Industrial_workforces++ %>
+                            <%sum_year++%>
+                            <%sum_count_year_Industrial_workforces++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Self-employed" ){ %>
+                            <%count_year_Self_employed++ %>
+                            <%sum_year++%>
+                            <%sum_count_year_Self_employed++%>
+                            <%}%>
+
+                            <% if (docs[i].detail[j].careerOrHigherStudying == "Others" ){ %>
+                            <%count_year_Others++ %>
+                            <%sum_year++%>
+                            <%sum_count_year_Others++%>
+                            <%}%>
+
+
+                       <%}%>
+                        
+                        <%}%>
+                        
+                        <%}%>
+
+
+                        <%}%>
+                        <%}%>
+
+                        <%total = 0%>
+
+                        <tr>
+                        <td>Studying doctoral degree</td>
+                        <td><%=count_year2_Studying_doctoral_degree %></td>
+                        <td><%=count_year1_Studying_doctoral_degree %></td>
+                        <td><%=count_year_Studying_doctoral_degree %></td>
+                        <td><%=sum_count_year_Studying_doctoral_degree %></td>
+                        </tr> 
+
+
+                        <tr>
+                        <td>Studying master degree</td>
+                        <td><%=count_year2_Studying_master_degree %></td>
+                        <td><%=count_year1_Studying_master_degree %></td>
+                        <td><%=count_year_Studying_master_degree %></td>
+                        <td><%=sum_count_year_Studying_master_degree %></td>
+                        </tr>
+
+                        <tr>
+                        <td>Lecturer/researcher at public universities</td>
+                        <td><%=count_year2_Lecturer_researcher_at_public_universities %></td>
+                        <td><%=count_year1_Lecturer_researcher_at_public_universities %></td>
+                        <td><%=count_year_Lecturer_researcher_at_public_universities %></td>
+                        <td><%=sum_count_year_Lecturer_researcher_at_public_universities %></td>
+                        </tr>
+
+                        <tr>
+                        <td>Lecturer/researcher at private universities</td>
+                        <td><%=count_year2_Lecturer_researcher_at_private_universities %></td>
+                        <td><%=count_year1_Lecturer_researcher_at_private_universities %></td>
+                        <td><%=count_year_Lecturer_researcher_at_private_universities %></td>
+                        <td><%=sum_count_year_Lecturer_researcher_at_private_universities %></td>
+                        </tr>
+
+                        <tr>
+                        <td>Researcher in research institute</td>
+                        <td><%=count_year2_Researcher_in_research_institute %></td>
+                        <td><%=count_year1_Researcher_in_research_institute %></td>
+                        <td><%=count_year_Researcher_in_research_institute %></td>
+                        <td><%=sum_count_year_Researcher_in_research_institute %></td>
+                        </tr>
+
+                        <tr>
+                        <td>Industrial workforces</td>
+                        <td><%=count_year2_Industrial_workforces %></td>
+                        <td><%=count_year1_Industrial_workforces %></td>
+                        <td><%=count_year_Industrial_workforces %></td>
+                        <td><%=sum_count_year_Industrial_workforces %></td>
+                        </tr>
+
+                        <tr>
+                        <td>Self-employed</td>
+                        <td><%=count_year2_Self_employed %></td>
+                        <td><%=count_year1_Self_employed %></td>
+                        <td><%=count_year_Self_employed %></td>
+                        <td><%=sum_count_year_Self_employed %></td>
+                        </tr>
+
+                        <tr>
+                        <td>Others</td>
+                        <td><%=count_year2_Others %></td>
+                        <td><%=count_year1_Others %></td>
+                        <td><%=count_year_Others %></td>
+                        <td><%=sum_count_year_Others %></td>
+                        </tr>
+
+                        <tr>
+                        <td>Total</td>
+                        <td><%=sum_year2 %></td>
+                        <td><%=sum_year1 %></td>
+                        <td><%=sum_year %></td>
+                        <%total += sum_count_year_Studying_doctoral_degree%>
+                        <%total += sum_count_year_Studying_master_degree%>
+                        <%total += sum_count_year_Lecturer_researcher_at_public_universities%>
+                        <%total += sum_count_year_Lecturer_researcher_at_private_universities%>
+                        <%total += sum_count_year_Researcher_in_research_institute%>
+                        <%total += sum_count_year_Industrial_workforces%>
+                        <%total += sum_count_year_Self_employed%>
+                        <%total += sum_count_year_Others%>
+                        <td><%=total %></td>
+                        </tr>
+
+                        
+
+                    </tbody>
+
+                  </table>
+
+                </div>
+
+
+       
+            </div>
+            </div>
+            </div>
+            </div>
+            
+
+        </td>
+
+
+
+         
+</body>
+
+
+<%- include ../footer.ejs %>
+

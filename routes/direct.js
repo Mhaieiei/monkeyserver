@@ -24,6 +24,7 @@ var tqfController       = require('lib/tqfHandler');
 var aunController       = require('lib/aunHandler');
 
 var request = require('request');
+var dialog = require('dialog');
 
 Handlebars.registerHelper('select', function( value, options ){
         var $el = $('<select />').html( options.fn(this) );
@@ -49,7 +50,8 @@ var date = new Date();
 var current_year = date.getFullYear();
 var index = 0;
 var nametemp = "";
-
+var adminfact = "";
+  
 module.exports = function(app, passport) {
   // =====================================
     // Setting Model Databases ========
@@ -96,61 +98,66 @@ module.exports = function(app, passport) {
   app.get('/wf.jpg', function (req, res) {
         res.sendfile(path.resolve('public/images/wf.jpg'));
   });
+
+   app.get('/wrong.png', function (req, res) {
+        res.sendfile(path.resolve('public/images/wrong.png'));
+  });
+  app.get('/correct.png', function (req, res) {
+        res.sendfile(path.resolve('public/images/correct.png'));
+  });
+
+  app.get('/changpass',function(req,res){
+    console.log('[Get] change password')
+       res.render('profile/resetpassword.hbs',{
+          layout:"homePage",
+          user : req.user,
+          admin : adminfact,
+          message : req.query.messages
+      });
+  });
+
+  app.post('/changpass',function(req,res){
+    console.log('[Post] change password')
+    console.log('old password'+ req.body.oldpass)
+    console.log('new password'+ req.body.newpass)
+    console.log('id user'+ req.user.id)
+    User.findById(req.user.id, function(err,user){
+      if(err){console.log('cant find user')}
+      user.changePassword(req,res);
+    });
+
+  });
+  //document detail 
+  app.get('/documentDetail/:id', isLoggedIn, function(req, res, next) {
+
+    var baseUrl = req.protocol + '://' + req.get('host');
+    request(baseUrl + '/api/document/read/'+ req.params.id  ,function(error1,response1,body1){
+
+      if( response1.statusCode === 404 ){
+        return next(new Error('Invalid document id'));
+      }
+
+      var docDetail = JSON.parse(body1);
+      var spliter = String(docDetail.filepath).split('.');
+      docDetail.filetype = spliter[ spliter.length - 1 ];
+      docDetail.name = String(docDetail.name).substr(0 ,docDetail.name.length - docDetail.filetype.length);
+
+    res.render('docDetail.hbs',{
+        layout:"homePage",
+        docDetail: docDetail,
+        admin : adminfact
+      });
+    })
+
+  });
+
   
-    // =====================================
-    // LOGIN ===============================
-    // =====================================
-    // show the login form
-    app.get('/', function(req, res) {
-
-        // render the page and pass in any flash data if it exists     
-        res.render('index.ejs', { message: req.flash('loginMessage') }); 
-    });
-
-    // app.get('/login', function(req, res){
-    //  res.render('index.ejs', { message: req.flash('loginMessage') }); 
-    // });
-
-    // process the login form
-    // app.post('/login', do all our passport stuff here);
-  app.post('/login', passport.authenticate('local-login', {
-    successRedirect : '/home', // redirect to the secure profile section
-        failureRedirect : '/', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
-    
-    }));
-    // =====================================
-    // LOGOUT ==============================
-    // =====================================
-
-    app.get('/logout', function(req, res) {
-    console.log("Get logout");
-        req.logout();
-        res.redirect('/');
-    });
-  
-    // =====================================
-    // SIGNUP ==============================
-    // =====================================
-    // show the signup form
-    app.get('/signup', function(req, res) {
-        // render the page and pass in any flash data if it exists
-        res.render('signup.ejs', { message: 'signupMessage' });
-    });
-
-    // process the signup form
-    // app.post('/signup', do all our passport stuff here);
-  app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect : '/', // redirect to the secure profile section
-        failureRedirect : '/signup', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
-    }));
-
   app.get('/upload', isLoggedIn, function(req, res){
       console.log("Uploading....");
     
       res.render('dms/getUpload.hbs',{
-      layout:"homePage"
+      layout:"homePage",
+      admin : adminfact,
       });
     });
 
@@ -172,7 +179,8 @@ module.exports = function(app, passport) {
 
          
             res.render('dms/getUpload.hbs',{
-            layout:"homePage"
+            layout:"homePage",
+            admin : adminfact,
             });
              if (req.session.state) {
             res.json({state: req.session.state});
@@ -186,60 +194,11 @@ module.exports = function(app, passport) {
     // Get User Info. ==============================
     // =====================================
 
-	app.get('/profile_inf',isLoggedIn,function(req,res){
-		console.log("Get profile information");	
-		var role = req.query.role;
-		console.log(role);
-		if(role == "student"){
-			res.render('profile/student_profile.hbs',{
-			layout:"profilestudent",
-			user : req.user
-
-			});
-		}
-		else{
-			res.render('profile/staff_profile.hbs',{
-			layout:"profilePage",
-			user : req.user
-
-			});
-		}
-		
-		
-	});
-	app.get('/profile_inf_admin',isLoggedIn,function(req,res){
-		console.log("Get profile information");	
-		return User.findOne({'local.username': req.query.user}, function( err, user ) {
-	        if( !err ) {
-	        	console.log(user);
-	        	console.log(user.local.username);
-	        	//console.log(Object.entries(user.local));
-	        	console.log(user.local.role);
-	     if(user.local.role == "student"){
-					res.render('profile/student_profile.hbs', {
-						layout: "profileAdstudent",
-						user : user
-					});
-				}
-				else{
-					res.render('profile/staff_profile.hbs', {
-						layout: "profileAdmin",
-						user : user
-					});
-				}
-	        } else {
-	            return console.log( err+"mhaieiei" );
-		        }
-		    });
-		
-		
-		
-	});
-	// =====================================
+	
 
   app.get('/profile_inf',isLoggedIn,function(req,res){
     console.log("Get profile information"); 
-    var role = req.query.role;
+    var role = req.user.local.role;
     console.log(role);
     if(role == "student"){
       res.render('profile/student_profile.hbs',{
@@ -303,18 +262,47 @@ module.exports = function(app, passport) {
             console.log(user.local.username);
             //console.log(Object.entries(user.local));
             console.log(user.local.role);
-            if(user.local.role == "student"){
-          res.render('profile/student_profileedit.hbs', {
-            layout: "profileAdstudent",
-            user : user
-          });
-        }
-        else{
-          res.render('profile/staff_profileedit.hbs', {
-            layout: "profileAdmin",
-            user : user
-          });
-        }
+            var day;
+            var month;
+            var year;
+            if(user.local.dateOfBirth == null){
+              day = "01";
+              month = "01",
+              year = "1947"
+
+            }
+            else{
+            var date = user.local.dateOfBirth.split("/");
+            console.log("date split:"+date[0]);
+            day = date[1];
+            month = date[0];
+            year = date[2];
+          }
+          // if(!isNaN(req.body.terminationYear)){
+                if(user.local.role == "student"){
+              res.render('profile/student_profileedit.hbs', {
+                layout: "profileAdstudent",
+                user : user,
+                day:day,
+                month:month,
+                year:year
+              });
+            }
+            else{
+              res.render('profile/staff_profileedit.hbs', {
+                layout: "profileAdmin",
+                user : user,
+                day:day,
+                month:month,
+                year:year
+              });
+            }
+          // }
+          // else{
+
+          //   dialog.info('Termination year have to be a number :)');
+          // }
+
           } else {
               return console.log( err+"mhaieiei" );
             }
@@ -335,16 +323,37 @@ module.exports = function(app, passport) {
             console.log(user.local.username);
             //console.log(Object.entries(user.local));
             console.log(user.local.role);
+
+            if(user.local.dateOfBirth == null){
+              day = "01";
+              month = "01",
+              year = "1947"
+
+            }
+            else{
+            var date = user.local.dateOfBirth.split("/");
+            console.log("date split:"+date[0]);
+            day = date[1];
+            month = date[0];
+            year = date[2];
+          }
+
             if(user.local.role == "student"){
           res.render('profile/student_profileedit.hbs', {
-            layout: "profilePage",
-            user : user
+            layout: "profilestudent",
+            user : user,
+            day:day,
+            month:month,
+            year:year
           });
         }
         else{
           res.render('profile/staff_profileedit.hbs', {
             layout: "profilePage",
-            user : user
+            user : user,
+            day:day,
+            month:month,
+            year:year
           });
         }
           } else {
@@ -390,19 +399,34 @@ module.exports = function(app, passport) {
         else{console.log("Upload completed!");}
       });
     }*/
-    User.findOne({'local.username' : req.body.username }, function(err, user) {
+    if((req.body.role == 'staff' &&!isNaN(req.body.terminationYear) && !isNaN(req.body.yearattend))||
+      (req.body.role == 'student'  && !isNaN(req.body.yearattend))){
+
+      User.findOne({'local.username' : req.body.username }, function(err, user) {
           if (err){ 
             console.log("Upload Failed!");
             return done(err);}
           
           if (user){
+              var date = req.body.month+"/"+req.body.day+"/"+req.body.year
+              console.log("date: "+date);
+              console.log("dateOfBirth: "+user.local.dateOfBirth);
               console.log(user);
               console.log("eiei");
+              // user.local.dateOfBirth = date
+              // user.local.dateOfBirth
               user.updateUser(req, res)
               
           }
 
       });
+
+
+    }
+    else{
+
+            dialog.info('Termination year or Year Attend have to be a number :)');
+          }
       
       
     });
@@ -425,7 +449,7 @@ module.exports = function(app, passport) {
           if( !err ) {
             console.log(user);
             res.render('profile/educationinfo.hbs', {
-                layout: "profilePage",
+                layout: "homePage",
                 user : user, // get the user out of session and pass to template
                 helpers: {
                 inc: function (value) { return parseInt(value) + 1; },
@@ -447,7 +471,7 @@ module.exports = function(app, passport) {
     console.log("Add Education");
     console.log(req.query.user);
     res.render('profile/addeducation.hbs', {
-             layout: "profilePage",
+             layout: "homePage",
             username : req.query.user // get the user out of session and pass to template     
         });
   });
@@ -488,6 +512,7 @@ module.exports = function(app, passport) {
           if (err){ console.log("Upload Failed!");}
           res.render('profile/editedu.hbs', {
             layout: "homePage",
+            admin : adminfact,
             username : nameid,
             index : index,
             education : user.education[index]
@@ -553,6 +578,12 @@ module.exports = function(app, passport) {
     app.get('/qapage',function(req,res){
       console.log('Get QA Info(select program)');
       console.log(years);
+       if( req.user.local.role == 'admin'){
+       adminfact = true;
+      }else{
+         adminfact = null;
+      }
+
       //console.log(years[0]);
       return Fac.find( {},function( err, faculty ) {
         if( !err ) {
@@ -562,6 +593,7 @@ module.exports = function(app, passport) {
               user : req.user,
               faculty: faculty,
               year : years,
+              admin : adminfact,
               helpers: {
               set: function (value) { index = value; },
               get: function(){return index;},
@@ -596,6 +628,7 @@ module.exports = function(app, passport) {
       programname: req.body.sub_programs,
       year: req.body.years,
       acid : programs._id,
+      admin : adminfact,
      
       });
     } 
@@ -641,7 +674,8 @@ app.use('/aun', aunController ); //aun handler
     console.log("test get date",req.body['toDate']);
     console.log('req.body.doc_name', req.body['doc_name']);
     res.render('dms/getdoc.hbs',{
-        layout: "homePage"
+        layout: "homePage",
+        admin : adminfact
       });
   });
 
@@ -661,4 +695,8 @@ function isAdmin(req,res,next){
 
   res.redirect('/');
 }
+
+
+
+
 

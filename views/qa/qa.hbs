@@ -11,46 +11,57 @@ $(document).ready(function() {
   });
 });
 </script>
+<body>
+<div class="well">
 
-<form action="/qahome" method="post" >
+  <form class="form-horizontal" action="/qahome" method="post" role="form" >
+     <h3>QASS: Select program and sub-program</h3>
             <br>
-                <form class="form-horizontal" role="form">
                     <div class="form-group">
                       <label for="inputType" class="col-md-2 control-label">Program : </label>
                       <div class="col-md-4">
-                        <select class="form-control" style="width:200px" id="head_programs" name="head_programs">
+                        <select class="btn btn-primary dropdown-toggle" class="caret" id="head_programs" name="head_programs">
                         <option value='a'>--Select program--</option>
-				{{#each faculty}}									
-						<option value="{{ @index}}">{{ programname }}</option>										
-				{{/each}} 
+                				{{#each faculty}}									
+                						<option value="{{ @index}}">{{ programname }}</option>										
+                				{{/each}} 
                         </select>
                       </div>
-                      
-                    </div>
-                    <label for="inputType" class="col-md-2 control-label">Program track : </label>
+                      <label for="inputType" class="col-md-2 control-label">Program track : </label>
                       <div class="col-md-4">
-                          <select class="form-control" style="width:200px" id="sub_programs" name="sub_programs">
+                           <select class="btn btn-primary dropdown-toggle" class="caret" id="sub_programs" name="sub_programs">
                             <option id='a'>-------</option>
-                					{{#each faculty}}	
-                						 {{set @index}}
-                							{{#each sub_program}}
-                								<option id = "{{get}}" value="{{this}}">{{this}}</option>					
-                					  		{{/each}}										 
-                					{{/each}}
+                          {{#each faculty}} 
+                             {{set @index}}
+                              {{#each sub_program}}
+                                <option id = "{{get}}" value="{{this}}">{{this}}</option>         
+                                {{/each}}                    
+                          {{/each}}
                         </select>
                       </div>
+                    </div>
+                    <div class="form-group">
                       <label for="inputType" class="col-md-2 control-label">Academic year: </label>
                       <div class="col-md-4">
-                          <select class="form-control" style="width:100px" name="years">
+                           <select class="btn btn-primary dropdown-toggle" class="caret" name="years">
                            	{{#each year}}
                 					  	<option value = "{{this}}">{{this}}</option>
                 					{{/each}}
                         </select>
                       </div>
+                      <div class="col-md-10">
+                                <div class="pull-right">
+                                      <br>
+                                    
+                                    <p align = "right"><button type="submit" class="btn btn-primary">Search</button></p>
+                                 </div>
+                           </div>
+                    </div>
                     
                     
                    
 
-                   <button type="submit" class="btn btn-primary">Search</button></p>
+                   
                 </form>
-
+  </form>
+</div>

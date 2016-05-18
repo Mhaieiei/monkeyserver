@@ -7,7 +7,7 @@
                   <div class="span15">
                      <div class="col-md-15">
                         <!--<form class="form-horizontal" role="form">-->
-                        <h3>AUN 8.3: The actual study load is in line with the prescribed load</h3>
+                        <h3>AUN 8.1: The student intake policy and admission criteria are defined, communicated, published, and up-todate</h3>
                         <h5>Table : Intake students and total students in each academic year</h5>
                         <div id="tab_aun8.3.1">
                            <table class="tablesorter">
@@ -33,7 +33,7 @@
                                  <tr>
                                     <td><%=student[i]._id.yearAttend%></td>
                                     <% for(j=0;j< student[i].groupOfNationality.length;j++){%>  
-                                    <% if(student[i].groupOfNationality[j].local.gender == "Male"){ %>
+                                    <% if(student[i].groupOfNationality[j].local.gender == "male"){ %>
                                     <% countMale++%>
                                     <%}else{%>
                                     <% countFemale++%>
@@ -61,10 +61,22 @@
                                  <!-- ใช้ th colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
                               </thead>
                               <tbody>
+                              <% countStudent = 0%>
                                  <% for(i=0;i< student_academicYear.length;i++){%>
                                  <tr>
                                     <td><%=student_academicYear[i]._id.yearAttend%></td>
-                                    <td><%=student_academicYear[i].count%></td>
+                                    
+                                   <% countStudent = 0%>
+                                    <% for(j=0;j< student_academicYear[i].detail.length;j++){%>
+                                       
+                                      
+                                       
+                                       <% if(student_academicYear[i].detail[j].detail.status == "Drop Out"){ %>
+                                          <% countStudent++%>
+                                       <%}%>
+                                      
+                                    <%}%>
+                                    <td><%=countStudent%></td>
                                  </tr>
                                  <%}%>   
                               </tbody>

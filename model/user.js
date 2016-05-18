@@ -8,6 +8,7 @@ var bcrypt   = require('bcrypt-nodejs');
 var userSchema = new mongoose.Schema({
 
 	_id : String,
+    simpleRole: String,
 	local: {
 		title: String,
         ID : String,
@@ -16,7 +17,7 @@ var userSchema = new mongoose.Schema({
         username:String, //s50090...
         password: String,
         gender: String,
-        dateOfBirth: Date,
+        dateOfBirth: String,
         yearattend : Number,
         bankAccount : String,
         email: String,
@@ -37,18 +38,19 @@ var userSchema = new mongoose.Schema({
     detail:[{
 
        	status : String,  //drop out, on-time graduation, carry on, delayed graduaion
-       	academicYear:String
+       	academicYear:String,
+        careerOrHigherStudying:String
 
        }],
-	roleOfProgram: [String],
-	roleOfStaff: [String],
+	roleOfProgram: [{type: String,ref:'roleOfProgram'}],
+	roleOfStaff: [{type: String,ref:'roleOfStaff'}],
     subjects : [{type: mongoose.Schema.Types.ObjectId,ref:'Subject'}],
     education: mongoose.Schema.Types.Mixed,
     advisingProject : [{type: mongoose.Schema.Types.ObjectId,ref:'Project'}],
     publicResearch: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Public' }],
     training: [{ type: mongoose.Schema.Types.ObjectId, ref: 'training' }],
     careerDevelopment: [{ type: mongoose.Schema.Types.ObjectId, ref: 'careerDevelopment' }],
-    specialTitle: [{ type: mongoose.Schema.Types.ObjectId, ref: 'specialTitle' }]
+    specialTitle: [{ type: String, ref: 'specialTitle' }]
     
 
 },{strict : false});
@@ -67,11 +69,39 @@ userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
 
+userSchema.methods.changePassword = function(request,response){
+    var oldpassword = request.body.oldpass;
+    var newpassword = request.body.newpass;
+    console.log('change password function')
+    console.log('oldpassword'+ oldpassword)
+    console.log('newpassword'+ newpassword)
+    if(bcrypt.compareSync(oldpassword,this.local.password)){
+        console.log('password match')
+        this.local.password = bcrypt.hashSync(newpassword,bcrypt.genSaltSync(8),null);
+        this.save(function (err,user) {
+        if(err) {
+            console.error('ERROR!');
+        }
+        else{
+            response.redirect('/');
+        }
+        
+    });
+        
+    }else{
+         //request.flash('Old password is not math,try again')
+         response.redirect('/changpass?messages='+"Old password is not match,try again");
+    }
+};
+
 userSchema.methods.updateUser = function(request, response){
 	console.log("User Update user");
 	console.log(request.user);
 	var roletype = request.body.role;
 
+    var date = request.body.month+"/"+request.body.day+"/"+request.body.year
+    var age = getAge(date);
+    console.error('age: '+age);
 	this.local.title = request.body.title;
 	this.local.ID = request.body.ID;
 	this.local.name = request.body.name;
@@ -79,12 +109,14 @@ userSchema.methods.updateUser = function(request, response){
 	this.local.username = request.body.username;
 	this.local.password = request.body.password;
 	this.local.gender = request.body.gender;
-	this.local.dateOfBirth = request.body.dateOfBirth;
+    this.local.age = age;
+	this.local.dateOfBirth = date;
 	this.local.yearattend = request.body.yearattend;
 	this.local.bankAccount = request.body.bankAccount;
 	this.local.email = request.body.email;
 	this.local.program = request.body.program;
 	this.local.faculty = request.body.faculty;
+    this.local.nationality = request.body.nationality;
 	if( roletype == "student"){
 		this.local.status = request.body.status;
 		this.local.yeargrade = request.body.yeargrade;
@@ -93,6 +125,8 @@ userSchema.methods.updateUser = function(request, response){
 		this.local.salary = request.body.salary;
 		this.local.academic_position = request.body.academic_position;
 		this.local.admin_position = request.body.admin_position;
+        this.local.terminationYear = request.body.terminationYear;
+        this.local.yearOfTeaching = request.body.yearOfTeaching;
 	}	
 	
 	this.save(function (err,user) {
@@ -113,6 +147,19 @@ userSchema.methods.updateUser = function(request, response){
 
 	
 };
+
+function getAge(dateString) 
+{
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
+    {
+        age--;
+    }
+    return age;
+}
 
 
 module.exports = db.model('User', userSchema, 'users');

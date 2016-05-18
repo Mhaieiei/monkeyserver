@@ -27,7 +27,7 @@ module.exports = function(database) {
   //for uploading file
   var methodOverride = require('method-override');
 
-
+  global.__APPROOT__ = path.resolve(__dirname);
 
   var app = express();
   //app.set('port',3000);
@@ -61,8 +61,17 @@ module.exports = function(database) {
   app.use(passport.session()); // persistent login sessions
   app.use(flash()); // use connect-flash for flash messages stored in session
 
+  require('./routes/main')(app, passport);
+  app.use('/api', require('./routes/api'));
+  app.use('/some', require('./routes/wf/some'));
+  
+  app.use(function(req, res, next){
+     if (req.isAuthenticated())
+        return next();
+    res.redirect('/');
+  });
   app.use('/home', require('./routes/home'));
-  app.use('/download', require('./routes/download/download'));
+  app.use('/uploads', require('./routes/download/download'));
   app.use('/api', require('./routes/api'));
   require('./routes/direct.js')(app, passport);
   //app.use('/', routes);

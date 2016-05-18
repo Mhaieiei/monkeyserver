@@ -1,0 +1,59 @@
+</div>
+
+        <!-- Footer 
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy;  Website 2016</p>
+                </div>
+            </div>
+        </footer>
+        -->
+   
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="/javascripts/jquery.js"></script>
+    <script src="/javascripts/global.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/javascripts/bootstrap.min.js"></script>
+
+    <!-- Script to Activate the Carousel -->
+<script>
+
+$('.carousel').carousel({
+    interval: 5000 //changes the speed
+})
+
+$(document).on('click', '.browse', function(){
+  var file = $(this).parent().parent().parent().find('.file');
+  file.trigger('click');
+});
+$(document).on('change', '.file', function(){
+  $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+});
+
+    $(function(){
+        $(".dropdown-menu > li > a.trigger").on("click",function(e){
+            var current=$(this).next();
+            var grandparent=$(this).parent().parent();
+            if($(this).hasClass('left-caret')||$(this).hasClass('right-caret'))
+                $(this).toggleClass('right-caret left-caret');
+            grandparent.find('.left-caret').not(this).toggleClass('right-caret left-caret');
+            grandparent.find(".sub-menu:visible").not(current).hide();
+            current.toggle();
+            e.stopPropagation();
+        });
+        $(".dropdown-menu > li > a:not(.trigger)").on("click",function(){
+            var root=$(this).closest('.dropdown');
+            root.find('.left-caret').toggleClass('right-caret left-caret');
+            root.find('.sub-menu:visible').hide();
+        });
+    });
+    
+    </script>
+
+</body>
+
+</html>

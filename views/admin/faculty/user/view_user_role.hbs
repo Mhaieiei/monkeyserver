@@ -1,0 +1,86 @@
+
+<body>
+
+    
+        <td>
+            <div class="container-fluid">
+            <div class="row-fluid">
+            <div class="span15">
+            <div class="col-md-15"> 
+           
+            <!--<form class="form-horizontal" role="form">-->
+                
+                <h3>Role of user</h3>
+       
+                
+                <div id="tab_aun11.4">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                            
+                            <th>Type</a></th>
+                            <th>Position</a></th>
+                            <th>Academic year</a></th>
+                            <th>Delete</a></th>
+                            
+                        </tr>
+                             
+
+                    <!-- ใช้ td colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
+                    </thead>
+					{{#each docs}}
+					{{#each roleOfStaff}}
+                    <tbody>
+                        <tr>
+                        
+
+                        
+                        <td>{{type}}</td>
+
+                        <td>{{position}}</td>
+						
+
+                        <td>{{academicYear}}</td>
+
+                        <td><a href = "/admin/del_user_role?id={{_id}}&user={{getUser}}&program={{getProgram}}"><button id="tab_2_submit" class="btn btn-xs btn-danger" type="button"><span class="glyphicon glyphicon-trash"></span></button> </td>
+                        
+                        </tr>
+
+ 
+                    </tbody>
+					{{/each}}
+					{{/each}}   
+
+
+
+                
+
+                    
+                  </table>
+                  <br>
+
+                  <div class="table-foot">
+                    <div class="pull-right">
+                        <a href = "/admin/add_role?user={{user}}&program={{program}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Add</button>
+                    </div>
+
+                    <div class="pull-left">
+
+                    <a href = "/admin/showuser?program={{program}}"><button id="tab_2_submit" class="btn btn-primary" type="button"> Go Back to User List</button>
+                    </div>
+
+                </div>
+          
+            </div>
+            </div>
+            </div>
+            </div>
+            
+
+        </td>
+
+
+
+         
+</body>

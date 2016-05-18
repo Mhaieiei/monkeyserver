@@ -8,9 +8,12 @@
             <div class="span15">
             <div class="col-md-15"> 
                 
-                <h3>AUN 11.1: The curriculum is developed by all teaching staff members</h3>
+                <h3>AUN 10.2: The curriculum design and development process
+is established and subjected to evaluation and
+enhancement</h3>
        
                 <h5>Table : CiES program development committee</h5>
+            {{#if admin}}
                 <div id="tab_aun11.1">
                   <table class="tablesorter">
                     <thead align="center">
@@ -41,9 +44,9 @@
                       
                        
                         <tr>
-                        <td><a href = "/aun/aun11-1/edit_aun11-1?id={{_id}}&academicYear={{academicYear}}&program={{programname}}&year={{year}}"><button id="tab_2_submit" class=" btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-edit"></span></button></td>
+                        <td><a href = "/aun/aun11-1/edit_aun11-1?id={{_id}}&program={{getprogram}}&year={{getyear}}&acid={{getacid}}"><button id="tab_2_submit" class=" btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-edit"></span></button></td>
 
-                        <td><a href = "/aun/aun11-1/del_aun11-1?id={{_id}}&academicYear={{academicYear}}&program={{programname}}&year={{year}}"><button id="tab_2_submit" class="btn btn-xs btn-danger" type="button"><span class="glyphicon glyphicon-trash"></span></button> </td>
+                        <td><a href = "/aun/aun11-1/del_aun11-1?id={{_id}}&&program={{getprogram}}&year={{getyear}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-xs btn-danger" type="button"><span class="glyphicon glyphicon-trash"></span></button> </td>
                        
 						<td>{{getindex}}</td>
 						<td>{{position}}</td>
@@ -70,10 +73,78 @@
                         {{/each}}
                     </tbody>
 					{{/each}}
-                    <a href = "/aun/aun11-1/add_aun11-1?program={{programname}}&year={{year}}&acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add</button>
+                    
                   </table>
+                  <div class="pull-right">
+                  <a href = "/aun/aun11-1/add_aun11-1?program={{programname}}&year={{year}}&acid={{acid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Add</button>
+                 </div>
 
                 </div>
+
+        {{else}}
+
+             <div id="tab_aun11.1">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+
+
+                            
+                            
+                            <th>No.</a></th>
+                            <th>Position</a></th>
+                            <th>Academic Title</a></th>
+                            <th>Name-Surname</a></th>
+                            
+                            
+                           
+                        </tr>
+                       
+                       
+
+                   
+                    </thead>
+
+                   
+                    {{#each docs}}
+                    <tbody>
+                        
+                      
+                       
+                        <tr>
+                       
+                       
+                        <td>{{getindex}}</td>
+                        <td>{{position}}</td>
+                        {{#each user}}
+                        {{#if @first}} 
+                        <td>{{local.title}}</td>
+                        <td>{{local.name}} {{local.surname}}</td>
+                </tr>
+                
+                {{else}}
+                <tr>
+                
+                <th></th>
+                <th></th>
+                <td>{{local.title}}</td>
+                        <td>{{local.name}} {{local.surname}}</td>
+                {{/if}}
+                        
+                        
+                        
+                        
+                        </tr>  
+                        {{/each}}
+                    </tbody>
+                    {{/each}}
+                    
+                  </table>
+                  
+
+
+
+        {{/if}}
           
             </div>
             </div>

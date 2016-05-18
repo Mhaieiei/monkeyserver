@@ -3,6 +3,9 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
 	templateId: mongoose.Schema.Types.ObjectId,
+	templateName: String,
+	createDate: { type: Date, default: Date.now },
+	executorId: String,
 	runningElements: [String],
 	waitingElements: [String],
 	variables: [

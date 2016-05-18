@@ -1,23 +1,35 @@
- var router = require('express').Router();
- var Doc = require('../../model/document/document');
- var isLoggedIn = require('../../middleware/loginChecker');
- var request = require('request');
+var router = require('express').Router();
+var Doc = require('../../model/document/document');
+var isLoggedIn = require('../../middleware/loginChecker');
+var request = require('request');
+var fs = require('fs');
+var async = require('async');
+var Attachment = require('../../model/document/attachment');
+var adminfact = "";
 
 // =====================================
 // HOME SECTION =====================
 // =====================================
-router.get('/', isLoggedIn, function(req, res) {
+router.get('/', isLoggedIn, function(req, res, next) {
   var query = Doc.findByUser(req.user);
-  query.exec(function(err,_docs) {
-    if(err)
-      return handleError(req, res);
+  if( req.user.local.role == 'admin'){
+     adminfact = true;
+  }else{
+     adminfact = null;
+  }
+  query.exec(function(err, _docs) {
+    handleError(err, res, next);
 
-    getWorkflowTaskList(req, function(taskList) {
+    getWorkflowTaskList(req, function(execList,taskList) {
       var response = dateDDMMYYYY(_docs);
-      response.result = taskList;
-      console.log('Response');
-      console.log(response.result);
+
+      response.exec = execList;
+      response.task = taskList;
+      response.admin = adminfact;
+      console.log("response");
+      console.log(response);
       res.render('home.hbs', response);
+
     })
   });
 });
@@ -25,8 +37,10 @@ router.get('/', isLoggedIn, function(req, res) {
 
 router.post('/', isLoggedIn, function(req, res) {
   console.log('AT HOME');
+  
+
   var date= [];
-  var documentName = req.body.doc_name;
+  var Name = req.body.doc_name;
   var status = req.body.doc_status;
   var fromDate = Date.parse(req.body.fromDate);
   var fDate = req.body.fromDate;
@@ -45,7 +59,7 @@ router.post('/', isLoggedIn, function(req, res) {
   };
 
   var query = Doc.findByUser(user).
-  where('name').regex(subStringRegex(documentName, false));
+  where('name').regex(subStringRegex(Name, false));
 
   if(!isNaN(fromDate) && !isNaN(toDate)) {
     fromDate = new Date(fromDate);
@@ -62,7 +76,6 @@ router.post('/', isLoggedIn, function(req, res) {
     query = query.where('status').equals(status);
   }
 
-  console.log("Status:"+status);
 
   query.exec(function(err, _docs) {
     if(err) {
@@ -97,10 +110,12 @@ router.post('/', isLoggedIn, function(req, res) {
     console.log('s3:'+status3);
     console.log('type1:'+type1);
     console.log('type2:'+type2);
+
+    
     var response = {
       layout: 'homepage',
       docs: _docs,
-      docName: documentName,
+      Name: Name,
       docAuthor: author,
       docStatus: status,
       docFromDate: fDate,
@@ -111,6 +126,7 @@ router.post('/', isLoggedIn, function(req, res) {
       st3: status3,
       type1: type1,
       type2: type2,
+      admin : adminfact,
       helpers: {
         getdate: function (value) { return date[value]; }
       }
@@ -132,14 +148,79 @@ router.post('/', isLoggedIn, function(req, res) {
       date[i] = dd+ '/' +mm +'/'+ yy;
     }
 
-    res.render('home.hbs', response); 
+  var baseUrl = req.protocol + '://' + req.get('host');
+  request(baseUrl + '/api/workflow/workflowexecutions?name=' + Name +'&status=' + status + '&author=' + author,function(error1,response1,body1){
+  if( response1.statusCode === 404 ){
+    return next(new Error('Invalid document id'));
+  }
+    request(baseUrl + '/api/workflow/tasks?name=' + Name +'&status=' + status + '&author=' + author,function(error2,response2,body2){ 
+        response.task = JSON.parse(body2);
+        response.exec = JSON.parse(body1);
+        res.render('home.hbs', response); 
+       });    
+  });
+    
   });
 });
 
- function handleError(res, next) {
-  console.error(err);
+router.get('/upload', isLoggedIn, function(req, res){
+  console.log("Uploading....");
+  
+  res.render('dms/getUpload.hbs',{
+    layout:"homePage"
+  });
+});
+
+router.post('/upload',function(req, res, next){
+ writeFile(req, res, next, function(returnDocument) {
+  if(req.query.json)
+    res.json(returnDocument)
+  else
+    res.redirect('/home');
+ });
+});
+
+function writeFile(req, res, next, onReturnDocument) {
+  console.log('Write file');
+    var path = require('path');
+    var fstream;
+
+    req.pipe(req.busboy);
+    req.busboy.on('file', function (fieldname, file, filename) {
+
+      console.log("Uploading: " + filename); 
+      var targetPath = path.join(global.__APPROOT__, 'uploads', 'document', filename);
+      console.log(targetPath);
+
+      var serverPath = 'uploads/document/';
+      if(!fs.existsSync(serverPath))
+        fs.mkdirSync(serverPath);
+
+      fstream = fs.createWriteStream(targetPath);
+      file.pipe(fstream);
+      fstream.on('close', function() {
+        console.log('Done');
+        mapFileToDocument(req, res, next, filename, serverPath + filename, onReturnDocument);
+      });
+  })
+}
+
+function mapFileToDocument(req, res, next, filename, targetPath, onReturnDocument) {
+    var owner = req.user.local.username;
+    var attachment = new Attachment({owner: owner, author: owner, name: filename, filepath: targetPath});
+    attachment.save(function(error) {
+      handleError(error, res, next);
+      onReturnDocument(attachment);
+    });
+}
+
+function handleError(error, res, next) {
+  if(!error)
+    return;
+
+  console.error(error);
   res.status(500);
-  return next(err);
+  return next(error);  
 }
 
 function dateDDMMYYYY(documentQueryResult) {
@@ -173,16 +254,18 @@ function dateDDMMYYYY(documentQueryResult) {
 
 function getWorkflowTaskList(req, callBackWithResult) {
  var baseUrl = req.protocol + '://' + req.get('host');
-  //get workflow list 
-  request(baseUrl + '/api/workflow/workflowexecutions',function(error1,response1,body1){
+  //get document list 
+  //request(baseUrl + '/api/document/read?userid='+ req.user._id ,function(error1,response1,body1){
+    //get workflow list 
+    request(baseUrl + '/api/workflow/workflowexecutions',function(error2,response2,body2){
     //get task workflow list
-    request(baseUrl + '/api/workflow/tasks',function(error2,response2,body2){ 
-      var json = JSON.parse(body2);
-      json = JSON.parse(body1);
-      console.log(typeof json);
-      callBackWithResult(json);
+      request(baseUrl + '/api/workflow/tasks',function(error3,response3,body3){ 
+        var exec = JSON.parse(body2);
+        var task = JSON.parse(body3);
+        callBackWithResult(exec,task);
+       });
     });
-  });
+  //});
 }
 
 module.exports = router;

@@ -33,6 +33,7 @@
       rowind++;
       console.log(rowind);
       document.getElementById('arrlen').value = rowind;
+      document.getElementById('count').value = 1;
       console.log("value="+document.getElementById('arrlen').value);
      
     }
@@ -40,15 +41,15 @@
 
 <div class="container">
            
-    <form class="form-horizontal" role="form"  action="/aun/aun1-4/add_aun1-4?program={{programname}}" method="post" id = "myForm" > 
+    <form class="form-horizontal" role="form"  action="/aun/aun1-4/add_aun1-4?&program={{getprogram}}&year={{getyear}}&acid={{getacid}}" method="post" id = "myForm" > 
       
-                <h3>Mapped The expected learnig outcomes (ELOs)</h3>
+                <h3>Mapping of stakeholders' requirements and ELOs</h3>
                 <br>
                
                     <div class="form-group">
                       <label for="inputType" class="col-md-2 control-label">Stakeholder'name: </label>
                       <div class="col-md-4">
-                         <input type="text" class="form-control" id="inputType" placeholder="Enter stakeholder'name " name="sth_name">
+                         <input type="text" class="form-control2" id="inputType" placeholder="Enter stakeholder'name " name="sth_name">
                       </div>
                      <label for="inputType" class="col-md-2 control-label">Type: </label>
                       <div class="col-md-4">
@@ -59,7 +60,8 @@
                       </div>  
                     </div>
                     <div class="form-group">
-                      <table id="req_table" class="tablesorter">
+                       <div class="col-md-9">
+                      <table id="req_table" class="table">
                         <thead>
                             <tr>
                             <th><a>Requirement</a></th>
@@ -70,7 +72,8 @@
                         </thead>
                         <tbody id = "req_body">
                             <p hidden>    
-                              <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>
+                              <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='1' readonly=""><br>    
+                              <input type="text" tabindex="1"  name="count" id="count" value="0" readonly=""><br>
                             </p>
                             <tr>
                             <td><input  type="text" name="req" id="req"/></td>
@@ -95,9 +98,12 @@
                           {{/each}}
                       </div>
                     </div>
+                  </div>
                     
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Add</button>
+                  <div class="col-md-10">
+                      <div class="pull-right">
+                      <button type="submit" class="btn btn-primary">Add</button>
+                      </div>
                   </div>
      </form>
 </div>

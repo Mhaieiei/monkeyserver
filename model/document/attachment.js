@@ -1,3 +1,3 @@
 var DocumentTemplate = require('./DocumentTemplate');
 
-module.exports = exports = DocumentTemplate('attachment');
+module.exports = exports = new DocumentTemplate('attachment').compile();

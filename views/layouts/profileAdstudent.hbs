@@ -60,19 +60,19 @@
                 </li>
                 <li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
-                    <ul class="dropdown-menu multi-level">
-                        <li><a href="#">Create Workflow</a></li>
-                        
-                        <li class="dropdown-submenu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/admin/user">Users</a></li>
-                                <li><a href="/admin/programs">Programs</a></li>
-                                <li><a href="/admin/subjects">Subjects</a></li>
-                
-                            </ul>
-                        </li>
-                    </ul>
+                        <ul class="dropdown-menu multi-level">
+                            <li><a href="/workflow/new">Create Workflow</a></li>
+                            
+                            <li class="dropdown-submenu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/admin/user">Users</a></li>
+                                    <li><a href="/admin/programs">Programs</a></li>
+                                    <li><a href="/admin/subjects">Subjects</a></li>
+                                    <li><a href="/roleManagement">Role Management</a></li>
+                                </ul>
+                            </li>
+                        </ul>
                 </li>
                
             </ul>
@@ -82,16 +82,17 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Username <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="/profile_inf" class= "glyphicon glyphicon-user"> Profile</a>
+                                <a href="/profile_inf_admin?name={{user.local.username}}" class= "glyphicon glyphicon-user"> Profile</a>
                             </li>
                             <li>
                                 <a href="#" class= "glyphicon glyphicon-bell"> Notifications</a>
                             </li>
                             <li>
-                                <a href="edit_user-staff_profile.hbs" class = "glyphicon glyphicon-wrench"> Settings </a>
+                                <a href="/changpass" class = "glyphicon glyphicon-wrench"> Change password</a>
                             </li>
+                            
                             <li>
-                                <a href="/" class = "glyphicon glyphicon-log-out"> Logout </a>
+                                <a href="/logout" class = "glyphicon glyphicon-log-out"> Logout </a>
                             </li>
                         </ul>
                     </li>
@@ -114,8 +115,8 @@
                 <h1 class="page-header">Settings
                     
                 </h1>
-                <ol class="breadcrumb">
-                    <li><a href="/profile?name={{user.local.username}}">Profile</a></li>
+                <ol class="nav navbar-nav">
+                    <li><a href="/profile_inf_admin?name={{user.local.username}}">Profile</a></li>
                     <li class="dropdown active">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Work <b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -128,7 +129,7 @@
                             
                         </ul>
                     </li>
-                    <li><a href="edit_user-student_course.hbs">Course</a></li> 
+                    
                 </ol>
             </div>
         </div>

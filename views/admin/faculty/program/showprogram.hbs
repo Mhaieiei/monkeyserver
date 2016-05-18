@@ -50,7 +50,7 @@
 <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
-<br><br>
+<h3>Program settings</h3>
 <div class="tabs-container">
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#active_order_categories" aria-expanded="true">Subjects</a>
@@ -84,7 +84,7 @@
 						      {{#each subject}}
 						      	
 						        <tr>
-							        <td><a href='/edit?user={{local.username}}'>{{subcode.sub_code}}</a></td>
+							        <td><a href='/admin/subjects/editsubject?id={{subcode.id}}&acid={{getacid}}'>{{subcode.sub_code}}</a></td>
 							        <td>{{subcode.sub_name}}</td>
 							        <td>{{subcode.sub_credit}}</td>
 							        <td>
@@ -108,18 +108,20 @@
 				               
 				           
 							    <div class="btn-group">
-							   		 <a href = "/admin/editsubprogram?id={{ac_id}}&year={{Year}}&semes={{semester}}&program={{program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>
+							   		 <a href = "/admin/editsubprogram?id={{_id}}&acid={{ac_id}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Edit</button></a>
 								</div>
 								<div class="btn-group">
-							   		 <a href = "/admin/delsubprogram?id={{_id}}&acid={{ac_id}}&program={{program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a>
+							   		 <a href = "/admin/delsubprogram?id={{_id}}&acid={{ac_id}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Delete</button></a>
 								</div>
 				 			</div>
 				 		</div>
-				 	<br><br>
+				 	<br><br> <br>
 				 	{{/each}}  		 
 				 	{{/each}}  
-				 	 <div class="btn-group">
-					    <a href = "/admin/addsubprogram?acid={{acid}}&program={{program}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add Program Subjects</button></a>
+				 	 <div class="table-foot">
+					    <div class="pull-right">
+					    	<a href = "/admin/addsubprogram?acid={{acid}}&program={{program}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Add Program Subjects</button></a>
+					    </div>
 					</div>
 	            </form>
 	           <br><br>   
@@ -151,8 +153,8 @@
 							        <td>{{meetingDate}}</td>
 							        <td>{{noOfParticipation}}</td>
 							        <td>{{percentageOfParticipation}}</td>	
-							        <td><a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a></td>
-							        <td><a href = ""><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a></td>	       
+							        <td><a href = "/admin/editmeeting?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Edit</button></a></td>
+							        <td><a href = "/admin/delmeeting?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Delete</button></a></td>	       
 						        </tr>
 						      	{{/each}}
 						   
@@ -163,7 +165,7 @@
 						<div class="table-foot"> 
 				        	<div class="pull-right">
 				                <div class="btn-group">
-								    <a href = "/admin/addmeeting?acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add new meeting</button></a>
+								    <a href = "/admin/addmeeting?acid={{acid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Add new meeting</button></a>
 								</div>
 							    
 				 			</div>
@@ -201,8 +203,8 @@
 							        <td>{{university}}</td>	
 							        <td>{{country}}</td>	
 							        <td>{{website}}</td>	
-							        <td><a href = "/aun/aun2-1/editref2-1?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a></td>
-							        <td><a href = "/aun/aun2-1/delref2-1?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a></td>	       
+							        <td><a href = "/aun/aun2-1/editref2-1?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Edit</button></a></td>
+							        <td><a href = "/aun/aun2-1/delref2-1?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Delete</button></a></td>	       
 						        </tr>
 						      	{{/each}}						    
 						   </tbody>
@@ -211,7 +213,7 @@
 						<div class="table-foot"> 
 				        	<div class="pull-right">
 				                <div class="btn-group">
-								    <a href = "/aun/aun2-1/addref2-1?program={{program}}&acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add new referenced</button></a>
+								    <a href = "/aun/aun2-1/addref2-1?program={{program}}&acid={{acid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Add new referenced</button></a>
 								</div>
 							    
 				 			</div>
@@ -226,8 +228,7 @@
             	<form class="form-horizontal" role="form">
 	              	{{#each struct}}
 					<p> Plan : {{plan}}</p>
-					<a href = "/aun/aun2-1/editstruct2-1?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Edit</button></a>
-					<a href = "/aun/aun2-1/delstruct2-1?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Delete</button></a> 
+					
 					<table class="tablesorter">
 					    <thead>
 					        <tr>
@@ -254,9 +255,11 @@
 						<!-- end: table full--> 
 						<div class="table-foot"> 
 				        	<div class="pull-right">
-				                <div class="btn-group">
-				                	<a href = "/aun/aun2-1/addstruc2-1?program={{program}}&acid={{acid}}"><button id="tab_2_submit" class="btn btn-mini" type="button">Add Structure</button></a>
-								</div>
+				        		<a href = "/aun/aun2-1/editstruct2-1?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Edit</button></a>
+								<a href = "/aun/aun2-1/delstruct2-1?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Delete</button></a> 
+				                <br>
+				                <br><a href = "/aun/aun2-1/addstruc2-1?program={{program}}&acid={{acid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Add Structure</button></a>
+							
 							    
 				 			</div>
 				 		</div>

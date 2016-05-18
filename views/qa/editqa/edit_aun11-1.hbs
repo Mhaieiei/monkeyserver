@@ -37,13 +37,14 @@
         rowind++;
         console.log(rowind);
         document.getElementById('arrlen').value = len;
+        document.getElementById('count').value = 1;
         console.log("value="+document.getElementById('arrlen').value);
      
     }
 </script>
 <div class="container">
            
-    <form class="form-horizontal" role="form"  action="/aun/aun11-1/edit_aun11-1?id={{role._id}}&academicYear={{role.academicYear}}&program={{programname}}&year={{year}}" method="post" id = "myForm" > 
+    <form class="form-horizontal" role="form"  action="/aun/aun11-1/edit_aun11-1?id={{role._id}}&academicYear={{role.academicYear}}&program={{getprogram}}&year={{getyear}}&acid={{getacid}}" method="post" id = "myForm" > 
       
                 <h3>AUN 11.1: The curriculum is developed by all teaching staff members</h3>
                 <h5>Table : program development committee</h5>
@@ -52,12 +53,16 @@
                         <input type="text" tabindex="1"  name="arrlen" id="arrlen" value='{{len}}' readonly=""><br>
                        
                       </p>
+                      <p hidden>    
+                        <input type="text" tabindex="1"  name="count" id="count" value='0' readonly=""><br>
+                       
+                      </p>
                     <div class="form-group">
 
                       
                       <label for="inputType" class="col-md-1 control-label">Position: </label>
                       <div class="col-md-4">
-                         <input type="text" class="form-control" id="assname" name="position" value="{{role.position}}">
+                         <input type="text" class="form-control2" id="assname" name="position" value="{{role.position}}">
                       </div>
                      
                     </div>
@@ -87,8 +92,8 @@
                                   
                                     {{#each role.user}}
                                     <tr>
-                                      <td><input  type="text" name="name" id="name" value="{{local.name}}"/></td>
-                                      <td><input  type="text" name="surname" id="surname" value="{{local.surname}}"/></td>
+                                      <td><input  type="text" name="name" id="name" value="{{local.name}}" required/></td>
+                                      <td><input  type="text" name="surname" id="surname" value="{{local.surname}}" required/></td>
                                       <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
                                       </td> 
 

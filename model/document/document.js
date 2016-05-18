@@ -108,10 +108,10 @@ var docSchema = new Schema({
 		ref: schemaName
 	}],
 
-	includeInWorkflow: [{
+	includeInWorkflow: {
 		type: Schema.Types.ObjectId,
 		ref: 'workflow'
-	}],
+	},
 
 	/*
 	 * Absolute path to the file stored in a server.

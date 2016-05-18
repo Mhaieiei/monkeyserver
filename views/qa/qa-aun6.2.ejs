@@ -1,7 +1,6 @@
 <%- include ../headerqa.ejs %>
 
-<section>
-    <div class ="well">
+
 <body>
 
     
@@ -13,7 +12,9 @@
            
             <!--<form class="form-horizontal" role="form">-->
                 
-                <h3>AUN 6.2: The staff are sufficient to deliver the curriculum adequately</h3>
+                <h3>AUN 6.2: Staff-to-student ratio and workload are measured
+and monitored to improve the quality of
+education, research and service</h3>
        
                 <h5>Table : Academic ranking categorization of the staffs in academic year </h5>
                 <div id="tab_aun6.2">
@@ -57,7 +58,7 @@
                     <% countFemale = 0%>
                         <% for(k=0;k< docs[i].groupOftype[j].user.length;k++){%>
                         
-                       <% if(docs[i].groupOftype[j].user[k].user.local.gender == "Male"){ %>
+                       <% if(docs[i].groupOftype[j].user[k].user.local.gender == "male"){ %>
                                                 <% countMale++%>
 
                         <%}else{%>
@@ -300,6 +301,5 @@
 
          
 </body>
- </div>
-  </section>
+
 <%- include ../footer.ejs %>

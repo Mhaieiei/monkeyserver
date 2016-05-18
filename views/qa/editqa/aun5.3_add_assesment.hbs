@@ -48,7 +48,7 @@
            
     <form class="form-horizontal" role="form"  action="/aun/aun5-3/add_aun5-3?program={{programname}}&year={{year}}&acid={{acid}}" method="post" id = "myForm" > 
       
-                <h3>Mapped The expected learnig outcomes (ELOs)</h3>
+                <h3>Mapped The expected learning outcomes (ELOs)</h3>
                 <br>
 
 
@@ -59,14 +59,7 @@
                
                     <div class="form-group">
 
-                      <label for="inputType" class="col-md-1 control-label">Program: </label>
-                      <div class="col-md-4">
-                          <select class="form-control" style="width:200px" id="program" name="program">
-                              {{#each program_fac}}                 
-                                  <option value="{{ programname}}">{{ programname }}</option>                    
-                              {{/each}}
-                          </select>
-                      </div> 
+                      
                       <label for="inputType" class="col-md-1 control-label">Assesment Tools: </label>
                       <div class="col-md-4">
                          <input type="text" class="form-control" id="assname" placeholder="Enter assessment tools' name " name="assname">

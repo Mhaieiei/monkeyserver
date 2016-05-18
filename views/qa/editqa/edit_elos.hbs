@@ -44,22 +44,22 @@
 
 
 <div class="container">
-        <form class="form-horizontal" role="form"  action="/aun/aun1-1/addelos?program={{programname}}&year={{year}}&acid={{acid}}&id={{id}}" method="post" id = "myForm" > 
+        <form class="form-horizontal" role="form"  action="/aun/aun1-1/addelos?&program={{getprogram}}&year={{getyear}}&acid={{getacid}}&id={{id}}" method="post" id = "myForm" > 
           
            
             <!--<form class="form-horizontal" role="form">-->
         
-        <h3>Add new Expected Learning Outcomesz (ELOs)</h3>
+        <h3>Add new expected learning outcomes (ELOs)</h3>
         <br>
           <div class="form-group">
             <label for="inputType" class="col-md-1 control-label">No. : </label>
               <div class="col-md-2">
-                  <input type="text" class="form-control" id="elos_no" width="50px;"maxlength="4" size="4" name="elos_no" required value="{{elo.number}}">
+                  <input type="text" class="form-control2" id="elos_no" width="50px;"maxlength="4" size="4" name="elos_no" required value="{{elo.number}}">
               </div>
 
              <label for="inputType" class="col-md-3 control-label">Description : </label>
               <div class="col-md-4">
-                <textarea class="form-control" rows="5" id="elos_des" name="elos_des" >{{elo.description}}</textarea>
+                <textarea style="width: 300px; height: 150px;" class="form-control2" rows="5" id="elos_des" name="elos_des" >{{elo.description}}</textarea>
               </div>
             
           </div>

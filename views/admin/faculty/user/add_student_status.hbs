@@ -1,0 +1,47 @@
+
+
+<div class="container">
+           
+    <form class="form-horizontal" role="form"  action="/admin/add_student_status?&user={{user.local.username}}" method="post" id = "myForm" > 
+      
+                <h3>Add status of the student</h3>
+                <br>
+               
+                    <div class="form-group">
+                      <label for="inputType" class="col-md-2 control-label">Academic Year: </label>
+                      <div class="col-md-4">
+                         <input type="text" class="form-control" id="inputType" placeholder="Ex. 2014" name="academicYear" required>
+                      </div>
+                     <label for="inputType" class="col-md-2 control-label">Status: </label>
+                      <div class="col-md-4">
+                          <select class="form-control" name="status" style="width:200px">
+                              <option value="Drop Out">Drop Out</option>
+                              <option value="On-time Graduation">On-time Graduation</option>
+                              <option value="Carry On">Carry On</option>
+                              <option value="Delayed Graduation">Delayed Graduation</option>
+                          </select>
+                      </div> 
+
+                      <label for="inputType" class="col-md-2 control-label">Career/higher studying: </label>
+                      <div class="col-md-4">
+                         <select class="form-control" name="career" style="width:200px">
+                              <option value="Studying doctoral degree">Studying doctoral degree</option>
+                              <option value="Studying master degree">Studying master degree</option>
+                              <option value="Lecturer/researcher at public universities">Lecturer/researcher at public universities</option>
+                              <option value="Lecturer/researcher at private universities">Lecturer/researcher at private universities</option>
+                              <option value="Researcher in research institute">Researcher in research institute</option>
+                              <option value="Industrial workforces">Industrial workforces</option>
+                              <option value="Self-employed">Self-employed</option>
+                              <option value="Others">Others</option>
+                           
+                          </select>
+                      </div> 
+                    </div>
+                    
+                    
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Add status</button>
+                  </div>
+                  <h3>Note: You can not edit this academic year again, please make sure that academic year is correct but you also edit its status by entering the same academic year that you want to change its status</h3>
+     </form>
+</div>

@@ -16,7 +16,7 @@
 </div>
 <br><br>
 
-    <label for="inputType" class="col-md-2 control-label">Subject</label>
+    <h3>Show list of subjects</h3>
    
     <table class="table muffin table-striped table-hover margin-bottom0">
         <thead>
@@ -25,8 +25,9 @@
             <th><a href="javascript:table_sort('tab_2',2)">Subject name</a></th>
             <th><a href="javascript:table_sort('tab_2',2)">Subject credit</a></th>
             <th><a href="javascript:table_sort('tab_2',3)">Lecturer</a></th>
+            <th><a href="javascript:table_sort('tab_2',3)">Delete</a></th>
             <th><a href="javascript:table_sort('tab_2',3)">Enroll</a></th>
-            <th><a href="javascript:table_sort('tab_2',3)">Add ELO</a></th>
+            <th><a href="javascript:table_sort('tab_2',3)">Add/Edit ELO</a></th>
             </tr>
         </thead>
          <tbody>
@@ -36,18 +37,20 @@
                 {{setyear Year}}
                 {{#each subject}}
                 <tr>
-                    <td><a href='/edit?user={{local.username}}'>{{subcode.sub_code}}</a></td>
+                    <td><a href='/admin/subjects/editsubject?id={{subcode.id}}&acid={{getacid}}'>{{subcode.sub_code}}</a></td>
                     <td>{{subcode.sub_name}}</td>
                     <td>{{subcode.sub_credit}}</td>
                     <td>
                         {{#each subcode.sub_lecter}}
                             {{local.title}}
-                            {{local.name}}<br>
+                            {{local.name}}
+                            {{local.surname}}<br>
                             
                         {{/each}}
-                    </td>    
-                    <td><a href='/admin/enroll?acid={{getac}}&sub_id={{subcode._id}}&year={{getyear}}&semes={{getsemes}}'>Enroll</a></td>   
-                    <td><a href='/admin/sub_elo?acid={{getac}}&sub_id={{subcode._id}}&sub_name={{subcode.sub_name}}&sub_code={{subcode.sub_code}}&sub_credit={{subcode.sub_credit}}'>Add/Edit ELO</a></td>         
+                    </td>  
+                    <td><a href='/admin/subjects/delsubject?id={{subcode.id}}&acid={{getacid}}'><button class="btn btn-xs btn-danger" type="button"><span class="glyphicon glyphicon-trash"></span></button></td>  
+                    <td><a href='/admin/enroll?acid={{getac}}&sub_id={{subcode._id}}&year={{getyear}}&semes={{getsemes}}'><button class="btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-edit"></span></td>   
+                    <td><a href='/admin/sub_elo?acid={{getac}}&sub_id={{subcode._id}}&sub_name={{subcode.sub_name}}&sub_code={{subcode.sub_code}}&sub_credit={{subcode.sub_credit}}'><button class="btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-plus-sign"></td>         
                 </tr>
                 {{/each}}            
             {{/each}}          

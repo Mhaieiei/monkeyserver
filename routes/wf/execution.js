@@ -4,19 +4,23 @@ var WorkflowExecution 	= require('../../model/WorkflowExecution.model');
 var WorkflowTask		= require('../../model/WorkflowTask.model');
 var TemplateWorkflow	= require('../../model/TemplateWorkflow');
 var workflowRunner		= require('../../lib/workflowRunner');
+var formidable			= require('formidable');
 var Form				= require('../../model/form.model');
 
 router.get('/', function(req, res){
 
-	WorkflowExecution.find({}, function(err, result){
+	WorkflowExecution.find({ 'executorId': 	req.user._id }, function(err, result){
 		if(err) console.log(err);
+		console.log( result );
 		res.render('wf/execution/all', { layout: 'homePage', result: result} );
 	});
 
 });
 
 router.get('/tasks', function(req, res){
-	WorkflowTask.find({}, function(err, result){
+	console.log( "SIMPLE ROLE: " + req.user.simpleRole );
+	WorkflowTask.find( { $or: [ {'doerId': req.user._id }, { 'roleId': req.user.simpleRole } ] }, 
+	function(err, result){
 		if(err) console.log(err);
 		res.render('wf/task/all', { layout: 'homePage', result: result });
 	});
@@ -39,9 +43,10 @@ router.get('/tasks/:id', function(req, res){
 				if( formResult.elements !== null ) {
 					elements = formResult.elements;
 				}
-				
-
-				var formHtml = '<form method="post" action="/execution/tasks/' + taskResult._id + '">';
+					
+				var formHtml = '<h1>'+ formResult.name +'</h1>';
+				formHtml += '<h3>' + formResult.description + '</h3>';
+				formHtml += '<form method="post" action="/execution/tasks/' + taskResult._id + '" enctype="multipart/form-data">';
 		
 				for(var i = 0; i < elements.length; i++){
 					formHtml += '<div>' + getHtmlElement( elements[i], inputResults ) + '</div>';
@@ -61,28 +66,46 @@ router.get('/tasks/:id', function(req, res){
 
 });
 
-router.post('/tasks/:id', function(req, res){
+router.post('/tasks/:id', function(req, res ){
 
 	WorkflowTask.findOne({'_id': req.params.id }, function(err, taskResult){
 		
+		if(!taskResult){
+			return res.redirect('/home');
+		}
+
 		var executionId = taskResult.workflowExecutionId;
+		var elementId = taskResult.elementId;
 
 		WorkflowExecution.findOne({'_id': executionId }, function(err, execution){
 			var newDetails = execution.details;
-			newDetails[taskResult.elementId].submitResults = req.body;
-			execution.runningElements.push( taskResult.elementId );
+			var thisElement = execution.handlers[elementId];
+			var laneHandler = execution.handlers[ thisElement['laneRef'] ];
 
-			WorkflowTask.remove({ '_id': taskResult._id }, function(err){
-				workflowRunner.run(execution, res);
-			});
-			
+			var form = new formidable.IncomingForm();
+			form.uploadDir = process.env.PWD + '/uploads';
+
+			form.parse(req, function(err, fields, files) {
+
+			    newDetails[taskResult.elementId].submitResults = getSubmitResults( fields, files );
+				laneHandler.doerId = req.user._id;
+
+				execution.runningElements.push( taskResult.elementId );
+
+				WorkflowTask.remove({ '_id': taskResult._id }, function(err){
+					workflowRunner.run(execution, res);
+				});
+				
+		    });
+
+
 		});
 		
 	});
 
 });
 
-router.get('/:id', function(req, res){
+router.get('/:id', function(req, res, next){
 
 	WorkflowExecution.findOne( { "_id" : req.params.id }, function(err, execution){
 
@@ -126,18 +149,26 @@ router.post('/:id', function(req, res){
 
 function getHtmlElement( element, inputResults ){
 
-	var html = "";
+	var html = '<div>';
+	html += '<label>' + element.label + '</label>';
 
 	if( inputResults[element.name] != undefined ){
-		element.value = inputResults[element.name];
+		element.predefinedValue = inputResults[element.name];
 	}
 
-	if( element.type === "label" ){
-		html += "<b>" + element.value + "</b>";
+	html += '<div>';
+
+	if( element.type === "textarea" ){
+		html += '<textarea name="' + element.name + '">' + element.predefinedValue + '</textarea>';
 	}
-	else if( element.type ==="textbox" ){
-		html += '<input type="text" name="' + element.name + '">';
+	else if( element.type === "text" ){
+		html += '<input type="text" name="' + element.name + '" value="' + element.predefinedValue +'">';
 	}
+	else if( element.type === 'fileupload' ){
+		html += '<input type="file" name="' + element.name + '">';
+	}
+
+	html += "</div></div>";
 
 	return html;
 }
@@ -215,6 +246,23 @@ function executeWorkflow(execution, res){
 		});
 
 
+}
+
+function getSubmitResults( fields, files ){
+
+	var result = {};
+
+	var fieldKeys = Object.keys( fields );
+	for( var i = 0; i < fieldKeys.length; i++ ){
+		result[ fieldKeys[i] ] = fields[ fieldKeys[i] ];
+	}
+
+	var fileKeys = Object.keys( files );
+	for( var i = 0; i < fileKeys.length; i++ ){
+		result[ fileKeys[i] ] = files[ fileKeys[i] ];
+	}
+
+	return result;
 }
 
 

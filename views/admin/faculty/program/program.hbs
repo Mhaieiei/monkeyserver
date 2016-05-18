@@ -21,14 +21,14 @@ $(document).ready(function() {
 
 </script>
 
-<h3>Select program </h3>
+<h3>Program: Select program </h3>
            
 <form class="form-horizontal" action="/admin/programs" method="post" >
                     <br>
         <div class="form-group">
           <label for="inputType" class="col-md-2 control-label">Program : </label>
           <div class="col-md-4">
-            <select class="form-control" style="width:200px" id="head_programs" name="head_programs">
+            <select class="btn btn-primary dropdown-toggle" class="caret" id="head_programs" name="head_programs">
               <option value='a'>--Select program--</option>
 							{{#each faculty}}									
 							<option value="{{ @index}}">{{ programname }}</option>										
@@ -38,7 +38,7 @@ $(document).ready(function() {
        
           <label for="inputType" class="col-md-2 control-label">Program track : </label>
           <div class="col-md-4">
-              <select class="form-control" style="width:200px" id="sub_programs" name="sub_programs">
+              <select class="btn btn-primary dropdown-toggle" class="caret" id="sub_programs" name="sub_programs">
                 <option id='a'>-------</option>
 								{{#each faculty}}	
 								  {{set @index}}
@@ -52,7 +52,7 @@ $(document).ready(function() {
         <div class="form-group">
         <label for="inputType" class="col-md-2 control-label">Academic year: </label>
           <div class="col-md-4">
-              <select class="form-control" style="width:100px" name="years">
+              <select class="btn btn-primary dropdown-toggle" class="caret" name="years">
                	{{#each year}}
 						  	<option value = "{{this}}">{{this}}</option>
 						    {{/each}}
@@ -74,42 +74,37 @@ $(document).ready(function() {
                         </tr>
                     </thead>
                     <tbody>
-                    	
-                    	{{#each faculty}}			
-							
-							<tr>
-								<td><a href='/admin/editprogram?program={{ programname }}'>{{ programname }}</td>
-								<td>
-									{{#each sub_program}}
-										{{this}}<br>
-									{{/each}}
-								</td>
-								<td><a href='/admin/delprogram?programname={{programname}}'>delete</a></td>
-							</tr>				
-							
-						  {{/each}} 
-                   
-                      
+                      {{#each faculty}}			
+        							
+        							<tr>
+        								<td><a href='/admin/editprogram?program={{ programname }}'>{{ programname }}</td>
+        								<td>
+        									{{#each sub_program}}
+        										{{this}}<br>
+        									{{/each}}
+        								</td>
+        								<td><a href='/admin/delprogram?programname={{programname}}'><button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button></td>
+        							</tr>				
 
-                        
+
+                     
+							
+						          {{/each}} 
                     </tbody>
                     </table>
-                    </div>
-                    
-                    
-                    <!-- end: table full -->
-                    <div class="table-foot"> 
-                    	<div class="pull-right">
-	                        <div class="btn-group">
-	                            <a href = "/admin/addprogram"><button id="tab_2_add" class="btn btn-primary" type="button">Add Program</button></a>
-	                        </div>
-                        </div>
 
- 					</div>
-            
-     </div>	
+                    <div class="table-foot"> 
+                      <div class="pull-right">
+                              <a href = "/admin/addprogram"><button id="tab_2_add" class="btn btn-primary" type="button">Add Program</button></a>
+                      </div>
+                    </div>
+                </div>
+                    
+<br>
+<br>
+<br>
 	
 </form>
 			
-
+</div>
 

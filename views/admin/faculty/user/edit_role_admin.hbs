@@ -1,0 +1,161 @@
+<script type="text/javascript">
+    var array = [];
+    var rowind = 1;
+  
+    function deleteRow(row)
+    {
+
+        var i=row.parentNode.parentNode.rowIndex;
+        var x=document.getElementById('ELO_PEtable');
+        var len = x.rows.length - 1;
+        document.getElementById('ELO_PEtable').deleteRow(i);
+        rowind = len-1;
+        document.getElementById('arrlen').value = rowind;
+        console.log("value="+document.getElementById('arrlen').value);
+    } 
+
+  
+
+    function insRow()
+    {
+
+      var arr = []
+      //console.log( 'hi');
+      var x=document.getElementById('ELO_PEtable');
+      var y =document.getElementById('ELO_PEbody');
+      var new_row = x.rows[1].cloneNode(true);
+      //console.log( 'new_row: '+new_row);
+      var len = x.rows.length;
+      //console.log( 'len: '+len);
+
+      var inp0 = new_row.cells[0].getElementsByTagName('input')[0];
+      var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+      
+      inp0.value = '';
+      console.log(new_row);
+      y.appendChild( new_row );
+      rowind++;
+      console.log(rowind);
+      document.getElementById('arrlen').value = len;
+      document.getElementById('count').value = 1;
+      console.log("value="+document.getElementById('arrlen').value);
+     
+    }
+
+   
+</script>
+
+<div class="container">
+        <form class="form-horizontal" role="form"  action="/admin/edit_role_admin?id={{role._id}}&program={{program}}" method="post" id = "myForm" > 
+          
+           
+         
+        
+   <h3>Add Role and position of this user</h3>
+        <br>
+
+        <div class="form-group">
+              <label for="inputType" class="col-md-2 control-label">Type : </label> 
+              <select class="form-control" style="width:150px" id="type" name="type">
+              <option selected="selected" value="{{role.type}}">{{role.type}}</option>
+                  <option value="Academic Staff">Academic Staff</option>
+                  <option value="Supporting Staff">Supporting Staff</option>
+                  <option value="Student">Student</option>
+                  
+              </select>
+          </div>
+
+          <div class="form-group">
+              <label for="inputType" class="col-md-2 control-label">Position : </label> 
+              <div class="col-md-4">
+                <select class="form-control" style="width:150px" id="position" name="position">
+                <option selected="selected" value="{{role.position}}">{{role.position}}</option>
+                  <option value="Faculty Member">Faculty Member</option>
+                  <option value="Visiting Member">Visiting Member</option>
+                  <option value="General administrator">General administrator</option>
+                  <option value="Human resource Member">Human resource administrator</option>
+                  <option value="Accountant">Accountant</option>
+                  <option value="IT administrator">IT administrator</option>
+                  <option value="Graduate">Graduate</option>
+                  <option value="AUN/SEED-Net">AUN/SEED-Net</option>
+                  <option value="Normal master student">Normal master student</option>
+                  <option value="4+1 master student">4+1 master student</option>
+                  <option value="Normal student">Normal student</option>
+                  
+              </select>
+              </div>
+
+              <label for="inputType" class="col-md-2 control-label">Academic year : </label> 
+              <div class="col-md-4">
+                <input type="text" class="form-control1" id="academicYear"   name="academicYear" value="{{role.academicYear}}" required>
+              </div>
+          </div>
+          <div class="form-group">
+            <br>
+              <div class="col-md-4">
+                 <div id="tab_2">
+                    <table id="ELO_PEtable" class="tablesorter">
+                        <thead>
+                            <tr>
+                            
+                            <th><a>Job description</a></th>
+                            
+                            <th><a>Add</a></th>
+                            <th><a>Delete</a></th>
+                            </tr>
+                        </thead>
+                        <tbody id = "ELO_PEbody">
+                           <p hidden>    
+                              <input type="text" tabindex="1"  name="arrlen" id="arrlen" value="{{len}}" readonly=""><br>
+                            </p>
+                            <p hidden>    
+                              <input type="text" tabindex="1"  name="count" id="count" value="0" readonly=""><br>
+                           </p>
+                          
+                           {{#each role.jobDescription}}
+                            <tr>
+                            
+                            
+                            <td>          
+                              
+                                <input type="text" class="form-control" id="job_des"   name="job_des" value="{{this}}" required>
+                              
+                           </td>
+
+                            <td> <button id="tab_2_submit" class="btn btn-xs btn-primary" type="button" onclick="insRow()"><span class="glyphicon glyphicon-plus"></span></button>
+                            </td>
+                              
+
+                            <div class="btn-group">
+                              <td> <button class="btn btn-xs btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"><span class="glyphicon glyphicon-trash"></span></button>
+                            </td>
+                            </div>  
+                                  
+                            </tr>  
+                            {{/each}}                  
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+              
+            </div>
+
+            <div class="col-md-10">
+                      <br>
+                      <br>
+                      <br>
+                      <button type="submit" class="btn btn-primary">Add</button></p>
+              </div>
+
+            
+
+            
+
+        </form>
+
+</div>
+
+
+
+
+

@@ -1,6 +1,4 @@
-<div class="btn-group">
-    <button id="tab_2_submit" class="btn btn-mini" type="button"><a href = "/admin/addenrollstd?subid={{subid}}&acid={{acid}}&year={{year}}&semes={{semes}}">ADD Student</button><br/></a>
-</div>
+
 <!-- {{enroll}}
 
 
@@ -17,7 +15,7 @@
    {{#each enroll}}
    		<br><br><label for="inputType" class="col-md-2 control-label">Year: {{_id}}</label>
    		<label for="inputType" class="col-md-2 control-label">Total : {{count}}</label>
-    <table class="table muffin table-striped table-hover margin-bottom0">
+        <table class="table muffin table-striped table-hover margin-bottom0">
         <thead>
             <tr>
             <th><a href="javascript:table_sort('tab_2',1)">Student ID</a></th>
@@ -37,6 +35,11 @@
                   
 
            </tbody>
+           {{/each}}  
          </table>
          
-     {{/each}}   
+      
+
+      <div class="pull-right">
+        <button class="btn btn-primary" type="submit" <a href = "/admin/addenrollstd?subid={{subid}}&acid={{acid}}&year={{year}}&semes={{semes}}">Add Student</button>
+     </div>

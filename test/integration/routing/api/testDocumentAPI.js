@@ -5,12 +5,10 @@ var expect = require('chai').expect;
 var assert = require('assert');
 var async = require('async');
 
-var request = require('supertest');
-var express = require('express');
-
 var dbMock = require('test/dbTestConfig');
 var helper = require('test/helperFunction');
 var TemplateByYear = require('model/document/OfficialDocumentTemplate');
+var DmsServer = require('test/DmsServer');
 
 describe('REST Document API', function() {
 
@@ -21,28 +19,24 @@ describe('REST Document API', function() {
 	var relatedDocument, attachment;
 	var previousDocument, previouseOfPreviousDocument;
 
-	var joe = {
-		username: 'joe',
-		password: 'password'
-	}
-
 	before(function(done) {
 		app = require('app')(dbMock);
-		server = request(app);
-		async.parallel([createDummyDocuments, authenticate], done);
+		server = new DmsServer(app);
+		async.parallel([createDummyDocuments, helper.registerAndLogin(server, 'joe', 'joe')], done);
 	})
 
-	describe('Get document by document ID', function() {
+	describe.skip('Get document by document ID', function() {
 
 		var URL = getApiUrl('read');
 
 		testRespondJson(URL);
-		testInvalidId(URL, null, 'null');
+		testInvalidId(URL, {}, 'empty json');
 
 		it('should return the correct document', function(done) {
 			APIHttpRequest(URL.concat(document.id))
 			.expect(function(response) {
 				var result = response.body;
+				expect(result.id).to.exist;
 				isSameRecord(document, result);
 			})
 			.end(done);
@@ -108,6 +102,36 @@ describe('REST Document API', function() {
 		})
 	})
 
+	describe('Generate document from parameters passed by workflow system', function() {
+		var url = getApiUrl('upload');
+		it('should create document and return document object as json response', function(done) {
+			var mongoGeneratedId = '573b48271df7e15826a9ef1b'
+			var requiredParameters = {
+				title: 'title',
+				owner: 'someone',
+				workflowId: mongoGeneratedId,
+				link: 'some/where',
+				docType: 'documentType',
+				year: '2016'
+			}
+			server.post(url)
+			.send(requiredParameters)
+			.expect(200)
+			.expect('Content-Type', /json/)
+			.expect(function(response) {
+				var documentJson = response.body;
+				console.log(documentJson);
+				expect(documentJson.id).to.exist;
+				expect(documentJson.name).to.equal(requiredParameters.title);
+				expect(documentJson.owner).to.equal(requiredParameters.owner);
+				expect(documentJson.includeInWorkflow).to.equal(requiredParameters.workflowId);
+				expect(documentJson.filepath).to.equal(requiredParameters.link);
+				expect(documentJson.subtype).to.equal(requiredParameters.docType + requiredParameters.year);
+			})
+			.end(done);
+		})
+	})
+
 	after(function(done) {
 		dbMock.dropDb(done);
 	})
@@ -141,42 +165,9 @@ describe('REST Document API', function() {
 		});		
 	}
 
-	function createUser(done) {
-		var User = require('model/user');
-		var user = new User();
-		user._id = joe.username;
-		user.local.username = joe.username;
-		user.local.password = user.generateHash(joe.password);
-
-		user.save(function(error) {
-			if(error) return done(error);
-			return done();
-		})
-	}
-
-	function authenticate(done) {
-	    var auth = function(callback) {
-	        server
-	            .post('/login')
-	            .send({email: joe.username, password: joe.password})
-	            .expect(302)
-	            .expect('Location', '/home')
-	            .end(onResponse);
-
-	        function onResponse(err, res) {
-	        	if (err) return callback(err);
-	        	cookie = res.headers['set-cookie'];
-	           	return callback();
-	        }
-	    };
-
-		async.series([createUser, auth], done);	    
-	};
-
 	function APIHttpRequest(url) {
 		return server
 		.get(url)
-		.set('cookie', cookie)
 		.expect('Content-Type', /json/)
 		.expect(200)
 	}
@@ -189,7 +180,7 @@ describe('REST Document API', function() {
 	}
 
 	function testInvalidId(url, expectedResponse, messageTypeResponse) {
-		it('should return ' + messageTypeResponse + 'given non-existent document ID', function(done) {
+		it('should return ' + messageTypeResponse + ' given non-existent document ID', function(done) {
 			var invalidId = -1;
 			APIHttpRequest(url.concat(invalidId))
 			.expect(expectedResponse)
