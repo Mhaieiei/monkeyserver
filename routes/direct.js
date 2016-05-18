@@ -356,7 +356,7 @@ module.exports = function(app, passport) {
             year:year
           });
         }
-         else if(role == 'admin'){
+         else if(user.local.role == 'admin'){
             res.render('profile/staff_profileedit.hbs',{
             layout:"profileAdmin",
             user : req.user,

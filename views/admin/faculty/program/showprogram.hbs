@@ -228,7 +228,8 @@
             	<form class="form-horizontal" role="form">
 	              	{{#each struct}}
 					<p> Plan : {{plan}}</p>
-					
+					<a href = "/aun/aun2-1/editstruct2-1?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Edit</button></a>
+					<a href = "/aun/aun2-1/delstruct2-1?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Delete</button></a> 
 					<table class="tablesorter">
 					    <thead>
 					        <tr>
@@ -255,8 +256,7 @@
 						<!-- end: table full--> 
 						<div class="table-foot"> 
 				        	<div class="pull-right">
-				        		<a href = "/aun/aun2-1/editstruct2-1?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Edit</button></a>
-								<a href = "/aun/aun2-1/delstruct2-1?id={{id}}&program={{getprogram}}&acid={{getacid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Delete</button></a> 
+				        		
 				                <br>
 				                <br><a href = "/aun/aun2-1/addstruc2-1?program={{program}}&acid={{acid}}"><button id="tab_2_submit" class="btn btn-primary" type="button">Add Structure</button></a>
 							
