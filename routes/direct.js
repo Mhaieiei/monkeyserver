@@ -200,16 +200,25 @@ module.exports = function(app, passport) {
     console.log("Get profile information"); 
     var role = req.user.local.role;
     console.log(role);
+     if( req.user.local.role == 'admin'){
+       adminfact = true;
+      }else{
+         adminfact = null;
+      }
+
     if(role == "student"){
       res.render('profile/student_profile.hbs',{
       layout:"profilestudent",
       user : req.user
 
       });
-    }
-    else{
+    }else if(role == 'admin'){
+      res.render('profile/student_profile.hbs',{
+      layout:"profileAdmin",
+      user : req.user});
+    }else{   
       res.render('profile/staff_profile.hbs',{
-      layout:"profilePage",
+       layout:"profilePage",
       user : req.user
 
       });
@@ -338,7 +347,7 @@ module.exports = function(app, passport) {
             year = date[2];
           }
 
-            if(user.local.role == "student"){
+        if(user.local.role == "student"){
           res.render('profile/student_profileedit.hbs', {
             layout: "profilestudent",
             user : user,
@@ -347,7 +356,15 @@ module.exports = function(app, passport) {
             year:year
           });
         }
-        else{
+         else if(role == 'admin'){
+            res.render('profile/staff_profileedit.hbs',{
+            layout:"profileAdmin",
+            user : req.user,
+             day:day,
+            month:month,
+            year:year
+          });
+        }else{
           res.render('profile/staff_profileedit.hbs', {
             layout: "profilePage",
             user : user,
@@ -370,35 +387,7 @@ module.exports = function(app, passport) {
       console.log(req.body.username);
       //console.log(req.files.file.path)
       user : req.user
-      //if(req.busboy){
-        /*console.log('Nothingg happend');
-        //console.log(req.busboy);
-        var fstream;
-        //var busboy = new Busboy({headers: "Mhai eiei"});
-        req.pipe(req.busboy);
-        req.busboy.on('file', function (fieldname, file, filename) {
-          console.log("Uploading: " + filename); 
-          fstream = fs.createWriteStream(path.resolve('uploads/image_'+req.user._id+'.jpg'));
-          console.log(fstream);
-          file.pipe(fstream);
-          fstream.on('close', function(err) {
-            if (err){ console.log("Error Can't upload");}
-            console.log("Upload completed!");
-            res.redirect('/profile_inf');
-          });
-        });*/
-      //}
-      
-    /*var tempPath = req.files.file.path,
-      targetPath = path.resolve('uploads/'+req.files.file.originalFilename);
-    var fstream;
-    console.log(tempPath);
-    if (path.extname(req.files.file.name).toLowerCase() === '.png') {
-      fs.rename(tempPath, 'uploads/image_'+req.user._id, function(err) {
-          if (err){ console.log("Error Can't upload");}
-        else{console.log("Upload completed!");}
-      });
-    }*/
+    
     if((req.body.role == 'staff' &&!isNaN(req.body.terminationYear) && !isNaN(req.body.yearattend))||
       (req.body.role == 'student'  && !isNaN(req.body.yearattend))){
 
@@ -444,12 +433,15 @@ module.exports = function(app, passport) {
       user = req.user;
       nameid = req.user.id;
     }
+
     console.log(user);
     User.findOne({'_id': nameid}, function( err, user ) {
           if( !err ) {
             console.log(user);
+            console.log(adminfact);
             res.render('profile/educationinfo.hbs', {
                 layout: "homePage",
+                admin : adminfact,
                 user : user, // get the user out of session and pass to template
                 helpers: {
                 inc: function (value) { return parseInt(value) + 1; },
