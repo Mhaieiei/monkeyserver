@@ -126,21 +126,41 @@ router.post('/upload', function(req, res, next) {
 
 	var subtype = docType + year;
 
-	var doc;
 	var metadata = {
 		name: title,
 		owner: owner,
 		includeInWorkflow: workflowId,
 		filepath: filepath,
-		subtype: subtype
+		subtype: subtype,
+		docType: docType,
+		year: year
 	}
+	Document.findOne({name: title, owner: owner}, function(error, document) {
+		var doc;
+		if(document) {
+			metadata.id = document.id;
+			doc = createDocument(metadata);
+			doc.bumpVersion();
+			saveAndReturnDocument(doc);
+		}
+		else {
+			doc = createDocument(metadata);
+			saveAndReturnDocument(doc);
+		}
+	})
+})
+
+function createDocument(metadata) {
 	if(docType == 'attachment')
-		doc = new Attachment(metadata);
+		return new Attachment(metadata);
 	else {
-		var ICDoc = aquireTemplate(docType, year);
-		doc = new ICDoc(metadata);
+		var ICDoc = aquireTemplate(metadata.docType, metadata.year);
+		return new ICDoc(metadata);
 	}
 
+}
+
+function saveAndReturnDocument(doc) {
 	doc.save(function(error) {
 		var response = {};
 		if(error) {
@@ -153,7 +173,7 @@ router.post('/upload', function(req, res, next) {
 			res.json(response);
 		}
 	})
-})
+}
 
 function aquireTemplate(ICDocumentType, year) {
 	var Template = require('model/document/OfficialDocumentTemplate');
