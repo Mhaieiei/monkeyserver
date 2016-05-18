@@ -11,7 +11,13 @@
 		<span style="font-size: 16px">Description: </span>
 		<input id="form-description" type="text" value="{{description}}">
 	</div>
-	
+  <div>
+    <span style="font-size: 16px">Type: </span>
+    <select id="form-type">
+        {{{type}}}
+    </select>
+  </div>
+
 		<div>
 			<button onclick="saveForm()" class="btn btn-primary">Save</button>
 		</div>
@@ -85,7 +91,8 @@ YUI().use(
 
 		var toSaveForm = {
 			name: $('#form-name').val(),
-			description: $("#form-description").val()
+			description: $('#form-description').val(),
+      type: $('#form-type').val()
 		}
 		var elements = [];
 		myForm.get('fields').each( function(item, index, collection) {

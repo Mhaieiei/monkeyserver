@@ -148,7 +148,7 @@ router.get('/:id/execute', function(req, res, next){
 				}
 				else{
 					console.log(err);
-					res.end('failed');
+					return next(err);
 				}
 			});
 

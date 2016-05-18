@@ -137,15 +137,14 @@ router.post('/upload', function(req, res, next) {
 	doc.save(function(error) {
 		var response = {};
 		if(error) {
-			console.log( "XXXXXXXXXX" );
-			console.log( error );
 			response.status = error;
 			res.json(response);
-			//return next(error);
+
 		}
-		console.log( "HHAHAADSDSADA" );
-		response = doc;
-		res.json(response)
+		else{
+			response = doc;
+			res.json(response);
+		}
 	})
 })
 
