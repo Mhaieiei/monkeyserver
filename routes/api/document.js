@@ -141,17 +141,17 @@ router.post('/upload', function(req, res, next) {
 			metadata.id = document.id;
 			doc = createDocument(metadata);
 			doc.bumpVersion();
-			saveAndReturnDocument(doc);
+			saveAndReturnDocument(res, doc);
 		}
 		else {
 			doc = createDocument(metadata);
-			saveAndReturnDocument(doc);
+			saveAndReturnDocument(res, doc);
 		}
 	})
 })
 
 function createDocument(metadata) {
-	if(docType == 'attachment')
+	if(metadata.docType == 'attachment')
 		return new Attachment(metadata);
 	else {
 		var ICDoc = aquireTemplate(metadata.docType, metadata.year);
@@ -160,7 +160,7 @@ function createDocument(metadata) {
 
 }
 
-function saveAndReturnDocument(doc) {
+function saveAndReturnDocument(res, doc) {
 	doc.save(function(error) {
 		var response = {};
 		if(error) {
