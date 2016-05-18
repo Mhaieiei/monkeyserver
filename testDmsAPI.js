@@ -21,9 +21,9 @@ async.series([
 	function(done) {
 		documentWithAttachmentsAndRelated(user, done);
 	},
-	function(done) {
-		documentWithOlderVersions(user, done);
-	}
+	// function(done) {
+	// 	documentWithOlderVersions(user, done);
+	// }
 	], function(error) {
 		if(error) throw error;
 		startServer();
@@ -32,13 +32,15 @@ async.series([
 function documentWithAttachmentsAndRelated(creator, done) {
 	var doc = new DocXX2006({
 			owner: creator, 
-			name: 'SickLeave.docx', 
-			author: creator.local.username
+			name: 'Conference.docx', 
+			author: creator.local.username,
+			description: 'Going to conference at a university'
 		});
-	var related1 = new DocXX2006({name: 'relatedDoc1'});
-	var related2 = new DocXX2006({name: 'relatedDoc2'});
-	var attachment1 = new Attachment({name: 'attachment1'});
-	var attachment2 = new Attachment({name: 'attachment2'});
+	doc.done();
+	var related1 = new DocXX2006({name: 'thesis.pdf'});
+	var related2 = new DocXX2006({name: 'invitation.pdf'});
+	var attachment1 = new Attachment({name: 'Certificate of acceptance.docx'});
+	var attachment2 = new Attachment({name: 'receipt.docx'});
 
 	doc.relate2docs = [related1, related2];
 	doc.attachments = [attachment1, attachment2];
