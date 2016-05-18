@@ -60,6 +60,10 @@ var docSchema = new Schema({
 
 	version: String,
 
+	description: String,
+
+	permission: String,
+
 	/*
 	 * Indicates the current states document going through the workflow.
 	 * Initial status for every document is 'create'.
