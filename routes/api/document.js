@@ -139,11 +139,12 @@ router.post('/upload', function(req, res, next) {
 		if(error) {
 			response.status = error;
 			res.json(response);
-			return next(error);
-		}
 
-		response = doc;
-		res.json(response)
+		}
+		else{
+			response = doc;
+			res.json(response);
+		}
 	})
 })
 

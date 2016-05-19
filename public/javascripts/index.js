@@ -23343,14 +23343,16 @@ ContextPad.prototype.getPopup = function(element){
   else if( element.type === 'bpmn:UserTask'){
     
     var currentFormName = "none";
+    var currentFormId = "";
     if( myElements[currentElementId].form !== undefined && myElements[currentElementId].form.name !== undefined){
       currentFormName = myElements[currentElementId].form.name;
+      currentFormId = myElements[currentElementId].form.id;
     }
 
     html += '<div><b>Form</b>';
     html += '<button onclick="startSelectForm()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#mainPopup">Select form</button>';
-    html += '<a class="btn btn-default btn-sm" href="/form/create" target="_blank">Create new form</a></div>';
-    html += '<div class="selected-form">' + currentFormName + '</div>';
+    html += '<a class="btn btn-default btn-sm" href="/form/new" target="_blank">Create new form</a></div>';
+    html += '<div class="selected-form">' + '<a href="/form/' + currentFormId + '/edit">' + currentFormName + '</a></div>';
     html += '<input class="selected-form-id" type="hidden"></input>';
     html += mappingHtml;
 

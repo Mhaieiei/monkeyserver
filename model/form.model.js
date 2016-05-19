@@ -4,11 +4,13 @@ var mongoose = require('mongoose');
 var schema = new mongoose.Schema({
 	name: String,
 	description: String,
+	type: String,
 	elements: [ 
-		{ 
-			name: { type: String }, 
+		{ 	
 			type: { type: String }, 
-			value: { type: String } 
+			name: { type: String }, 
+			label: { type: String }, 
+			predefinedValue: { type: String } 
 		} 
 	]
 });

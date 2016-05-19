@@ -272,6 +272,7 @@
 		var form = {};
 		form.id = element.getAttribute("form_id");
 		form.name = element.getAttribute("form_name");
+		form.type = element.getAttribute("form_type");
 		form.description = element.getAttribute("form_description");
 		myElements[currentElementId].form = form;
 		
@@ -291,12 +292,13 @@
 		            thisForm.id = myjson[i]._id;
 		            thisForm.name = myjson[i].name;
 		            thisForm.description = myjson[i].description;
+		            thisForm.type = myjson[i].type;
 		            var yo = JSON.stringify(thisForm);
 		            rabbit += '<div>';
 		            rabbit += '<b>' + myjson[i].name + '</b><br>';
 		            rabbit += myjson[i].description + '<br>';
 		            rabbit += '<button data-dismiss="modal" onclick="doSelectForm(this)" class="btn btn-default btn-sm"'; 
-		            rabbit += 'form_id="' + myjson[i]._id + '" form_name="' + myjson[i].name + '" form_description="' + myjson[i].description + '"';
+		            rabbit += 'form_id="' + myjson[i]._id + '" form_name="' + myjson[i].name + '" form_description="' + myjson[i].description + '" form_type="' + myjson[i].type + '"';
 		            rabbit += '>Select</button>';
 		            rabbit += "</div>";
 	          	}
