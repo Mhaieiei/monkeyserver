@@ -48,7 +48,7 @@ var Template = {
 function createSchema(subtypeName, additionalFields) {
 	var mongoose = require('mongoose');
 	var schema = new mongoose.Schema({
-		id: String,
+		docId: String,
 		docNum: Number
 	}, {discriminatorKey: 'subtype'});
 
@@ -64,7 +64,7 @@ function createSchema(subtypeName, additionalFields) {
 	}
 	schema = installMongooseAutoIncrementPlugin(schema, plugInOptions);
 	schema.pre('save', function(next) {
-		this.id = subtypeName.concat(this.docNum);
+		this.docId = subtypeName.concat(this.docNum);
 		next();
 	})
 	return schema;

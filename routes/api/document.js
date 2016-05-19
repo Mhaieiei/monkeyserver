@@ -41,7 +41,7 @@ router.get('/read', function(req, res, next) {
 
 router.get('/read/:docID/allPreviousVersions', isLoggedin, function(req, res, next) {
 	var documentId = req.params.docID;
-	Document.findOne({id: documentId})
+	Document.findOne({docId: documentId})
 	.exec(function(error, document) {
 		if(error) return next(error);
 		if(document) {
@@ -62,7 +62,7 @@ router.get('/read/:docID/allPreviousVersions', isLoggedin, function(req, res, ne
 
 router.get('/ref/:docID', isLoggedin, function(req, res, next) {
 	var documentId = req.params.docID;
-	Document.findOne({id: documentId})
+	Document.findOne({docId: documentId})
 	.populate('relate2docs')
 	.exec(function(error, document) {
 		if(error) return next(error);
@@ -76,7 +76,7 @@ router.get('/ref/:docID', isLoggedin, function(req, res, next) {
 
 router.get('/attach/:docID', isLoggedin, function(req, res, next) {
 	var documentId = req.params.docID;
-	Document.findOne({id: documentId})
+	Document.findOne({docId: documentId})
 	.populate('attachments')
 	.exec(function(error, document) {
 		if(error) return next(error);
@@ -102,7 +102,7 @@ router.get('/attach', isLoggedin, function(req, res, next) {
 
 router.get('/delete/:docID', isLoggedin, function(req, res, next) {
 	var docID = req.params.docID;
-	Document.findOneAndRemove({id: docID}, function(error) {
+	Document.findOneAndRemove({docId: docID}, function(error) {
 		if(error) return next(error);
 		res.status(200);
 		res.json({status: 'ok'});
