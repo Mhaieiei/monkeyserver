@@ -75,10 +75,14 @@
                                         <!-- related document -->
                                         <tr>
                                           <th rowspan = "2">Related document</th>
-                                            <th>{{docDetail.relate2docs}}</td>
+                                            <th>
+                                              {{#each docDetail.relate2docs}}
+                                              <a class="btn btn-default" href="/documentDetail/{{this._id}}">{{this.name}}</a>
+                                              {{/each}}
+                                            </th>
                                         </tr>
                                         <tr>
-                                          <th>2</th>
+                                          <th>{{docDetail.relate2docs.length}}</th>
                                         </tr>
                                         <!-- document version -->
                                         <tr>
@@ -89,10 +93,13 @@
                                         <tr>
                                           <th rowspan = "2">Attach file</th>
                                           <th>
-                                            {{docDetail.attachments}}</th>
+                                            {{#each docDetail.attachments}}
+                                            <a class="btn btn-default" href="/documentDetail/{{this._id}}">{{this.name}}</a>
+                                            {{/each}}
+                                          </th>
                                         </tr>
                                         <tr>
-                                          <th>#</th>
+                                          <th>{{docDetail.attachments.length}}</th>
                                         </tr>
                                         <!-- document location -->
                                         <tr>

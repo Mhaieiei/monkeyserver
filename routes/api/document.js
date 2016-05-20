@@ -10,6 +10,9 @@ router.get('/read/:docID', function(req, res, next) {
 
 	var documentId = req.params.docID;
 	Document.findOne({_id: documentId})
+	.populate('relate2docs')
+	.populate('previousVersion')
+	.populate('attachments')
 	.exec(function(error, document) {
 		if(error)
 			return next(error);
@@ -28,7 +31,11 @@ router.get('/read', function(req, res, next) {
 	else
 		query = Document.find();
 
-	query.exec(function(error, document) {
+	query
+	.populate('relate2docs')
+	.populate('previousVersion')
+	.populate('attachments')	
+	.exec(function(error, document) {
 		if(error)
 			return next(error);
 
