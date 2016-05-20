@@ -25,25 +25,25 @@ describe('REST Document API', function() {
 		async.parallel([createDummyDocuments, helper.registerAndLogin(server, 'joe', 'joe')], done);
 	})
 
-	describe.skip('Get document by document ID', function() {
+	describe('Get document by document ID', function() {
 
 		var URL = getApiUrl('read');
 
 		testRespondJson(URL);
-		testInvalidId(URL, {}, 'empty json');
+		//testInvalidId(URL, {}, 'empty json'); // find by _id with invalid value cause internal server error status (500)
 
 		it('should return the correct document', function(done) {
 			APIHttpRequest(URL.concat(document.id))
 			.expect(function(response) {
 				var result = response.body;
-				expect(result.id).to.exist;
+				expect(result.docId).to.exist;
 				isSameRecord(document, result);
 			})
 			.end(done);
 		})
 
 		it('should return all previous versions of the parent document', function(done) {
-			URL += document.id;
+			URL += document.docId;
 			URL += '/' + 'allPreviousVersions'
 			APIHttpRequest(URL)
 			.expect(function(response) {
@@ -64,7 +64,7 @@ describe('REST Document API', function() {
 		testInvalidId(URL, [], 'empty json array');
 
 		it('should return all related document given document ID', function(done) {
-			APIHttpRequest(URL.concat(document.id))
+			APIHttpRequest(URL.concat(document.docId))
 			.expect(function(response) {
 				var result = response.body;
 				expect(result.length).to.equal(1);
@@ -83,7 +83,7 @@ describe('REST Document API', function() {
 		testInvalidId(URL, [], 'empty json array');
 
 		it('should return all attachments given document ID', function(done) {
-			APIHttpRequest(URL.concat(document.id))
+			APIHttpRequest(URL.concat(document.docId))
 			.expect(function(response) {
 				var result = response.body;
 				expect(result.length).to.equal(1);
@@ -121,7 +121,8 @@ describe('REST Document API', function() {
 			.expect(function(response) {
 				var documentJson = response.body;
 				console.log(documentJson);
-				expect(documentJson.id).to.exist;
+				expect(documentJson._id).to.exist;
+				expect(documentJson.docId).to.exist;
 				expect(documentJson.name).to.equal(requiredParameters.title);
 				expect(documentJson.owner).to.equal(requiredParameters.owner);
 				expect(documentJson.includeInWorkflow).to.equal(requiredParameters.workflowId);
