@@ -1,4 +1,6 @@
 var router = require('express').Router();
+var WorkflowExecution   = require('../../model/WorkflowExecution.model');
+var WorkflowTask    = require('../../model/WorkflowTask.model');
 var Doc = require('../../model/document/document');
 var isLoggedIn = require('../../middleware/loginChecker');
 var request = require('request');
@@ -19,15 +21,14 @@ router.get('/', isLoggedIn, function(req, res, next) {
   }
   query.exec(function(err, _docs) {
     handleError(err, res, next);
-
+    // console.log(_docs);
     getWorkflowTaskList(req, function(execList,taskList) {
       var response = dateDDMMYYYY(_docs);
-
       response.exec = execList;
       response.task = taskList;
       response.admin = adminfact;
-      console.log("response");
-      console.log(response);
+      console.log('docs');
+      console.log(response.docs);
       res.render('home.hbs', response);
 
     })
@@ -58,8 +59,7 @@ router.post('/', isLoggedIn, function(req, res) {
     return new RegExp(subString, mode);
   };
 
-  var query = Doc.findByUser(user).
-  where('name').regex(subStringRegex(Name, false));
+  var query = Doc.findByUser(user).where('name').regex(subStringRegex(Name, false));
 
   if(!isNaN(fromDate) && !isNaN(toDate)) {
     fromDate = new Date(fromDate);
@@ -253,6 +253,8 @@ function dateDDMMYYYY(documentQueryResult) {
 }
 
 function getWorkflowTaskList(req, callBackWithResult) {
+ 
+/*
  var baseUrl = req.protocol + '://' + req.get('host');
   //get document list 
   //request(baseUrl + '/api/document/read?userid='+ req.user._id ,function(error1,response1,body1){
@@ -266,6 +268,23 @@ function getWorkflowTaskList(req, callBackWithResult) {
        });
     });
   //});
+*/
+
+
+  WorkflowTask.find( { $or: [ {'doerId': req.user._id }, { 'roleId': req.user.simpleRole } ] }, 
+  function(err, taskResult){
+    
+    if(err) console.log(err);
+    
+    WorkflowExecution.find({ 'executorId':  req.user._id }, function(err, exeResult){
+      if(err) console.log(err);
+
+        callBackWithResult(exeResult,taskResult)
+    });
+
+  });
+
+
 }
 
 module.exports = router;

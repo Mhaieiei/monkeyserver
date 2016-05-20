@@ -7,7 +7,7 @@
         <section id="docDetail">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Document Detail
+                <h1 class="page-header">Document detail
                     
                 </h1>
                 
@@ -23,11 +23,90 @@
                     <form class="form-horizontal" role="form">
                         <table id="table_doc" class="table muffin table-striped table-hover margin-bottom0">
                                 <thead>
+                                </thead>
+                                    <div class=""table table-striped"">
+                                      <tbody>
+                                        <tr>
+                                          <th>Document ID</th>
+                                          <th>{{docDetail.docId}}</th>
+                                        </tr>
+                                        <tr>
+                                          <th>Document name</th>
+                                          <th>{{docDetail.name}}</th>
+                                        </tr>
+                                        <tr>
+                                          <th>Document type</th>
+                                          <th>{{docDetail.subtype}}</th>
+                                        </tr>
+                                        <tr>
+                                          <th>Document type</th>
+                                          <th>{{docDetail.subtype}}</th>
+                                        </tr>
+                                        <!-- Document created date -->
+                                        <tr>
+                                          <th>Created date</th>
+                                          <th>{{docDetail.dateCreate}}</th>
+                                        </tr>
+                                        <!-- Document description -->
+                                        <tr>
+                                          <th>Description</th>
+                                          <th>{{docDetail.description}}</th>
+                                        </tr>
+                                        <!-- Permission -->
+                                        <tr>
+                                          <th>Permission</th>
+                                          <th>-</th>
+                                        </tr>
+                                        <!-- author -->
+                                        <tr>
+                                          <th>Author</th>
+                                          <th>{{docDetail.author}}</th>
+                                        </tr>
+                                        <!-- Status -->
+                                        <tr>
+                                          <th>Document status</th>
+                                          <th>{{docDetail.status}}</th>
+                                        </tr>
+                                        <!-- workflow status -->
+                                        <tr>
+                                          <th>Workflow status</th>
+                                          <th>-</th>
+                                        </tr>
+                                        <!-- related document -->
+                                        <tr>
+                                          <th rowspan = "2">Related document</th>
+                                            <th>{{docDetail.relate2docs}}</td>
+                                        </tr>
+                                        <tr>
+                                          <th>2</th>
+                                        </tr>
+                                        <!-- document version -->
+                                        <tr>
+                                          <th>Document version</th>
+                                          <th>{{docDetail.version}}</th>
+                                        </tr>
+                                        <!-- attach file -->
+                                        <tr>
+                                          <th rowspan = "2">Attach file</th>
+                                          <th>
+                                            {{docDetail.attachments}}</th>
+                                        </tr>
+                                        <tr>
+                                          <th>#</th>
+                                        </tr>
+                                        <!-- document location -->
+                                        <tr>
+                                          <th> Path location</th>
+                                          <th>{{docDetail.filepath}}</th>
+                                        </tr>
 
-                                    <div class="row">
-                                      <div class="col-md-4" style="background-color:lavender;">Document ID</div>
-                                      <div class="col-md-8">{{docDetail.docId}}</div>
-                                        <div class="col-md-4">Docoument name</div>
+
+                                        
+                                      </tbody>
+<!--                                       <div class="col-md-4" style="background-color:lavender;">Document ID</div>
+                                      <div class="col-md-8">{{docDetail.id}}</div>
+                                      <div class="col-md-4">Docoument name</div>
+>>>>>>> 234d172097c6700c7e795e4436233b35c5be6af6
                                       <div class="col-md-8" style="background-color:lavender;">{{docDetail.name}}</div>
                                       <div class="col-md-4" style="background-color:lavender;">Docoument type</div>
                                       <div class="col-md-8" >{{docDetail.subtype}}</div>
@@ -54,12 +133,12 @@
                                       <div class="col-md-4">Attach file</div>
                                       <div class="col-md-8" style="background-color:lavender;">{{docDetail.attachments}}</div>
                                       <div class="col-md-4" style="background-color:lavender;">Path location</div>
-                                      <div class="col-md-8">{{docDetail.filepath}}</div>
+                                      <div class="col-md-8">{{docDetail.filepath}}</div> -->
                                     </div>
 
 
 
-                                </thead>
+
                                
 
 
