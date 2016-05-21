@@ -117,9 +117,6 @@ router.get('/delete/:docID', isLoggedin, function(req, res, next) {
 	})
 })
 
-router.post('/upload', function(req, res, next) {
-})
-
 router.post('/uploadNewVersion/:docId', function(req, res, next) {
 	Document.findOne({docId: req.params.docId})
 	.exec(function(error, document) {
