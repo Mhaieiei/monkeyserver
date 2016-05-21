@@ -109,7 +109,12 @@ describe('REST Document API', function() {
 
 		before(function(done) {
 			url += document.docId;
-			httpPostRequest()(done);
+			server.uploadFile(url, 'test/resource/fileToUpload.txt')
+			.expect('Content-Type', /json/)
+			.expect(function(_response) {
+				response = _response.body;
+			})
+			.end(done);
 		})
 
 		it('should have version increment by one if the same document (same owner and title) already exists', function() {
@@ -118,18 +123,6 @@ describe('REST Document API', function() {
 			expect(response.version).to.exist;
 			expect(response.version).to.equal(document.version + 1);
 		})
-
-		function httpPostRequest() {
-			return function(done) {
-				server.post(url)
-				.expect(200)
-				.expect('Content-Type', /json/)
-				.expect(function(_response) {
-					response = _response.body;
-				})
-				.end(done);
-			}
-		}
 	})
 
 	after(function(done) {
