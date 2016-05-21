@@ -117,6 +117,9 @@ router.get('/delete/:docID', isLoggedin, function(req, res, next) {
 })
 
 router.post('/upload', function(req, res, next) {
+})
+
+router.post('/uploadNewVersion/:docId', function(req, res, next) {
 	var title = req.body.title;
 	var owner = req.body.owner;
 	var workflowId = req.body.workflowId;
