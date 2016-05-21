@@ -5,16 +5,20 @@ var expect = require('chai').expect;
 var assert = require('assert');
 var async = require('async');
 
+var fileStream = require('fs');
+var path = require('path');
+
 var dbMock = require('test/dbTestConfig');
 var helper = require('test/helperFunction');
 var TemplateByYear = require('model/document/OfficialDocumentTemplate');
 var DmsServer = require('test/DmsServer');
+var Attachment = require('model/document/attachment');
 
 describe('REST Document API', function() {
 
 	var app, server, cookie;
 	var DocumentTemplate;
-
+	var user = {username: 'joe', password: 'joe'}
 	var document;
 	var relatedDocument, attachment;
 	var previousDocument, previouseOfPreviousDocument;
@@ -22,7 +26,7 @@ describe('REST Document API', function() {
 	before(function(done) {
 		app = require('app')(dbMock);
 		server = new DmsServer(app);
-		async.parallel([createDummyDocuments, helper.registerAndLogin(server, 'joe', 'joe')], done);
+		async.parallel([createDummyDocuments, helper.registerAndLogin(server, user.username, user.password)], done);
 	})
 
 	describe('Get document by document ID', function() {
@@ -102,34 +106,93 @@ describe('REST Document API', function() {
 		})
 	})
 
-	describe('Generate document from parameters passed by workflow system', function() {
+	describe.skip('Generate document from parameters passed by workflow system', function() {
 		var url = getApiUrl('upload');
-		it('should create document and return document object as json response', function(done) {
-			var mongoGeneratedId = '573b48271df7e15826a9ef1b'
-			var requiredParameters = {
-				title: 'title',
-				owner: 'someone',
-				workflowId: mongoGeneratedId,
-				link: 'some/where',
-				docType: 'documentType',
-				year: '2016'
-			}
-			server.post(url)
-			.send(requiredParameters)
-			.expect(200)
-			.expect('Content-Type', /json/)
-			.expect(function(response) {
-				var documentJson = response.body;
-				console.log(documentJson);
-				expect(documentJson._id).to.exist;
-				expect(documentJson.docId).to.exist;
-				expect(documentJson.name).to.equal(requiredParameters.title);
-				expect(documentJson.owner).to.equal(requiredParameters.owner);
-				expect(documentJson.includeInWorkflow).to.equal(requiredParameters.workflowId);
-				expect(documentJson.filepath).to.equal(requiredParameters.link);
-				expect(documentJson.subtype).to.equal(requiredParameters.docType + requiredParameters.year);
+		
+		var mongoGeneratedId = '573b48271df7e15826a9ef1b'
+		var existingAttachment = {
+			displayName: 'attachment',
+			executionId: mongoGeneratedId,
+			filepath: 'some/where1'
+		}
+		var newAttachment = {
+			displayName: 'newAttachment',
+			executionId: mongoGeneratedId,
+			filepath: 'some/where2'
+		}
+		var formParameters = {			
+			displayName: 'leave form',
+			HTMLContent: 
+			'<html>' +
+			'<title>Hello World!</title>' +
+			'<p>This is a html form</p> ' +
+			'</html>',
+			executionId: mongoGeneratedId	
+		}
+
+		var requiredParametersSentFromWorkflow = {
+			recipient: user.username,
+			form: formParameters,
+			attachment: [existingAttachment, newAttachment]
+		}
+
+		var responseFromApi;
+
+		before(function(done) {
+			async.series([
+				function(callback) {
+					var attachmentDocument = new Attachment();
+					attachmentDocument.docId = existingAttachment.docId;
+					attachmentDocument.name = existingAttachment.displayName;
+					attachmentDocument.includeInWorkflow = existingAttachment.executionId;
+					attachmentDocument.filepath = existingAttachment.filepath;
+					attachmentDocument.save(callback);
+					existingAttachment.docId = attachmentDocument.docId;
+				},
+				function(callback) {
+					server
+					.postWithAuth(url)
+					.send(requiredParametersSentFromWorkflow)
+					.expect(function(response){responseFromApi = response.body})
+					.end(callback)
+				}
+				], done);
+		})
+
+		it('should create form in HTML format from the given html content', function(done) {
+			var filepath = path.resolve('uploads/document/form/' + formParameters.displayName + '.html')
+			fileStream.readFile(filepath, 'utf8', function(err, html) {
+				if(err) done(err);
+				expect(html).to.equal(formParameters.HTMLContent);
+				done();
 			})
-			.end(done);
+		})
+
+		it('should create document and return form and attachments as document object json response', function() {
+			console.log(responseFromApi);
+			var form = responseFromApi.form;
+			var attachment = responseFromApi.attachment;
+			expect(form).to.exist;
+			expect(form.owner).to.equal(requiredParametersSentFromWorkflow.recipient);
+			expect(form.docId).to.exist;
+			expect(form.is_auto_generate).to.be.true;
+			expect(form.status).to.match(/done/i);
+
+			expect(attachment).to.exist;
+			expect(attachment.length).to.equal(requiredParametersSentFromWorkflow.attachment.length);
+			attachment.forEach(function(_attachment) {
+				expect(_attachment.docId).to.exist;
+				expect(_attachment.owner).to.equal(requiredParametersSentFromWorkflow.recipient);
+				expect(_attachment.filepath).to.exist;
+				expect(_attachment.status).to.match(/done/i);
+			});
+			expect(form.attachments.length).to.equal(requiredParametersSentFromWorkflow.attachment.length);
+			attachment.forEach(function(_attachment) {
+				expect(_attachment.docId).to.exist;
+				expect(_attachment.owner).to.equal(requiredParametersSentFromWorkflow.recipient);
+				expect(_attachment.filepath).to.exist;
+				expect(_attachment.status).to.match(/done/i);
+			});
 		})
 	})
 

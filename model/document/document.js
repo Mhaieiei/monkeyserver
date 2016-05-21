@@ -189,6 +189,10 @@ docSchema.methods.getAttachments = function() {
 	return this.attachments;
 }
 
+docSchema.methods.addAttachment = function(attachment) {
+	this.attachments.push(attachment);
+}
+
 module.exports = db.model(schemaName, docSchema);
 
 
