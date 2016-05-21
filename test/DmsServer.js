@@ -1,6 +1,7 @@
 'use strict'
 var inherit = require('inherit');
 var request = require('supertest');
+var fileStream = require('fs');
 
 var cookie;
 
@@ -44,6 +45,20 @@ var DmsServer = {
 	postWithAuth: function(uri) {
 		return this.server.post(uri)
 		.set('cookie', cookie)
+	},
+
+	uploadFile: function(uri, path2file) {
+		return this.postWithAuth(uri)
+		.attach('file', path2file)
+	},
+
+	removeFile: function(path2file, done) {
+		fileStream.readFile(path2file, function(err, data) {
+			hasFile = !(err && err.errno == -4058);
+			if(hasFile)
+				fileStream.unlinkSync(pathToFile);
+			done(err);
+		});
 	}
 }
 

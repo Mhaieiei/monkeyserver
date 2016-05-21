@@ -1,4 +1,6 @@
 var router = require('express').Router();
+var path = require('path');
+var fileStream = require('fs');
 
 var isLoggedin = require('middleware/loginChecker');
 var Document = require('model/document/document');
@@ -157,6 +159,62 @@ router.post('/upload', function(req, res, next) {
 	})
 })
 
+router.post('/uploadNewVersion/:docId', function(req, res, next) {
+	Document.findOne({docId: req.params.docId})
+	.exec(function(error, document) {
+		handleError(error);
+
+		if(!document) {
+			res.status(404);
+			return res.json({message: req.params.docId + ' not found'})
+		}
+
+		var oldDocument = document._id;
+		var documentNewVersion = Document.clone(document);
+
+		delete documentNewVersion.includeInWorkflow;
+		documentNewVersion.is_auto_generate = true;
+
+		documentNewVersion.previousVersion = oldDocument;
+		documentNewVersion.bumpVersion();
+
+		req.pipe(req.busboy);
+		req.busboy.on("file", onFileAttachEvent('uploads/document', function(error, path2File) {
+			handleError(error);
+			documentNewVersion.filepath = path2File;
+			documentNewVersion.save(responseDocumentAsJson);
+		}));
+
+		function responseDocumentAsJson(error) {
+			handleError(error);
+			return res.json(documentNewVersion);	
+		}
+	})
+})
+
+function handleError(error) {
+	if(!error)
+		return;
+
+	res.status(500);
+	return res.json(error);
+}
+
+function onFileAttachEvent(serverPathDirectory2save, onFileSavedEvent) {
+	return function(fieldname, file, filename) {
+		try {
+	    	fileStream.mkdirSync(serverPathDirectory2save);
+		} catch(error) {}
+
+	    fstream = fileStream.createWriteStream(path.join(serverPathDirectory2save, filename));
+	    file.pipe(fstream);
+	    fstream.on('close', function(error) {
+	    	var path2File = path.join(serverPathDirectory2save, filename);
+	    	onFileSavedEvent(error, path2File);
+	    });
+	}
+}
+
 function writeTextToFile(targetDirectory, filename, content, errorHandler) {
 	var targetDirectoryAbosolute = path.resolve(targetDirectory);
 	if(!fileStream.existsSync(targetDirectoryAbosolute))
@@ -198,6 +256,16 @@ function createAttachmentDocument(attachmentParameters, owner, filepath, onRetur
 		});
 		onReturnAttachment(attachment);
 	}
+}
+
+function createDocument(metadata) {
+	if(metadata.docType == 'attachment')
+		return new Attachment(metadata);
+	else {
+		var ICDoc = aquireTemplate(metadata.docType, metadata.year);
+		return new ICDoc(metadata);
+	}
+
 }
 
 function aquireTemplate(ICDocumentType, year) {

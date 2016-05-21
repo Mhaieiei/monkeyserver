@@ -64,7 +64,8 @@ function createSchema(subtypeName, additionalFields) {
 	}
 	schema = installMongooseAutoIncrementPlugin(schema, plugInOptions);
 	schema.pre('save', function(next) {
-		this.docId = subtypeName.concat(this.docNum);
+		if(!this.docId)
+			this.docId = subtypeName.concat(this.docNum);
 		next();
 	})
 	return schema;
