@@ -121,16 +121,27 @@ router.post('/upload', function(req, res, next) {
 
 router.post('/uploadNewVersion/:docId', function(req, res, next) {
 	Document.findOne({docId: req.params.docId})
-	.exec(function(document) {
+	.exec(function(error, document) {
+		if(error) {
+			res.status(500);
+			return res.json(error);
+		}
 		if(!document) {
 			res.status(404);
 			return res.json({message: req.params.docId + ' not found'})
 		}
 
+		var oldDocument = document._id;
 		var documentNewVersion = Document.clone(document);
-		documentNewVersion.previousVersion = document;
+		documentNewVersion.previousVersion = oldDocument;
 		documentNewVersion.bumpVersion();
-		return res.json(documentNewVersion);
+		documentNewVersion.save(function(error) {
+			if(error) {
+				res.status(500);
+				return res.json(error);
+			}
+			return res.json(documentNewVersion);
+		});
 	})
 })
 

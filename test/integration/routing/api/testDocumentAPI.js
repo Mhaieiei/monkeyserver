@@ -107,22 +107,22 @@ describe('REST Document API', function() {
 		var url = getApiUrl('uploadNewVersion');
 
 		before(function() {
-			url = url + '/' + document.docId;
+			url += document.docId;
 		})
 
 		it('should have version increment by one if the same document (same owner and title) already exists', function(done) {
-			async.series([httpPostRequest(2), httpPostRequest(3), httpPostRequest(4)], done);
+			async.series([httpPostRequest(document.version + 1)], done);
 		})
 
 		function httpPostRequest(expectedVersion) {
 			return function(done) {
 				server.post(url)
-				.send(requiredParameters)
 				.expect(200)
 				.expect('Content-Type', /json/)
 				.expect(function(response) {
 					var documentJson = response.body;
-					expectedDocumentResponse(response.body);
+					expect(documentJson.docId).to.exist;
+					expect(documentJson.docId).to.equal(document.docId);
 					expect(documentJson.version).to.exist;
 					expect(documentJson.version).to.equal(expectedVersion);
 				})

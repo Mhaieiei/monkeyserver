@@ -139,9 +139,11 @@ docSchema.statics.findByUser = function(user) {
 
 docSchema.statics.clone = function(documentInstance) {
 	var copyInstance = documentInstance;
-	copyInstance._id = mongoose.Types.ObjectId();
 	copyInstance.isNew = true;
-	copyInstance.includeInWorkflow = null;
+	delete copyInstance._id;
+	delete copyInstance.includeInWorkflow;
+	copyInstance._id = mongoose.Types.ObjectId();
+	copyInstance.is_auto_generate = true;
 	
 	return copyInstance;
 }
