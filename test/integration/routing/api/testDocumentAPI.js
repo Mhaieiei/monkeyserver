@@ -9,6 +9,7 @@ var dbMock = require('test/dbTestConfig');
 var helper = require('test/helperFunction');
 var TemplateByYear = require('model/document/OfficialDocumentTemplate');
 var DmsServer = require('test/DmsServer');
+var Document = require('model/document/document');
 
 describe('REST Document API', function() {
 
@@ -113,15 +114,34 @@ describe('REST Document API', function() {
 			.expect('Content-Type', /json/)
 			.expect(function(_response) {
 				response = _response.body;
+				console.log(response);
 			})
 			.end(done);
 		})
 
-		it('should have version increment by one if the same document (same owner and title) already exists', function() {
+		it('should have version increment by one if the same document (same owner and title) already exists', function(done) {
 			expect(response.docId).to.exist;
 			expect(response.docId).to.equal(document.docId);
 			expect(response.version).to.exist;
 			expect(response.version).to.equal(document.version + 1);
+
+			Document.findOne({docId: response.docId, version: response.version})
+			.exec(function(error, newVerDoc) {
+				if(error) 
+					done(error);
+				
+				expect(newVerDoc).to.not.be.null;
+				expect(newVerDoc.docId).to.exist;
+				expect(newVerDoc.docId).to.equal(document.docId);
+				expect(newVerDoc.version).to.exist;
+				expect(newVerDoc.version).to.equal(document.version + 1);
+				expect(newVerDoc.filepath).to.exist;
+				done();
+			});
+		})
+
+		it.skip('should contain path to the uploaded file and the file is not corrupt', function() {
+			expect(response.filepath).to.exist;
 		})
 	})
 

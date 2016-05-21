@@ -1,5 +1,6 @@
 var router = require('express').Router();
-var Promise = require('bluebird');
+var path = require('path');
+var fileStream = require('fs');
 
 var isLoggedin = require('middleware/loginChecker');
 var Document = require('model/document/document');
@@ -122,10 +123,8 @@ router.post('/upload', function(req, res, next) {
 router.post('/uploadNewVersion/:docId', function(req, res, next) {
 	Document.findOne({docId: req.params.docId})
 	.exec(function(error, document) {
-		if(error) {
-			res.status(500);
-			return res.json(error);
-		}
+		handleError(error);
+
 		if(!document) {
 			res.status(404);
 			return res.json({message: req.params.docId + ' not found'})
@@ -136,18 +135,46 @@ router.post('/uploadNewVersion/:docId', function(req, res, next) {
 
 		delete documentNewVersion.includeInWorkflow;
 		documentNewVersion.is_auto_generate = true;
-		
+
 		documentNewVersion.previousVersion = oldDocument;
 		documentNewVersion.bumpVersion();
-		documentNewVersion.save(function(error) {
-			if(error) {
-				res.status(500);
-				return res.json(error);
-			}
-			return res.json(documentNewVersion);
-		});
+
+		req.pipe(req.busboy);
+		req.busboy.on("file", onFileAttachEvent('uploads/document', function(error, path2File) {
+			handleError(error);
+			documentNewVersion.filepath = path2File;
+			documentNewVersion.save(responseDocumentAsJson);
+		}));
+
+		function responseDocumentAsJson(error) {
+			handleError(error);
+			return res.json(documentNewVersion);	
+		}
 	})
 })
+
+function handleError(error) {
+	if(!error)
+		return;
+
+	res.status(500);
+	return res.json(error);
+}
+
+function onFileAttachEvent(serverPathDirectory2save, onFileSavedEvent) {
+	return function(fieldname, file, filename) {
+		try {
+	    	fileStream.mkdirSync(serverPathDirectory2save);
+		} catch(error) {}
+
+	    fstream = fileStream.createWriteStream(path.join(serverPathDirectory2save, filename));
+	    file.pipe(fstream);
+	    fstream.on('close', function(error) {
+	    	var path2File = path.join(serverPathDirectory2save, filename);
+	    	onFileSavedEvent(error, path2File);
+	    });
+	}
+}
 
 function createDocument(metadata) {
 	if(metadata.docType == 'attachment')
