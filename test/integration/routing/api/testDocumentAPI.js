@@ -105,26 +105,27 @@ describe('REST Document API', function() {
 	describe.only('Upload newer version of the same document', function() {
 
 		var url = getApiUrl('uploadNewVersion');
+		var response;
 
-		before(function() {
+		before(function(done) {
 			url += document.docId;
+			httpPostRequest()(done);
 		})
 
-		it('should have version increment by one if the same document (same owner and title) already exists', function(done) {
-			async.series([httpPostRequest(document.version + 1)], done);
+		it('should have version increment by one if the same document (same owner and title) already exists', function() {
+			expect(response.docId).to.exist;
+			expect(response.docId).to.equal(document.docId);
+			expect(response.version).to.exist;
+			expect(response.version).to.equal(document.version + 1);
 		})
 
-		function httpPostRequest(expectedVersion) {
+		function httpPostRequest() {
 			return function(done) {
 				server.post(url)
 				.expect(200)
 				.expect('Content-Type', /json/)
-				.expect(function(response) {
-					var documentJson = response.body;
-					expect(documentJson.docId).to.exist;
-					expect(documentJson.docId).to.equal(document.docId);
-					expect(documentJson.version).to.exist;
-					expect(documentJson.version).to.equal(expectedVersion);
+				.expect(function(_response) {
+					response = _response.body;
 				})
 				.end(done);
 			}
