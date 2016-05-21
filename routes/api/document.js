@@ -133,6 +133,10 @@ router.post('/uploadNewVersion/:docId', function(req, res, next) {
 
 		var oldDocument = document._id;
 		var documentNewVersion = Document.clone(document);
+
+		delete documentNewVersion.includeInWorkflow;
+		documentNewVersion.is_auto_generate = true;
+		
 		documentNewVersion.previousVersion = oldDocument;
 		documentNewVersion.bumpVersion();
 		documentNewVersion.save(function(error) {

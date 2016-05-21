@@ -141,9 +141,7 @@ docSchema.statics.clone = function(documentInstance) {
 	var copyInstance = documentInstance;
 	copyInstance.isNew = true;
 	delete copyInstance._id;
-	delete copyInstance.includeInWorkflow;
 	copyInstance._id = mongoose.Types.ObjectId();
-	copyInstance.is_auto_generate = true;
 	
 	return copyInstance;
 }
