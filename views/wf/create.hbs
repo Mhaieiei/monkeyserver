@@ -268,6 +268,15 @@
 		loadForms();
 	}
 
+	function checkCreateDoc(checkbox){
+
+		var createDoc = 0;
+		if( checkbox.checked )
+			createDoc = 1;
+
+		myElements[currentElementId].createDoc = createDoc;
+	}
+
 	function doSelectForm(element){
 		var form = {};
 		form.id = element.getAttribute("form_id");

@@ -15,6 +15,8 @@ var schema = new mongoose.Schema({
 			value: { type: String } 
 		}
 	],
+	toFormDocs: mongoose.Schema.Types.Mixed,
+	toAttachDocs: mongoose.Schema.Types.Mixed,
 	details: mongoose.Schema.Types.Mixed,
 	handlers:  mongoose.Schema.Types.Mixed,
 	status: Number

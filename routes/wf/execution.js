@@ -93,8 +93,16 @@ router.post('/tasks/:id', function(req, res ){
 
 			form.parse(req, function(err, fields, files) {
 
+
+				// add all files to toAttachDocs
+
+				var fileKeys = Object.keys( files );
+				for( var i = 0; i < fileKeys.length; i++ ){
+					execution.toAttachDocs.push( files[ fileKeys[i] ] );
+				}
+
 			    newDetails[taskResult.elementId].submitResults = getSubmitResults( fields, files );
-				
+
 			    if( newDetails[taskResult.elementId].submitResults.submit === 'Approve' ){
 			    	newDetails[taskResult.elementId].submitResults.output = '1';
 			    }
@@ -104,9 +112,12 @@ router.post('/tasks/:id', function(req, res ){
 
 				laneHandler.doerId = req.user._id;
 
-				execution.runningElements.push( taskResult.elementId );
+				if( newDetails[taskResult.elementId].createDoc == 1 ){
+					execution.toFormDocs.push( taskResult );
+				}
 
 				WorkflowTask.remove({ '_id': taskResult._id }, function(err){
+					execution.runningElements.push( taskResult.elementId );
 					workflowRunner.run(execution, res);
 				});
 				
