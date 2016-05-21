@@ -120,43 +120,18 @@ router.post('/upload', function(req, res, next) {
 })
 
 router.post('/uploadNewVersion/:docId', function(req, res, next) {
-	var title = req.body.title;
-	var owner = req.body.owner;
-	var workflowId = req.body.workflowId;
-	var filepath = req.body.link;
-	var docType = req.body.docType;
-	var year = req.body.year;
-
-	var subtype = docType + year;
-
-	var metadata = {
-		name: title,
-		owner: owner,
-		includeInWorkflow: workflowId,
-		filepath: filepath,
-		subtype: subtype,
-		docType: docType,
-		year: year
-	}
-	var newest = -1;
-	Document
-	.findOne({name: title, owner: owner})
-	.sort({'dateCreate': newest})
-	.exec(function(error, document) {
-		console.log(document);
-		var newDocument;
-		if(document) {
-			metadata.id = document.id;
-			newDocument = createDocument(metadata);
-			newDocument.version = document.nextVersion();
-			newDocument.previousVersion = document;
-			saveAndReturnDocument(res, newDocument);
+	Document.findOne({docId: req.params.docId})
+	.exec(function(document) {
+		if(!document) {
+			res.status(404);
+			return res.json({message: req.params.docId + ' not found'})
 		}
-		else {
-			newDocument = createDocument(metadata);
-			saveAndReturnDocument(res, newDocument);
-		}
-	});
+
+		var documentNewVersion = Document.clone(document);
+		documentNewVersion.previousVersion = document;
+		documentNewVersion.bumpVersion();
+		return res.json(documentNewVersion);
+	})
 })
 
 function createDocument(metadata) {
@@ -167,21 +142,6 @@ function createDocument(metadata) {
 		return new ICDoc(metadata);
 	}
 
-}
-
-function saveAndReturnDocument(res, doc) {
-	doc.save(function(error) {
-		var response = {};
-		if(error) {
-			response.status = error;
-			res.json(response);
-
-		}
-		else{
-			response = doc;
-			res.json(response);
-		}
-	})
 }
 
 function aquireTemplate(ICDocumentType, year) {

@@ -137,6 +137,15 @@ docSchema.statics.findByUser = function(user) {
 	return this.find({'owner': user});
 };
 
+docSchema.statics.clone = function(documentInstance) {
+	var copyInstance = documentInstance;
+	copyInstance._id = mongoose.Types.ObjectId();
+	copyInstance.isNew = true;
+	copyInstance.includeInWorkflow = null;
+	
+	return copyInstance;
+}
+
 /**
  * Set document's status for newly created document.
  */
