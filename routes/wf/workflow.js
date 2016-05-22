@@ -138,8 +138,7 @@ router.get('/:id/execute', function(req, res, next){
 				variables: result.variables,
 				details: result.elements,
 				handlers: handler.elements,
-				toFormDocs: [],
-				toAttachDocs: [],
+				toDocs: [],
 				status: 0
 			});
 
