@@ -21,15 +21,14 @@ router.get('/', isLoggedIn, function(req, res, next) {
   }
   query.exec(function(err, _docs) {
     handleError(err, res, next);
-
+    // console.log(_docs);
     getWorkflowTaskList(req, function(execList,taskList) {
       var response = dateDDMMYYYY(_docs);
-
       response.exec = execList;
       response.task = taskList;
       response.admin = adminfact;
-      console.log("response");
-      console.log(response);
+      console.log('docs');
+      console.log(response.docs);
       res.render('home.hbs', response);
 
     })

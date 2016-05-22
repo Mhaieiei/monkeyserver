@@ -6,7 +6,7 @@ var DocumentTemplate = require('./DocumentTemplate');
  * This module creates subtype document by year.
  * It use module {@link template} then place stricter naming rules.
  * Basically, it appends year to subtype name creating a new type.
- * The field .id will also be replaced with the following format. <subtype name><4-digits year><4-digits incremental number>
+ * The field .docId will also be replaced with the following format. <subtype name><4-digits year><4-digits incremental number>
  * 4-digit incremental number will have leading zeros ex. 0001, 0012, 0123, and 1234.
  * @author Apipol Niyomsak <makemek101@hotmail.com>
  *  
@@ -34,9 +34,8 @@ var OfficialDocumentTemplate = {
 }
 
 function compileDocumentIdBeforeSave(schema) {
-	schema.add({id: String});
 	schema.pre('save', function(next) {
-		this.id = this.subtype.concat(fillLeadingZeros(this.docNum, 4));
+		this.docId = this.subtype.concat(fillLeadingZeros(this.docNum, 4));
 		next();
 	});
 

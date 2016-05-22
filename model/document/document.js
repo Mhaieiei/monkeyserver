@@ -58,7 +58,10 @@ var docSchema = new Schema({
 		default: false
 	},
 
-	version: String,
+	version: {
+		type: Number,
+		default: 1
+	},
 
 	description: String,
 
@@ -134,6 +137,15 @@ docSchema.statics.findByUser = function(user) {
 	return this.find({'owner': user});
 };
 
+docSchema.statics.clone = function(documentInstance) {
+	var copyInstance = documentInstance;
+	copyInstance.isNew = true;
+	delete copyInstance._id;
+	copyInstance._id = mongoose.Types.ObjectId();
+	
+	return copyInstance;
+}
+
 /**
  * Set document's status for newly created document.
  */
@@ -187,6 +199,19 @@ docSchema.methods.assignees = function() {
 
 docSchema.methods.getAttachments = function() {
 	return this.attachments;
+}
+
+docSchema.methods.addAttachment = function(attachment) {
+	this.attachments.push(attachment);
+}
+
+docSchema.methods.bumpVersion = function() {
+	this.version = this.nextVersion();
+	return this.version;
+}
+
+docSchema.methods.nextVersion = function() {
+	return this.version + 1;
 }
 
 module.exports = db.model(schemaName, docSchema);

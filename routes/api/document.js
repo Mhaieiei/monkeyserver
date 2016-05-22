@@ -1,15 +1,23 @@
 var router = require('express').Router();
-var Promise = require('bluebird');
+var path = require('path');
+var fileStream = require('fs');
 
 var isLoggedin = require('middleware/loginChecker');
 var Document = require('model/document/document');
 var Attachment = require('model/document/attachment');
 var ICDocs = require('model/document/ICDocuments');
 
+var fileStream = require('fs');
+var path = require('path');
+var async = require('async')
+
 router.get('/read/:docID', function(req, res, next) {
 
 	var documentId = req.params.docID;
 	Document.findOne({_id: documentId})
+	.populate('relate2docs')
+	.populate('previousVersion')
+	.populate('attachments')
 	.exec(function(error, document) {
 		if(error)
 			return next(error);
@@ -28,7 +36,11 @@ router.get('/read', function(req, res, next) {
 	else
 		query = Document.find();
 
-	query.exec(function(error, document) {
+	query
+	.populate('relate2docs')
+	.populate('previousVersion')
+	.populate('attachments')	
+	.exec(function(error, document) {
 		if(error)
 			return next(error);
 
@@ -41,7 +53,7 @@ router.get('/read', function(req, res, next) {
 
 router.get('/read/:docID/allPreviousVersions', isLoggedin, function(req, res, next) {
 	var documentId = req.params.docID;
-	Document.findOne({id: documentId})
+	Document.findOne({docId: documentId})
 	.exec(function(error, document) {
 		if(error) return next(error);
 		if(document) {
@@ -62,7 +74,7 @@ router.get('/read/:docID/allPreviousVersions', isLoggedin, function(req, res, ne
 
 router.get('/ref/:docID', isLoggedin, function(req, res, next) {
 	var documentId = req.params.docID;
-	Document.findOne({id: documentId})
+	Document.findOne({docId: documentId})
 	.populate('relate2docs')
 	.exec(function(error, document) {
 		if(error) return next(error);
@@ -76,7 +88,7 @@ router.get('/ref/:docID', isLoggedin, function(req, res, next) {
 
 router.get('/attach/:docID', isLoggedin, function(req, res, next) {
 	var documentId = req.params.docID;
-	Document.findOne({id: documentId})
+	Document.findOne({docId: documentId})
 	.populate('attachments')
 	.exec(function(error, document) {
 		if(error) return next(error);
@@ -102,7 +114,7 @@ router.get('/attach', isLoggedin, function(req, res, next) {
 
 router.get('/delete/:docID', isLoggedin, function(req, res, next) {
 	var docID = req.params.docID;
-	Document.findOneAndRemove({id: docID}, function(error) {
+	Document.findOneAndRemove({docId: docID}, function(error) {
 		if(error) return next(error);
 		res.status(200);
 		res.json({status: 'ok'});
@@ -110,43 +122,151 @@ router.get('/delete/:docID', isLoggedin, function(req, res, next) {
 })
 
 router.post('/upload', function(req, res, next) {
-	var title = req.body.title;
-	var owner = req.body.owner;
-	var workflowId = req.body.workflowId;
-	var filepath = req.body.link;
-	var docType = req.body.docType;
-	var year = req.body.year;
+	var recipient = req.body.recipient;
+	var form = req.body.form;
+	var attachment = req.body.attachment;
+	
+	var targetFilePath = writeTextToFile('uploads/document/form', form.displayName + '.html', form.HTMLContent, next);
+	
+	var formAsDocument = createFormDocument(form, recipient, targetFilePath);
+	formAsDocument.done();
+	var attachmentAsDocument = [];
 
-	var subtype = docType + year;
-
-	var doc;
-	var metadata = {
-		name: title,
-		owner: owner,
-		includeInWorkflow: workflowId,
-		filepath: filepath,
-		subtype: subtype
-	}
-	if(docType == 'attachment')
-		doc = new Attachment(metadata);
-	else {
-		var ICDoc = aquireTemplate(docType, year);
-		doc = new ICDoc(metadata);
-	}
-
-	doc.save(function(error) {
-		var response = {};
+	async.forEach(attachment, function(_attachment, done) {
+		createAttachmentDocument(_attachment, recipient, _attachment.filepath, function(returnAttachment) {
+			if(!returnAttachment) {
+				done(); // handle receive docId but not found in the database
+			} else {
+				returnAttachment.done();
+				formAsDocument.addAttachment(returnAttachment);
+				attachmentAsDocument.push(returnAttachment);
+				returnAttachment.save(done);
+			}
+		})	
+	}, function(error) {
 		if(error) {
-			response.status = error;
-			res.json(response);
-
+			res.status(500);
+			return res.json(error);
 		}
-		else{
-			response = doc;
-			res.json(response);
+
+		formAsDocument.save(function(error) {
+			if(error) {
+				res.status(500);
+				return res.json(error);
+			}
+			return res.json({form: formAsDocument, attachment: attachmentAsDocument})
+		})
+	})
+})
+
+router.post('/uploadNewVersion/:docId', function(req, res, next) {
+	Document.findOne({docId: req.params.docId})
+	.exec(function(error, document) {
+		handleError(error);
+
+		if(!document) {
+			res.status(404);
+			return res.json({message: req.params.docId + ' not found'})
+		}
+
+		var oldDocument = document._id;
+		var documentNewVersion = Document.clone(document);
+
+		delete documentNewVersion.includeInWorkflow;
+		documentNewVersion.is_auto_generate = true;
+
+		documentNewVersion.previousVersion = oldDocument;
+		documentNewVersion.bumpVersion();
+
+		req.pipe(req.busboy);
+		req.busboy.on("file", onFileAttachEvent('uploads/document', function(error, path2File) {
+			handleError(error);
+			documentNewVersion.filepath = path2File;
+			documentNewVersion.save(responseDocumentAsJson);
+		}));
+
+		function responseDocumentAsJson(error) {
+			handleError(error);
+			return res.json(documentNewVersion);	
 		}
 	})
 })
+
+function handleError(error) {
+	if(!error)
+		return;
+
+	res.status(500);
+	return res.json(error);
+}
+
+function onFileAttachEvent(serverPathDirectory2save, onFileSavedEvent) {
+	return function(fieldname, file, filename) {
+		try {
+	    	fileStream.mkdirSync(serverPathDirectory2save);
+		} catch(error) {}
+
+	    fstream = fileStream.createWriteStream(path.join(serverPathDirectory2save, filename));
+	    file.pipe(fstream);
+	    fstream.on('close', function(error) {
+	    	var path2File = path.join(serverPathDirectory2save, filename);
+	    	onFileSavedEvent(error, path2File);
+	    });
+	}
+}
+
+function writeTextToFile(targetDirectory, filename, content, errorHandler) {
+	var targetDirectoryAbosolute = path.resolve(targetDirectory);
+	if(!fileStream.existsSync(targetDirectoryAbosolute))
+        fileStream.mkdirSync(targetDirectoryAbosolute);
+
+    var targetFile = path.join(targetDirectoryAbosolute, filename);
+	fileStream.writeFileSync(targetFile, content);
+
+	return path.join(targetDirectory, filename);
+}
+
+function createFormDocument(formParameters, owner, filepath) {
+	var today = new Date();
+	var Form = aquireTemplate('FORM', today.getFullYear());
+	var form = new Form({
+		owner: owner,
+		name: formParameters.displayName,
+		includeInWorkflow: formParameters.executionId,
+		filepath: filepath,
+		is_auto_generate: true,
+		author: 'Monkey System'
+	});
+
+	return form
+}
+
+function createAttachmentDocument(attachmentParameters, owner, filepath, onReturnAttachment) {
+	if(attachmentParameters.docId) {
+		Attachment.findOne({docId: attachmentParameters.docId})
+		.exec(onReturnAttachment)
+	}
+	else {
+		var attachment = new Attachment({
+			name: attachmentParameters.displayName,
+			includeInWorkflow: attachmentParameters.executionId,
+			filepath: attachmentParameters.filepath,
+			owner: owner,
+			author: 'Monkey System'
+		});
+		onReturnAttachment(attachment);
+	}
+}
+
+function createDocument(metadata) {
+	if(metadata.docType == 'attachment')
+		return new Attachment(metadata);
+	else {
+		var ICDoc = aquireTemplate(metadata.docType, metadata.year);
+		return new ICDoc(metadata);
+	}
+
+}
 
 function aquireTemplate(ICDocumentType, year) {
 	var Template = require('model/document/OfficialDocumentTemplate');

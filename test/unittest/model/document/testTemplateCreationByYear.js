@@ -103,8 +103,8 @@ module.exports = function() {
 			var documentXX3 = new SubtypeXX({name: 'documentXX3'});
 			helper.saveMultipleItemsToDatabase([documentXX3], function() {
 				var uppercaseTemplateName = templateName.toUpperCase();
-				expect(documentXX3.id).to.exist;
-				expect(documentXX3.id).to.equal(uppercaseTemplateName + year + '0003');
+				expect(documentXX3.docId).to.exist;
+				expect(documentXX3.docId).to.equal(uppercaseTemplateName + year + '0003');
 				done();
 			})
 		});

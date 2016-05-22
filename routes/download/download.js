@@ -3,12 +3,19 @@ var path = require('path');
 var router = express.Router();
 var Document = require('model/document/document');
 
-router.get('/document/:file', isGranted, function(req, res) {
-	var file = path.resolve('uploads/document/' + req.params.file);
-	console.log('request file: ' + file);
+router.get('/document/:file', function(req, res) {
+	downloadFile(res, 'uploads/document/' + req.params.file);
+});
+
+router.get('/document/form/:file', function(req, res) {
+	downloadFile(res, 'uploads/document/form/' + req.params.file);
+});
+
+function downloadFile(res, path2file) {
+	var file = path.resolve(path2file);
 	res.set('Content-Type', 'file');
 	res.download(file);
-});
+}
 
 /*
 Check whether user have permission to download a file
