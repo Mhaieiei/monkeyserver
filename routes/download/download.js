@@ -8,7 +8,7 @@ router.get('/document/:file', function(req, res) {
 });
 
 router.get('/document/form/:file', function(req, res) {
-	downloadFile(res, 'uploads/document/form' + req.params.file);
+	downloadFile(res, 'uploads/document/form/' + req.params.file);
 });
 
 function downloadFile(res, path2file) {
