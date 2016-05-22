@@ -89,7 +89,7 @@ router.post('/tasks/:id', function(req, res ){
 			var laneHandler = execution.handlers[ thisElement['laneRef'] ];
 
 			var form = new formidable.IncomingForm();
-			form.uploadDir = process.env.PWD + '/uploads/workflow';
+			form.uploadDir = process.env.PWD + '/uploads/document';
 
 			form.parse(req, function(err, fields, files) {
 
