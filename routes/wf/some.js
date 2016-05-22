@@ -4,7 +4,34 @@ var multer  	= require('multer');
 var upload 		= multer({ dest: 'uploads/' });
 var request		= require('request');
 var formidable  = require('formidable');
+var async		= require('async');
 
+router.get('/async', function(req, res){
+
+	var baseUrl = req.protocol + '://' + req.get('host');
+	var toDocs = ['200', '300'];
+
+	async.each(toDocs, function(name, callback) {
+		request.post({
+			url: baseUrl + '/api/document/upload', 
+			form: {
+				recipient: 'admin',
+				form: {
+					displayName: name, 
+					HTMLContent: '<h3>YO</h3>'
+				},
+				attachment: []
+			}
+		},
+		function(err, response, body){
+			callback();
+		});
+
+	}, function(err){
+		res.end('xxx');
+	});
+
+});
 
 router.get('/upload', function(req, res){
 	res.render('wf/upload',  { layout: 'homePage' } );

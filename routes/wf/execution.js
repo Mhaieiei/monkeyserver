@@ -89,17 +89,9 @@ router.post('/tasks/:id', function(req, res ){
 			var laneHandler = execution.handlers[ thisElement['laneRef'] ];
 
 			var form = new formidable.IncomingForm();
-			form.uploadDir = process.env.PWD + '/uploads';
+			form.uploadDir = process.env.PWD + '/uploads/workflow';
 
 			form.parse(req, function(err, fields, files) {
-
-
-				// add all files to toAttachDocs
-
-				var fileKeys = Object.keys( files );
-				for( var i = 0; i < fileKeys.length; i++ ){
-					execution.toAttachDocs.push( files[ fileKeys[i] ] );
-				}
 
 			    newDetails[taskResult.elementId].submitResults = getSubmitResults( fields, files );
 
@@ -113,7 +105,10 @@ router.post('/tasks/:id', function(req, res ){
 				laneHandler.doerId = req.user._id;
 
 				if( newDetails[taskResult.elementId].createDoc == 1 ){
-					execution.toFormDocs.push( taskResult );
+					var toDoc = {};
+					toDoc.taskResult = taskResult;
+					toDoc.submitResult = newDetails[taskResult.elementId].submitResults;
+					execution.toDocs.push( toDoc );
 				}
 
 				WorkflowTask.remove({ '_id': taskResult._id }, function(err){
@@ -275,7 +270,7 @@ function executeWorkflow(execution, res){
 
 function getSubmitResults( fields, files ){
 
-	var result = {};
+	var result = { files: {} };
 
 	var fieldKeys = Object.keys( fields );
 	for( var i = 0; i < fieldKeys.length; i++ ){
@@ -284,7 +279,7 @@ function getSubmitResults( fields, files ){
 
 	var fileKeys = Object.keys( files );
 	for( var i = 0; i < fileKeys.length; i++ ){
-		result[ fileKeys[i] ] = files[ fileKeys[i] ];
+		result.files[ fileKeys[i] ] = files[ fileKeys[i] ];
 	}
 
 	return result;
