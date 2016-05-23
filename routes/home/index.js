@@ -21,14 +21,14 @@ router.get('/', isLoggedIn, function(req, res, next) {
   }
   query.exec(function(err, _docs) {
     handleError(err, res, next);
-    // console.log(_docs);
+    var response = {layout: 'homePage'};
     getWorkflowTaskList(req, function(execList,taskList) {
-      var response = dateDDMMYYYY(_docs);
+      response.doc = _docs;
       response.exec = execList;
       response.task = taskList;
       response.admin = adminfact;
       console.log('docs');
-      console.log(response.docs);
+      console.log(response.doc);
       res.render('home.hbs', response);
 
     })
@@ -221,35 +221,6 @@ function handleError(error, res, next) {
   console.error(error);
   res.status(500);
   return next(error);  
-}
-
-function dateDDMMYYYY(documentQueryResult) {
-  var date= [];
-  var response = {
-    layout: 'homePage',
-    docs: documentQueryResult,
-    helpers: {
-      getdate: function (value) { return date[value]; }
-    }
-  }
-
-  for(var i = 0 ; i < documentQueryResult.length ;++i){
-    var a = documentQueryResult[i].dateCreate;
-    var yy = a.getFullYear();
-    var mm = a.getMonth()+1;
-    var dd = a.getDate();
-
-    if(mm<10){
-      mm = "0"+mm;
-    }
-    if(dd<10){
-      dd = "0"+dd;
-    }
-
-    date[i] = dd+ '/' +mm +'/'+ yy;
-  }
-
-  return response;
 }
 
 function getWorkflowTaskList(req, callBackWithResult) {
