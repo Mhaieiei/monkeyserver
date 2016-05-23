@@ -23,7 +23,7 @@ router.get('/', isLoggedIn, function(req, res, next) {
     handleError(err, res, next);
     var response = {layout: 'homePage'};
     getWorkflowTaskList(req, function(execList,taskList) {
-      response.doc = _docs;
+      response.doc = JSON.parse(JSON.stringify(_docs));
       response.exec = execList;
       response.task = taskList;
       response.admin = adminfact;
