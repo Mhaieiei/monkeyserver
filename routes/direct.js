@@ -138,9 +138,14 @@ module.exports = function(app, passport) {
       }
 
       var docDetail = JSON.parse(body1);
-      var spliter = String(docDetail.filepath).split('.');
-      docDetail.filetype = spliter[ spliter.length - 1 ];
-      docDetail.name = String(docDetail.name).substr(0 ,docDetail.name.length - docDetail.filetype.length);
+      var lastDotIndex = docDetail.name.search(/\.(?!.*\.)/);
+      docDetail.filetype = docDetail.name.substring(lastDotIndex + 1, docDetail.name.length);
+      var unknownFiletype = docDetail.filetype === docDetail.name;
+      if(unknownFiletype)
+        docDetail.filetype = '';
+
+      var date = new Date(docDetail.dateCreate);
+      docDetail.dateCreate = (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear();
 
     res.render('docDetail.hbs',{
         layout:"homePage",
