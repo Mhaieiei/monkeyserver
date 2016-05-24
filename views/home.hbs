@@ -150,17 +150,18 @@
                                     {{#if this.status}}
                                     <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#visibilityRow{{@index}}" aria-expanded="false" aria-controls="visibilityRow{{@index}}">Expand</button>
                                     <div class="collapse" id="visibilityRow{{@index}}">
-                                        <div class="card card-block">
-                                        <ul>
-                                            <li>One</li>
-                                            <li>Two</li>
-                                            <li>xxxxxxxxxxxxxxxxxx</li>
-                                        </ul>
+                                        <div class="card">
+                                          <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">Cras justo odio</li>
+                                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                                            <li class="list-group-item">Vestibulum at eros</li>
+                                          </ul>
                                         </div>
                                     </div>
                                     {{else}}
                                     <font color="green">Only me
                                     {{/if}}
+                                    <a href="/document/{{this.docId}}/visibility" class="btn btn-default">Edit</a>
                                 </td>
                                 <td>
                                     <a class="btn btn-default" href="/documentDetail/{{this._id}}" >More detail</a>
