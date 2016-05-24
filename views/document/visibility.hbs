@@ -1,7 +1,6 @@
 <h2>Make <strong>{{this.docId}}</strong> visible to</h2>
 
-
-<div class="container">
+<div class="col-md-6">
 <form>
 	{{#each roleGroup}}
 	{{#if this.position}}
@@ -19,7 +18,7 @@
 		<tbody>
 			{{#each this.position}}
 			<tr>
-				<td><label><input type="checkbox"></label></td>
+				<td><label><input type="checkbox" name="{{this}}"></label></td>
 				<td>{{this}}</td>
 			</tr>
 			{{/each}}
@@ -27,5 +26,7 @@
 	</table>
 	{{/if}}
 	{{/each}}
+
+	<input class ="pull-right btn btn-lg btn-block btn-success" type="submit" value="save" method="post" action="/document/{{this.docId}}/visibility">
 </form>
 </div>
