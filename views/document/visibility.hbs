@@ -1,12 +1,10 @@
 <h2>Make <strong>{{this.docId}}</strong> visible to</h2>
 
 <div class="col-md-6">
-<form>
+<form action="/document/{{this.docId}}/visibility" method="POST">
 	{{#each roleGroup}}
 	{{#if this.position}}
-	<div class="checkbox">
 	<h3>{{this._id.type}}</h3>
-	</div>
 
 	<table class="table table-hover">
 		<thread>
@@ -18,7 +16,7 @@
 		<tbody>
 			{{#each this.position}}
 			<tr>
-				<td><label><input type="checkbox" name="{{this}}"></label></td>
+				<td><input type="checkbox" name="permitPosition[]" value="{{this}}"/></td>
 				<td>{{this}}</td>
 			</tr>
 			{{/each}}
@@ -27,6 +25,6 @@
 	{{/if}}
 	{{/each}}
 
-	<input class ="pull-right btn btn-lg btn-block btn-success" type="submit" value="save" method="post" action="/document/{{this.docId}}/visibility">
+	<input class ="pull-right btn btn-lg btn-block btn-success" type="submit" value="save" />
 </form>
 </div>

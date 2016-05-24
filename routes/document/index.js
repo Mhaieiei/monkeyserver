@@ -30,4 +30,10 @@ router.get('/:docId/visibility', isLoggedIn, function(req, res, next) {
 
 })
 
+router.post('/:docId/visibility', isLoggedIn, function(req, res, next) {
+	console.log("POST");
+	console.log(req.body);
+	console.log(req.params);
+})
+
 module.exports = exports = router;
