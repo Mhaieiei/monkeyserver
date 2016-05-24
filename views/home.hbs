@@ -147,8 +147,17 @@
                                 <td class="dateCreate">{{this.dateCreate}}</td>
                                 <td>{{this.status}}</td>
                                 <td>
-                                    {{#if this.visibility}}
-                                    <font color="red">Someone
+                                    {{#if this.status}}
+                                    <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#visibilityRow{{@index}}" aria-expanded="false" aria-controls="visibilityRow{{@index}}">Expand</button>
+                                    <div class="collapse" id="visibilityRow{{@index}}">
+                                        <div class="card card-block">
+                                        <ul>
+                                            <li>One</li>
+                                            <li>Two</li>
+                                            <li>xxxxxxxxxxxxxxxxxx</li>
+                                        </ul>
+                                        </div>
+                                    </div>
                                     {{else}}
                                     <font color="green">Only me
                                     {{/if}}
