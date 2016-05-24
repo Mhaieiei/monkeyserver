@@ -146,7 +146,13 @@
                                 <td>{{this.author}}</td>
                                 <td class="dateCreate">{{this.dateCreate}}</td>
                                 <td>{{this.status}}</td>
-                                <td><font color="red"></td>
+                                <td>
+                                    {{#if this.visibility}}
+                                    <font color="red">Someone
+                                    {{else}}
+                                    <font color="green">Only me
+                                    {{/if}}
+                                </td>
                                 <td>
                                     <a class="btn btn-default" href="/documentDetail/{{this._id}}" >More detail</a>
                                 </td>
