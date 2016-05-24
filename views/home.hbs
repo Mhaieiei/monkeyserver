@@ -129,7 +129,7 @@
                         <thead>
                             <tr>
                                 <th width="40"><a href="javascript:table_sort('tab_2',0)"></a></th>
-                                <th><a href="javascript:table_sort('tab_2',1)">ID</a></th>
+                                <th width="40"><a href="javascript:table_sort('tab_2',1)">ID</a></th>
                                 <th><a href="javascript:table_sort('tab_2',2)">Document name</a></th>
                                 <th><a href="javascript:table_sort('tab_2',3)">Author</a></th>
                                 <th><a href="javascript:table_sort('tab_2',4)">Created date</a></th>
@@ -141,7 +141,7 @@
                             {{#each doc}}
                             <tr class="each-doc">
                                 <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                <td>{{this.docId}}</td>
+                                <td><a class="btn btn-default btn-block" href="/documentDetail/{{this._id}}" >{{this.docId}}</a></td>
                                 <td class="filepath"><a href="{{this.filepath}}">{{this.name}}</a></td>
                                 <td>{{this.author}}</td>
                                 <td class="dateCreate">{{this.dateCreate}}</td>
@@ -162,9 +162,6 @@
                                     <font color="green"><b>Only me</b></font>
                                     {{/if}}
                                     <a href="/document/{{this.docId}}/visibility" class="btn btn-default btn-block">Edit</a>
-                                </td>
-                                <td>
-                                    <a class="btn btn-default btn-block" href="/documentDetail/{{this._id}}" >More detail</a>
                                 </td>
                             </tr>
                             {{/each}}  
