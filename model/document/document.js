@@ -68,7 +68,7 @@ var docSchema = new Schema({
 	/*
 	 * User who has the these role could see the document
 	 */
-	visability: [{
+	visibility: [{
 		type: Schema.Types.ObjectId,
 		ref: 'role'
 	}],
