@@ -65,7 +65,13 @@ var docSchema = new Schema({
 
 	description: String,
 
-	permission: String,
+	/*
+	 * User who has the these role could see the document
+	 */
+	visability: [{
+		type: Schema.Types.ObjectId,
+		ref: 'role'
+	}],
 
 	/*
 	 * Indicates the current states document going through the workflow.
