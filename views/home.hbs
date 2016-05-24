@@ -124,8 +124,8 @@
 
             <!--                 document tab-->
             <div id="tab1" class="tab active">
-                <form class="form-horizontal" role="form">
-                    <table id="table_doc" class="table muffin table-striped table-hover margin-bottom0">
+                
+                    <table id="table_doc" class="table muffin table-striped table-hover">
                         <thead>
                             <tr>
                                 <th width="40"><a href="javascript:table_sort('tab_2',0)"></a></th>
@@ -148,7 +148,7 @@
                                 <td>{{this.status}}</td>
                                 <td>
                                     {{#if this.status}}
-                                    <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#visibilityRow{{@index}}" aria-expanded="false" aria-controls="visibilityRow{{@index}}">Expand</button>
+                                    <button class="btn btn-default btn-block" type="button" data-toggle="collapse" data-target="#visibilityRow{{@index}}" aria-expanded="false" aria-controls="visibilityRow{{@index}}">Expand</button>
                                     <div class="collapse" id="visibilityRow{{@index}}">
                                         <div class="card">
                                           <ul class="list-group list-group-flush">
@@ -159,12 +159,12 @@
                                         </div>
                                     </div>
                                     {{else}}
-                                    <font color="green">Only me
+                                    <font color="green"><b>Only me</b></font>
                                     {{/if}}
-                                    <a href="/document/{{this.docId}}/visibility" class="btn btn-default">Edit</a>
+                                    <a href="/document/{{this.docId}}/visibility" class="btn btn-default btn-block">Edit</a>
                                 </td>
                                 <td>
-                                    <a class="btn btn-default" href="/documentDetail/{{this._id}}" >More detail</a>
+                                    <a class="btn btn-default btn-block" href="/documentDetail/{{this._id}}" >More detail</a>
                                 </td>
                             </tr>
                             {{/each}}  
@@ -201,7 +201,7 @@
 
 
 
-                    </form>
+                 
                 </div>
 
 
