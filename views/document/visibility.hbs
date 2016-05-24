@@ -1,0 +1,31 @@
+<h2>Make <strong>{{this.docId}}</strong> visible to</h2>
+
+
+<div class="container">
+<form>
+	{{#each roleGroup}}
+	{{#if this.position}}
+	<div class="checkbox">
+	<h3>{{this._id.type}}</h3>
+	</div>
+
+	<table class="table table-hover">
+		<thread>
+			<tr>
+				<th width="20"></th>
+				<th>Position</th>
+			</tr>
+		</thread>
+		<tbody>
+			{{#each this.position}}
+			<tr>
+				<td><label><input type="checkbox"></label></td>
+				<td>{{this}}</td>
+			</tr>
+			{{/each}}
+		</tbody>
+	</table>
+	{{/if}}
+	{{/each}}
+</form>
+</div>

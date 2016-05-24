@@ -10,7 +10,7 @@ router.get('/:docId/visibility', isLoggedIn, function(req, res, next) {
 	var response = {layout: 'homePage'};
 	response.docId = req.params.docId;
 
-	var showRoleField = {objectId: "$_id", type: "$type"};
+	var showRoleField = {type: "$type"};
 	var aggregatePosition = {$push: "$position"};
 	var roleTypeGroup = {
 		$group: {
@@ -23,6 +23,7 @@ router.get('/:docId/visibility', isLoggedIn, function(req, res, next) {
 	.exec(function(error, roleGroup) {
 		if(error) next(error);
 
+		response.roleGroup = roleGroup;
 		console.log(roleGroup);
 		res.render('document/visibility.hbs', response);
 	})
