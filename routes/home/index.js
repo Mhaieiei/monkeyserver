@@ -22,7 +22,7 @@ router.get('/', isLoggedIn, function(req, res, next) {
 
   var response = {layout: 'homePage'};
   
-  async.parallel([findMyDocument(), findMyWorkflow()], function(error) {
+  async.parallel([findMyDocument(), findMyWorkflow(), findSharedDocument()], function(error) {
     if(error) next(error);
 
     response.admin = adminfact;
@@ -47,6 +47,20 @@ router.get('/', isLoggedIn, function(req, res, next) {
         response.exec = execList;
         response.task = taskList;
         done();
+      })
+    }
+  }
+
+  function findSharedDocument() {
+    return function(done) {
+      Doc.find({})
+      .populate('visibility')
+      .where('visibility.user')
+      .in([req.user.local.username])
+      .exec(function(error, sharedDocuments) {
+        if(error) return done(error);
+        response.sharedDocuments = sharedDocuments;
+        return done();
       })
     }
   }
