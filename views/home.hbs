@@ -357,6 +357,29 @@
                                 <th><a href="javascript:table_sort('tab_2',4)">Created date</a></th>
                                 <th><a href="javascript:table_sort('tab_2',6)">Visability</a></th>
                             </tr>
+
+                            {{#each sharedDocuments}}
+                            <tr>
+                                <td></td>
+                                <td><a class="btn btn-default btn-block" href="/documentDetail/{{this._id}}" >{{this.docId}}</a></td>
+                                <td class="filepath"><a href="{{this.filepath}}">{{this.name}}</a></td>
+                                <td>{{this.author}}</td>
+                                <td>{{this.dateCreate}}</td>
+                                <td>
+                                    <button class="btn btn-default btn-block" type="button" data-toggle="collapse" data-target="#shareDocRow{{@index}}" aria-expanded="false" aria-controls="shareDocRow{{@index}}">Expand</button>
+                                    <div class="collapse" id="shareDocRow{{@index}}">
+                                        <div class="card">
+                                          <ul class="list-group list-group-flush">
+                                            {{#each this.visibility}}
+                                            <li class="list-group-item">{{this.position}}</li>
+                                            {{/each}}
+                                          </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            {{/each}}
                         </table>
                     </form>
                 </div>
