@@ -19,21 +19,38 @@ router.get('/', isLoggedIn, function(req, res, next) {
   }else{
      adminfact = null;
   }
-  query.populate('visibility')
-  .exec(function(err, _docs) {
-    handleError(err, res, next);
-    var response = {layout: 'homePage'};
-    getWorkflowTaskList(req, function(execList,taskList) {
-      response.doc = JSON.parse(JSON.stringify(_docs));
-      response.exec = execList;
-      response.task = taskList;
-      response.admin = adminfact;
-      console.log('docs');
-      console.log(response.doc);
-      res.render('home.hbs', response);
 
-    })
-  });
+  var response = {layout: 'homePage'};
+  
+  async.parallel([findMyDocument(), findMyWorkflow()], function(error) {
+    if(error) next(error);
+
+    response.admin = adminfact;
+    res.render('home.hbs', response);
+  })
+
+  function findMyDocument() {
+    return function(done) {
+      Doc.findByUser(req.user)
+      .populate('visibility')
+      .exec(function(error, _docs) {
+        if(error) return done(error);
+        response.doc = JSON.parse(JSON.stringify(_docs));
+        done();
+      })
+    }
+  }
+
+  function findMyWorkflow() {
+    return function(done) {
+      getWorkflowTaskList(req, function(execList, taskList) {
+        response.exec = execList;
+        response.task = taskList;
+        done();
+      })
+    }
+  }
+
 });
 
 
@@ -225,38 +242,35 @@ function handleError(error, res, next) {
 }
 
 function getWorkflowTaskList(req, callBackWithResult) {
- 
-/*
- var baseUrl = req.protocol + '://' + req.get('host');
-  //get document list 
-  //request(baseUrl + '/api/document/read?userid='+ req.user._id ,function(error1,response1,body1){
-    //get workflow list 
-    request(baseUrl + '/api/workflow/workflowexecutions',function(error2,response2,body2){
-    //get task workflow list
-      request(baseUrl + '/api/workflow/tasks',function(error3,response3,body3){ 
-        var exec = JSON.parse(body2);
-        var task = JSON.parse(body3);
-        callBackWithResult(exec,task);
-       });
-    });
-  //});
-*/
+  
+  var execResult, taskResult;
 
+  async.parallel([findWorkflowExecution(), findTask()], function(error) {
+    if(error) console.log(error);
+    callBackWithResult(execResult, taskResult);
+  })
 
-  WorkflowTask.find( { $or: [ {'doerId': req.user._id }, { 'roleId': req.user.simpleRole } ] }, 
-  function(err, taskResult){
-    
-    if(err) console.log(err);
-    
-    WorkflowExecution.find({ 'executorId':  req.user._id }, function(err, exeResult){
-      if(err) console.log(err);
+  function findWorkflowExecution() {
+    return function(done) {
+      WorkflowTask.find({ $or: [ {'doerId': req.user._id }, { 'roleId': req.user.simpleRole } ] })
+      .exec(function(error, exec) {
+        if(error) done(error);
+        taskResult = exec;
+        done();
+      })
+    }
+  }
 
-        callBackWithResult(exeResult,taskResult)
-    });
-
-  });
-
-
+  function findTask() {
+    return function(done) {
+      WorkflowExecution.find({ 'executorId':  req.user._id })
+      .exec(function(error, exec) {
+        if(error) done(error);
+        execResult = exec;
+        done();
+      })
+    }
+  }
 }
 
 module.exports = router;
