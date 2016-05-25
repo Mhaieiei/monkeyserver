@@ -31,9 +31,33 @@ router.get('/:docId/visibility', isLoggedIn, function(req, res, next) {
 })
 
 router.post('/:docId/visibility', isLoggedIn, function(req, res, next) {
-	console.log("POST");
-	console.log(req.body);
-	console.log(req.params);
+
+	Document.findOne({docId: req.params.docId, owner: req.user})
+	.exec(function(error, document) {
+		if(error) return next(error);
+
+		var permitRoles = [];
+
+		async.forEach(req.body.permitPosition, function(position, done) {
+
+			Role.findOne({position: position})
+			.exec(function(error, role) {
+				if(error) return done(error);
+				permitRoles.push(role);
+				done();
+			})
+		}, function(error) {
+			if(error) return next(error);
+
+			document.visibility = permitRoles;
+			document.save(function(error) {
+				if(error) next(error);
+			});
+			return res.redirect('/home');
+		})
+	})
+
+
 })
 
 module.exports = exports = router;
