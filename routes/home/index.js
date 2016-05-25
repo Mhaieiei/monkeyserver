@@ -61,6 +61,8 @@ router.get('/', isLoggedIn, function(req, res, next) {
         sharedDocuments = sharedDocuments.filter(function(doc) {
           return doc.visibility.length;
         })
+
+        sharedDocuments = JSON.parse(JSON.stringify(sharedDocuments));
         console.log('Shared Doc: ' + sharedDocuments);
         response.sharedDocuments = sharedDocuments;
         return done();
