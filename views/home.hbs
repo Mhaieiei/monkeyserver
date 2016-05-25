@@ -147,14 +147,14 @@
                                 <td class="dateCreate">{{this.dateCreate}}</td>
                                 <td>{{this.status}}</td>
                                 <td>
-                                    {{#if this.status}}
+                                    {{#if this.visibility}}
                                     <button class="btn btn-default btn-block" type="button" data-toggle="collapse" data-target="#visibilityRow{{@index}}" aria-expanded="false" aria-controls="visibilityRow{{@index}}">Expand</button>
                                     <div class="collapse" id="visibilityRow{{@index}}">
                                         <div class="card">
                                           <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">Cras justo odio</li>
-                                            <li class="list-group-item">Dapibus ac facilisis in</li>
-                                            <li class="list-group-item">Vestibulum at eros</li>
+                                            {{#each this.visibility}}
+                                            <li class="list-group-item">{{this.position}}</li>
+                                            {{/each}}
                                           </ul>
                                         </div>
                                     </div>

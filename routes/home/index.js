@@ -19,7 +19,8 @@ router.get('/', isLoggedIn, function(req, res, next) {
   }else{
      adminfact = null;
   }
-  query.exec(function(err, _docs) {
+  query.populate('visibility')
+  .exec(function(err, _docs) {
     handleError(err, res, next);
     var response = {layout: 'homePage'};
     getWorkflowTaskList(req, function(execList,taskList) {
