@@ -54,11 +54,14 @@ router.get('/', isLoggedIn, function(req, res, next) {
   function findSharedDocument() {
     return function(done) {
       Doc.find({})
-      .populate('visibility')
-      .where('visibility.user')
-      .in([req.user.local.username])
+      .populate('visibility', null, {user: {$in: [req.user.local.username]}})
       .exec(function(error, sharedDocuments) {
         if(error) return done(error);
+
+        sharedDocuments = sharedDocuments.filter(function(doc) {
+          return doc.visibility.length;
+        })
+        console.log('Shared Doc: ' + sharedDocuments);
         response.sharedDocuments = sharedDocuments;
         return done();
       })
