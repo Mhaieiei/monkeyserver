@@ -16,8 +16,15 @@
 		<tbody>
 			{{#each this.position}}
 			<tr>
-				<td><input type="checkbox" name="permitPosition[]" value="{{this}}"/></td>
-				<td>{{this}}</td>
+				<td>
+					{{#if this.checked}}
+					<input type="checkbox" name="permitPosition[]" value="{{this.text}}" checked="checked"/>
+					{{else}}
+					<input type="checkbox" name="permitPosition[]" value="{{this.text}}" />
+					{{/if}}
+				</td>
+
+				<td>{{this.text}}</td>
 			</tr>
 			{{/each}}
 		</tbody>

@@ -10,24 +10,67 @@ router.get('/:docId/visibility', isLoggedIn, function(req, res, next) {
 	var response = {layout: 'homePage'};
 	response.docId = req.params.docId;
 
-	var showRoleField = {type: "$type"};
-	var aggregatePosition = {$push: "$position"};
-	var roleTypeGroup = {
-		$group: {
-			_id: showRoleField,
-			position: aggregatePosition
-		}
-	}
-	
-	Role.aggregate([roleTypeGroup])
-	.exec(function(error, roleGroup) {
+	async.parallel([groupPositionByRow(), fetchDocument(response.docId)], function(error) {
 		if(error) next(error);
 
-		response.roleGroup = roleGroup;
-		console.log(roleGroup);
+		tickCheckbox();
+
+		console.log(JSON.stringify(response.roleGroup));
 		res.render('document/visibility.hbs', response);
 	})
 
+
+	function groupPositionByRow() {
+		return function(done) {
+			var showRoleField = {type: "$type"};
+			var aggregatePosition = {$push: "$position"};
+			var roleTypeGroup = {
+				$group: {
+					_id: showRoleField,
+					position: aggregatePosition
+				}
+			}
+			
+			Role.aggregate([roleTypeGroup])
+			.exec(function(error, roleGroup) {
+				if(error) done(error);
+				response.roleGroup = roleGroup;
+				done();
+			})
+		}
+	}
+
+	function fetchDocument(documentId) {
+		return function(done) {
+			Document.findOne({docId: documentId})
+			.populate('visibility')
+			.exec(function(error, document) {
+				if(error) done(error);
+				response.document = document;
+				done();
+			})
+		}
+	}
+
+	function tickCheckbox() {
+		for(var role = 0; role < response.roleGroup.length; ++role) {
+			var rolePosition = response.roleGroup[role].position;
+
+			for(var allowRole = 0; allowRole < response.document.visibility.length; ++allowRole) {
+				var permitRole = response.document.visibility[allowRole];
+				permitRole = JSON.parse(JSON.stringify(permitRole));
+				var foundIdx = rolePosition.indexOf(permitRole.position);
+				if(foundIdx > -1)
+					response.roleGroup[role].position[foundIdx] = {text: permitRole.position, checked: true}
+			}
+
+			for(var pos = 0; pos < rolePosition.length; ++pos) {
+				var value = response.roleGroup[role].position[pos];
+				if(!value.text)
+					response.roleGroup[role].position[pos] = {text: response.roleGroup[role].position[pos], checked: false}
+			}
+		}
+	}
 })
 
 router.post('/:docId/visibility', isLoggedIn, function(req, res, next) {
