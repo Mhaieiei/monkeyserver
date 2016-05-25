@@ -73,6 +73,7 @@ module.exports = function(database) {
   app.use('/home', require('./routes/home'));
   app.use('/uploads', require('./routes/download/download'));
   app.use('/api', require('./routes/api'));
+  app.use('/document', require('./routes/document'))
   require('./routes/direct.js')(app, passport);
   //app.use('/', routes);
   //app.use('/users', users);

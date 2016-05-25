@@ -117,37 +117,51 @@
             <li class="active"><a href="#tab1" >My documents</a></li>
             <li><a href="#tab2">My workflows</a></li>
             <li><a href="#tab3">Pending tasks</a></li>
-
+            <li><a href="#tab4">Shared Documents</a></li>
         </ul>
 
         <div class="tab-content">
 
             <!-- document tab-->
             <div id="tab1" class="tab active">
-                <form class="form-horizontal" role="form">
-                    <table id="table_doc" class="table muffin table-striped table-hover margin-bottom0">
+                
+                    <table id="table_doc" class="table muffin table-striped table-hover">
                         <thead>
                             <tr>
                                 <th width="40"><a href="javascript:table_sort('tab_2',0)"></a></th>
-                                <th><a href="javascript:table_sort('tab_2',1)">ID</a></th>
+                                <th width="40"><a href="javascript:table_sort('tab_2',1)">ID</a></th>
                                 <th><a href="javascript:table_sort('tab_2',2)">Document name</a></th>
                                 <th><a href="javascript:table_sort('tab_2',3)">Author</a></th>
                                 <th><a href="javascript:table_sort('tab_2',4)">Created date</a></th>
                                 <th><a href="javascript:table_sort('tab_2',5)">Status</a></th>
+                                <th><a href="javascript:table_sort('tab_2',6)">Visability</a></th>
 
                             </tr>
 
                             {{#each doc}}
                             <tr class="each-doc">
                                 <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                <td>{{this.docId}}</td>
+                                <td><a class="btn btn-default btn-block" href="/documentDetail/{{this._id}}" >{{this.docId}}</a></td>
                                 <td class="filepath"><a href="{{this.filepath}}">{{this.name}}</a></td>
                                 <td>{{this.author}}</td>
                                 <td class="dateCreate">{{this.dateCreate}}</td>
                                 <td>{{this.status}}</td>
-                                <td><font color="red"></td>
                                 <td>
-                                    <a class="btn btn-default" href="/documentDetail/{{this._id}}" >More detail</a>
+                                    {{#if this.visibility}}
+                                    <button class="btn btn-default btn-block" type="button" data-toggle="collapse" data-target="#visibilityRow{{@index}}" aria-expanded="false" aria-controls="visibilityRow{{@index}}">Expand</button>
+                                    <div class="collapse" id="visibilityRow{{@index}}">
+                                        <div class="card">
+                                          <ul class="list-group list-group-flush">
+                                            {{#each this.visibility}}
+                                            <li class="list-group-item">{{this.position}}</li>
+                                            {{/each}}
+                                          </ul>
+                                        </div>
+                                    </div>
+                                    {{else}}
+                                    <font color="green"><b>Only me</b></font>
+                                    {{/if}}
+                                    <a href="/document/{{this.docId}}/visibility" class="btn btn-default btn-block">Edit</a>
                                 </td>
                             </tr>
                             {{/each}}  
@@ -184,7 +198,7 @@
 
 
 
-                    </form>
+                 
                 </div>
 
 
@@ -332,7 +346,45 @@
                 </div>
 
 
+                <div id="tab4" class="tab">
+                    <form class="form-horizontal" role="form">
+                        <table class="table">
+                            <tr>
+                                <th width="40"><a href="javascript:table_sort('tab_2',0)"></a></th>
+                                <th width="40"><a href="javascript:table_sort('tab_2',1)">ID</a></th>
+                                <th><a href="javascript:table_sort('tab_2',2)">Document name</a></th>
+                                <th><a href="javascript:table_sort('tab_2',3)">Owner</a></th>
+                                <th><a href="javascript:table_sort('tab_2',4)">Author</a></th>
+                                <th><a href="javascript:table_sort('tab_2',5)">Created date</a></th>
+                                <th><a href="javascript:table_sort('tab_2',6)">Match your position</a></th>
+                            </tr>
 
+                            {{#each sharedDocuments}}
+                            <tr>
+                                <td></td>
+                                <td><a class="btn btn-default btn-block" href="/documentDetail/{{this._id}}" >{{this.docId}}</a></td>
+                                <td class="filepath"><a href="{{this.filepath}}">{{this.name}}</a></td>
+                                <td>{{this.owner}}</td>
+                                <td>{{this.author}}</td>
+                                <td>{{this.dateCreate}}</td>
+                                <td>
+                                    <button class="btn btn-default btn-block" type="button" data-toggle="collapse" data-target="#shareDocRow{{@index}}" aria-expanded="false" aria-controls="shareDocRow{{@index}}">Expand</button>
+                                    <div class="collapse" id="shareDocRow{{@index}}">
+                                        <div class="card">
+                                          <ul class="list-group list-group-flush">
+                                            {{#each this.visibility}}
+                                            <li class="list-group-item">{{this.position}}</li>
+                                            {{/each}}
+                                          </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            {{/each}}
+                        </table>
+                    </form>
+                </div>
             </div>
         </div>
 
