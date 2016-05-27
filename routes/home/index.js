@@ -17,7 +17,9 @@ router.get('/', isLoggedIn, function(req, res, next) {
   var searchStrategy = null;
 
   if( req.query.submit_type === 'workflow'){
-    searchStrategy = 'workflow';
+    searchStrategy = 'wf';
+  } else if( req.query.submit_type === 'document'){
+    searchStrategy = 'doc';
   }
 
   console.log( req.query );
@@ -32,7 +34,7 @@ router.get('/', isLoggedIn, function(req, res, next) {
 
   var response = {layout: 'homePage'};
   
-  async.parallel([findMyDocument(), findMyWorkflow(), findSharedDocument()], function(error) {
+  async.parallel([findMyDocument(), findMyWorkflow(), findTask(), findSharedDocument()], function(error) {
     if(error) next(error);
 
     response.admin = adminfact;
@@ -41,20 +43,42 @@ router.get('/', isLoggedIn, function(req, res, next) {
 
   function findMyDocument() {
     return function(done) {
-      Doc.findByUser(req.user)
-      .populate('visibility')
-      .exec(function(error, _docs) {
-        if(error) return done(error);
-        response.doc = JSON.parse(JSON.stringify(_docs));
-        done();
-      })
+
+      if( searchStrategy === 'doc' ){
+        var query = Doc.findByUser(req.user);
+
+        // search by name
+        if(req.query.doc_name)
+          query.find( { "name": { "$regex": req.query.doc_name, "$options": "i" } } );
+
+        // search by author
+        if(req.query.doc_author)
+          query.find( { "author": req.query.doc_author } );
+
+        query
+        .populate('visibility')
+        .exec(function(error, _docs) {
+          if(error) return done(error);
+          response.doc = JSON.parse(JSON.stringify(_docs));
+          done();
+        });
+
+      }else{
+        Doc.findByUser(req.user)
+        .populate('visibility')
+        .exec(function(error, _docs) {
+          if(error) return done(error);
+          response.doc = JSON.parse(JSON.stringify(_docs));
+          done();
+        });
+      } 
     }
   }
 
   function findMyWorkflow() {
     return function(done) {
 
-      if( searchStrategy === 'workflow' ){
+      if( searchStrategy === 'wf' ){
 
         // Search from my workflow executions only.
         var query = WorkflowExecution.find({ executorId: req.user._id });
@@ -87,6 +111,9 @@ router.get('/', isLoggedIn, function(req, res, next) {
         }
 
         var wfContent = req.query.wf_content;
+        response.wfName = req.query.wf_name;
+        response.wfContent = req.query.wf_content;
+        response.wfStatus = req.query.wf_status;
 
         query.exec(function(err, result){
 
@@ -131,12 +158,24 @@ router.get('/', isLoggedIn, function(req, res, next) {
 
       }
       else{
-        getWorkflowTaskList(req, function(execList, taskList) {
-          response.exec = execList;
-          response.task = taskList;
+        var query = WorkflowExecution.find({ executorId: req.user._id });
+        
+        query.exec(function(err, result){
+          response.exec = result;
           done();
         });
       }
+    }
+  }
+
+  function findTask(){
+    return function(done){
+      WorkflowTask.find({})
+      .exec(function(error, result) {
+        if(error) done(error);
+        response.task = result;
+        done();
+      });
     }
   }
 
@@ -197,7 +236,7 @@ router.post('/', isLoggedIn, function(req, res) {
     query = Doc.findByUser(author);
   }
 
-  if(status !== 'all') {
+  if(status != null && status !== 'all') {
     status = status.toLowerCase().trim();
     query = query.where('status').equals(status);
   }

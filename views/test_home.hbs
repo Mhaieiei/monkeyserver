@@ -23,7 +23,7 @@
             <div id="tab1" class="tab active">
 
                 <div class="search-head" style="border-bottom: 1px solid #ccc; margin-bottom: 15px;">
-                    <form class="form-horizontal" role="form"  action="/home" method="post">
+                    <form class="form-horizontal" role="form"  action="/home" method="get">
                         <div class="form-group">
 
                             <label for="doc_name" class="col-md-2 control-label">Document name: </label>
@@ -45,6 +45,11 @@
                                 <input type="text" class="form-control" id="doc_author" name="doc_author"  placeholder="Author name(more than 3 characters)" value="{{docAuthor}}" style="color: #000;">
                             </div>
                         </div> 
+
+                        <div class="form-group">
+                        <input type="hidden" name="submit_type" value="document">
+                        <button id="search_submit" class="btn btn-mini" type="submit"><i class="glyphicon glyphicon-search" ></i> Search</button>
+                    </div>
 
                     </form>
                 </div>
@@ -143,9 +148,7 @@
                             <label for="wf_status" class="col-md-2 control-label">Workflow status: </label>
                             <div class="col-md-4">
                                 <select class="btn btn-primary dropdown-toggle" class="caret" name="wf_status">
-                                    <option value="all">All</option>
-                                    <option value="in_progress">In progress</option>
-                                    <option value="done">Done</option>
+                                   {{{selectOptionWorkflow wfStatus}}}
                                 </select>
                             </div>
                         </div>
@@ -153,7 +156,7 @@
                         <div class="form-group">
                              <label for="wf_content" class="col-md-2 control-label">Workflow content: </label>
                             <div class="col-md-4">
-                                <input type="text" class="form-control" name="wf_content"  placeholder="Author name(more than 3 characters)" value="{{docAuthor}}" style="color: #000;">
+                                <input type="text" class="form-control" name="wf_content"  placeholder="Workflow content" value="{{wfContent}}" style="color: #000;">
                             </div>
                         </div> 
 
@@ -361,11 +364,11 @@
             </div>
         </div>
 
-
         <script>
         $(document).ready(function(){
             $('[data-toggle="popover"]').popover();   
         });
+
         </script>
 
 
