@@ -120,7 +120,7 @@ router.post('/tasks/:id', function(req, res ){
 
 				WorkflowTask.remove({ '_id': taskResult._id }, function(err){
 					execution.runningElements.push( taskResult.elementId );
-					workflowRunner.run(execution, res);
+					workflowRunner.run(execution, res, req);
 				});
 				
 		    });
