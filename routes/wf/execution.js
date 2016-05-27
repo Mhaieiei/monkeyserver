@@ -3,6 +3,7 @@ var router  			= express.Router();
 var WorkflowExecution 	= require('../../model/WorkflowExecution.model');
 var WorkflowTask		= require('../../model/WorkflowTask.model');
 var TemplateWorkflow	= require('../../model/TemplateWorkflow');
+var Document 			= require('../../model/document/document');
 var workflowRunner		= require('../../lib/workflowRunner');
 var formidable			= require('formidable');
 var Form				= require('../../model/form.model');
@@ -134,11 +135,17 @@ router.get('/:id', function(req, res, next){
 		TemplateWorkflow.findOne( { "_id": execution.templateId }, function(err, template){
 			if(err) return next(err);
 
-			var data = {};
-			data.name = template.name;
-			data.status = execution.status || 0;
+			Document.find( { includeInWorkflow: req.params.id }, function(err, docs){
+				console.log("DOCESSSS");
+				console.log(docs);
+				console.log("d=======");
+				var data = {};
+				data.name = template.name;
+				data.status = execution.status || 0;
+				data.documents = JSON.parse(JSON.stringify(docs));
 
-			res.render('wf/execution/one', { layout: 'homePage', data: data });
+				res.render('wf/execution/one', { layout: 'homePage', data: data });
+			});
 		});
 	});
 

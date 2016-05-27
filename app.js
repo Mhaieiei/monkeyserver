@@ -33,9 +33,44 @@ module.exports = function(database) {
   //app.set('port',3000);
   // view engine setup
 
+  hbs = exphbs.create({
+    extname:'hbs', 
+    defaultLayout:'main.hbs',
+    helpers: {
+      selectOptionWorkflow: function(value){
+        var options = [ 
+          { 
+            value: 'all',
+            show: 'All'
+          }, 
+          {
+            value: 'in_progress',
+            show: 'In progress'
+          }, 
+          {
+            value: 'done',
+            show: 'Done'
+          }
+        ];
+        var html = '';
+
+        for( var i = 0; i < options.length; i++ ){
+          var selected = '';
+          
+          if( value === options[i].value )
+            selected = 'selected';
+
+          html += '<option value="' + options[i].value + '" '+ selected + '>' + options[i].show + '</option>';
+        }
+
+        return html;
+      }
+    }
+  });
+
   app.set('views', path.join(__dirname, 'views'));
   //app.engine('handlebars', exphbs( {defaultLayout: 'main'} ) );
-  app.engine('hbs', exphbs({extname:'hbs', defaultLayout:'main.hbs'}));
+  app.engine('hbs', hbs.engine);
   app.set('view engine', 'hbs');//set up hbs for templating
 
   // set up our express application
@@ -73,6 +108,7 @@ module.exports = function(database) {
   app.use('/home', require('./routes/home'));
   app.use('/uploads', require('./routes/download/download'));
   app.use('/api', require('./routes/api'));
+  app.use('/document', require('./routes/document'))
   require('./routes/direct.js')(app, passport);
   //app.use('/', routes);
   //app.use('/users', users);

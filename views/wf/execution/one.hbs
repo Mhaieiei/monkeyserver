@@ -1,9 +1,18 @@
-<div style="margin-left:40px; margin-top: 80px;">
+<div style="margin-left:40px; margin-top: 20px;">
 	<h3>{{data.name}}</h3>
 	{{#if data.status}}
-    	<button class="btn btn-info">Done</button>
+    	<b>Status: </b> Done
   	{{else}}
-    	<button class="btn btn-info">In progress</button>
+    	<b>Status: </b> In progress
   	{{/if}}
-	Created at 10/10/2016 
+
+  	<div style="margin-top: 20px;">
+  		<b>Documents</b>
+  	{{#each data.documents}}
+  		<div style="margin-top: 10px;">
+  			<a class="btn btn-default" href="/documentDetail/{{this._id}}">{{this.docId}}</a>
+            <a href="/{{this.filepath}}">{{this.name}}</a>
+  		</div>
+  	{{/each}}
+  </div>
 </div>
