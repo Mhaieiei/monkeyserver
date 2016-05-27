@@ -13,26 +13,191 @@ var adminfact = "";
 // HOME SECTION =====================
 // =====================================
 router.get('/', isLoggedIn, function(req, res, next) {
+
+  var searchStrategy = null;
+
+  if( req.query.submit_type === 'workflow'){
+    searchStrategy = 'wf';
+  } else if( req.query.submit_type === 'document'){
+    searchStrategy = 'doc';
+  }
+
+  console.log( req.query );
+
+
   var query = Doc.findByUser(req.user);
   if( req.user.local.role == 'admin'){
      adminfact = true;
   }else{
      adminfact = null;
   }
-  query.exec(function(err, _docs) {
-    handleError(err, res, next);
-    // console.log(_docs);
-    getWorkflowTaskList(req, function(execList,taskList) {
-      var response = dateDDMMYYYY(_docs);
-      response.exec = execList;
-      response.task = taskList;
-      response.admin = adminfact;
-      console.log('docs');
-      console.log(response.docs);
-      res.render('home.hbs', response);
 
-    })
-  });
+  var response = {layout: 'homePage'};
+  
+  async.parallel([findMyDocument(), findMyWorkflow(), findTask(), findSharedDocument()], function(error) {
+    if(error) next(error);
+
+    response.admin = adminfact;
+    res.render('test_home', response);
+  })
+
+  function findMyDocument() {
+    return function(done) {
+
+      if( searchStrategy === 'doc' ){
+        var query = Doc.findByUser(req.user);
+
+        // search by name
+        if(req.query.doc_name)
+          query.find( { "name": { "$regex": req.query.doc_name, "$options": "i" } } );
+
+        // search by author
+        if(req.query.doc_author)
+          query.find( { "author": req.query.doc_author } );
+
+        query
+        .populate('visibility')
+        .exec(function(error, _docs) {
+          if(error) return done(error);
+          response.doc = JSON.parse(JSON.stringify(_docs));
+          done();
+        });
+
+      }else{
+        Doc.findByUser(req.user)
+        .populate('visibility')
+        .exec(function(error, _docs) {
+          if(error) return done(error);
+          response.doc = JSON.parse(JSON.stringify(_docs));
+          done();
+        });
+      } 
+    }
+  }
+
+  function findMyWorkflow() {
+    return function(done) {
+
+      if( searchStrategy === 'wf' ){
+
+        // Search from my workflow executions only.
+        var query = WorkflowExecution.find({ executorId: req.user._id });
+
+        // search name with substring
+        query.find( { "templateName": { "$regex": req.query.wf_name, "$options": "i" } } );
+
+        // search by status
+        var status = -1;
+        if( req.query.wf_status === 'in_progress'){
+          status = 0;
+        } else if( req.query.wf_status === 'done' ){
+          status = 1;
+        }
+
+        if( status >= 0 ){
+          query.find( { "status": status } );
+        }
+
+        // search by execution date
+        var fromDate = Date.parse(req.query.from_date);
+        var toDate = Date.parse(req.query.to_date);
+
+        if(!isNaN(fromDate) && !isNaN(toDate)) {
+          console.log("DAAAAAAEEEE");
+          fromDate = new Date(fromDate);
+          toDate = new Date(toDate);
+          query = query.where('createDate').gte(fromDate).lte(toDate);
+          console.log(fromDate);
+        }
+
+        var wfContent = req.query.wf_content;
+        response.wfName = req.query.wf_name;
+        response.wfContent = req.query.wf_content;
+        response.wfStatus = req.query.wf_status;
+
+        query.exec(function(err, result){
+
+          if( wfContent == '' ){
+            response.exec = result;
+
+          } else{
+            var selectedResults = [];
+            loop1:
+            for( var i = 0; i < result.length; i++ ){
+              var elements = Object.keys( result[i].details );
+              loop2:
+              for( var j = 0; j < elements.length; j++ ){
+                
+                var currentElement = result[i].details[ elements[j] ];
+                
+                if( currentElement !== undefined && currentElement.submitResults !== undefined ){
+                  var submitResults = currentElement.submitResults;
+                  var submitKeys = Object.keys(submitResults);
+                  loop3:
+                  for( var k = 0; k < submitKeys.length; k++ ){
+                    if( submitKeys[k] !== 'files' && submitKeys[k] !== 'submit' && submitKeys[k] !== 'output'){
+                      
+                      if( String(submitResults[submitKeys[k]]).indexOf(wfContent) > -1 ){
+                        selectedResults.push( result[i] );
+                        break loop2;
+                      }  
+                    }
+                  }
+                }
+              }
+            }
+
+            response.exec = selectedResults;
+          }
+          done();
+        });
+
+        // test find workflow name
+        //WorkflowExecution.find({ })
+
+
+      }
+      else{
+        var query = WorkflowExecution.find({ executorId: req.user._id });
+        
+        query.exec(function(err, result){
+          response.exec = result;
+          done();
+        });
+      }
+    }
+  }
+
+  function findTask(){
+    return function(done){
+      WorkflowTask.find({})
+      .exec(function(error, result) {
+        if(error) done(error);
+        response.task = result;
+        done();
+      });
+    }
+  }
+
+  function findSharedDocument() {
+    return function(done) {
+      Doc.find({})
+      .populate('visibility', null, {user: {$in: [req.user.local.username]}})
+      .exec(function(error, sharedDocuments) {
+        if(error) return done(error);
+
+        sharedDocuments = sharedDocuments.filter(function(doc) {
+          return doc.visibility.length;
+        })
+
+        sharedDocuments = JSON.parse(JSON.stringify(sharedDocuments));
+        console.log('Shared Doc: ' + sharedDocuments);
+        response.sharedDocuments = sharedDocuments;
+        return done();
+      })
+    }
+  }
+
 });
 
 
@@ -71,7 +236,7 @@ router.post('/', isLoggedIn, function(req, res) {
     query = Doc.findByUser(author);
   }
 
-  if(status !== 'all') {
+  if(status != null && status !== 'all') {
     status = status.toLowerCase().trim();
     query = query.where('status').equals(status);
   }
@@ -223,68 +388,36 @@ function handleError(error, res, next) {
   return next(error);  
 }
 
-function dateDDMMYYYY(documentQueryResult) {
-  var date= [];
-  var response = {
-    layout: 'homePage',
-    docs: documentQueryResult,
-    helpers: {
-      getdate: function (value) { return date[value]; }
-    }
-  }
-
-  for(var i = 0 ; i < documentQueryResult.length ;++i){
-    var a = documentQueryResult[i].dateCreate;
-    var yy = a.getFullYear();
-    var mm = a.getMonth()+1;
-    var dd = a.getDate();
-
-    if(mm<10){
-      mm = "0"+mm;
-    }
-    if(dd<10){
-      dd = "0"+dd;
-    }
-
-    date[i] = dd+ '/' +mm +'/'+ yy;
-  }
-
-  return response;
-}
-
 function getWorkflowTaskList(req, callBackWithResult) {
- 
-/*
- var baseUrl = req.protocol + '://' + req.get('host');
-  //get document list 
-  //request(baseUrl + '/api/document/read?userid='+ req.user._id ,function(error1,response1,body1){
-    //get workflow list 
-    request(baseUrl + '/api/workflow/workflowexecutions',function(error2,response2,body2){
-    //get task workflow list
-      request(baseUrl + '/api/workflow/tasks',function(error3,response3,body3){ 
-        var exec = JSON.parse(body2);
-        var task = JSON.parse(body3);
-        callBackWithResult(exec,task);
-       });
-    });
-  //});
-*/
+  
+  var execResult, taskResult;
 
+  async.parallel([findWorkflowExecution(), findTask()], function(error) {
+    if(error) console.log(error);
+    callBackWithResult(execResult, taskResult);
+  })
 
-  WorkflowTask.find( { $or: [ {'doerId': req.user._id }, { 'roleId': req.user.simpleRole } ] }, 
-  function(err, taskResult){
-    
-    if(err) console.log(err);
-    
-    WorkflowExecution.find({ 'executorId':  req.user._id }, function(err, exeResult){
-      if(err) console.log(err);
+  function findWorkflowExecution() {
+    return function(done) {
+      WorkflowTask.find({ $or: [ {'doerId': req.user._id }, { 'roleId': req.user.simpleRole } ] })
+      .exec(function(error, exec) {
+        if(error) done(error);
+        taskResult = exec;
+        done();
+      })
+    }
+  }
 
-        callBackWithResult(exeResult,taskResult)
-    });
-
-  });
-
-
+  function findTask() {
+    return function(done) {
+      WorkflowExecution.find({ 'executorId':  req.user._id })
+      .exec(function(error, exec) {
+        if(error) done(error);
+        execResult = exec;
+        done();
+      })
+    }
+  }
 }
 
 module.exports = router;
