@@ -13,6 +13,16 @@ var adminfact = "";
 // HOME SECTION =====================
 // =====================================
 router.get('/', isLoggedIn, function(req, res, next) {
+
+  var searchStrategy = null;
+
+  if( req.query.submit_type === 'workflow'){
+    searchStrategy = 'workflow';
+  }
+
+  console.log( req.query );
+
+
   var query = Doc.findByUser(req.user);
   if( req.user.local.role == 'admin'){
      adminfact = true;
@@ -26,7 +36,7 @@ router.get('/', isLoggedIn, function(req, res, next) {
     if(error) next(error);
 
     response.admin = adminfact;
-    res.render('home.hbs', response);
+    res.render('test_home', response);
   })
 
   function findMyDocument() {
@@ -43,11 +53,90 @@ router.get('/', isLoggedIn, function(req, res, next) {
 
   function findMyWorkflow() {
     return function(done) {
-      getWorkflowTaskList(req, function(execList, taskList) {
-        response.exec = execList;
-        response.task = taskList;
-        done();
-      })
+
+      if( searchStrategy === 'workflow' ){
+
+        // Search from my workflow executions only.
+        var query = WorkflowExecution.find({ executorId: req.user._id });
+
+        // search name with substring
+        query.find( { "templateName": { "$regex": req.query.wf_name, "$options": "i" } } );
+
+        // search by status
+        var status = -1;
+        if( req.query.wf_status === 'in_progress'){
+          status = 0;
+        } else if( req.query.wf_status === 'done' ){
+          status = 1;
+        }
+
+        if( status >= 0 ){
+          query.find( { "status": status } );
+        }
+
+        // search by execution date
+        var fromDate = Date.parse(req.query.from_date);
+        var toDate = Date.parse(req.query.to_date);
+
+        if(!isNaN(fromDate) && !isNaN(toDate)) {
+          console.log("DAAAAAAEEEE");
+          fromDate = new Date(fromDate);
+          toDate = new Date(toDate);
+          query = query.where('createDate').gte(fromDate).lte(toDate);
+          console.log(fromDate);
+        }
+
+        var wfContent = req.query.wf_content;
+
+        query.exec(function(err, result){
+
+          if( wfContent == '' ){
+            response.exec = result;
+
+          } else{
+            var selectedResults = [];
+            loop1:
+            for( var i = 0; i < result.length; i++ ){
+              var elements = Object.keys( result[i].details );
+              loop2:
+              for( var j = 0; j < elements.length; j++ ){
+                
+                var currentElement = result[i].details[ elements[j] ];
+                
+                if( currentElement !== undefined && currentElement.submitResults !== undefined ){
+                  var submitResults = currentElement.submitResults;
+                  var submitKeys = Object.keys(submitResults);
+                  loop3:
+                  for( var k = 0; k < submitKeys.length; k++ ){
+                    if( submitKeys[k] !== 'files' && submitKeys[k] !== 'submit' && submitKeys[k] !== 'output'){
+                      
+                      if( String(submitResults[submitKeys[k]]).indexOf(wfContent) > -1 ){
+                        selectedResults.push( result[i] );
+                        break loop2;
+                      }  
+                    }
+                  }
+                }
+              }
+            }
+
+            response.exec = selectedResults;
+          }
+          done();
+        });
+
+        // test find workflow name
+        //WorkflowExecution.find({ })
+
+
+      }
+      else{
+        getWorkflowTaskList(req, function(execList, taskList) {
+          response.exec = execList;
+          response.task = taskList;
+          done();
+        });
+      }
     }
   }
 
