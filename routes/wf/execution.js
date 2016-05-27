@@ -7,6 +7,8 @@ var Document 			= require('../../model/document/document');
 var workflowRunner		= require('../../lib/workflowRunner');
 var formidable			= require('formidable');
 var Form				= require('../../model/form.model');
+var fs = require('fs');
+var path = require('path');
 
 router.get('/', function(req, res){
 
@@ -90,7 +92,11 @@ router.post('/tasks/:id', function(req, res ){
 			var laneHandler = execution.handlers[ thisElement['laneRef'] ];
 
 			var form = new formidable.IncomingForm();
-			form.uploadDir = process.env.PWD + '/uploads/document';
+
+			form.uploadDir = path.resolve('uploads/document');
+
+		    if(!fs.existsSync(form.uploadDir))
+				fs.mkdirSync(form.uploadDir);
 
 			form.parse(req, function(err, fields, files) {
 
