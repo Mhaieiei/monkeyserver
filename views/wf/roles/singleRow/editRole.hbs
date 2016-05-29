@@ -15,12 +15,12 @@
 <form action="#" method="update">
   <div class="row">
     <div class="col-xs-6 col-sm-4">
-    	<center><label> Members </label></center>
+    	<center><label> All users </label></center>
       <table class="table table-hover">
-        {{#each allData.data1.members}}
+        {{#each allData.data2}}
         <tr>
-          <td id="{{this}}" class="choosed">
-            {{this}}
+          <td id="{{this._id}}" class="all-users">
+            {{this._id}}
           </td>
         </tr>
         {{/each}}
@@ -30,14 +30,13 @@
     <div class="col-xs-6 col-sm-4">
       <a class="btn btn-default btn-block" href="#" role="button">Add</a>
     </div>
-
     <div class="col-xs-6 col-sm-4">
-      <center><label> All users </label></center>
+      <center><label> Members </label></center>
       <table class="table table-hover">
-        {{#each allData.data2}}
+        {{#each allData.data1.members}}
         <tr>
-          <td id="{{this._id}}" class="all-users">
-            {{this._id}}
+          <td id="{{this}}" class="choosed">
+            {{this}}
           </td>
         </tr>
         {{/each}}
