@@ -184,7 +184,7 @@ router.get('/', isLoggedIn, function(req, res, next) {
   function findSharedDocument() {
     return function(done) {
       Doc.find({})
-      .populate('visibility', null, {user: {$in: [req.user.local.username]}})
+      .populate('visibility', null, {members: {$in: [req.user.local.username]}})
       .exec(function(error, sharedDocuments) {
         if(error) return done(error);
 
