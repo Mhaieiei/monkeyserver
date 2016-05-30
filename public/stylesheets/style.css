@@ -7,6 +7,11 @@
   line-height: 1;
   width: 200px;
 }
+
+input.form-control{
+  color: #000;
+}
+
 .align-right {
   float: right;
 }

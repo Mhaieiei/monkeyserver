@@ -1,12 +1,12 @@
-<h1>Role configuration</h1>
+<h1>{{title}}</h1>
 
   <div class="form-group">
     <label for="roleName">Role Name</label>
-    <input type="text" id="role-name" name="name" class="form-control" placeholder="Role name">
+    <input type="text" id="role-name" name="name" value="{{roleName}}" class="form-control" placeholder="Role name">
   </div>
   <div class="form-group">
   	<label for="description">Description</label>
-  	<input type="text" id="role-description" name="description" class="form-control" placeholder="Description"> 
+  	<input type="text" id="role-description" name="description" value="{{roleDescription}}" class="form-control" placeholder="Description"> 
   </div>
   <div class="row">
     <div class="col-xs-6 col-sm-4">
@@ -52,7 +52,7 @@
 <script>
   
   var allUsers = {{{users}}};
-  var members = [];
+  var members = {{{members}}};
   var tempMembers = [];
   var tempDeleteMembers = [];
 
@@ -64,18 +64,29 @@
   });
 
   function saveRole(){
+
+    var baseUrl = window.location.pathname.toLowerCase();
+    var targetUrl = '/roleManagement/new';
+  
+    if( baseUrl != '/roleManagement/new' ){
+        var splitUrls = baseUrl.split('/');
+          
+        if( splitUrls[3] === 'edit' ){
+            targetUrl = '/roleManagement/' + splitUrls[2] + '/update';
+        }
+    }
+
     $.ajax({
-      url: "/rolemanagement/save",
-          type: "POST",
-          data: { 
+        url: targetUrl,
+        type: "POST",
+        data: { 
             name: $('#role-name').val(),
             description: $('#role-description').val(),
             members:members
-          },
-          success: function( data ) {
-            //alert('success saving data');
+        },
+        success: function( data ) {
             window.location.replace("/roleManagement");
-          }
+        }
     });
   }
 
