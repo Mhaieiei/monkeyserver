@@ -60,13 +60,13 @@
                                 <th><a href="javascript:table_sort('tab_2',4)">Created date</a></th>
                                 <th><a href="javascript:table_sort('tab_2',5)">Status</a></th>
                                 <th><a href="javascript:table_sort('tab_2',6)">Visability</a></th>
-
+                                <th></th>
                             </tr>
 
                             {{#each doc}}
                             <tr class="each-doc">
                                 <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                <td><a class="btn btn-default btn-block" href="/documentDetail/{{this._id}}" >{{this.docId}}</a></td>
+                                <td>{{this.docId}}</td>
                                 <td class="filepath"><a href="{{this.filepath}}">{{this.name}}</a></td>
                                 <td>{{this.author}}</td>
                                 <td class="dateCreate">{{this.dateCreate}}</td>
@@ -88,6 +88,7 @@
                                     {{/if}}
                                     <a href="/document/{{this.docId}}/visibility" class="btn btn-default btn-block">Edit</a>
                                 </td>
+                                <td><a class="btn btn-default btn-block" href="/documentDetail/{{this._id}}" >More Detail</a></td>
                             </tr>
                             {{/each}}  
                         </thead>
