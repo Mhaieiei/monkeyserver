@@ -1,5 +1,6 @@
 'use strict';
 var inherit = require('inherit');
+var idAutoIncrement = require('utility/schemaIdAutoIncrement');
 
 /**
  * Subtype document schema templating module.
@@ -55,27 +56,12 @@ function createSchema(subtypeName, additionalFields) {
 	if(additionalFields)
 		schema.add(additionalFields);
 
-	var plugInOptions = {
-		model: subtypeName,
-		field: 'docNum',
-		startAt: 1,
-		incrementBy: 1,
-		unique: false
-	}
-	schema = installMongooseAutoIncrementPlugin(schema, plugInOptions);
+	schema = idAutoIncrement(schema, subtypeName, 'docNum');
 	schema.pre('save', function(next) {
 		if(!this.docId)
 			this.docId = subtypeName.concat(this.docNum);
 		next();
 	})
-	return schema;
-}
-
-function installMongooseAutoIncrementPlugin(schema, plugInOptions) {
-	var database = require('lib/dbclient').db();
-	var autoIncrement = require('mongoose-auto-increment');
-	autoIncrement.initialize(database);
-	schema.plugin(autoIncrement.plugin, plugInOptions);
 	return schema;
 }
 

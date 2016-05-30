@@ -1,7 +1,10 @@
 var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
+var idAutoIncrement = require('utility/schemaIdAutoIncrement');
 
 var schema = new mongoose.Schema({
+	workflowId: String,
+	counter: Number,
 	templateId: mongoose.Schema.Types.ObjectId,
 	templateName: String,
 	createDate: { type: Date, default: Date.now },
@@ -21,5 +24,11 @@ var schema = new mongoose.Schema({
 	status: Number
 });
 
+var schemaName = 'WorkflowExecution';
+schema = idAutoIncrement(schema, schemaName, 'counter');
+schema.pre('save', function(next) {
+	this.workflowId = 'WF' + this.counter;
+	next();
+})
 
-module.exports = db.model('WorkflowExecution', schema);
+module.exports = db.model(schemaName, schema);

@@ -38,7 +38,7 @@ router.get('/', isLoggedIn, function(req, res, next) {
     if(error) next(error);
 
     response.admin = adminfact;
-    res.render('test_home', response);
+    res.render('home.hbs', response);
   })
 
   function findMyDocument() {
