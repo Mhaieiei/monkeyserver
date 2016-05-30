@@ -33,6 +33,7 @@ router.get('/', isLoggedIn, function(req, res, next) {
   }
 
   var response = {layout: 'homePage'};
+  response.username = req.user.local.username;
   
   async.parallel([findMyDocument(), findMyWorkflow(), findTask(), findSharedDocument()], function(error) {
     if(error) next(error);
