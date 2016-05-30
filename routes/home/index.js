@@ -29,7 +29,7 @@ router.get('/', isLoggedIn, function(req, res, next) {
   if( req.user.local.role == 'admin'){
      adminfact = true;
   }else{
-     adminfact = null;
+     adminfact = false;
   }
 
   var response = {layout: 'homePage'};
@@ -172,7 +172,7 @@ router.get('/', isLoggedIn, function(req, res, next) {
 
   function findTask(){
     return function(done){
-      WorkflowTask.find({})
+      WorkflowTask.find({ $or: [ {'doerId': req.user._id }, { 'roleId': req.user.simpleRole } ] })
       .exec(function(error, result) {
         if(error) done(error);
         response.task = result;

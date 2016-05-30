@@ -10,10 +10,29 @@ var workflowRunner		= require('../../lib/workflowRunner');
 
 router.get('/', function(req, res){
 
-	console.log( "SIMPLE ROLE ID " + req.user.simpleRole );
-	TemplateWorkflow.find({ 'simpleRoleId': req.user.simpleRole }, function(err, tpWf){
-		res.render('wf/execute', { layout: "homePage", workflows : tpWf } );
-	});
+	if( req.user.local.username === 'admin' ){
+
+		TemplateWorkflow.find({}, function(err, tpWf){
+			res.render('wf/template_admin', { 
+				layout: "homePage", 
+				workflows : tpWf,
+				username: req.user.local.username,
+				admin: true
+			});
+		});
+
+	}
+	else{
+
+		TemplateWorkflow.find({ 'simpleRoleId': req.user.simpleRole }, function(err, tpWf){
+			res.render('wf/template', { 
+				layout: "homePage", 
+				workflows : tpWf,
+				username: req.user.local.username,
+				admin: false
+			});
+		});
+	}
 
 });
 
@@ -32,21 +51,35 @@ router.get('/new', function(req, res){
 
 router.post('/save', function(req, res){
 
-	var tpWorkflow = new TemplateWorkflow({ 
-		name: req.body.name, 
-		description: req.body.description,
-		xml: req.body.xml,
-		variables: req.body.variables,
-		elements: req.body.elements
-	});
-	
-	tpWorkflow.save(function(err){
-		if(!err){
-			res.end('succesful');
-		}
-		else{
-			res.end('failed');
-		}
+	var xml = req.body.xml;
+
+	parseString(xml, function(err, strResult){
+
+		var collaboration = strResult["bpmn2:definitions"]["bpmn2:collaboration"];
+		var process = strResult["bpmn2:definitions"]["bpmn2:process"];
+
+		var handler = new WorkflowHandler();
+		var startLaneId = handler.getStartLaneId(process, collaboration);
+
+		var simpleRoleId = req.body.elements[startLaneId].role.id;
+			
+		var tpWorkflow = new TemplateWorkflow({ 
+			name: req.body.name, 
+			description: req.body.description,
+			xml: req.body.xml,
+			variables: req.body.variables,
+			elements: req.body.elements,
+			simpleRoleId: simpleRoleId
+		});
+
+		tpWorkflow.save(function(err){
+			if(!err){
+				res.end('succesful');
+			}
+			else{
+				res.end('failed');
+			}
+		});
 	});
 });
 
@@ -79,19 +112,35 @@ router.get('/:id/edit', function(req, res, next){
 });
 
 router.post('/:id/update', function(req, res, next){
-	TemplateWorkflow.update( { '_id': req.params.id },
-		{
-			name: req.body.name, 
-			description: req.body.description,
-			xml: req.body.xml,
-			variables: req.body.variables,
-			elements: req.body.elements
-		},
-		function(err){
-			if(err) res.end("FAILED");
-			else res.end("succesful");
-		}
-	);
+
+	var xml = req.body.xml;
+
+	parseString(xml, function(err, strResult){
+
+		var collaboration = strResult["bpmn2:definitions"]["bpmn2:collaboration"];
+		var process = strResult["bpmn2:definitions"]["bpmn2:process"];
+
+		var handler = new WorkflowHandler();
+		var startLaneId = handler.getStartLaneId(process, collaboration);
+
+		var simpleRoleId = req.body.elements[startLaneId].role.id;
+
+		TemplateWorkflow.update( { '_id': req.params.id },
+			{
+				name: req.body.name, 
+				description: req.body.description,
+				xml: req.body.xml,
+				variables: req.body.variables,
+				elements: req.body.elements,
+				simpleRoleId: simpleRoleId
+			},
+			function(err){
+				if(err) res.end("FAILED");
+				else res.end("succesful");
+			}
+		);
+	});
+
 });
 
 
