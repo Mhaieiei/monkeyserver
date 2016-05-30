@@ -39,6 +39,7 @@ router.get('/', isLoggedIn, function(req, res, next) {
     if(error) next(error);
 
     response.admin = adminfact;
+    response = JSON.parse(JSON.stringify(response));
     res.render('home.hbs', response);
   })
 
