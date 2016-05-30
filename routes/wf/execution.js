@@ -120,7 +120,7 @@ router.post('/tasks/:id', function(req, res ){
 
 				WorkflowTask.remove({ '_id': taskResult._id }, function(err){
 					execution.runningElements.push( taskResult.elementId );
-					workflowRunner.run(execution, res);
+					workflowRunner.run(execution, res, req);
 				});
 				
 		    });
@@ -133,7 +133,6 @@ router.post('/tasks/:id', function(req, res ){
 });
 
 router.get('/:id', function(req, res, next){
-
 	WorkflowExecution.findOne( { "_id" : req.params.id }, function(err, execution){
 
 		if(err) return next(err);

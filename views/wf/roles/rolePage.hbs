@@ -1,7 +1,7 @@
 <h1>Roles</h1>
 
 
-<a href="/roleManagement/createRole"><ins><i>Create</i></ins></a>
+<a href="/roleManagement/new"><ins><i>Create</i></ins></a>
 <br>
 <div class="table-responsive">
   <table class="table">
@@ -16,7 +16,7 @@
     {{#each data}}
         <tr>
         	<td>
-        		<a href="/roleManagement/{{this._id}}/editRole">{{this.name}}</a>
+        		<a href="/roleManagement/{{this._id}}/edit">{{this.name}}</a>
         	</td>
         	<td>
         		{{this.description}}
