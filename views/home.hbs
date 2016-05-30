@@ -1,113 +1,7 @@
 <div class="container">
-    <form class="form-horizontal" role="form"  action="/home" method="post">
-        <div class="form-group">
-            <label for="doc_name" class="col-md-2 control-label">Search by name: </label>
-            <div class="col-md-4">
-              <input type="text" class="form-control" id="doc_name" name="doc_name" placeholder="Document name(more than 3 characters)" value="{{docName}}" style="color: #000;">
-          </div>
-          <label for="doc_author" class="col-md-2 control-label">Search by author/executer: </label>
-          <div class="col-md-4">
-              <input type="text" class="form-control" id="doc_author" name="doc_author"  placeholder="Author name(more than 3 characters)" value="{{docAuthor}}" style="color: #000;">
-          </div>
-
-      </div>
-      <div class="form-group">
-        <div class="group1">
-          <label for="doc_status" class="col-md-2 control-label">Status : </label>
-          <div class="col-md-4">
-            <select class="btn btn-primary dropdown-toggle" class="caret" name="doc_status" id="doc_status">
-                {{#if st1}}
-                <option value="all">All</option>
-                <option value="create" selected="selected">Created</option>
-                <option value="inprogress">Inprogress</option>
-                <option value="done">Done</option>
-                {{else}}
-                {{#if st2}}
-                <option value="all">All</option>
-                <option value="create">Created</option>
-                <option value="inprogress" selected="selected">Inprogress</option>
-                <option value="done" >Done</option>
-                {{else}}
-                {{#if st3}}
-                <option value="all" >All</option>
-                <option value="create" >Created</option>
-                <option value="inprogress">Inprogress</option>
-                <option value="done" selected="selected">Done</option>
-                {{else}}
-                <option value="all" selected="selected">All</option>
-                <option value="create" >Created</option>
-                <option value="inprogress">Inprogress</option>
-                <option value="done" >Done</option>
-                {{/if}}
-                {{/if}}
-                {{/if}}
-
-            </select>
-
-        </div>
-    </div>
-    <div class="group2">
-     <label for="doc_type" class="col-md-2 control-label">Type: </label>
-     <div class="col-md-4">
-      <select class="btn btn-primary dropdown-toggle" class="caret" name="doc_type" id="doc_type">
-        {{#if type1}}
-        <option value="all">All</option>
-        <option value="own" selected="selected">Own</option>
-        <option value="other_type">Other_type</option>
-        {{else}}
-        {{#if type2}}
-        <option value="all">All</option>
-        <option value="own" >Own</option>
-        <option value="other_type" selected="selected">Other_type</option>
-        {{else}}
-        <option value="all" selected="selected">All</option>
-        <option value="own">Own</option>
-        <option value="other_type">Other_type</option>    
-        {{/if}}
-        {{/if}}
-
-
-    </select>
-
-
-</div>
-</div>
-</div>
-
-
-<div class="form-group">
-    <label for="fromDate" class="col-md-2 control-label">Date : </label>
-    <div class="col-md-4">
-        <input type="date" class="form-control2" id="fromDate" name="fromDate" value="{{docFromDate}}" style="color: #000;">
-    </div>
-
-    <label class="col-md-2" for="toDate"> To</label>
-    <div class="col-md-4 ">
-        <input for="inputDate" type="date" class="form-control2" id="toDate" name="toDate" value="{{docToDate}}" style="color: #000;">
-
-    </div>
-
-</div>
-<div class="pull-right">
-
-    <button id="search_submit" class="btn btn-mini" type="submit" onclick="search_doc()"><i class="glyphicon glyphicon-search" ></i> Search</button>
-
-</div>
-
-
-</form>
-<br></br>
-<!-- <p><a href="/workflow">NEW</a> create new doccument</p> -->
-<p><a href="/home/upload">NEW</a> Upload file</p>
-
-
 <!-- Page Heading/Breadcrumbs -->
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Process
-
-            </h1>
-
         </div>
     </div>
 
@@ -123,6 +17,38 @@
 
             <!-- document tab-->
             <div id="tab1" class="tab active">
+
+                <div class="search-head" style="border-bottom: 1px solid #ccc; margin-bottom: 15px;">
+                    <form class="form-horizontal" role="form"  action="/home" method="get">
+                        <div class="form-group">
+
+                            <label for="doc_name" class="col-md-2 control-label">Document name: </label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="doc_name" name="doc_name" placeholder="Document name(more than 3 characters)" value="{{docName}}" style="color: #000;">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="doc_type" class="col-md-2 control-label">Document type: </label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="doc_type" name="doc_type"  placeholder="Document type(more than 3 characters)" value="{{docType}}" style="color: #000;">
+                            </div>
+                   </div>
+
+     
+                        <div class="form-group">
+                             <label for="doc_author" class="col-md-2 control-label">Author: </label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="doc_author" name="doc_author"  placeholder="Author name(more than 3 characters)" value="{{docAuthor}}" style="color: #000;">
+                            </div>
+                        </div> 
+
+                        <div class="form-group">
+                        <input type="hidden" name="submit_type" value="document">
+                        <center><button id="search_submit" class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search" ></i> Search</button></center>
+                    </div>
+
+                    </form>
+                </div>
                 
                     <table id="table_doc" class="table muffin table-striped table-hover">
                         <thead>
@@ -203,7 +129,54 @@
 
                 
                 <!-- Workflow tab -->
-                <div id="tab2" class="tab">
+                <div id="tab2" class="tab {{tab2}}">
+
+                <div class="search-head" style="border-bottom: 1px solid #ccc; margin-bottom: 15px;">
+                    <form class="form-horizontal" role="form"  action="/home" method="get">
+                        <div class="form-group">
+
+                            <label for="wf_name" class="col-md-2 control-label">Workflow name: </label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="wf_name" placeholder="Workflow name" value="{{wfName}}" style="color: #000;">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="wf_status" class="col-md-2 control-label">Workflow status: </label>
+                            <div class="col-md-4">
+                                <select class="btn btn-primary dropdown-toggle" class="caret" name="wf_status">
+                                   {{{selectOptionWorkflow wfStatus}}}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                             <label for="wf_content" class="col-md-2 control-label">Workflow content: </label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="wf_content"  placeholder="Workflow content" value="{{wfContent}}" style="color: #000;">
+                            </div>
+                        </div> 
+
+                        <div class="form-group">
+                            <label for="fromDate" class="col-md-2 control-label">Execution date : </label>
+                            <div class="col-md-2">
+                                <input type="date" class="form-control2" name="from_date" value="{{docFromDate}}" style="color: #000;">
+                            </div>
+
+                            <label class="col-md-1" for="toDate"> To</label>
+                            <div class="col-md-2">
+                                <input for="inputDate" type="date" class="form-control2" name="to_date" value="{{docToDate}}" style="color: #000;">
+                            </div>
+                        </div>
+
+                     <div class="form-group">
+                        <input type="hidden" name="submit_type" value="workflow">
+                        <center><button id="search_submit" class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search" ></i> Search</button></center>
+                    </div>
+                    </form>
+                </div>
+
+
+
                     <form class="form-horizontal" role="form">
                         <table id="table_wf" class="table muffin table-striped table-hover margin-bottom0">
                             <thead>
@@ -387,11 +360,11 @@
             </div>
         </div>
 
-
         <script>
         $(document).ready(function(){
             $('[data-toggle="popover"]').popover();   
         });
+
         </script>
 
 
