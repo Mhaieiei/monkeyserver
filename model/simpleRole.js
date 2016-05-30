@@ -4,7 +4,10 @@ var mongoose = require('mongoose');
 var schema = new mongoose.Schema({
 	name: String,
 	description: String,
-	members: [String]
+	members: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'user'
+	}]
 });
 
 module.exports = db.model('SimpleRole', schema);

@@ -2,7 +2,7 @@
 
 var router = require('express').Router();
 var Document = require('model/document/document');
-var Role = require('model/role');
+var Role = require('model/simpleRole');
 var isLoggedIn = require('middleware/loginChecker');
 var async = require('async');
 
@@ -10,7 +10,7 @@ router.get('/:docId/visibility', isLoggedIn, function(req, res, next) {
 	var response = {layout: 'homePage'};
 	response.docId = req.params.docId;
 
-	async.parallel([groupPositionByRow(), fetchDocument(response.docId)], function(error) {
+	async.parallel([fetchRole(), fetchDocument(response.docId)], function(error) {
 		if(error) next(error);
 
 		tickCheckbox();
@@ -20,21 +20,11 @@ router.get('/:docId/visibility', isLoggedIn, function(req, res, next) {
 	})
 
 
-	function groupPositionByRow() {
+	function fetchRole() {
 		return function(done) {
-			var showRoleField = {type: "$type"};
-			var aggregatePosition = {$push: "$position"};
-			var roleTypeGroup = {
-				$group: {
-					_id: showRoleField,
-					position: aggregatePosition
-				}
-			}
-			
-			Role.aggregate([roleTypeGroup])
-			.exec(function(error, roleGroup) {
+			Role.find().exec(function(error, roles) {
 				if(error) done(error);
-				response.roleGroup = roleGroup;
+				response.role = roles;
 				done();
 			})
 		}
@@ -53,21 +43,20 @@ router.get('/:docId/visibility', isLoggedIn, function(req, res, next) {
 	}
 
 	function tickCheckbox() {
-		for(var role = 0; role < response.roleGroup.length; ++role) {
-			var rolePosition = response.roleGroup[role].position;
+		for(var idx = 0; idx < response.role.length; ++idx) {
+			response.role[idx] = {value: response.role[idx], checked: false}
+		}
+		
+		for(var role = 0; role < response.document.visibility.length; ++role) {
+			var visibilityRoleId = response.document.visibility[role]._id.toString();
 
-			for(var allowRole = 0; allowRole < response.document.visibility.length; ++allowRole) {
-				var permitRole = response.document.visibility[allowRole];
-				permitRole = JSON.parse(JSON.stringify(permitRole));
-				var foundIdx = rolePosition.indexOf(permitRole.position);
-				if(foundIdx > -1)
-					response.roleGroup[role].position[foundIdx] = {text: permitRole.position, checked: true}
-			}
+			for(var n = 0; n < response.role.length; ++n) {
+				var responseRoleId = response.role[n].value._id.toString();
 
-			for(var pos = 0; pos < rolePosition.length; ++pos) {
-				var value = response.roleGroup[role].position[pos];
-				if(!value.text)
-					response.roleGroup[role].position[pos] = {text: response.roleGroup[role].position[pos], checked: false}
+				if(responseRoleId === visibilityRoleId) {
+					response.role[n].checked = true;
+				}
+				
 			}
 		}
 	}
@@ -79,24 +68,12 @@ router.post('/:docId/visibility', isLoggedIn, function(req, res, next) {
 	.exec(function(error, document) {
 		if(error) return next(error);
 
-		var permitRoles = [];
+		document.visibility = req.body.permitRole;
 
-		async.forEach(req.body.permitPosition, function(position, done) {
-
-			Role.findOne({position: position})
-			.exec(function(error, role) {
-				if(error) return done(error);
-				permitRoles.push(role);
-				done();
-			})
-		}, function(error) {
-			if(error) return next(error);
-
-			document.visibility = permitRoles;
-			document.save(function(error) {
-				if(error) next(error);
-			});
-			return res.redirect('/home');
+		document.save(function(error) {
+			if(error) next(error);
+			console.log(document);
+			res.redirect('/home');
 		})
 	})
 

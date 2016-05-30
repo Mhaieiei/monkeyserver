@@ -1,37 +1,30 @@
 <h2>Make <strong>{{this.docId}}</strong> visible to</h2>
 
 <div class="col-md-6">
-<form action="/document/{{this.docId}}/visibility" method="POST">
-	{{#each roleGroup}}
-	{{#if this.position}}
-	<h3>{{this._id.type}}</h3>
+	<form action="/document/{{this.docId}}/visibility" method="POST">
+		<table class="table table-hover">
+			<thread>
+				<tr>
+					<th width="20"></th>
+					<th>Role</th>
+				</tr>
+			</thread>
+			<tbody>
+				{{#each role}}
+				<tr>
+					<td>
+						{{#if this.checked}}
+						<input type="checkbox" name="permitRole[]" value="{{this.value._id}}" checked="checked"/>
+						{{else}}
+						<input type="checkbox" name="permitRole[]" value="{{this.value._id}}" />
+						{{/if}}
+					</td>
+					<td>{{this.value.name}}</td>
+				</tr>
+				{{/each}}
+			</tbody>
+		</table>
 
-	<table class="table table-hover">
-		<thread>
-			<tr>
-				<th width="20"></th>
-				<th>Position</th>
-			</tr>
-		</thread>
-		<tbody>
-			{{#each this.position}}
-			<tr>
-				<td>
-					{{#if this.checked}}
-					<input type="checkbox" name="permitPosition[]" value="{{this.text}}" checked="checked"/>
-					{{else}}
-					<input type="checkbox" name="permitPosition[]" value="{{this.text}}" />
-					{{/if}}
-				</td>
-
-				<td>{{this.text}}</td>
-			</tr>
-			{{/each}}
-		</tbody>
-	</table>
-	{{/if}}
-	{{/each}}
-
-	<input class ="pull-right btn btn-lg btn-block btn-success" type="submit" value="save" />
-</form>
+		<input class ="pull-right btn btn-lg btn-block btn-success" type="submit" value="save" />
+	</form>
 </div>

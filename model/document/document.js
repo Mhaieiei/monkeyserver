@@ -70,7 +70,7 @@ var docSchema = new Schema({
 	 */
 	visibility: [{
 		type: Schema.Types.ObjectId,
-		ref: 'role'
+		ref: 'SimpleRole'
 	}],
 
 	/*
