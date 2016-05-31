@@ -81,7 +81,6 @@ router.get('/tasks/:id', function(req, res){
 
 		
 	});
-
 });
 
 router.post('/tasks/:id', function(req, res ){
