@@ -29,6 +29,29 @@ router.get('/tasks', function(req, res){
 	});
 });
 
+router.get('/tasks/:id/download', function(req, res){
+
+	WorkflowTask.findOne({ '_id': req.params.id }, function(err, taskResult){
+		if(err) console.log(err);
+
+		if( taskResult.details.form === undefined )
+			return res.end('failed');
+			
+		Form.findOne({ '_id': taskResult.details.form.id }, function(err, formResult){
+		
+			var inputResults = {};
+			if( taskResult.details.inputResults != undefined ){
+				inputResults = taskResult.details.inputResults;
+			}
+			var html = getFormHtmlContent(formResult, inputResults);
+
+			res.writeHead(200, {'Content-Type': 'application/force-download','Content-disposition':'attachment; filename=form.html'});
+			res.end( html );
+		});
+	});
+
+});
+
 router.get('/tasks/:id', function(req, res){
 	WorkflowTask.findOne({ '_id': req.params.id }, function(err, taskResult){
 		if(err) console.log(err);
@@ -58,6 +81,7 @@ router.get('/tasks/:id', function(req, res){
 					
 				var formHtml = '<h1>'+ formResult.name +'</h1>';
 				formHtml += '<h3>' + formResult.description + '</h3>';
+				formHtml += '<a href="/execution/tasks/' + req.params.id + '/download">Download form</a>';
 				formHtml += '<form method="post" action="/execution/tasks/' + taskResult._id + '" enctype="multipart/form-data">';
 		
 				for(var i = 0; i < elements.length; i++){
@@ -316,6 +340,46 @@ function getSubmitResults( fields, files ){
 	}
 
 	return result;
+}
+
+
+function getFormHtmlContent( form, submitResult ){
+
+	var formElements = form.elements;
+
+	var formHtml = '<h1>'+ form.name +'</h1>';
+	formHtml += '<h3>' + form.description + '</h3>';
+
+	for(var i = 0; i < formElements.length; i++){
+		formHtml += '<div>' + getFormHtmlElement( formElements[i], submitResult ) + '</div>';
+	}
+	
+	return formHtml;
+}
+
+
+function getFormHtmlElement( element, inputResults ){
+
+	var html = '<div style="margin-top: 15px">';
+	html += '<label style="font-weight: 600">' + element.label + '</label>';
+
+	if( inputResults[element.name] != undefined ){
+		element.predefinedValue = inputResults[element.name];
+	}
+
+	html += '<div>';
+
+	if( element.type === "textarea" ){
+		html += '<div>' + element.predefinedValue + '</div>';
+	}
+	else if( element.type === "text" ){
+		html += '<div>' + element.predefinedValue +'</div>';
+	}
+
+
+	html += "</div></div>";
+
+	return html;
 }
 
 
