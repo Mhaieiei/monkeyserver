@@ -33,7 +33,16 @@ router.get('/tasks/:id', function(req, res){
 	WorkflowTask.findOne({ '_id': req.params.id }, function(err, taskResult){
 		if(err) console.log(err);
 
-		if( taskResult.details.form != undefined ){
+		if( taskResult.details.name != undefined ){
+
+			var formHtml = '<h1>' + taskResult.details.name + '</h1>';
+			formHtml += '<form method="post" action="/execution/tasks/' + taskResult._id + '" enctype="multipart/form-data">';
+			formHtml += '<input type="submit" value="Done">';
+			formHtml += '</form>';
+
+			res.render('wf/task/one', { layout: 'homePage', html: formHtml });
+		}
+		else if( taskResult.details.form != undefined ){
 			
 			Form.findOne({ '_id': taskResult.details.form.id }, function(err, formResult){
 				
@@ -87,44 +96,54 @@ router.post('/tasks/:id', function(req, res ){
 		var elementId = taskResult.elementId;
 
 		WorkflowExecution.findOne({'_id': executionId }, function(err, execution){
+
 			var newDetails = execution.details;
 			var thisElement = execution.handlers[elementId];
 			var laneHandler = execution.handlers[ thisElement['laneRef'] ];
 
-			var form = new formidable.IncomingForm();
+			laneHandler.doerId = req.user._id;
 
-			form.uploadDir = path.resolve('uploads/document');
 
-		    if(!fs.existsSync(form.uploadDir))
-				fs.mkdirSync(form.uploadDir);
-
-			form.parse(req, function(err, fields, files) {
-
-			    newDetails[taskResult.elementId].submitResults = getSubmitResults( fields, files );
-
-			    if( newDetails[taskResult.elementId].submitResults.submit === 'Approve' ){
-			    	newDetails[taskResult.elementId].submitResults.output = '1';
-			    }
-			    else{
-			    	newDetails[taskResult.elementId].submitResults.output = '0';
-			    }
-
-				laneHandler.doerId = req.user._id;
-
-				if( newDetails[taskResult.elementId].createDoc == 1 ){
-					var toDoc = {};
-					toDoc.taskResult = taskResult;
-					toDoc.submitResult = newDetails[taskResult.elementId].submitResults;
-					execution.toDocs.push( toDoc );
-				}
-
+			if( taskResult.details.name != undefined ){
 				WorkflowTask.remove({ '_id': taskResult._id }, function(err){
 					execution.runningElements.push( taskResult.elementId );
 					workflowRunner.run(execution, res, req);
 				});
-				
-		    });
+			}
+			else{
 
+				var form = new formidable.IncomingForm();
+
+				form.uploadDir = path.resolve('uploads/document');
+				form.keepExtensions = true;
+
+			    if(!fs.existsSync(form.uploadDir))
+					fs.mkdirSync(form.uploadDir);
+
+				form.parse(req, function(err, fields, files) {
+
+				    newDetails[taskResult.elementId].submitResults = getSubmitResults( fields, files );
+
+				    if( newDetails[taskResult.elementId].submitResults.submit === 'Approve' ){
+				    	newDetails[taskResult.elementId].submitResults.output = '1';
+				    }
+				    else{
+				    	newDetails[taskResult.elementId].submitResults.output = '0';
+				    }
+
+					if( newDetails[taskResult.elementId].createDoc == 1 ){
+						var toDoc = {};
+						toDoc.taskResult = taskResult;
+						toDoc.submitResult = newDetails[taskResult.elementId].submitResults;
+						execution.toDocs.push( toDoc );
+					}
+
+					WorkflowTask.remove({ '_id': taskResult._id }, function(err){
+						execution.runningElements.push( taskResult.elementId );
+						workflowRunner.run(execution, res, req);
+					});
+				});			
+		    }
 
 		});
 		
@@ -196,8 +215,11 @@ function getHtmlElement( element, inputResults ){
 	else if( element.type === "text" ){
 		html += '<input type="text" name="' + element.name + '" value="' + element.predefinedValue +'">';
 	}
+	else if( element.type === "button" ){
+		html += '<a href="' + element.predefinedValue + '">GO</a>';
+	}
 	else if( element.type === 'fileupload' ){
-		html += '<input type="file" name="' + element.name + '">';
+		html += '<input class="btn btn-sm" type="file" name="' + element.name + '">';
 	}
 
 	html += "</div></div>";

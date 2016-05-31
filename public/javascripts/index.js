@@ -23342,7 +23342,7 @@ ContextPad.prototype.getPopup = function(element){
   }
   else if( element.type === 'bpmn:UserTask'){
 
-    html += '<input type="checkbox" onchange="checkCreateDoc(this)" name="create_doc"> Create doc';
+    html += '<input type="checkbox" onchange="checkCreateDoc(this)" name="create_doc" ' + isCreateDoc(currentElementId) + '> Create doc';
     
     var currentFormName = "none";
     var currentFormId = "";

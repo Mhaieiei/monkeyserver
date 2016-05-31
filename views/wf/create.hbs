@@ -277,6 +277,13 @@
 		myElements[currentElementId].createDoc = createDoc;
 	}
 
+	function isCreateDoc(elemenId){
+		if( myElements[elemenId].createDoc == 1)
+			return 'checked';
+
+		return '';
+	}
+
 	function doSelectForm(element){
 		var form = {};
 		form.id = element.getAttribute("form_id");
